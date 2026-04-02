@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Build output (tsc)
+build/
+
+# Bundle output (esbuild)
+dist/
+
+# Test coverage
+coverage/
+*.lcov
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# npm pack output
+*.tgz
+
+# Environment
+.env
+.env.*
+!.env.example
