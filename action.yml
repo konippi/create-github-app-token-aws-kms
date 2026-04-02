@@ -1,0 +1,78 @@
+name: 'Create GitHub App Token (AWS KMS)'
+description: 'GitHub Action for creating a GitHub App installation access token using AWS KMS for JWT signing'
+branding:
+  icon: 'lock'
+  color: 'gray-dark'
+
+inputs:
+  app-id:
+    description: 'GitHub App ID'
+    required: true
+  kms-key-id:
+    description: 'AWS KMS key ID, key ARN, alias name, or alias ARN for RS256 JWT signing'
+    required: true
+  owner:
+    description: 'The owner of the GitHub App installation (defaults to current repository owner)'
+    required: false
+  repositories:
+    description: 'Comma or newline-separated list of repositories (defaults to all repositories the app can access)'
+    required: false
+  skip-token-revoke:
+    description: 'If true, the token will not be revoked when the current job is complete'
+    required: false
+    default: 'false'
+  github-api-url:
+    description: 'The URL of the GitHub REST API'
+    default: ${{ github.api_url }}
+  # Permission inputs — at least one is REQUIRED
+  permission-actions:
+    description: "Permission for GitHub Actions workflows. Can be set to 'read' or 'write'."
+  permission-administration:
+    description: "Permission for repository administration. Can be set to 'read' or 'write'."
+  permission-checks:
+    description: "Permission for checks on code. Can be set to 'read' or 'write'."
+  permission-contents:
+    description: "Permission for repository contents. Can be set to 'read' or 'write'."
+  permission-deployments:
+    description: "Permission for deployments. Can be set to 'read' or 'write'."
+  permission-environments:
+    description: "Permission for managing environments. Can be set to 'read' or 'write'."
+  permission-issues:
+    description: "Permission for issues. Can be set to 'read' or 'write'."
+  permission-members:
+    description: "Permission for organization members. Can be set to 'read' or 'write'."
+  permission-metadata:
+    description: "Permission for repository metadata. Can be set to 'read' or 'write'."
+  permission-packages:
+    description: "Permission for packages. Can be set to 'read' or 'write'."
+  permission-pages:
+    description: "Permission for Pages. Can be set to 'read' or 'write'."
+  permission-pull-requests:
+    description: "Permission for pull requests. Can be set to 'read' or 'write'."
+  permission-repository-hooks:
+    description: "Permission for repository webhooks. Can be set to 'read' or 'write'."
+  permission-secret-scanning-alerts:
+    description: "Permission for secret scanning alerts. Can be set to 'read' or 'write'."
+  permission-secrets:
+    description: "Permission for managing repository secrets. Can be set to 'read' or 'write'."
+  permission-security-events:
+    description: "Permission for security events. Can be set to 'read' or 'write'."
+  permission-statuses:
+    description: "Permission for commit statuses. Can be set to 'read' or 'write'."
+  permission-vulnerability-alerts:
+    description: "Permission for Dependabot alerts. Can be set to 'read' or 'write'."
+  permission-workflows:
+    description: "Permission for updating workflow files. Can be set to 'write'."
+
+outputs:
+  token:
+    description: 'GitHub installation access token'
+  installation-id:
+    description: 'GitHub App installation ID'
+  app-slug:
+    description: 'GitHub App slug'
+
+runs:
+  using: 'node24'
+  main: 'dist/main/index.js'
+  post: 'dist/post/index.js'
