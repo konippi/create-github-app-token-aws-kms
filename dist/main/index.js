@@ -29770,9 +29770,9 @@ var init_httpAuthSchemes2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/auth/httpAuthSchemeProvider.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/auth/httpAuthSchemeProvider.js
 var require_httpAuthSchemeProvider = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/auth/httpAuthSchemeProvider.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/auth/httpAuthSchemeProvider.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.resolveHttpAuthSchemeConfig = exports2.defaultKMSHttpAuthSchemeProvider = exports2.defaultKMSHttpAuthSchemeParametersProvider = void 0;
@@ -29822,13 +29822,13 @@ var require_httpAuthSchemeProvider = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/package.json
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/package.json
 var require_package = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/package.json"(exports2, module2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/package.json"(exports2, module2) {
     module2.exports = {
       name: "@aws-sdk/client-kms",
       description: "AWS SDK for JavaScript Kms Client for Node.js, Browser and React Native",
-      version: "3.1022.0",
+      version: "3.1023.0",
       scripts: {
         build: "concurrently 'yarn:build:types' 'yarn:build:es' && yarn build:cjs",
         "build:cjs": "node ../../scripts/compilation/inline client-kms",
@@ -40243,9 +40243,9 @@ var require_dist_cjs52 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/ruleset.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/ruleset.js
 var require_ruleset = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/ruleset.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/ruleset.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ruleSet = void 0;
@@ -40276,9 +40276,9 @@ var require_ruleset = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/endpointResolver.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/endpointResolver.js
 var require_endpointResolver = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/endpointResolver.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/endpointResolver.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.defaultEndpointResolver = void 0;
@@ -40300,9 +40300,9 @@ var require_endpointResolver = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/KMSServiceException.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/KMSServiceException.js
 var require_KMSServiceException = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/KMSServiceException.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/KMSServiceException.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.KMSServiceException = exports2.__ServiceException = void 0;
@@ -40320,9 +40320,9 @@ var require_KMSServiceException = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/errors.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/errors.js
 var require_errors2 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/errors.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/errors.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.KMSInvalidSignatureException = exports2.KMSInvalidMacException = exports2.InvalidGrantIdException = exports2.InvalidImportTokenException = exports2.IncorrectKeyMaterialException = exports2.ExpiredImportTokenException = exports2.InvalidMarkerException = exports2.KeyUnavailableException = exports2.InvalidKeyUsageException = exports2.InvalidCiphertextException = exports2.IncorrectKeyException = exports2.CustomKeyStoreHasCMKsException = exports2.XksKeyNotFoundException = exports2.XksKeyInvalidConfigurationException = exports2.XksKeyAlreadyInUseException = exports2.UnsupportedOperationException = exports2.TagException = exports2.MalformedPolicyDocumentException = exports2.InvalidGrantTokenException = exports2.DryRunOperationException = exports2.DisabledException = exports2.XksProxyVpcEndpointServiceNotFoundException = exports2.XksProxyVpcEndpointServiceInvalidConfigurationException = exports2.XksProxyVpcEndpointServiceInUseException = exports2.XksProxyUriUnreachableException = exports2.XksProxyUriInUseException = exports2.XksProxyUriEndpointInUseException = exports2.XksProxyInvalidResponseException = exports2.XksProxyInvalidConfigurationException = exports2.XksProxyIncorrectAuthenticationCredentialException = exports2.IncorrectTrustAnchorException = exports2.CustomKeyStoreNameInUseException = exports2.LimitExceededException = exports2.InvalidAliasNameException = exports2.CustomKeyStoreNotFoundException = exports2.CustomKeyStoreInvalidStateException = exports2.ConflictException = exports2.CloudHsmClusterNotRelatedException = exports2.CloudHsmClusterNotFoundException = exports2.CloudHsmClusterNotActiveException = exports2.CloudHsmClusterInvalidConfigurationException = exports2.CloudHsmClusterInUseException = exports2.NotFoundException = exports2.KMSInvalidStateException = exports2.KMSInternalException = exports2.InvalidArnException = exports2.DependencyTimeoutException = exports2.AlreadyExistsException = void 0;
@@ -40954,9 +40954,9 @@ var require_errors2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/schemas/schemas_0.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/schemas/schemas_0.js
 var require_schemas_0 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/schemas/schemas_0.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/schemas/schemas_0.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.errorTypeRegistries = exports2.XksProxyVpcEndpointServiceNotFoundException$ = exports2.XksProxyVpcEndpointServiceInvalidConfigurationException$ = exports2.XksProxyVpcEndpointServiceInUseException$ = exports2.XksProxyUriUnreachableException$ = exports2.XksProxyUriInUseException$ = exports2.XksProxyUriEndpointInUseException$ = exports2.XksProxyInvalidResponseException$ = exports2.XksProxyInvalidConfigurationException$ = exports2.XksProxyIncorrectAuthenticationCredentialException$ = exports2.XksKeyNotFoundException$ = exports2.XksKeyInvalidConfigurationException$ = exports2.XksKeyAlreadyInUseException$ = exports2.UnsupportedOperationException$ = exports2.TagException$ = exports2.NotFoundException$ = exports2.MalformedPolicyDocumentException$ = exports2.LimitExceededException$ = exports2.KMSInvalidStateException$ = exports2.KMSInvalidSignatureException$ = exports2.KMSInvalidMacException$ = exports2.KMSInternalException$ = exports2.KeyUnavailableException$ = exports2.InvalidMarkerException$ = exports2.InvalidKeyUsageException$ = exports2.InvalidImportTokenException$ = exports2.InvalidGrantTokenException$ = exports2.InvalidGrantIdException$ = exports2.InvalidCiphertextException$ = exports2.InvalidArnException$ = exports2.InvalidAliasNameException$ = exports2.IncorrectTrustAnchorException$ = exports2.IncorrectKeyMaterialException$ = exports2.IncorrectKeyException$ = exports2.ExpiredImportTokenException$ = exports2.DryRunOperationException$ = exports2.DisabledException$ = exports2.DependencyTimeoutException$ = exports2.CustomKeyStoreNotFoundException$ = exports2.CustomKeyStoreNameInUseException$ = exports2.CustomKeyStoreInvalidStateException$ = exports2.CustomKeyStoreHasCMKsException$ = exports2.ConflictException$ = exports2.CloudHsmClusterNotRelatedException$ = exports2.CloudHsmClusterNotFoundException$ = exports2.CloudHsmClusterNotActiveException$ = exports2.CloudHsmClusterInvalidConfigurationException$ = exports2.CloudHsmClusterInUseException$ = exports2.AlreadyExistsException$ = exports2.KMSServiceException$ = void 0;
@@ -43157,9 +43157,9 @@ var require_schemas_0 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.shared.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.shared.js
 var require_runtimeConfig_shared = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.shared.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.shared.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getRuntimeConfig = void 0;
@@ -43207,9 +43207,9 @@ var require_runtimeConfig_shared = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.js
 var require_runtimeConfig = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getRuntimeConfig = void 0;
@@ -43266,9 +43266,9 @@ var require_runtimeConfig = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/index.js
 var require_dist_cjs53 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1022.0/node_modules/@aws-sdk/client-kms/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1023.0/node_modules/@aws-sdk/client-kms/dist-cjs/index.js"(exports2) {
     "use strict";
     var middlewareHostHeader = require_dist_cjs3();
     var middlewareLogger = require_dist_cjs4();
@@ -49553,9 +49553,6 @@ function parseInputs() {
     throw new Error(`Invalid app-id: expected a positive integer, got "${appId}"`);
   }
   const kmsKeyId = getInput("kms-key-id", { required: true }).trim();
-  if (!kmsKeyId) {
-    throw new Error("kms-key-id is required");
-  }
   const ownerInput = getInput("owner");
   const repositoriesRaw = getInput("repositories");
   let owner;
@@ -49611,10 +49608,19 @@ var import_client_kms = __toESM(require_dist_cjs53(), 1);
 var KmsSigner = class {
   #client;
   #keyId;
+  /**
+   * @param keyId - KMS key ID, key ARN, alias name, or alias ARN.
+   * @param client - Optional KMS client instance (for testing).
+   */
   constructor(keyId, client) {
     this.#keyId = keyId;
     this.#client = client ?? new import_client_kms.KMSClient();
   }
+  /**
+   * Signs a message using RSASSA_PKCS1_V1_5_SHA_256 with MessageType RAW.
+   * @param message - The raw message bytes to sign.
+   * @returns The raw signature bytes from KMS.
+   */
   async sign(message) {
     const response = await this.#client.send(
       new import_client_kms.SignCommand({
@@ -49629,6 +49635,12 @@ var KmsSigner = class {
     }
     return response.Signature;
   }
+  /**
+   * Formats a KMS error into a user-friendly message with actionable guidance.
+   * @param error - The caught error (may be KMSServiceException or generic Error).
+   * @param keyId - The KMS key identifier, included in the message for context.
+   * @returns A human-readable error message.
+   */
   static formatError(error3, keyId) {
     if (!(error3 instanceof import_client_kms.KMSServiceException)) {
       return error3 instanceof Error ? error3.message : String(error3);
@@ -49672,11 +49684,8 @@ async function run() {
     }
     info("Token created successfully");
   } catch (error3) {
-    if (error3 instanceof Error) {
-      setFailed(error3.message);
-    } else {
-      setFailed(String(error3));
-    }
+    const message = KmsSigner.formatError(error3, getInput("kms-key-id"));
+    setFailed(message);
   }
 }
 run().catch((error3) => {
