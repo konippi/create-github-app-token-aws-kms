@@ -3,6 +3,12 @@ import type { ActionInputs } from './types.js';
 
 const VALID_PERMISSION_LEVELS = new Set(['read', 'write', 'admin']);
 
+/**
+ * Parses INPUT_PERMISSION-* environment variables into a permission map.
+ * @param env - The process environment variables.
+ * @returns A map of permission names to levels.
+ * @throws If no permission inputs are set or if a level is invalid.
+ */
 function getPermissionsFromEnv(env: NodeJS.ProcessEnv): Record<string, string> {
   const permissions: Record<string, string> = {};
 
@@ -31,6 +37,12 @@ function getPermissionsFromEnv(env: NodeJS.ProcessEnv): Record<string, string> {
   return permissions;
 }
 
+/**
+ * Reads and validates all action inputs from the GitHub Actions environment.
+ * Defaults to the current repository when neither owner nor repositories are specified.
+ * @returns Validated action inputs.
+ * @throws If required inputs are missing or invalid.
+ */
 export function parseInputs(): ActionInputs {
   const appId = core.getInput('app-id', { required: true }).trim();
   if (!/^[1-9]\d{0,9}$/.test(appId)) {
@@ -38,9 +50,6 @@ export function parseInputs(): ActionInputs {
   }
 
   const kmsKeyId = core.getInput('kms-key-id', { required: true }).trim();
-  if (!kmsKeyId) {
-    throw new Error('kms-key-id is required');
-  }
 
   const ownerInput = core.getInput('owner');
   const repositoriesRaw = core.getInput('repositories');

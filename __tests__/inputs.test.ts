@@ -154,4 +154,11 @@ describe('parseInputs', () => {
     process.env['INPUT_PERMISSION-CONTENTS'] = 'read';
     expect(() => parseInputs()).toThrow('GITHUB_REPOSITORY is not available');
   });
+
+  it('warns when skip-token-revoke is enabled', () => {
+    setEnv();
+    getBooleanInput.mockReturnValue(true);
+    parseInputs();
+    expect(core.warning).toHaveBeenCalledWith(expect.stringContaining('skip-token-revoke'));
+  });
 });

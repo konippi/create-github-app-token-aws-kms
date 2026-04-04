@@ -1,6 +1,9 @@
 import * as core from '@actions/core';
 import { revokeAccessToken } from './github-client.js';
 
+/**
+ * Post entrypoint for the action.
+ */
 async function run(): Promise<void> {
   const skipTokenRevoke = core.getBooleanInput('skip-token-revoke');
   if (skipTokenRevoke) {
@@ -29,7 +32,6 @@ async function run(): Promise<void> {
     await revokeAccessToken(token, githubApiUrl);
     core.info('Token revoked successfully');
   } catch (error) {
-    // Warning, not setFailed — don't fail the job over cleanup
     core.warning(
       `Token revocation failed: ${error instanceof Error ? error.message : 'Unknown error'}. The token will expire automatically within 1 hour.`,
     );

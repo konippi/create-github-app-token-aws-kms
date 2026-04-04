@@ -3,6 +3,9 @@ import { createAccessToken, createOctokitForApp, getInstallation } from './githu
 import { parseInputs } from './inputs.js';
 import { KmsSigner } from './kms-signer.js';
 
+/**
+ * Main entrypoint for the action.
+ */
 async function run(): Promise<void> {
   try {
     const inputs = parseInputs();
@@ -37,11 +40,8 @@ async function run(): Promise<void> {
 
     core.info('Token created successfully');
   } catch (error) {
-    if (error instanceof Error) {
-      core.setFailed(error.message);
-    } else {
-      core.setFailed(String(error));
-    }
+    const message = KmsSigner.formatError(error, core.getInput('kms-key-id'));
+    core.setFailed(message);
   }
 }
 
