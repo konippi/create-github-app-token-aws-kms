@@ -1,24 +1,20 @@
+import { createAppAuth } from '@octokit/auth-app';
 import { Octokit } from '@octokit/rest';
-import type { AccessTokenResult, Installation, TokenOptions } from './types.js';
+import { createJwtCallback } from './jwt-builder.js';
+import type { AccessTokenResult, Installation, Signer, TokenOptions } from './types.js';
 
-function createOctokitWithJwt(jwt: string, baseUrl: string): Octokit {
+export function createOctokitForApp(appId: string, signer: Signer, baseUrl: string): Octokit {
   return new Octokit({
     baseUrl,
-    request: {
-      headers: {
-        authorization: `Bearer ${jwt}`,
-      },
+    authStrategy: createAppAuth,
+    auth: {
+      appId,
+      createJwt: createJwtCallback(signer),
     },
   });
 }
 
-export async function getInstallation(
-  jwt: string,
-  owner: string,
-  baseUrl: string,
-): Promise<Installation> {
-  const octokit = createOctokitWithJwt(jwt, baseUrl);
-
+export async function getInstallation(octokit: Octokit, owner: string): Promise<Installation> {
   const installations = await octokit.paginate(octokit.rest.apps.listInstallations, {
     per_page: 100,
   });
@@ -41,13 +37,10 @@ export async function getInstallation(
 }
 
 export async function createAccessToken(
-  jwt: string,
+  octokit: Octokit,
   installationId: number,
   options: TokenOptions,
-  baseUrl: string,
 ): Promise<AccessTokenResult> {
-  const octokit = createOctokitWithJwt(jwt, baseUrl);
-
   const response = await octokit.rest.apps.createInstallationAccessToken({
     installation_id: installationId,
     ...(options.repositories.length > 0 && {

@@ -49,7 +49,6 @@ export function parseInputs(): ActionInputs {
   let repositories: string[];
 
   if (!ownerInput && !repositoriesRaw) {
-    // Default to current repository (same behavior as actions/create-github-app-token)
     const githubRepository = process.env.GITHUB_REPOSITORY || '';
     const [repoOwner, repoName] = githubRepository.split('/');
     if (!repoOwner || !repoName) {

@@ -1,36 +1,27 @@
 import * as core from '@actions/core';
-import { createAccessToken, getInstallation } from './github-client.js';
+import { createAccessToken, createOctokitForApp, getInstallation } from './github-client.js';
 import { parseInputs } from './inputs.js';
-import { buildJwt } from './jwt-builder.js';
 import { KmsSigner } from './kms-signer.js';
 
 async function run(): Promise<void> {
   try {
     const inputs = parseInputs();
 
-    // Build JWT signed by KMS
+    // Create Octokit with KMS-backed JWT signing via @octokit/auth-app
     const signer = new KmsSigner(inputs.kmsKeyId);
-    let jwt: string;
-    try {
-      jwt = await buildJwt(signer, inputs.appId);
-    } catch (error) {
-      throw new Error(KmsSigner.formatError(error, inputs.kmsKeyId));
-    }
-    core.setSecret(jwt);
+    const octokit = createOctokitForApp(inputs.appId, signer, inputs.githubApiUrl);
 
     // Find installation for the specified owner
-    const installation = await getInstallation(jwt, inputs.owner, inputs.githubApiUrl);
+    const installation = await getInstallation(octokit, inputs.owner);
     core.info(
       `Found installation ${installation.id} for ${installation.account} (${installation.appSlug})`,
     );
 
     // Create scoped access token
-    const result = await createAccessToken(
-      jwt,
-      installation.id,
-      { repositories: inputs.repositories, permissions: inputs.permissions },
-      inputs.githubApiUrl,
-    );
+    const result = await createAccessToken(octokit, installation.id, {
+      repositories: inputs.repositories,
+      permissions: inputs.permissions,
+    });
     core.setSecret(result.token);
 
     // Set outputs

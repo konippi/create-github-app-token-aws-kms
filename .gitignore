@@ -1,11 +1,8 @@
 # Dependencies
 node_modules/
 
-# Build output (tsc)
+# Build output
 build/
-
-# Bundle output (esbuild)
-dist/
 
 # Test coverage
 coverage/
