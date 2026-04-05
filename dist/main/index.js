@@ -49499,22 +49499,23 @@ function createOctokitForApp(appId, signer, baseUrl) {
   });
 }
 async function getInstallation(octokit, owner) {
-  const installations = await octokit.paginate(octokit.rest.apps.listInstallations, {
-    per_page: 100
-  });
-  const installation = installations.find(
-    (i5) => i5.account?.login?.toLowerCase() === owner.toLowerCase()
-  );
-  if (!installation) {
-    throw new Error(
-      `No installation found for owner "${owner}". Verify the GitHub App is installed on this organization/user.`
-    );
+  try {
+    const response = await octokit.rest.apps.getUserInstallation({
+      username: owner
+    });
+    return {
+      id: response.data.id,
+      appSlug: response.data.app_slug,
+      account: response.data.account && "login" in response.data.account ? response.data.account.login : owner
+    };
+  } catch (error3) {
+    if (error3 instanceof Error && "status" in error3 && error3.status === 404) {
+      throw new Error(
+        `No installation found for owner "${owner}". Verify the GitHub App is installed on this organization/user.`
+      );
+    }
+    throw error3;
   }
-  return {
-    id: installation.id,
-    appSlug: installation.app_slug,
-    account: installation.account?.login ?? owner
-  };
 }
 async function createAccessToken(octokit, installationId, options) {
   const response = await octokit.rest.apps.createInstallationAccessToken({
