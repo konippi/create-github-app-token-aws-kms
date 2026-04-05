@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const mockPaginate = vi.fn();
+const mockGetUserInstallation = vi.fn();
 const mockCreateToken = vi.fn();
 const mockRevoke = vi.fn();
 
@@ -10,10 +10,9 @@ vi.mock('@octokit/auth-app', () => ({
 
 vi.mock('@octokit/rest', () => {
   class MockOctokit {
-    paginate = mockPaginate;
     rest = {
       apps: {
-        listInstallations: {},
+        getUserInstallation: mockGetUserInstallation,
         createInstallationAccessToken: mockCreateToken,
         revokeInstallationAccessToken: mockRevoke,
       },
@@ -35,29 +34,33 @@ function createMockOctokit(): Octokit {
 
 describe('getInstallation', () => {
   it('finds installation by owner', async () => {
-    mockPaginate.mockResolvedValue([{ id: 42, app_slug: 'my-app', account: { login: 'my-org' } }]);
+    mockGetUserInstallation.mockResolvedValue({
+      data: { id: 42, app_slug: 'my-app', account: { login: 'my-org' } },
+    });
 
     const result = await getInstallation(createMockOctokit(), 'my-org');
     expect(result.id).toBe(42);
     expect(result.appSlug).toBe('my-app');
     expect(result.account).toBe('my-org');
+    expect(mockGetUserInstallation).toHaveBeenCalledWith({ username: 'my-org' });
   });
 
   it('throws when installation not found', async () => {
-    mockPaginate.mockResolvedValue([
-      { id: 1, app_slug: 'other-app', account: { login: 'other-org' } },
-    ]);
+    const error = new Error('Not Found');
+    Object.assign(error, { status: 404 });
+    mockGetUserInstallation.mockRejectedValue(error);
 
     await expect(getInstallation(createMockOctokit(), 'missing-org')).rejects.toThrow(
       'No installation found for owner "missing-org"',
     );
   });
 
-  it('matches owner case-insensitively', async () => {
-    mockPaginate.mockResolvedValue([{ id: 10, app_slug: 'app', account: { login: 'MyOrg' } }]);
+  it('propagates non-404 errors', async () => {
+    const error = new Error('Server Error');
+    Object.assign(error, { status: 500 });
+    mockGetUserInstallation.mockRejectedValue(error);
 
-    const result = await getInstallation(createMockOctokit(), 'myorg');
-    expect(result.id).toBe(10);
+    await expect(getInstallation(createMockOctokit(), 'my-org')).rejects.toThrow('Server Error');
   });
 });
 

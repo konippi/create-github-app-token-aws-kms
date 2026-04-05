@@ -22,31 +22,37 @@ export function createOctokitForApp(appId: string, signer: Signer, baseUrl: stri
 }
 
 /**
- * Finds the GitHub App installation for the given owner by paginating all installations.
+ * Finds the GitHub App installation for the given owner.
  * @param octokit - The Octokit instance authenticated as the GitHub App.
  * @param owner - The organization or user login to find the installation for.
  * @returns The matching installation metadata.
  */
 export async function getInstallation(octokit: Octokit, owner: string): Promise<Installation> {
-  const installations = await octokit.paginate(octokit.rest.apps.listInstallations, {
-    per_page: 100,
-  });
+  try {
+    const response = await octokit.rest.apps.getUserInstallation({
+      username: owner,
+    });
 
-  const installation = installations.find(
-    (i) => i.account?.login?.toLowerCase() === owner.toLowerCase(),
-  );
-
-  if (!installation) {
-    throw new Error(
-      `No installation found for owner "${owner}". Verify the GitHub App is installed on this organization/user.`,
-    );
+    return {
+      id: response.data.id,
+      appSlug: response.data.app_slug,
+      account:
+        response.data.account && 'login' in response.data.account
+          ? response.data.account.login
+          : owner,
+    };
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      'status' in error &&
+      (error as { status: number }).status === 404
+    ) {
+      throw new Error(
+        `No installation found for owner "${owner}". Verify the GitHub App is installed on this organization/user.`,
+      );
+    }
+    throw error;
   }
-
-  return {
-    id: installation.id,
-    appSlug: installation.app_slug,
-    account: installation.account?.login ?? owner,
-  };
 }
 
 /**
