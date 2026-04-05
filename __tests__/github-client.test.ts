@@ -62,7 +62,7 @@ describe('getInstallation', () => {
 });
 
 describe('createAccessToken', () => {
-  it('returns token data', async () => {
+  it('returns token data with repositories', async () => {
     mockCreateToken.mockResolvedValue({
       data: {
         token: 'ghs_test123',
@@ -79,6 +79,27 @@ describe('createAccessToken', () => {
     expect(result.token).toBe('ghs_test123');
     expect(result.expiresAt).toBe('2025-01-01T01:00:00Z');
     expect(result.permissions).toEqual({ contents: 'read' });
+    expect(mockCreateToken).toHaveBeenCalledWith(
+      expect.objectContaining({ repositories: ['my-repo'] }),
+    );
+  });
+
+  it('omits repositories when array is empty', async () => {
+    mockCreateToken.mockResolvedValue({
+      data: {
+        token: 'ghs_org_token',
+        expires_at: '2025-01-01T01:00:00Z',
+        permissions: { contents: 'read' },
+      },
+    });
+
+    await createAccessToken(createMockOctokit(), 42, {
+      repositories: [],
+      permissions: { contents: 'read' },
+    });
+
+    const callArgs = mockCreateToken.mock.calls[0]?.[0] as Record<string, unknown>;
+    expect(callArgs).not.toHaveProperty('repositories');
   });
 });
 

@@ -5,13 +5,7 @@
 
 GitHub Action for creating a GitHub App installation access token using AWS KMS for JWT signing.
 
-The private key never leaves the KMS HSM boundary — JWT signing is delegated to the KMS `Sign` API, eliminating the need to store private keys in GitHub Secrets. This follows [GitHub's official recommendation](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/managing-private-keys-for-github-apps#storing-private-keys) to store private keys in a key management service and use runtime signing.
-
-## Why
-
-Storing GitHub App private keys in GitHub Secrets exposes them to exfiltration via workflow modification, compromised third-party Actions, or process memory scraping. Recent supply chain attacks ([trivy-action](https://www.crowdstrike.com/en-us/blog/from-scanner-to-stealer-inside-the-trivy-action-supply-chain-compromise/), [tj-actions/changed-files](https://www.stepsecurity.io/blog/github-actions-supply-chain-attack-tj-actions-changed-files), [axios](https://socket.dev/blog/axios-npm-package-compromised)) have demonstrated this risk at scale.
-
-This Action addresses the problem structurally: the private key exists only inside AWS KMS, and workflows can only request signatures — never access the key material itself.
+Once imported into KMS, the private key never leaves the HSM boundary at runtime — JWT signing is delegated to the KMS `Sign` API, eliminating the need to store private keys in GitHub Secrets. This follows [GitHub's official recommendation](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/managing-private-keys-for-github-apps#storing-private-keys) to store private keys in a key management service and use runtime signing.
 
 ## How it works
 
@@ -25,7 +19,7 @@ sequenceDiagram
     WF->>AWS: 1. OIDC → AssumeRoleWithWebIdentity
     AWS-->>WF: Temporary credentials
     WF->>Action: 2. Run action
-    Action->>AWS: 3. KMS Sign (JWT digest)
+    Action->>AWS: 3. KMS Sign (JWT signing input)
     AWS-->>Action: 4. Signature bytes
     Action->>GH: 5. JWT → Installation token
     GH-->>Action: 6. Scoped access token
@@ -45,7 +39,7 @@ permissions:
   contents: read
 
 steps:
-  - uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502 # v4
+  - uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4.3.1
     with:
       role-to-assume: arn:aws:iam::123456789012:role/github-app-token-signer
       aws-region: ap-northeast-1
@@ -58,7 +52,7 @@ steps:
       kms-key-id: ${{ vars.KMS_KEY_ID }}
       permission-contents: read
 
-  - uses: actions/checkout@v6
+  - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
     with:
       token: ${{ steps.app-token.outputs.token }}
 ```
@@ -135,16 +129,29 @@ aws iam create-open-id-connect-provider \
 
 ### 2. KMS Key
 
-Create an RSA 2048 key for signing:
+Create an RSA 2048 key with `EXTERNAL` origin (so you can import your own key material):
 
 ```bash
 aws kms create-key \
   --key-spec RSA_2048 \
   --key-usage SIGN_VERIFY \
+  --origin EXTERNAL \
   --description "GitHub App JWT signing key"
 ```
 
-Import your GitHub App private key into this KMS key. See [AWS docs on importing key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html).
+Then import your GitHub App private key into this KMS key. The key material must be in PKCS#8 DER binary format:
+
+```bash
+# Convert GitHub App PEM to PKCS#8 DER
+openssl pkcs8 -topk8 -inform PEM -outform DER -in github-app-private-key.pem -out private-key.der -nocrypt
+```
+
+Then wrap and import the key material. See [AWS docs on importing key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html) and [Migrating asymmetric keys to AWS KMS](https://aws.amazon.com/blogs/security/how-to-migrate-asymmetric-keys-from-cloudhsm-to-aws-kms/) for detailed steps.
+
+> [!NOTE]
+> `--origin EXTERNAL` is required to import your own key material. Without it, KMS generates key material automatically and import is not possible. Asymmetric key import has been supported since [June 2023](https://aws.amazon.com/about-aws/whats-new/2023/06/aws-kms-importing-asymmetric-hmac-keys).
+>
+> After a successful import, securely delete the local PEM file — KMS will never export the private key in plaintext.
 
 Attach a key policy that allows only `kms:Sign` with the specific algorithm:
 
@@ -172,7 +179,7 @@ Attach a key policy that allows only `kms:Sign` with the specific algorithm:
 
 ### 3. IAM Role + Trust Policy
 
-Create an IAM role with a trust policy that uses [provider-specific OIDC claims](https://sjramblings.io/aws-sts-identity-provider-claims-validation/) (available since February 2026):
+Create an IAM role with a trust policy that uses [provider-specific OIDC claims](https://aws.amazon.com/about-aws/whats-new/2026/01/aws-sts-supports-validation-identity-provider-claims) (available since January 2026):
 
 ```json
 {
@@ -188,7 +195,6 @@ Create an IAM role with a trust policy that uses [provider-specific OIDC claims]
         "StringEquals": {
           "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
           "token.actions.githubusercontent.com:repository_id": "YOUR_REPO_ID",
-          "token.actions.githubusercontent.com:environment": "production",
           "token.actions.githubusercontent.com:job_workflow_ref": "your-org/your-repo/.github/workflows/deploy.yml@refs/heads/main"
         },
         "StringLike": {

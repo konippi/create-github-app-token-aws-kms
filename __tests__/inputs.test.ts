@@ -95,6 +95,22 @@ describe('parseInputs', () => {
     expect(inputs.repositories).toEqual(['repo-a', 'repo-b']);
   });
 
+  it('parses newline-separated repositories', () => {
+    setEnv();
+    getInput.mockImplementation((name: string) => {
+      const map: Record<string, string> = {
+        'app-id': '123456',
+        'kms-key-id': 'alias/my-key',
+        owner: 'my-org',
+        repositories: 'repo-a\nrepo-b\nrepo-c',
+        'github-api-url': 'https://api.github.com',
+      };
+      return map[name] ?? '';
+    });
+    const inputs = parseInputs();
+    expect(inputs.repositories).toEqual(['repo-a', 'repo-b', 'repo-c']);
+  });
+
   it('throws on invalid app-id', () => {
     setEnv();
     getInput.mockImplementation((name: string) => (name === 'app-id' ? 'abc' : ''));
@@ -153,6 +169,23 @@ describe('parseInputs', () => {
     // No GITHUB_REPOSITORY env var, no owner/repos inputs
     process.env['INPUT_PERMISSION-CONTENTS'] = 'read';
     expect(() => parseInputs()).toThrow('GITHUB_REPOSITORY is not available');
+  });
+
+  it('throws when owner cannot be determined from environment', () => {
+    setEnv();
+    // repositories is set (enters else branch) but owner is empty and GITHUB_REPOSITORY_OWNER is unset
+    delete process.env.GITHUB_REPOSITORY_OWNER;
+    getInput.mockImplementation((name: string) => {
+      const map: Record<string, string> = {
+        'app-id': '123456',
+        'kms-key-id': 'alias/my-key',
+        owner: '',
+        repositories: 'some-repo',
+        'github-api-url': 'https://api.github.com',
+      };
+      return map[name] ?? '';
+    });
+    expect(() => parseInputs()).toThrow('owner is required');
   });
 
   it('warns when skip-token-revoke is enabled', () => {

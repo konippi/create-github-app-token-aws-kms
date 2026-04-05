@@ -38,6 +38,6 @@ async function run(): Promise<void> {
   }
 }
 
-run().catch((error: unknown) => {
+export default run().catch((error: unknown) => {
   core.setFailed(`Unexpected error: ${error instanceof Error ? error.message : String(error)}`);
 });

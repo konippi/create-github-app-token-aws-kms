@@ -39,9 +39,8 @@ async function runPost(): Promise<void> {
   vi.doMock('../src/github-client.js', () => ({
     revokeAccessToken: mockRevoke,
   }));
-  await import('../src/post.js');
-  // Wait for the async run() to complete
-  await new Promise((resolve) => setTimeout(resolve, 10));
+  const { default: promise } = await import('../src/post.js');
+  await promise;
 }
 
 beforeEach(() => {

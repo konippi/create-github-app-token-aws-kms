@@ -43991,6 +43991,13 @@ var require_dist_cjs53 = __commonJS({
   }
 });
 
+// src/main.ts
+var main_exports = {};
+__export(main_exports, {
+  default: () => main_default
+});
+module.exports = __toCommonJS(main_exports);
+
 // node_modules/.pnpm/@actions+core@3.0.0/node_modules/@actions/core/lib/command.js
 var os = __toESM(require("os"), 1);
 
@@ -49688,7 +49695,7 @@ async function run() {
     setFailed(message);
   }
 }
-run().catch((error3) => {
+var main_default = run().catch((error3) => {
   setFailed(`Unexpected error: ${error3 instanceof Error ? error3.message : String(error3)}`);
 });
 /*! Bundled license information:
