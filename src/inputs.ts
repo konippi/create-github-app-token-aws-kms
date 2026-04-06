@@ -16,7 +16,7 @@ function getPermissionsFromEnv(env: NodeJS.ProcessEnv): Record<string, string> {
     if (!key.startsWith('INPUT_PERMISSION-')) continue;
     if (!value) continue;
 
-    const permission = key.slice('INPUT_PERMISSION-'.length).toLowerCase().replaceAll(/-/g, '_');
+    const permission = key.slice('INPUT_PERMISSION-'.length).toLowerCase().replaceAll('-', '_');
     const level = value.trim().toLowerCase();
 
     if (!VALID_PERMISSION_LEVELS.has(level)) {

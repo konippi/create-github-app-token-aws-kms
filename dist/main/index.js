@@ -49539,7 +49539,7 @@ function getPermissionsFromEnv(env) {
   for (const [key, value] of Object.entries(env)) {
     if (!key.startsWith("INPUT_PERMISSION-")) continue;
     if (!value) continue;
-    const permission = key.slice("INPUT_PERMISSION-".length).toLowerCase().replaceAll(/-/g, "_");
+    const permission = key.slice("INPUT_PERMISSION-".length).toLowerCase().replaceAll("-", "_");
     const level = value.trim().toLowerCase();
     if (!VALID_PERMISSION_LEVELS.has(level)) {
       throw new Error(
