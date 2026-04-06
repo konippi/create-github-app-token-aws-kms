@@ -23,6 +23,8 @@ jobs:
         env:
           TAG: ${{ github.event.inputs.tag || github.event.release.tag_name }}
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           MAJOR="${TAG%%.*}"
           git tag -fa "${MAJOR}" -m "${MAJOR}"
           git push origin "${MAJOR}" --force
