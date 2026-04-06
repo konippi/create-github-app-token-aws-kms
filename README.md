@@ -45,7 +45,7 @@ steps:
       aws-region: ap-northeast-1
       role-duration-seconds: 900 # Minimum 15 min — this action only needs KMS for a few seconds
 
-  - uses: konippi/create-github-app-token-aws-kms@main # TODO: pin to commit SHA after first release
+  - uses: konippi/create-github-app-token-aws-kms@v1
     id: app-token
     with:
       app-id: ${{ vars.APP_ID }}
@@ -60,7 +60,7 @@ steps:
 ### Token for specific repositories
 
 ```yaml
-  - uses: konippi/create-github-app-token-aws-kms@main
+  - uses: konippi/create-github-app-token-aws-kms@v1
     id: app-token
     with:
       app-id: ${{ vars.APP_ID }}
@@ -76,7 +76,7 @@ steps:
 ### Token for all repositories in an organization
 
 ```yaml
-  - uses: konippi/create-github-app-token-aws-kms@main
+  - uses: konippi/create-github-app-token-aws-kms@v1
     id: app-token
     with:
       app-id: ${{ vars.APP_ID }}

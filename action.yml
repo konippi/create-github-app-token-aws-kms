@@ -1,8 +1,8 @@
 name: 'Create GitHub App Token (AWS KMS)'
 description: 'GitHub Action for creating a GitHub App installation access token using AWS KMS for JWT signing'
 branding:
-  icon: 'lock'
-  color: 'gray-dark'
+  icon: 'cloud'
+  color: 'orange'
 
 inputs:
   app-id:
