@@ -20,8 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Update major version tag
+        env:
+          TAG: ${{ github.event.inputs.tag || github.event.release.tag_name }}
         run: |
-          TAG="${{ github.event.release.tag_name }}"
           MAJOR="${TAG%%.*}"
           git tag -fa "${MAJOR}" -m "${MAJOR}"
           git push origin "${MAJOR}" --force
