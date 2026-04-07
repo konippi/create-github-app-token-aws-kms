@@ -12,18 +12,22 @@ Once imported into KMS, the private key never leaves the HSM boundary at runtime
 ```mermaid
 sequenceDiagram
     participant WF as Workflow
-    participant AWS as AWS (STS + KMS)
+    participant STS as AWS STS
     participant Action as This Action
+    participant KMS as AWS KMS
     participant GH as GitHub API
 
-    WF->>AWS: 1. OIDC → AssumeRoleWithWebIdentity
-    AWS-->>WF: Temporary credentials
+    WF->>STS: 1. configure-aws-credentials (OIDC)
+    STS-->>WF: Temporary credentials (env vars)
     WF->>Action: 2. Run action
-    Action->>AWS: 3. KMS Sign (JWT signing input)
-    AWS-->>Action: 4. Signature bytes
-    Action->>GH: 5. JWT → Installation token
-    GH-->>Action: 6. Scoped access token
-    Action->>WF: 7. Output token
+    Action->>KMS: 3. Sign(JWT signing input)
+    KMS-->>Action: 4. Signature bytes
+    Action->>Action: 5. Assemble JWT
+    Action->>GH: 6. JWT → Installation access token
+    GH-->>Action: 7. Scoped access token
+    Action->>WF: 8. Output token
+    Note over Action,GH: Post step
+    Action->>GH: 9. Revoke token
 ```
 
 ## Usage
