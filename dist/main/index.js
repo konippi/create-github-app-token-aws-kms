@@ -18687,9 +18687,9 @@ var require_fast_content_type_parse = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+types@4.13.1/node_modules/@smithy/types/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+types@4.14.0/node_modules/@smithy/types/dist-cjs/index.js
 var require_dist_cjs = __commonJS({
-  "node_modules/.pnpm/@smithy+types@4.13.1/node_modules/@smithy/types/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+types@4.14.0/node_modules/@smithy/types/dist-cjs/index.js"(exports2) {
     "use strict";
     exports2.HttpAuthLocation = void 0;
     (function(HttpAuthLocation) {
@@ -18774,9 +18774,9 @@ var require_dist_cjs = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+protocol-http@5.3.12/node_modules/@smithy/protocol-http/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+protocol-http@5.3.13/node_modules/@smithy/protocol-http/dist-cjs/index.js
 var require_dist_cjs2 = __commonJS({
-  "node_modules/.pnpm/@smithy+protocol-http@5.3.12/node_modules/@smithy/protocol-http/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+protocol-http@5.3.13/node_modules/@smithy/protocol-http/dist-cjs/index.js"(exports2) {
     "use strict";
     var types = require_dist_cjs();
     var getHttpHandlerExtensionConfiguration5 = (runtimeConfig) => {
@@ -19212,18 +19212,18 @@ var require_dist_cjs5 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/getSmithyContext.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/getSmithyContext.js
 var import_types, getSmithyContext;
 var init_getSmithyContext = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/getSmithyContext.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/getSmithyContext.js"() {
     import_types = __toESM(require_dist_cjs());
     getSmithyContext = (context) => context[import_types.SMITHY_CONTEXT_KEY] || (context[import_types.SMITHY_CONTEXT_KEY] = {});
   }
 });
 
-// node_modules/.pnpm/@smithy+util-middleware@4.2.12/node_modules/@smithy/util-middleware/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+util-middleware@4.2.13/node_modules/@smithy/util-middleware/dist-cjs/index.js
 var require_dist_cjs6 = __commonJS({
-  "node_modules/.pnpm/@smithy+util-middleware@4.2.12/node_modules/@smithy/util-middleware/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-middleware@4.2.13/node_modules/@smithy/util-middleware/dist-cjs/index.js"(exports2) {
     "use strict";
     var types = require_dist_cjs();
     var getSmithyContext11 = (context) => context[types.SMITHY_CONTEXT_KEY] || (context[types.SMITHY_CONTEXT_KEY] = {});
@@ -19238,10 +19238,10 @@ var require_dist_cjs6 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/resolveAuthOptions.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/resolveAuthOptions.js
 var resolveAuthOptions;
 var init_resolveAuthOptions = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/resolveAuthOptions.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/resolveAuthOptions.js"() {
     resolveAuthOptions = (candidateAuthOptions, authSchemePreference) => {
       if (!authSchemePreference || authSchemePreference.length === 0) {
         return candidateAuthOptions;
@@ -19265,7 +19265,7 @@ var init_resolveAuthOptions = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/httpAuthSchemeMiddleware.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/httpAuthSchemeMiddleware.js
 function convertHttpAuthSchemesToMap(httpAuthSchemes) {
   const map2 = /* @__PURE__ */ new Map();
   for (const scheme of httpAuthSchemes) {
@@ -19275,7 +19275,7 @@ function convertHttpAuthSchemesToMap(httpAuthSchemes) {
 }
 var import_util_middleware, httpAuthSchemeMiddleware;
 var init_httpAuthSchemeMiddleware = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/httpAuthSchemeMiddleware.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/httpAuthSchemeMiddleware.js"() {
     import_util_middleware = __toESM(require_dist_cjs6());
     init_resolveAuthOptions();
     httpAuthSchemeMiddleware = (config, mwOptions) => (next, context) => async (args) => {
@@ -19314,10 +19314,10 @@ var init_httpAuthSchemeMiddleware = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemeEndpointRuleSetPlugin.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemeEndpointRuleSetPlugin.js
 var httpAuthSchemeEndpointRuleSetMiddlewareOptions, getHttpAuthSchemeEndpointRuleSetPlugin;
 var init_getHttpAuthSchemeEndpointRuleSetPlugin = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemeEndpointRuleSetPlugin.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemeEndpointRuleSetPlugin.js"() {
     init_httpAuthSchemeMiddleware();
     httpAuthSchemeEndpointRuleSetMiddlewareOptions = {
       step: "serialize",
@@ -19338,10 +19338,10 @@ var init_getHttpAuthSchemeEndpointRuleSetPlugin = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemePlugin.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemePlugin.js
 var httpAuthSchemeMiddlewareOptions, getHttpAuthSchemePlugin;
 var init_getHttpAuthSchemePlugin = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemePlugin.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemePlugin.js"() {
     init_httpAuthSchemeMiddleware();
     httpAuthSchemeMiddlewareOptions = {
       step: "serialize",
@@ -19362,19 +19362,19 @@ var init_getHttpAuthSchemePlugin = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/index.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/index.js
 var init_middleware_http_auth_scheme = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/index.js"() {
     init_httpAuthSchemeMiddleware();
     init_getHttpAuthSchemeEndpointRuleSetPlugin();
     init_getHttpAuthSchemePlugin();
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-signing/httpSigningMiddleware.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-signing/httpSigningMiddleware.js
 var import_protocol_http, import_util_middleware2, defaultErrorHandler, defaultSuccessHandler, httpSigningMiddleware;
 var init_httpSigningMiddleware = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-signing/httpSigningMiddleware.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-signing/httpSigningMiddleware.js"() {
     import_protocol_http = __toESM(require_dist_cjs2());
     import_util_middleware2 = __toESM(require_dist_cjs6());
     defaultErrorHandler = (signingProperties) => (error3) => {
@@ -19402,10 +19402,10 @@ var init_httpSigningMiddleware = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-signing/getHttpSigningMiddleware.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-signing/getHttpSigningMiddleware.js
 var httpSigningMiddlewareOptions, getHttpSigningPlugin;
 var init_getHttpSigningMiddleware = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-signing/getHttpSigningMiddleware.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-signing/getHttpSigningMiddleware.js"() {
     init_httpSigningMiddleware();
     httpSigningMiddlewareOptions = {
       step: "finalizeRequest",
@@ -19424,18 +19424,18 @@ var init_getHttpSigningMiddleware = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-signing/index.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-signing/index.js
 var init_middleware_http_signing = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/middleware-http-signing/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/middleware-http-signing/index.js"() {
     init_httpSigningMiddleware();
     init_getHttpSigningMiddleware();
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/normalizeProvider.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/normalizeProvider.js
 var normalizeProvider;
 var init_normalizeProvider = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/normalizeProvider.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/normalizeProvider.js"() {
     normalizeProvider = (input) => {
       if (typeof input === "function")
         return input;
@@ -19445,7 +19445,7 @@ var init_normalizeProvider = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/pagination/createPaginator.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/pagination/createPaginator.js
 function createPaginator(ClientCtor, CommandCtor, inputTokenName, outputTokenName, pageSizeTokenName) {
   return async function* paginateOperation(config, input, ...additionalArguments) {
     const _input = input;
@@ -19472,7 +19472,7 @@ function createPaginator(ClientCtor, CommandCtor, inputTokenName, outputTokenNam
 }
 var makePagedClientRequest, get2;
 var init_createPaginator = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/pagination/createPaginator.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/pagination/createPaginator.js"() {
     makePagedClientRequest = async (CommandCtor, client, input, withCommand = (_) => _, ...args) => {
       let command = new CommandCtor(input);
       command = withCommand(command) ?? command;
@@ -19626,9 +19626,9 @@ var require_dist_cjs10 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.js
 var require_ChecksumStream = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ChecksumStream = void 0;
@@ -19692,9 +19692,9 @@ var require_ChecksumStream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/stream-type-check.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/stream-type-check.js
 var require_stream_type_check = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/stream-type-check.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/stream-type-check.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isBlob = exports2.isReadableStream = void 0;
@@ -19707,9 +19707,9 @@ var require_stream_type_check = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.browser.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.browser.js
 var require_ChecksumStream_browser = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.browser.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.browser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ChecksumStream = void 0;
@@ -19721,9 +19721,9 @@ var require_ChecksumStream_browser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.browser.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.browser.js
 var require_createChecksumStream_browser = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.browser.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.browser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createChecksumStream = void 0;
@@ -19765,9 +19765,9 @@ var require_createChecksumStream_browser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.js
 var require_createChecksumStream = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createChecksumStream = createChecksumStream;
@@ -19783,9 +19783,9 @@ var require_createChecksumStream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/ByteArrayCollector.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/ByteArrayCollector.js
 var require_ByteArrayCollector = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/ByteArrayCollector.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/ByteArrayCollector.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ByteArrayCollector = void 0;
@@ -19825,9 +19825,9 @@ var require_ByteArrayCollector = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadableStream.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadableStream.js
 var require_createBufferedReadableStream = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadableStream.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadableStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createBufferedReadable = void 0;
@@ -19931,9 +19931,9 @@ var require_createBufferedReadableStream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadable.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadable.js
 var require_createBufferedReadable = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadable.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadable.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createBufferedReadable = createBufferedReadable;
@@ -19997,9 +19997,9 @@ var require_createBufferedReadable = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.browser.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.browser.js
 var require_getAwsChunkedEncodingStream_browser = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.browser.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.browser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getAwsChunkedEncodingStream = void 0;
@@ -20034,9 +20034,9 @@ ${value}\r
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.js
 var require_getAwsChunkedEncodingStream = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getAwsChunkedEncodingStream = getAwsChunkedEncodingStream;
@@ -20083,9 +20083,9 @@ var require_getAwsChunkedEncodingStream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/headStream.browser.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/headStream.browser.js
 var require_headStream_browser = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/headStream.browser.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/headStream.browser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.headStream = headStream;
@@ -20122,9 +20122,9 @@ var require_headStream_browser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/headStream.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/headStream.js
 var require_headStream = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/headStream.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/headStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.headStream = void 0;
@@ -20182,9 +20182,9 @@ var require_dist_cjs11 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+querystring-builder@4.2.12/node_modules/@smithy/querystring-builder/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+querystring-builder@4.2.13/node_modules/@smithy/querystring-builder/dist-cjs/index.js
 var require_dist_cjs12 = __commonJS({
-  "node_modules/.pnpm/@smithy+querystring-builder@4.2.12/node_modules/@smithy/querystring-builder/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+querystring-builder@4.2.13/node_modules/@smithy/querystring-builder/dist-cjs/index.js"(exports2) {
     "use strict";
     var utilUriEscape = require_dist_cjs11();
     function buildQueryString(query) {
@@ -20210,9 +20210,9 @@ var require_dist_cjs12 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+node-http-handler@4.5.1/node_modules/@smithy/node-http-handler/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+node-http-handler@4.5.2/node_modules/@smithy/node-http-handler/dist-cjs/index.js
 var require_dist_cjs13 = __commonJS({
-  "node_modules/.pnpm/@smithy+node-http-handler@4.5.1/node_modules/@smithy/node-http-handler/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+node-http-handler@4.5.2/node_modules/@smithy/node-http-handler/dist-cjs/index.js"(exports2) {
     "use strict";
     var protocolHttp = require_dist_cjs2();
     var querystringBuilder = require_dist_cjs12();
@@ -20937,9 +20937,9 @@ or increase socketAcquisitionWarningTimeout=(millis) in the NodeHttpHandler conf
   }
 });
 
-// node_modules/.pnpm/@smithy+fetch-http-handler@5.3.15/node_modules/@smithy/fetch-http-handler/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+fetch-http-handler@5.3.16/node_modules/@smithy/fetch-http-handler/dist-cjs/index.js
 var require_dist_cjs14 = __commonJS({
-  "node_modules/.pnpm/@smithy+fetch-http-handler@5.3.15/node_modules/@smithy/fetch-http-handler/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+fetch-http-handler@5.3.16/node_modules/@smithy/fetch-http-handler/dist-cjs/index.js"(exports2) {
     "use strict";
     var protocolHttp = require_dist_cjs2();
     var querystringBuilder = require_dist_cjs12();
@@ -21208,9 +21208,9 @@ var require_dist_cjs15 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.browser.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.browser.js
 var require_sdk_stream_mixin_browser = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.browser.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.browser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.sdkStreamMixin = void 0;
@@ -21275,9 +21275,9 @@ var require_sdk_stream_mixin_browser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.js
 var require_sdk_stream_mixin = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.sdkStreamMixin = void 0;
@@ -21333,9 +21333,9 @@ var require_sdk_stream_mixin = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/splitStream.browser.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/splitStream.browser.js
 var require_splitStream_browser = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/splitStream.browser.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/splitStream.browser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.splitStream = splitStream;
@@ -21349,9 +21349,9 @@ var require_splitStream_browser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/splitStream.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/splitStream.js
 var require_splitStream = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/splitStream.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/splitStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.splitStream = splitStream;
@@ -21371,9 +21371,9 @@ var require_splitStream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/index.js
 var require_dist_cjs16 = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.21/node_modules/@smithy/util-stream/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.22/node_modules/@smithy/util-stream/dist-cjs/index.js"(exports2) {
     "use strict";
     var utilBase64 = require_dist_cjs10();
     var utilUtf8 = require_dist_cjs9();
@@ -21461,10 +21461,10 @@ var require_dist_cjs16 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/collect-stream-body.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/collect-stream-body.js
 var import_util_stream, collectBody;
 var init_collect_stream_body = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/collect-stream-body.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/collect-stream-body.js"() {
     import_util_stream = __toESM(require_dist_cjs16());
     collectBody = async (streamBody = new Uint8Array(), context) => {
       if (streamBody instanceof Uint8Array) {
@@ -21479,21 +21479,21 @@ var init_collect_stream_body = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/extended-encode-uri-component.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/extended-encode-uri-component.js
 function extendedEncodeURIComponent(str) {
   return encodeURIComponent(str).replace(/[!'()*]/g, function(c5) {
     return "%" + c5.charCodeAt(0).toString(16).toUpperCase();
   });
 }
 var init_extended_encode_uri_component = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/extended-encode-uri-component.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/extended-encode-uri-component.js"() {
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/deref.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/deref.js
 var deref;
 var init_deref = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/deref.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/deref.js"() {
     deref = (schemaRef) => {
       if (typeof schemaRef === "function") {
         return schemaRef();
@@ -21503,10 +21503,10 @@ var init_deref = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/operation.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/operation.js
 var operation;
 var init_operation = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/operation.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/operation.js"() {
     operation = (namespace, name, traits, input, output) => ({
       name,
       namespace,
@@ -21517,10 +21517,10 @@ var init_operation = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaDeserializationMiddleware.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaDeserializationMiddleware.js
 var import_protocol_http2, import_util_middleware3, schemaDeserializationMiddleware, findHeader;
 var init_schemaDeserializationMiddleware = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaDeserializationMiddleware.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaDeserializationMiddleware.js"() {
     import_protocol_http2 = __toESM(require_dist_cjs2());
     import_util_middleware3 = __toESM(require_dist_cjs6());
     init_operation();
@@ -21585,9 +21585,9 @@ var init_schemaDeserializationMiddleware = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+querystring-parser@4.2.12/node_modules/@smithy/querystring-parser/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+querystring-parser@4.2.13/node_modules/@smithy/querystring-parser/dist-cjs/index.js
 var require_dist_cjs17 = __commonJS({
-  "node_modules/.pnpm/@smithy+querystring-parser@4.2.12/node_modules/@smithy/querystring-parser/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+querystring-parser@4.2.13/node_modules/@smithy/querystring-parser/dist-cjs/index.js"(exports2) {
     "use strict";
     function parseQueryString(querystring) {
       const query = {};
@@ -21614,9 +21614,9 @@ var require_dist_cjs17 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+url-parser@4.2.12/node_modules/@smithy/url-parser/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+url-parser@4.2.13/node_modules/@smithy/url-parser/dist-cjs/index.js
 var require_dist_cjs18 = __commonJS({
-  "node_modules/.pnpm/@smithy+url-parser@4.2.12/node_modules/@smithy/url-parser/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+url-parser@4.2.13/node_modules/@smithy/url-parser/dist-cjs/index.js"(exports2) {
     "use strict";
     var querystringParser = require_dist_cjs17();
     var parseUrl7 = (url) => {
@@ -21640,10 +21640,10 @@ var require_dist_cjs18 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/endpoints/toEndpointV1.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/endpoints/toEndpointV1.js
 var import_url_parser, toEndpointV1;
 var init_toEndpointV1 = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/endpoints/toEndpointV1.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/endpoints/toEndpointV1.js"() {
     import_url_parser = __toESM(require_dist_cjs18());
     toEndpointV1 = (endpoint2) => {
       if (typeof endpoint2 === "object") {
@@ -21664,21 +21664,21 @@ var init_toEndpointV1 = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/endpoints/index.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/endpoints/index.js
 var endpoints_exports = {};
 __export(endpoints_exports, {
   toEndpointV1: () => toEndpointV1
 });
 var init_endpoints = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/endpoints/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/endpoints/index.js"() {
     init_toEndpointV1();
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaSerializationMiddleware.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaSerializationMiddleware.js
 var import_util_middleware4, schemaSerializationMiddleware;
 var init_schemaSerializationMiddleware = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaSerializationMiddleware.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaSerializationMiddleware.js"() {
     init_endpoints();
     import_util_middleware4 = __toESM(require_dist_cjs6());
     init_operation();
@@ -21699,7 +21699,7 @@ var init_schemaSerializationMiddleware = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/middleware/getSchemaSerdePlugin.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/middleware/getSchemaSerdePlugin.js
 function getSchemaSerdePlugin(config) {
   return {
     applyToStack: (commandStack) => {
@@ -21711,7 +21711,7 @@ function getSchemaSerdePlugin(config) {
 }
 var deserializerMiddlewareOption, serializerMiddlewareOption;
 var init_getSchemaSerdePlugin = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/middleware/getSchemaSerdePlugin.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/middleware/getSchemaSerdePlugin.js"() {
     init_schemaDeserializationMiddleware();
     init_schemaSerializationMiddleware();
     deserializerMiddlewareOption = {
@@ -21729,10 +21729,10 @@ var init_getSchemaSerdePlugin = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/Schema.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/Schema.js
 var Schema;
 var init_Schema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/Schema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/Schema.js"() {
     Schema = class {
       name;
       namespace;
@@ -21756,10 +21756,10 @@ var init_Schema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ListSchema.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ListSchema.js
 var ListSchema, list;
 var init_ListSchema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ListSchema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ListSchema.js"() {
     init_Schema();
     ListSchema = class _ListSchema extends Schema {
       static symbol = /* @__PURE__ */ Symbol.for("@smithy/lis");
@@ -21777,10 +21777,10 @@ var init_ListSchema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/MapSchema.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/MapSchema.js
 var MapSchema, map;
 var init_MapSchema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/MapSchema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/MapSchema.js"() {
     init_Schema();
     MapSchema = class _MapSchema extends Schema {
       static symbol = /* @__PURE__ */ Symbol.for("@smithy/map");
@@ -21800,10 +21800,10 @@ var init_MapSchema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/OperationSchema.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/OperationSchema.js
 var OperationSchema, op;
 var init_OperationSchema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/OperationSchema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/OperationSchema.js"() {
     init_Schema();
     OperationSchema = class _OperationSchema extends Schema {
       static symbol = /* @__PURE__ */ Symbol.for("@smithy/ope");
@@ -21823,10 +21823,10 @@ var init_OperationSchema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/StructureSchema.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/StructureSchema.js
 var StructureSchema, struct;
 var init_StructureSchema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/StructureSchema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/StructureSchema.js"() {
     init_Schema();
     StructureSchema = class _StructureSchema extends Schema {
       static symbol = /* @__PURE__ */ Symbol.for("@smithy/str");
@@ -21846,10 +21846,10 @@ var init_StructureSchema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ErrorSchema.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ErrorSchema.js
 var ErrorSchema, error2;
 var init_ErrorSchema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ErrorSchema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ErrorSchema.js"() {
     init_Schema();
     init_StructureSchema();
     ErrorSchema = class _ErrorSchema extends StructureSchema {
@@ -21868,7 +21868,7 @@ var init_ErrorSchema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/translateTraits.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/translateTraits.js
 function translateTraits(indicator) {
   if (typeof indicator === "object") {
     return indicator;
@@ -21896,12 +21896,12 @@ function translateTraits(indicator) {
 }
 var traitsCache;
 var init_translateTraits = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/translateTraits.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/translateTraits.js"() {
     traitsCache = [];
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/NormalizedSchema.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/NormalizedSchema.js
 function member(memberSchema, memberName) {
   if (memberSchema instanceof NormalizedSchema) {
     return Object.assign(memberSchema, {
@@ -21914,7 +21914,7 @@ function member(memberSchema, memberName) {
 }
 var anno, simpleSchemaCacheN, simpleSchemaCacheS, NormalizedSchema, isMemberSchema, isStaticSchema;
 var init_NormalizedSchema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/NormalizedSchema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/NormalizedSchema.js"() {
     init_deref();
     init_translateTraits();
     anno = {
@@ -22190,10 +22190,10 @@ var init_NormalizedSchema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/SimpleSchema.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/SimpleSchema.js
 var SimpleSchema, sim, simAdapter;
 var init_SimpleSchema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/SimpleSchema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/SimpleSchema.js"() {
     init_Schema();
     SimpleSchema = class _SimpleSchema extends Schema {
       static symbol = /* @__PURE__ */ Symbol.for("@smithy/sim");
@@ -22217,10 +22217,10 @@ var init_SimpleSchema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/sentinels.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/sentinels.js
 var SCHEMA;
 var init_sentinels = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/schemas/sentinels.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/schemas/sentinels.js"() {
     SCHEMA = {
       BLOB: 21,
       STREAMING_BLOB: 42,
@@ -22240,10 +22240,10 @@ var init_sentinels = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/TypeRegistry.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/TypeRegistry.js
 var TypeRegistry;
 var init_TypeRegistry = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/TypeRegistry.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/TypeRegistry.js"() {
     TypeRegistry = class _TypeRegistry {
       namespace;
       schemas;
@@ -22331,7 +22331,7 @@ var init_TypeRegistry = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/index.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/index.js
 var schema_exports = {};
 __export(schema_exports, {
   ErrorSchema: () => ErrorSchema,
@@ -22363,7 +22363,7 @@ __export(schema_exports, {
   translateTraits: () => translateTraits
 });
 var init_schema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/schema/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/schema/index.js"() {
     init_deref();
     init_getSchemaSerdePlugin();
     init_ListSchema();
@@ -22381,18 +22381,18 @@ var init_schema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/copyDocumentWithTransform.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/copyDocumentWithTransform.js
 var copyDocumentWithTransform;
 var init_copyDocumentWithTransform = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/copyDocumentWithTransform.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/copyDocumentWithTransform.js"() {
     copyDocumentWithTransform = (source, schemaRef, transform = (_) => _) => source;
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/parse-utils.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/parse-utils.js
 var parseBoolean, expectBoolean, expectNumber, MAX_FLOAT, expectFloat32, expectLong, expectInt, expectInt32, expectShort, expectByte, expectSizedInt, castInt, expectNonNull, expectObject, expectString, expectUnion, strictParseDouble, strictParseFloat, strictParseFloat32, NUMBER_REGEX, parseNumber, limitedParseDouble, handleFloat, limitedParseFloat, limitedParseFloat32, parseFloatString, strictParseLong, strictParseInt, strictParseInt32, strictParseShort, strictParseByte, stackTraceWarning, logger;
 var init_parse_utils = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/parse-utils.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/parse-utils.js"() {
     parseBoolean = (value) => {
       switch (value) {
         case "true":
@@ -22620,7 +22620,7 @@ var init_parse_utils = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/date-utils.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/date-utils.js
 function dateToUtcString(date2) {
   const year2 = date2.getUTCFullYear();
   const month = date2.getUTCMonth();
@@ -22637,7 +22637,7 @@ function dateToUtcString(date2) {
 }
 var DAYS, MONTHS, RFC3339, parseRfc3339DateTime, RFC3339_WITH_OFFSET, parseRfc3339DateTimeWithOffset, IMF_FIXDATE, RFC_850_DATE, ASC_TIME, parseRfc7231DateTime, parseEpochTimestamp, buildDate, parseTwoDigitYear, FIFTY_YEARS_IN_MILLIS, adjustRfc850Year, parseMonthByShortName, DAYS_IN_MONTH, validateDayOfMonth, isLeapYear, parseDateValue, parseMilliseconds, parseOffsetToMilliseconds, stripLeadingZeroes;
 var init_date_utils = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/date-utils.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/date-utils.js"() {
     init_parse_utils();
     DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -23369,18 +23369,18 @@ var require_dist_cjs19 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/generateIdempotencyToken.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/generateIdempotencyToken.js
 var import_uuid;
 var init_generateIdempotencyToken = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/generateIdempotencyToken.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/generateIdempotencyToken.js"() {
     import_uuid = __toESM(require_dist_cjs19());
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/lazy-json.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/lazy-json.js
 var LazyJsonString;
 var init_lazy_json = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/lazy-json.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/lazy-json.js"() {
     LazyJsonString = function LazyJsonString2(val) {
       const str = Object.assign(new String(val), {
         deserializeJSON() {
@@ -23407,7 +23407,7 @@ var init_lazy_json = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/quote-header.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/quote-header.js
 function quoteHeader(part) {
   if (part.includes(",") || part.includes('"')) {
     part = `"${part.replace(/"/g, '\\"')}"`;
@@ -23415,11 +23415,11 @@ function quoteHeader(part) {
   return part;
 }
 var init_quote_header = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/quote-header.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/quote-header.js"() {
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/schema-serde-lib/schema-date-utils.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/schema-serde-lib/schema-date-utils.js
 function range(v5, min, max) {
   const _v = Number(v5);
   if (_v < min || _v > max) {
@@ -23428,7 +23428,7 @@ function range(v5, min, max) {
 }
 var ddd, mmm, time, date, year, RFC3339_WITH_OFFSET2, IMF_FIXDATE2, RFC_850_DATE2, ASC_TIME2, months, _parseEpochTimestamp, _parseRfc3339DateTimeWithOffset, _parseRfc7231DateTime;
 var init_schema_date_utils = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/schema-serde-lib/schema-date-utils.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/schema-serde-lib/schema-date-utils.js"() {
     ddd = `(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)(?:[ne|u?r]?s?day)?`;
     mmm = `(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)`;
     time = `(\\d?\\d):(\\d{2}):(\\d{2})(?:\\.(\\d+))?`;
@@ -23523,7 +23523,7 @@ var init_schema_date_utils = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/split-every.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/split-every.js
 function splitEvery(value, delimiter, numDelimiters) {
   if (numDelimiters <= 0 || !Number.isInteger(numDelimiters)) {
     throw new Error("Invalid number of delimiters (" + numDelimiters + ") for splitEvery.");
@@ -23551,14 +23551,14 @@ function splitEvery(value, delimiter, numDelimiters) {
   return compoundSegments;
 }
 var init_split_every = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/split-every.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/split-every.js"() {
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/split-header.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/split-header.js
 var splitHeader;
 var init_split_header = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/split-header.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/split-header.js"() {
     splitHeader = (value) => {
       const z2 = value.length;
       const values = [];
@@ -23599,13 +23599,13 @@ var init_split_header = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/value/NumericValue.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/value/NumericValue.js
 function nv(input) {
   return new NumericValue(String(input), "bigDecimal");
 }
 var format, NumericValue;
 var init_NumericValue = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/value/NumericValue.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/value/NumericValue.js"() {
     format = /^-?\d*(\.\d+)?$/;
     NumericValue = class _NumericValue {
       string;
@@ -23631,7 +23631,7 @@ var init_NumericValue = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/index.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/index.js
 var serde_exports = {};
 __export(serde_exports, {
   LazyJsonString: () => LazyJsonString,
@@ -23678,7 +23678,7 @@ __export(serde_exports, {
   strictParseShort: () => strictParseShort
 });
 var init_serde = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/serde/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/serde/index.js"() {
     init_copyDocumentWithTransform();
     init_date_utils();
     init_generateIdempotencyToken();
@@ -23692,10 +23692,10 @@ var init_serde = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/SerdeContext.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/SerdeContext.js
 var SerdeContext;
 var init_SerdeContext = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/SerdeContext.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/SerdeContext.js"() {
     SerdeContext = class {
       serdeContext;
       setSerdeContext(serdeContext) {
@@ -23705,10 +23705,10 @@ var init_SerdeContext = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/event-streams/EventStreamSerde.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/event-streams/EventStreamSerde.js
 var import_util_utf8, EventStreamSerde;
 var init_EventStreamSerde = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/event-streams/EventStreamSerde.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/event-streams/EventStreamSerde.js"() {
     import_util_utf8 = __toESM(require_dist_cjs9());
     EventStreamSerde = class {
       marshaller;
@@ -23947,21 +23947,21 @@ var init_EventStreamSerde = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/event-streams/index.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/event-streams/index.js
 var event_streams_exports = {};
 __export(event_streams_exports, {
   EventStreamSerde: () => EventStreamSerde
 });
 var init_event_streams = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/event-streams/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/event-streams/index.js"() {
     init_EventStreamSerde();
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/HttpProtocol.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/HttpProtocol.js
 var import_protocol_http3, HttpProtocol;
 var init_HttpProtocol = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/HttpProtocol.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/HttpProtocol.js"() {
     init_schema();
     import_protocol_http3 = __toESM(require_dist_cjs2());
     init_SerdeContext();
@@ -24104,10 +24104,10 @@ var init_HttpProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/HttpBindingProtocol.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/HttpBindingProtocol.js
 var import_protocol_http4, import_util_stream2, HttpBindingProtocol;
 var init_HttpBindingProtocol = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/HttpBindingProtocol.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/HttpBindingProtocol.js"() {
     init_schema();
     init_serde();
     import_protocol_http4 = __toESM(require_dist_cjs2());
@@ -24375,10 +24375,10 @@ var init_HttpBindingProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/RpcProtocol.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/RpcProtocol.js
 var import_protocol_http5, RpcProtocol;
 var init_RpcProtocol = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/RpcProtocol.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/RpcProtocol.js"() {
     init_schema();
     import_protocol_http5 = __toESM(require_dist_cjs2());
     init_collect_stream_body();
@@ -24472,10 +24472,10 @@ var init_RpcProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/resolve-path.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/resolve-path.js
 var resolvedPath;
 var init_resolve_path = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/resolve-path.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/resolve-path.js"() {
     init_extended_encode_uri_component();
     resolvedPath = (resolvedPath2, input, memberName, labelValueProvider, uriLabel, isGreedyLabel) => {
       if (input != null && input[memberName] !== void 0) {
@@ -24492,13 +24492,13 @@ var init_resolve_path = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/requestBuilder.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/requestBuilder.js
 function requestBuilder(input, context) {
   return new RequestBuilder(input, context);
 }
 var import_protocol_http6, RequestBuilder;
 var init_requestBuilder = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/requestBuilder.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/requestBuilder.js"() {
     import_protocol_http6 = __toESM(require_dist_cjs2());
     init_resolve_path();
     RequestBuilder = class {
@@ -24568,7 +24568,7 @@ var init_requestBuilder = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/serde/determineTimestampFormat.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/serde/determineTimestampFormat.js
 function determineTimestampFormat(ns, settings) {
   if (settings.timestampFormat.useTrait) {
     if (ns.isTimestampSchema() && (ns.getSchema() === 5 || ns.getSchema() === 6 || ns.getSchema() === 7)) {
@@ -24580,14 +24580,14 @@ function determineTimestampFormat(ns, settings) {
   return bindingFormat ?? settings.timestampFormat.default;
 }
 var init_determineTimestampFormat = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/serde/determineTimestampFormat.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/serde/determineTimestampFormat.js"() {
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/serde/FromStringShapeDeserializer.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/serde/FromStringShapeDeserializer.js
 var import_util_base64, import_util_utf82, FromStringShapeDeserializer;
 var init_FromStringShapeDeserializer = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/serde/FromStringShapeDeserializer.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/serde/FromStringShapeDeserializer.js"() {
     init_schema();
     init_serde();
     import_util_base64 = __toESM(require_dist_cjs10());
@@ -24657,10 +24657,10 @@ var init_FromStringShapeDeserializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeDeserializer.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeDeserializer.js
 var import_util_utf83, HttpInterceptingShapeDeserializer;
 var init_HttpInterceptingShapeDeserializer = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeDeserializer.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeDeserializer.js"() {
     init_schema();
     import_util_utf83 = __toESM(require_dist_cjs9());
     init_SerdeContext();
@@ -24705,10 +24705,10 @@ var init_HttpInterceptingShapeDeserializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/serde/ToStringShapeSerializer.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/serde/ToStringShapeSerializer.js
 var import_util_base642, ToStringShapeSerializer;
 var init_ToStringShapeSerializer = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/serde/ToStringShapeSerializer.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/serde/ToStringShapeSerializer.js"() {
     init_schema();
     init_serde();
     import_util_base642 = __toESM(require_dist_cjs10());
@@ -24802,10 +24802,10 @@ var init_ToStringShapeSerializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeSerializer.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeSerializer.js
 var HttpInterceptingShapeSerializer;
 var init_HttpInterceptingShapeSerializer = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeSerializer.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeSerializer.js"() {
     init_schema();
     init_ToStringShapeSerializer();
     HttpInterceptingShapeSerializer = class {
@@ -24842,7 +24842,7 @@ var init_HttpInterceptingShapeSerializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/index.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/index.js
 var protocols_exports = {};
 __export(protocols_exports, {
   FromStringShapeDeserializer: () => FromStringShapeDeserializer,
@@ -24861,7 +24861,7 @@ __export(protocols_exports, {
   resolvedPath: () => resolvedPath
 });
 var init_protocols = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/protocols/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/protocols/index.js"() {
     init_collect_stream_body();
     init_extended_encode_uri_component();
     init_HttpBindingProtocol();
@@ -24878,14 +24878,14 @@ var init_protocols = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/request-builder/requestBuilder.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/request-builder/requestBuilder.js
 var init_requestBuilder2 = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/request-builder/requestBuilder.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/request-builder/requestBuilder.js"() {
     init_protocols();
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/setFeature.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/setFeature.js
 function setFeature(context, feature, value) {
   if (!context.__smithy_context) {
     context.__smithy_context = {
@@ -24897,14 +24897,14 @@ function setFeature(context, feature, value) {
   context.__smithy_context.features[feature] = value;
 }
 var init_setFeature = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/setFeature.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/setFeature.js"() {
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/util-identity-and-auth/DefaultIdentityProviderConfig.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/util-identity-and-auth/DefaultIdentityProviderConfig.js
 var DefaultIdentityProviderConfig;
 var init_DefaultIdentityProviderConfig = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/util-identity-and-auth/DefaultIdentityProviderConfig.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/util-identity-and-auth/DefaultIdentityProviderConfig.js"() {
     DefaultIdentityProviderConfig = class {
       authSchemes = /* @__PURE__ */ new Map();
       constructor(config) {
@@ -24921,10 +24921,10 @@ var init_DefaultIdentityProviderConfig = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpApiKeyAuth.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpApiKeyAuth.js
 var import_protocol_http7, import_types2, HttpApiKeyAuthSigner;
 var init_httpApiKeyAuth = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpApiKeyAuth.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpApiKeyAuth.js"() {
     import_protocol_http7 = __toESM(require_dist_cjs2());
     import_types2 = __toESM(require_dist_cjs());
     HttpApiKeyAuthSigner = class {
@@ -24955,10 +24955,10 @@ var init_httpApiKeyAuth = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpBearerAuth.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpBearerAuth.js
 var import_protocol_http8, HttpBearerAuthSigner;
 var init_httpBearerAuth = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpBearerAuth.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpBearerAuth.js"() {
     import_protocol_http8 = __toESM(require_dist_cjs2());
     HttpBearerAuthSigner = class {
       async sign(httpRequest, identity, signingProperties) {
@@ -24973,10 +24973,10 @@ var init_httpBearerAuth = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/noAuth.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/noAuth.js
 var NoAuthSigner;
 var init_noAuth = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/noAuth.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/noAuth.js"() {
     NoAuthSigner = class {
       async sign(httpRequest, identity, signingProperties) {
         return httpRequest;
@@ -24985,19 +24985,19 @@ var init_noAuth = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/index.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/index.js
 var init_httpAuthSchemes = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/index.js"() {
     init_httpApiKeyAuth();
     init_httpBearerAuth();
     init_noAuth();
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/util-identity-and-auth/memoizeIdentityProvider.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/util-identity-and-auth/memoizeIdentityProvider.js
 var createIsIdentityExpiredFunction, EXPIRATION_MS, isIdentityExpired, doesIdentityRequireRefresh, memoizeIdentityProvider;
 var init_memoizeIdentityProvider = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/util-identity-and-auth/memoizeIdentityProvider.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/util-identity-and-auth/memoizeIdentityProvider.js"() {
     createIsIdentityExpiredFunction = (expirationMs) => function isIdentityExpired2(identity) {
       return doesIdentityRequireRefresh(identity) && identity.expiration.getTime() - Date.now() < expirationMs;
     };
@@ -25055,16 +25055,16 @@ var init_memoizeIdentityProvider = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/util-identity-and-auth/index.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/util-identity-and-auth/index.js
 var init_util_identity_and_auth = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/util-identity-and-auth/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/util-identity-and-auth/index.js"() {
     init_DefaultIdentityProviderConfig();
     init_httpAuthSchemes();
     init_memoizeIdentityProvider();
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/index.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/index.js
 var dist_es_exports = {};
 __export(dist_es_exports, {
   DefaultIdentityProviderConfig: () => DefaultIdentityProviderConfig,
@@ -25091,7 +25091,7 @@ __export(dist_es_exports, {
   setFeature: () => setFeature
 });
 var init_dist_es = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/index.js"() {
     init_getSmithyContext();
     init_middleware_http_auth_scheme();
     init_middleware_http_signing();
@@ -25103,9 +25103,9 @@ var init_dist_es = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-endpoints@3.3.3/node_modules/@smithy/util-endpoints/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+util-endpoints@3.3.4/node_modules/@smithy/util-endpoints/dist-cjs/index.js
 var require_dist_cjs20 = __commonJS({
-  "node_modules/.pnpm/@smithy+util-endpoints@3.3.3/node_modules/@smithy/util-endpoints/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-endpoints@3.3.4/node_modules/@smithy/util-endpoints/dist-cjs/index.js"(exports2) {
     "use strict";
     var types = require_dist_cjs();
     var EndpointCache5 = class {
@@ -26016,9 +26016,9 @@ var init_client = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+service-error-classification@4.2.12/node_modules/@smithy/service-error-classification/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+service-error-classification@4.2.13/node_modules/@smithy/service-error-classification/dist-cjs/index.js
 var require_dist_cjs22 = __commonJS({
-  "node_modules/.pnpm/@smithy+service-error-classification@4.2.12/node_modules/@smithy/service-error-classification/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+service-error-classification@4.2.13/node_modules/@smithy/service-error-classification/dist-cjs/index.js"(exports2) {
     "use strict";
     var CLOCK_SKEW_ERROR_CODES = [
       "AuthFailure",
@@ -26087,9 +26087,9 @@ var require_dist_cjs22 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-retry@4.2.13/node_modules/@smithy/util-retry/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+util-retry@4.3.0/node_modules/@smithy/util-retry/dist-cjs/index.js
 var require_dist_cjs23 = __commonJS({
-  "node_modules/.pnpm/@smithy+util-retry@4.2.13/node_modules/@smithy/util-retry/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-retry@4.3.0/node_modules/@smithy/util-retry/dist-cjs/index.js"(exports2) {
     "use strict";
     var serviceErrorClassification = require_dist_cjs22();
     exports2.RETRY_MODES = void 0;
@@ -26123,17 +26123,35 @@ var require_dist_cjs23 = __commonJS({
         this.minFillRate = options?.minFillRate ?? 0.5;
         this.scaleConstant = options?.scaleConstant ?? 0.4;
         this.smooth = options?.smooth ?? 0.8;
-        const currentTimeInSeconds = this.getCurrentTimeInSeconds();
-        this.lastThrottleTime = currentTimeInSeconds;
+        this.lastThrottleTime = this.getCurrentTimeInSeconds();
         this.lastTxRateBucket = Math.floor(this.getCurrentTimeInSeconds());
         this.fillRate = this.minFillRate;
         this.maxCapacity = this.minCapacity;
       }
-      getCurrentTimeInSeconds() {
-        return Date.now() / 1e3;
-      }
       async getSendToken() {
         return this.acquireTokenBucket(1);
+      }
+      updateClientSendingRate(response) {
+        let calculatedRate;
+        this.updateMeasuredRate();
+        const retryErrorInfo = response;
+        const isThrottling = retryErrorInfo?.errorType === "THROTTLING" || serviceErrorClassification.isThrottlingError(retryErrorInfo?.error ?? response);
+        if (isThrottling) {
+          const rateToUse = !this.enabled ? this.measuredTxRate : Math.min(this.measuredTxRate, this.fillRate);
+          this.lastMaxRate = rateToUse;
+          this.calculateTimeWindow();
+          this.lastThrottleTime = this.getCurrentTimeInSeconds();
+          calculatedRate = this.cubicThrottle(rateToUse);
+          this.enableTokenBucket();
+        } else {
+          this.calculateTimeWindow();
+          calculatedRate = this.cubicSuccess(this.getCurrentTimeInSeconds());
+        }
+        const newRate = Math.min(calculatedRate, 2 * this.measuredTxRate);
+        this.updateTokenBucketRate(newRate);
+      }
+      getCurrentTimeInSeconds() {
+        return Date.now() / 1e3;
       }
       async acquireTokenBucket(amount) {
         if (!this.enabled) {
@@ -26155,25 +26173,6 @@ var require_dist_cjs23 = __commonJS({
         const fillAmount = (timestamp - this.lastTimestamp) * this.fillRate;
         this.availableTokens = Math.min(this.maxCapacity, this.availableTokens + fillAmount);
         this.lastTimestamp = timestamp;
-      }
-      updateClientSendingRate(response) {
-        let calculatedRate;
-        this.updateMeasuredRate();
-        const retryErrorInfo = response;
-        const isThrottling = retryErrorInfo?.errorType === "THROTTLING" || serviceErrorClassification.isThrottlingError(retryErrorInfo?.error ?? response);
-        if (isThrottling) {
-          const rateToUse = !this.enabled ? this.measuredTxRate : Math.min(this.measuredTxRate, this.fillRate);
-          this.lastMaxRate = rateToUse;
-          this.calculateTimeWindow();
-          this.lastThrottleTime = this.getCurrentTimeInSeconds();
-          calculatedRate = this.cubicThrottle(rateToUse);
-          this.enableTokenBucket();
-        } else {
-          this.calculateTimeWindow();
-          calculatedRate = this.cubicSuccess(this.getCurrentTimeInSeconds());
-        }
-        const newRate = Math.min(calculatedRate, 2 * this.measuredTxRate);
-        this.updateTokenBucketRate(newRate);
       }
       calculateTimeWindow() {
         this.timeWindow = this.getPrecise(Math.pow(this.lastMaxRate * (1 - this.beta) / this.scaleConstant, 1 / 3));
@@ -26217,64 +26216,106 @@ var require_dist_cjs23 = __commonJS({
     var NO_RETRY_INCREMENT = 1;
     var INVOCATION_ID_HEADER = "amz-sdk-invocation-id";
     var REQUEST_HEADER = "amz-sdk-request";
-    var getDefaultRetryBackoffStrategy = () => {
-      let delayBase = DEFAULT_RETRY_DELAY_BASE;
-      const computeNextBackoffDelay = (attempts) => {
-        return Math.floor(Math.min(MAXIMUM_RETRY_DELAY, Math.random() * 2 ** attempts * delayBase));
-      };
-      const setDelayBase = (delay) => {
-        delayBase = delay;
-      };
-      return {
-        computeNextBackoffDelay,
-        setDelayBase
-      };
+    var Retry = class _Retry {
+      static v2026 = typeof process !== "undefined" && process.env?.SMITHY_NEW_RETRIES_2026 === "true";
+      static delay() {
+        return _Retry.v2026 ? 50 : 100;
+      }
+      static throttlingDelay() {
+        return _Retry.v2026 ? 1e3 : 500;
+      }
+      static cost() {
+        return _Retry.v2026 ? 14 : 5;
+      }
+      static throttlingCost() {
+        return _Retry.v2026 ? 5 : 10;
+      }
+      static modifiedCostType() {
+        return _Retry.v2026 ? "THROTTLING" : "TRANSIENT";
+      }
     };
-    var createDefaultRetryToken = ({ retryDelay, retryCount, retryCost }) => {
-      const getRetryCount = () => retryCount;
-      const getRetryDelay = () => Math.min(MAXIMUM_RETRY_DELAY, retryDelay);
-      const getRetryCost = () => retryCost;
-      return {
-        getRetryCount,
-        getRetryDelay,
-        getRetryCost
-      };
+    var DefaultRetryBackoffStrategy = class {
+      x = Retry.delay();
+      computeNextBackoffDelay(i5) {
+        const b5 = Math.random();
+        const r5 = 2;
+        const t_i = b5 * Math.min(this.x * r5 ** i5, MAXIMUM_RETRY_DELAY);
+        return Math.floor(t_i);
+      }
+      setDelayBase(delay) {
+        this.x = delay;
+      }
+    };
+    var DefaultRetryToken = class {
+      delay;
+      count;
+      cost;
+      longPoll;
+      constructor(delay, count, cost, longPoll) {
+        this.delay = delay;
+        this.count = count;
+        this.cost = cost;
+        this.longPoll = longPoll;
+      }
+      getRetryCount() {
+        return this.count;
+      }
+      getRetryDelay() {
+        return Math.min(MAXIMUM_RETRY_DELAY, this.delay);
+      }
+      getRetryCost() {
+        return this.cost;
+      }
+      isLongPoll() {
+        return this.longPoll;
+      }
     };
     var StandardRetryStrategy = class {
-      maxAttempts;
       mode = exports2.RETRY_MODES.STANDARD;
       capacity = INITIAL_RETRY_TOKENS;
-      retryBackoffStrategy = getDefaultRetryBackoffStrategy();
+      retryBackoffStrategy;
       maxAttemptsProvider;
-      constructor(maxAttempts) {
-        this.maxAttempts = maxAttempts;
-        this.maxAttemptsProvider = typeof maxAttempts === "function" ? maxAttempts : async () => maxAttempts;
+      baseDelay;
+      constructor(arg1) {
+        if (typeof arg1 === "number") {
+          this.maxAttemptsProvider = async () => arg1;
+        } else if (typeof arg1 === "function") {
+          this.maxAttemptsProvider = arg1;
+        } else if (arg1 && typeof arg1 === "object") {
+          this.maxAttemptsProvider = async () => arg1.maxAttempts;
+          this.baseDelay = arg1.baseDelay;
+          this.retryBackoffStrategy = arg1.backoff;
+        }
+        this.maxAttemptsProvider ??= async () => DEFAULT_MAX_ATTEMPTS;
+        this.baseDelay ??= Retry.delay();
+        this.retryBackoffStrategy ??= new DefaultRetryBackoffStrategy();
       }
       async acquireInitialRetryToken(retryTokenScope) {
-        return createDefaultRetryToken({
-          retryDelay: DEFAULT_RETRY_DELAY_BASE,
-          retryCount: 0
-        });
+        return new DefaultRetryToken(Retry.delay(), 0, void 0, Retry.v2026 && retryTokenScope.includes(":longpoll"));
       }
       async refreshRetryTokenForRetry(token, errorInfo) {
         const maxAttempts = await this.getMaxAttempts();
-        if (this.shouldRetry(token, errorInfo, maxAttempts)) {
+        const shouldRetry = this.shouldRetry(token, errorInfo, maxAttempts);
+        if (shouldRetry || token.isLongPoll?.()) {
           const errorType = errorInfo.errorType;
-          this.retryBackoffStrategy.setDelayBase(errorType === "THROTTLING" ? THROTTLING_RETRY_DELAY_BASE : DEFAULT_RETRY_DELAY_BASE);
+          this.retryBackoffStrategy.setDelayBase(errorType === "THROTTLING" ? Retry.throttlingDelay() : this.baseDelay);
           const delayFromErrorType = this.retryBackoffStrategy.computeNextBackoffDelay(token.getRetryCount());
-          const retryDelay = errorInfo.retryAfterHint ? Math.max(errorInfo.retryAfterHint.getTime() - Date.now() || 0, delayFromErrorType) : delayFromErrorType;
-          const capacityCost = this.getCapacityCost(errorType);
-          this.capacity -= capacityCost;
-          return createDefaultRetryToken({
-            retryDelay,
-            retryCount: token.getRetryCount() + 1,
-            retryCost: capacityCost
-          });
+          let retryDelay = delayFromErrorType;
+          if (errorInfo.retryAfterHint instanceof Date) {
+            retryDelay = Math.max(delayFromErrorType, Math.min(errorInfo.retryAfterHint.getTime() - Date.now(), delayFromErrorType + 5e3));
+          }
+          if (!shouldRetry) {
+            throw Object.assign(new Error("No retry token available"), { $backoff: Retry.v2026 ? retryDelay : 0 });
+          } else {
+            const capacityCost = this.getCapacityCost(errorType);
+            this.capacity -= capacityCost;
+            return new DefaultRetryToken(retryDelay, token.getRetryCount() + 1, capacityCost, token.isLongPoll?.() ?? false);
+          }
         }
         throw new Error("No retry token available");
       }
       recordSuccess(token) {
-        this.capacity = Math.max(INITIAL_RETRY_TOKENS, this.capacity + (token.getRetryCost() ?? NO_RETRY_INCREMENT));
+        this.capacity = Math.min(INITIAL_RETRY_TOKENS, this.capacity + (token.getRetryCost() ?? NO_RETRY_INCREMENT));
       }
       getCapacity() {
         return this.capacity;
@@ -26292,22 +26333,23 @@ var require_dist_cjs23 = __commonJS({
         return attempts < maxAttempts && this.capacity >= this.getCapacityCost(errorInfo.errorType) && this.isRetryableError(errorInfo.errorType);
       }
       getCapacityCost(errorType) {
-        return errorType === "TRANSIENT" ? TIMEOUT_RETRY_COST : RETRY_COST;
+        return errorType === Retry.modifiedCostType() ? Retry.throttlingCost() : Retry.cost();
       }
       isRetryableError(errorType) {
         return errorType === "THROTTLING" || errorType === "TRANSIENT";
       }
     };
     var AdaptiveRetryStrategy = class {
-      maxAttemptsProvider;
+      mode = exports2.RETRY_MODES.ADAPTIVE;
       rateLimiter;
       standardRetryStrategy;
-      mode = exports2.RETRY_MODES.ADAPTIVE;
       constructor(maxAttemptsProvider, options) {
-        this.maxAttemptsProvider = maxAttemptsProvider;
         const { rateLimiter } = options ?? {};
         this.rateLimiter = rateLimiter ?? new DefaultRateLimiter();
-        this.standardRetryStrategy = new StandardRetryStrategy(maxAttemptsProvider);
+        this.standardRetryStrategy = options ? new StandardRetryStrategy({
+          maxAttempts: typeof maxAttemptsProvider === "number" ? maxAttemptsProvider : 3,
+          ...options
+        }) : new StandardRetryStrategy(maxAttemptsProvider);
       }
       async acquireInitialRetryToken(retryTokenScope) {
         await this.rateLimiter.getSendToken();
@@ -26324,7 +26366,7 @@ var require_dist_cjs23 = __commonJS({
     };
     var ConfiguredRetryStrategy = class extends StandardRetryStrategy {
       computeNextBackoffDelay;
-      constructor(maxAttempts, computeNextBackoffDelay = DEFAULT_RETRY_DELAY_BASE) {
+      constructor(maxAttempts, computeNextBackoffDelay = Retry.delay()) {
         super(typeof maxAttempts === "function" ? maxAttempts : async () => maxAttempts);
         if (typeof computeNextBackoffDelay === "number") {
           this.computeNextBackoffDelay = () => computeNextBackoffDelay;
@@ -26350,6 +26392,7 @@ var require_dist_cjs23 = __commonJS({
     exports2.NO_RETRY_INCREMENT = NO_RETRY_INCREMENT;
     exports2.REQUEST_HEADER = REQUEST_HEADER;
     exports2.RETRY_COST = RETRY_COST;
+    exports2.Retry = Retry;
     exports2.StandardRetryStrategy = StandardRetryStrategy;
     exports2.THROTTLING_RETRY_DELAY_BASE = THROTTLING_RETRY_DELAY_BASE;
     exports2.TIMEOUT_RETRY_COST = TIMEOUT_RETRY_COST;
@@ -26569,9 +26612,9 @@ var require_dist_cjs25 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+config-resolver@4.4.13/node_modules/@smithy/config-resolver/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+config-resolver@4.4.14/node_modules/@smithy/config-resolver/dist-cjs/index.js
 var require_dist_cjs26 = __commonJS({
-  "node_modules/.pnpm/@smithy+config-resolver@4.4.13/node_modules/@smithy/config-resolver/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+config-resolver@4.4.14/node_modules/@smithy/config-resolver/dist-cjs/index.js"(exports2) {
     "use strict";
     var utilConfigProvider = require_dist_cjs25();
     var utilMiddleware = require_dist_cjs6();
@@ -26743,9 +26786,9 @@ var require_dist_cjs26 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+middleware-content-length@4.2.12/node_modules/@smithy/middleware-content-length/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+middleware-content-length@4.2.13/node_modules/@smithy/middleware-content-length/dist-cjs/index.js
 var require_dist_cjs27 = __commonJS({
-  "node_modules/.pnpm/@smithy+middleware-content-length@4.2.12/node_modules/@smithy/middleware-content-length/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+middleware-content-length@4.2.13/node_modules/@smithy/middleware-content-length/dist-cjs/index.js"(exports2) {
     "use strict";
     var protocolHttp = require_dist_cjs2();
     var CONTENT_LENGTH_HEADER = "content-length";
@@ -26788,9 +26831,9 @@ var require_dist_cjs27 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+property-provider@4.2.12/node_modules/@smithy/property-provider/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+property-provider@4.2.13/node_modules/@smithy/property-provider/dist-cjs/index.js
 var require_dist_cjs28 = __commonJS({
-  "node_modules/.pnpm/@smithy+property-provider@4.2.12/node_modules/@smithy/property-provider/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+property-provider@4.2.13/node_modules/@smithy/property-provider/dist-cjs/index.js"(exports2) {
     "use strict";
     var ProviderError2 = class _ProviderError extends Error {
       name = "ProviderError";
@@ -26901,9 +26944,9 @@ var require_dist_cjs28 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.7/node_modules/@smithy/shared-ini-file-loader/dist-cjs/getHomeDir.js
+// node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.8/node_modules/@smithy/shared-ini-file-loader/dist-cjs/getHomeDir.js
 var require_getHomeDir = __commonJS({
-  "node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.7/node_modules/@smithy/shared-ini-file-loader/dist-cjs/getHomeDir.js"(exports2) {
+  "node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.8/node_modules/@smithy/shared-ini-file-loader/dist-cjs/getHomeDir.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getHomeDir = void 0;
@@ -26933,9 +26976,9 @@ var require_getHomeDir = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.7/node_modules/@smithy/shared-ini-file-loader/dist-cjs/getSSOTokenFilepath.js
+// node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.8/node_modules/@smithy/shared-ini-file-loader/dist-cjs/getSSOTokenFilepath.js
 var require_getSSOTokenFilepath = __commonJS({
-  "node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.7/node_modules/@smithy/shared-ini-file-loader/dist-cjs/getSSOTokenFilepath.js"(exports2) {
+  "node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.8/node_modules/@smithy/shared-ini-file-loader/dist-cjs/getSSOTokenFilepath.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getSSOTokenFilepath = void 0;
@@ -26951,9 +26994,9 @@ var require_getSSOTokenFilepath = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.7/node_modules/@smithy/shared-ini-file-loader/dist-cjs/getSSOTokenFromFile.js
+// node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.8/node_modules/@smithy/shared-ini-file-loader/dist-cjs/getSSOTokenFromFile.js
 var require_getSSOTokenFromFile = __commonJS({
-  "node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.7/node_modules/@smithy/shared-ini-file-loader/dist-cjs/getSSOTokenFromFile.js"(exports2) {
+  "node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.8/node_modules/@smithy/shared-ini-file-loader/dist-cjs/getSSOTokenFromFile.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getSSOTokenFromFile = exports2.tokenIntercept = void 0;
@@ -26972,9 +27015,9 @@ var require_getSSOTokenFromFile = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.7/node_modules/@smithy/shared-ini-file-loader/dist-cjs/readFile.js
+// node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.8/node_modules/@smithy/shared-ini-file-loader/dist-cjs/readFile.js
 var require_readFile = __commonJS({
-  "node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.7/node_modules/@smithy/shared-ini-file-loader/dist-cjs/readFile.js"(exports2) {
+  "node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.8/node_modules/@smithy/shared-ini-file-loader/dist-cjs/readFile.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.readFile = exports2.fileIntercept = exports2.filePromises = void 0;
@@ -26994,9 +27037,9 @@ var require_readFile = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.7/node_modules/@smithy/shared-ini-file-loader/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.8/node_modules/@smithy/shared-ini-file-loader/dist-cjs/index.js
 var require_dist_cjs29 = __commonJS({
-  "node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.7/node_modules/@smithy/shared-ini-file-loader/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+shared-ini-file-loader@4.4.8/node_modules/@smithy/shared-ini-file-loader/dist-cjs/index.js"(exports2) {
     "use strict";
     var getHomeDir = require_getHomeDir();
     var getSSOTokenFilepath = require_getSSOTokenFilepath();
@@ -27160,9 +27203,9 @@ var require_dist_cjs29 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+node-config-provider@4.3.12/node_modules/@smithy/node-config-provider/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+node-config-provider@4.3.13/node_modules/@smithy/node-config-provider/dist-cjs/index.js
 var require_dist_cjs30 = __commonJS({
-  "node_modules/.pnpm/@smithy+node-config-provider@4.3.12/node_modules/@smithy/node-config-provider/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+node-config-provider@4.3.13/node_modules/@smithy/node-config-provider/dist-cjs/index.js"(exports2) {
     "use strict";
     var propertyProvider = require_dist_cjs28();
     var sharedIniFileLoader = require_dist_cjs29();
@@ -27216,9 +27259,9 @@ var require_dist_cjs30 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+middleware-endpoint@4.4.28/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointUrlConfig.js
+// node_modules/.pnpm/@smithy+middleware-endpoint@4.4.29/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointUrlConfig.js
 var require_getEndpointUrlConfig = __commonJS({
-  "node_modules/.pnpm/@smithy+middleware-endpoint@4.4.28/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointUrlConfig.js"(exports2) {
+  "node_modules/.pnpm/@smithy+middleware-endpoint@4.4.29/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointUrlConfig.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getEndpointUrlConfig = void 0;
@@ -27257,9 +27300,9 @@ var require_getEndpointUrlConfig = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+middleware-endpoint@4.4.28/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointFromConfig.js
+// node_modules/.pnpm/@smithy+middleware-endpoint@4.4.29/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointFromConfig.js
 var require_getEndpointFromConfig = __commonJS({
-  "node_modules/.pnpm/@smithy+middleware-endpoint@4.4.28/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointFromConfig.js"(exports2) {
+  "node_modules/.pnpm/@smithy+middleware-endpoint@4.4.29/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointFromConfig.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getEndpointFromConfig = void 0;
@@ -27270,9 +27313,9 @@ var require_getEndpointFromConfig = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+middleware-serde@4.2.16/node_modules/@smithy/middleware-serde/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+middleware-serde@4.2.17/node_modules/@smithy/middleware-serde/dist-cjs/index.js
 var require_dist_cjs31 = __commonJS({
-  "node_modules/.pnpm/@smithy+middleware-serde@4.2.16/node_modules/@smithy/middleware-serde/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+middleware-serde@4.2.17/node_modules/@smithy/middleware-serde/dist-cjs/index.js"(exports2) {
     "use strict";
     var protocolHttp = require_dist_cjs2();
     var endpoints = (init_endpoints(), __toCommonJS(endpoints_exports));
@@ -27369,14 +27412,14 @@ var require_dist_cjs31 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+middleware-endpoint@4.4.28/node_modules/@smithy/middleware-endpoint/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+middleware-endpoint@4.4.29/node_modules/@smithy/middleware-endpoint/dist-cjs/index.js
 var require_dist_cjs32 = __commonJS({
-  "node_modules/.pnpm/@smithy+middleware-endpoint@4.4.28/node_modules/@smithy/middleware-endpoint/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+middleware-endpoint@4.4.29/node_modules/@smithy/middleware-endpoint/dist-cjs/index.js"(exports2) {
     "use strict";
-    var getEndpointFromConfig = require_getEndpointFromConfig();
-    var urlParser = require_dist_cjs18();
     var core = (init_dist_es(), __toCommonJS(dist_es_exports));
     var utilMiddleware = require_dist_cjs6();
+    var getEndpointFromConfig = require_getEndpointFromConfig();
+    var urlParser = require_dist_cjs18();
     var middlewareSerde = require_dist_cjs31();
     var resolveParamsForS3 = async (endpointParams) => {
       const bucket = endpointParams?.Bucket || "";
@@ -27623,9 +27666,9 @@ var require_dist_cjs32 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+middleware-stack@4.2.12/node_modules/@smithy/middleware-stack/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+middleware-stack@4.2.13/node_modules/@smithy/middleware-stack/dist-cjs/index.js
 var require_dist_cjs33 = __commonJS({
-  "node_modules/.pnpm/@smithy+middleware-stack@4.2.12/node_modules/@smithy/middleware-stack/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+middleware-stack@4.2.13/node_modules/@smithy/middleware-stack/dist-cjs/index.js"(exports2) {
     "use strict";
     var getAllAliases = (name, aliases) => {
       const _aliases = [];
@@ -27894,15 +27937,15 @@ var require_dist_cjs33 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+smithy-client@4.12.8/node_modules/@smithy/smithy-client/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+smithy-client@4.12.9/node_modules/@smithy/smithy-client/dist-cjs/index.js
 var require_dist_cjs34 = __commonJS({
-  "node_modules/.pnpm/@smithy+smithy-client@4.12.8/node_modules/@smithy/smithy-client/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+smithy-client@4.12.9/node_modules/@smithy/smithy-client/dist-cjs/index.js"(exports2) {
     "use strict";
     var middlewareStack = require_dist_cjs33();
-    var protocols = (init_protocols(), __toCommonJS(protocols_exports));
     var types = require_dist_cjs();
     var schema = (init_schema(), __toCommonJS(schema_exports));
     var serde = (init_serde(), __toCommonJS(serde_exports));
+    var protocols = (init_protocols(), __toCommonJS(protocols_exports));
     var Client = class {
       config;
       middlewareStack = middlewareStack.constructStack();
@@ -28496,9 +28539,9 @@ var require_dist_cjs34 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+middleware-retry@4.4.46/node_modules/@smithy/middleware-retry/dist-cjs/isStreamingPayload/isStreamingPayload.js
+// node_modules/.pnpm/@smithy+middleware-retry@4.5.0/node_modules/@smithy/middleware-retry/dist-cjs/isStreamingPayload/isStreamingPayload.js
 var require_isStreamingPayload = __commonJS({
-  "node_modules/.pnpm/@smithy+middleware-retry@4.4.46/node_modules/@smithy/middleware-retry/dist-cjs/isStreamingPayload/isStreamingPayload.js"(exports2) {
+  "node_modules/.pnpm/@smithy+middleware-retry@4.5.0/node_modules/@smithy/middleware-retry/dist-cjs/isStreamingPayload/isStreamingPayload.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isStreamingPayload = void 0;
@@ -28508,9 +28551,9 @@ var require_isStreamingPayload = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+middleware-retry@4.4.46/node_modules/@smithy/middleware-retry/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+middleware-retry@4.5.0/node_modules/@smithy/middleware-retry/dist-cjs/index.js
 var require_dist_cjs35 = __commonJS({
-  "node_modules/.pnpm/@smithy+middleware-retry@4.4.46/node_modules/@smithy/middleware-retry/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+middleware-retry@4.5.0/node_modules/@smithy/middleware-retry/dist-cjs/index.js"(exports2) {
     "use strict";
     var utilRetry = require_dist_cjs23();
     var protocolHttp = require_dist_cjs2();
@@ -28519,6 +28562,16 @@ var require_dist_cjs35 = __commonJS({
     var utilMiddleware = require_dist_cjs6();
     var smithyClient = require_dist_cjs34();
     var isStreamingPayload = require_isStreamingPayload();
+    var serde = (init_serde(), __toCommonJS(serde_exports));
+    var asSdkError = (error3) => {
+      if (error3 instanceof Error)
+        return error3;
+      if (error3 instanceof Object)
+        return Object.assign(new Error(), error3);
+      if (typeof error3 === "string")
+        return new Error(error3);
+      return new Error(`AWS SDK error wrapper for ${error3}`);
+    };
     var getDefaultRetryQuota = (initialRetryTokens, options) => {
       const MAX_CAPACITY = initialRetryTokens;
       const noRetryIncrement = utilRetry.NO_RETRY_INCREMENT;
@@ -28551,15 +28604,6 @@ var require_dist_cjs35 = __commonJS({
         return false;
       }
       return serviceErrorClassification.isRetryableByTrait(error3) || serviceErrorClassification.isClockSkewError(error3) || serviceErrorClassification.isThrottlingError(error3) || serviceErrorClassification.isTransientError(error3);
-    };
-    var asSdkError = (error3) => {
-      if (error3 instanceof Error)
-        return error3;
-      if (error3 instanceof Object)
-        return Object.assign(new Error(), error3);
-      if (typeof error3 === "string")
-        return new Error(error3);
-      return new Error(`AWS SDK error wrapper for ${error3}`);
     };
     var StandardRetryStrategy = class {
       maxAttemptsProvider;
@@ -28726,12 +28770,54 @@ var require_dist_cjs35 = __commonJS({
         clientStack.addRelativeTo(omitRetryHeadersMiddleware(), omitRetryHeadersMiddlewareOptions);
       }
     });
+    function parseRetryAfterHeader(response, logger2) {
+      if (!protocolHttp.HttpResponse.isInstance(response)) {
+        return;
+      }
+      for (const header of Object.keys(response.headers)) {
+        const h5 = header.toLowerCase();
+        if (h5 === "retry-after") {
+          const retryAfter = response.headers[header];
+          let retryAfterSeconds = NaN;
+          if (retryAfter.endsWith("GMT")) {
+            try {
+              const date2 = serde.parseRfc7231DateTime(retryAfter);
+              retryAfterSeconds = (date2.getTime() - Date.now()) / 1e3;
+            } catch (e5) {
+              logger2?.trace?.("Failed to parse retry-after header");
+              logger2?.trace?.(e5);
+            }
+          } else if (retryAfter.match(/ GMT, ((\d+)|(\d+\.\d+))$/)) {
+            retryAfterSeconds = Number(retryAfter.match(/ GMT, ([\d.]+)$/)?.[1]);
+          } else if (retryAfter.match(/^((\d+)|(\d+\.\d+))$/)) {
+            retryAfterSeconds = Number(retryAfter);
+          } else if (Date.parse(retryAfter) >= Date.now()) {
+            retryAfterSeconds = (Date.parse(retryAfter) - Date.now()) / 1e3;
+          }
+          if (isNaN(retryAfterSeconds)) {
+            return;
+          }
+          return new Date(Date.now() + retryAfterSeconds * 1e3);
+        } else if (h5 === "x-amz-retry-after") {
+          const v5 = response.headers[header];
+          const backoffMilliseconds = Number(v5);
+          if (isNaN(backoffMilliseconds)) {
+            logger2?.trace?.(`Failed to parse x-amz-retry-after=${v5}`);
+            return;
+          }
+          return new Date(Date.now() + backoffMilliseconds);
+        }
+      }
+    }
+    function getRetryAfterHint(response, logger2) {
+      return parseRetryAfterHeader(response, logger2);
+    }
     var retryMiddleware = (options) => (next, context) => async (args) => {
       let retryStrategy = await options.retryStrategy();
       const maxAttempts = await options.maxAttempts();
       if (isRetryStrategyV2(retryStrategy)) {
         retryStrategy = retryStrategy;
-        let retryToken = await retryStrategy.acquireInitialRetryToken(context["partition_id"]);
+        let retryToken = await retryStrategy.acquireInitialRetryToken((context["partition_id"] ?? "") + (context.__retryLongPoll ? ":longpoll" : ""));
         let lastError = new Error();
         let attempts = 0;
         let totalRetryDelay = 0;
@@ -28751,7 +28837,7 @@ var require_dist_cjs35 = __commonJS({
             output.$metadata.totalRetryDelay = totalRetryDelay;
             return { response, output };
           } catch (e5) {
-            const retryErrorInfo = getRetryErrorInfo(e5);
+            const retryErrorInfo = getRetryErrorInfo(e5, options.logger);
             lastError = asSdkError(e5);
             if (isRequest && isStreamingPayload.isStreamingPayload(request2)) {
               (context.logger instanceof smithyClient.NoOpLogger ? console : context.logger)?.warn("An error was encountered in a non-retryable streaming request.");
@@ -28760,6 +28846,9 @@ var require_dist_cjs35 = __commonJS({
             try {
               retryToken = await retryStrategy.refreshRetryTokenForRetry(retryToken, retryErrorInfo);
             } catch (refreshError) {
+              if (typeof refreshError.$backoff === "number") {
+                await cooldown(refreshError.$backoff);
+              }
               if (!lastError.$metadata) {
                 lastError.$metadata = {};
               }
@@ -28770,23 +28859,25 @@ var require_dist_cjs35 = __commonJS({
             attempts = retryToken.getRetryCount();
             const delay = retryToken.getRetryDelay();
             totalRetryDelay += delay;
-            await new Promise((resolve) => setTimeout(resolve, delay));
+            await cooldown(delay);
           }
         }
       } else {
         retryStrategy = retryStrategy;
-        if (retryStrategy?.mode)
+        if (retryStrategy?.mode) {
           context.userAgent = [...context.userAgent || [], ["cfg/retry-mode", retryStrategy.mode]];
+        }
         return retryStrategy.retry(next, args);
       }
     };
+    var cooldown = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     var isRetryStrategyV2 = (retryStrategy) => typeof retryStrategy.acquireInitialRetryToken !== "undefined" && typeof retryStrategy.refreshRetryTokenForRetry !== "undefined" && typeof retryStrategy.recordSuccess !== "undefined";
-    var getRetryErrorInfo = (error3) => {
+    var getRetryErrorInfo = (error3, logger2) => {
       const errorInfo = {
         error: error3,
         errorType: getRetryErrorType(error3)
       };
-      const retryAfterHint = getRetryAfterHint(error3.$response);
+      const retryAfterHint = parseRetryAfterHeader(error3.$response, logger2);
       if (retryAfterHint) {
         errorInfo.retryAfterHint = retryAfterHint;
       }
@@ -28813,19 +28904,6 @@ var require_dist_cjs35 = __commonJS({
         clientStack.add(retryMiddleware(options), retryMiddlewareOptions);
       }
     });
-    var getRetryAfterHint = (response) => {
-      if (!protocolHttp.HttpResponse.isInstance(response))
-        return;
-      const retryAfterHeaderName = Object.keys(response.headers).find((key) => key.toLowerCase() === "retry-after");
-      if (!retryAfterHeaderName)
-        return;
-      const retryAfter = response.headers[retryAfterHeaderName];
-      const retryAfterSeconds = Number(retryAfter);
-      if (!Number.isNaN(retryAfterSeconds))
-        return new Date(retryAfterSeconds * 1e3);
-      const retryAfterDate = new Date(retryAfter);
-      return retryAfterDate;
-    };
     exports2.AdaptiveRetryStrategy = AdaptiveRetryStrategy;
     exports2.CONFIG_MAX_ATTEMPTS = CONFIG_MAX_ATTEMPTS;
     exports2.CONFIG_RETRY_MODE = CONFIG_RETRY_MODE;
@@ -29079,9 +29157,9 @@ var init_resolveAwsSdkSigV4AConfig = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+signature-v4@5.3.12/node_modules/@smithy/signature-v4/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+signature-v4@5.3.13/node_modules/@smithy/signature-v4/dist-cjs/index.js
 var require_dist_cjs36 = __commonJS({
-  "node_modules/.pnpm/@smithy+signature-v4@5.3.12/node_modules/@smithy/signature-v4/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+signature-v4@5.3.13/node_modules/@smithy/signature-v4/dist-cjs/index.js"(exports2) {
     "use strict";
     var utilHexEncoding = require_dist_cjs15();
     var utilUtf8 = require_dist_cjs9();
@@ -29260,6 +29338,19 @@ var require_dist_cjs36 = __commonJS({
         }
       }
     };
+    var HEADER_VALUE_TYPE;
+    (function(HEADER_VALUE_TYPE2) {
+      HEADER_VALUE_TYPE2[HEADER_VALUE_TYPE2["boolTrue"] = 0] = "boolTrue";
+      HEADER_VALUE_TYPE2[HEADER_VALUE_TYPE2["boolFalse"] = 1] = "boolFalse";
+      HEADER_VALUE_TYPE2[HEADER_VALUE_TYPE2["byte"] = 2] = "byte";
+      HEADER_VALUE_TYPE2[HEADER_VALUE_TYPE2["short"] = 3] = "short";
+      HEADER_VALUE_TYPE2[HEADER_VALUE_TYPE2["integer"] = 4] = "integer";
+      HEADER_VALUE_TYPE2[HEADER_VALUE_TYPE2["long"] = 5] = "long";
+      HEADER_VALUE_TYPE2[HEADER_VALUE_TYPE2["byteArray"] = 6] = "byteArray";
+      HEADER_VALUE_TYPE2[HEADER_VALUE_TYPE2["string"] = 7] = "string";
+      HEADER_VALUE_TYPE2[HEADER_VALUE_TYPE2["timestamp"] = 8] = "timestamp";
+      HEADER_VALUE_TYPE2[HEADER_VALUE_TYPE2["uuid"] = 9] = "uuid";
+    })(HEADER_VALUE_TYPE || (HEADER_VALUE_TYPE = {}));
     var UUID_PATTERN = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
     var Int64 = class _Int64 {
       bytes;
@@ -29974,9 +30065,9 @@ var require_dist_cjs37 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+credential-provider-imds@4.2.12/node_modules/@smithy/credential-provider-imds/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+credential-provider-imds@4.2.13/node_modules/@smithy/credential-provider-imds/dist-cjs/index.js
 var require_dist_cjs38 = __commonJS({
-  "node_modules/.pnpm/@smithy+credential-provider-imds@4.2.12/node_modules/@smithy/credential-provider-imds/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+credential-provider-imds@4.2.13/node_modules/@smithy/credential-provider-imds/dist-cjs/index.js"(exports2) {
     "use strict";
     var propertyProvider = require_dist_cjs28();
     var url = require("url");
@@ -30927,9 +31018,9 @@ var require_dist_cjs40 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+hash-node@4.2.12/node_modules/@smithy/hash-node/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+hash-node@4.2.13/node_modules/@smithy/hash-node/dist-cjs/index.js
 var require_dist_cjs41 = __commonJS({
-  "node_modules/.pnpm/@smithy+hash-node@4.2.12/node_modules/@smithy/hash-node/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+hash-node@4.2.13/node_modules/@smithy/hash-node/dist-cjs/index.js"(exports2) {
     "use strict";
     var utilBufferFrom = require_dist_cjs8();
     var utilUtf8 = require_dist_cjs9();
@@ -31000,9 +31091,9 @@ var require_dist_cjs42 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-defaults-mode-node@4.2.48/node_modules/@smithy/util-defaults-mode-node/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+util-defaults-mode-node@4.2.49/node_modules/@smithy/util-defaults-mode-node/dist-cjs/index.js
 var require_dist_cjs43 = __commonJS({
-  "node_modules/.pnpm/@smithy+util-defaults-mode-node@4.2.48/node_modules/@smithy/util-defaults-mode-node/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-defaults-mode-node@4.2.49/node_modules/@smithy/util-defaults-mode-node/dist-cjs/index.js"(exports2) {
     "use strict";
     var configResolver = require_dist_cjs26();
     var nodeConfigProvider = require_dist_cjs30();
@@ -31073,7 +31164,7 @@ var require_dist_cjs43 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-types.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-types.js
 function alloc(size) {
   return typeof Buffer !== "undefined" ? Buffer.alloc(size) : new Uint8Array(size);
 }
@@ -31083,7 +31174,7 @@ function tag(data2) {
 }
 var majorUint64, majorNegativeInt64, majorUnstructuredByteString, majorUtf8String, majorList, majorMap, majorTag, majorSpecial, specialFalse, specialTrue, specialNull, specialUndefined, extendedOneByte, extendedFloat16, extendedFloat32, extendedFloat64, minorIndefinite, tagSymbol;
 var init_cbor_types = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-types.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-types.js"() {
     majorUint64 = 0;
     majorNegativeInt64 = 1;
     majorUnstructuredByteString = 2;
@@ -31105,7 +31196,7 @@ var init_cbor_types = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-decode.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-decode.js
 function setPayload(bytes) {
   payload = bytes;
   dataView = new DataView(payload.buffer, payload.byteOffset, payload.byteLength);
@@ -31497,7 +31588,7 @@ function castBigInt(bigInt) {
 }
 var import_util_utf84, USE_TEXT_DECODER, USE_BUFFER, payload, dataView, textDecoder, _offset, minorValueToArgumentLength;
 var init_cbor_decode = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-decode.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-decode.js"() {
     init_serde();
     import_util_utf84 = __toESM(require_dist_cjs9());
     init_cbor_types();
@@ -31516,7 +31607,7 @@ var init_cbor_decode = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-encode.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-encode.js
 function ensureSpace(bytes) {
   const remaining = data.byteLength - cursor;
   if (remaining < bytes) {
@@ -31706,7 +31797,7 @@ function encode(_input) {
 }
 var import_util_utf85, USE_BUFFER2, initialSize, data, dataView2, cursor;
 var init_cbor_encode = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-encode.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-encode.js"() {
     init_serde();
     import_util_utf85 = __toESM(require_dist_cjs9());
     init_cbor_types();
@@ -31718,10 +31809,10 @@ var init_cbor_encode = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/cbor.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/cbor.js
 var cbor;
 var init_cbor = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/cbor.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/cbor.js"() {
     init_cbor_decode();
     init_cbor_encode();
     cbor = {
@@ -31745,10 +31836,10 @@ var init_cbor = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/parseCborBody.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/parseCborBody.js
 var dateToTag, loadSmithyRpcV2CborErrorCode;
 var init_parseCborBody = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/parseCborBody.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/parseCborBody.js"() {
     init_cbor_types();
     dateToTag = (date2) => {
       return tag({
@@ -31784,10 +31875,10 @@ var init_parseCborBody = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/CborCodec.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/CborCodec.js
 var import_util_base643, CborCodec, CborShapeSerializer, CborShapeDeserializer;
 var init_CborCodec = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/CborCodec.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/CborCodec.js"() {
     init_protocols();
     init_schema();
     init_serde();
@@ -31983,10 +32074,10 @@ var init_CborCodec = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/SmithyRpcV2CborProtocol.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/SmithyRpcV2CborProtocol.js
 var import_util_middleware6, SmithyRpcV2CborProtocol;
 var init_SmithyRpcV2CborProtocol = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/SmithyRpcV2CborProtocol.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/SmithyRpcV2CborProtocol.js"() {
     init_protocols();
     init_schema();
     init_schema();
@@ -32087,9 +32178,9 @@ var init_SmithyRpcV2CborProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/index.js
+// node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/index.js
 var init_cbor2 = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.13/node_modules/@smithy/core/dist-es/submodules/cbor/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.14/node_modules/@smithy/core/dist-es/submodules/cbor/index.js"() {
     init_parseCborBody();
     init_SmithyRpcV2CborProtocol();
     init_CborCodec();
