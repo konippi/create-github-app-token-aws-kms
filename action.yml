@@ -74,5 +74,5 @@ outputs:
 
 runs:
   using: 'node24'
-  main: 'dist/main/index.js'
-  post: 'dist/post/index.js'
+  main: 'dist/main/index.cjs'
+  post: 'dist/post/index.cjs'

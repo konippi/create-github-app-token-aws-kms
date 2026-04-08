@@ -5,7 +5,7 @@
   "type": "module",
   "description": "GitHub Action for creating a GitHub App installation access token using AWS KMS for JWT signing",
   "scripts": {
-    "build": "esbuild src/main.ts --bundle --platform=node --target=node24 --outfile=dist/main/index.js && esbuild src/post.ts --bundle --platform=node --target=node24 --outfile=dist/post/index.js",
+    "build": "esbuild src/main.ts --bundle --platform=node --target=node24 --outfile=dist/main/index.cjs && esbuild src/post.ts --bundle --platform=node --target=node24 --outfile=dist/post/index.cjs",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc",
