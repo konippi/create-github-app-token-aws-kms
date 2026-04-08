@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Tag name that the major tag will point to (e.g. v1.0.1)'
+        description: 'Tag name that the major tag will point to (e.g. v1.0.2)'
         required: true
 
 permissions:
@@ -19,12 +19,29 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          ref: main
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Update README commit hash
+        if: github.event_name == 'release'
+        env:
+          RELEASE_SHA: ${{ github.sha }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          sed -i "s|create-github-app-token-aws-kms@[0-9a-f]\{40\}|create-github-app-token-aws-kms@${RELEASE_SHA}|g" README.md
+          git add README.md
+          git commit -m "docs: update README SHA to ${TAG} [skip ci]" || true
+          git push origin main
+
       - name: Update major version tag
         env:
           TAG: ${{ github.event.inputs.tag || github.event.release.tag_name }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           MAJOR="${TAG%%.*}"
           git tag -fa "${MAJOR}" -m "${MAJOR}"
           git push origin "${MAJOR}" --force
