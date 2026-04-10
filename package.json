@@ -26,11 +26,6 @@
     "@octokit/auth-app": "8.2.0",
     "@octokit/rest": "22.0.1"
   },
-  "pnpm": {
-    "overrides": {
-      "vite": ">=8.0.5"
-    }
-  },
   "devDependencies": {
     "@biomejs/biome": "2.4.10",
     "@types/node": "24.12.2",
