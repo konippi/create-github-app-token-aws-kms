@@ -972,7 +972,7 @@ var require_util = __commonJS({
     var { InvalidArgumentError } = require_errors();
     var { headerNameLowerCasedRecord } = require_constants();
     var { tree } = require_tree();
-    var [nodeMajor, nodeMinor] = process.versions.node.split(".").map((v5) => Number(v5));
+    var [nodeMajor, nodeMinor] = process.versions.node.split(".").map((v) => Number(v));
     var BodyAsyncIterable = class {
       constructor(body) {
         this[kBody] = body;
@@ -1159,8 +1159,8 @@ var require_util = __commonJS({
     }
     var KEEPALIVE_TIMEOUT_EXPR = /timeout=(\d+)/;
     function parseKeepAliveTimeout(val) {
-      const m5 = val.toString().match(KEEPALIVE_TIMEOUT_EXPR);
-      return m5 ? parseInt(m5[1], 10) * 1e3 : null;
+      const m3 = val.toString().match(KEEPALIVE_TIMEOUT_EXPR);
+      return m3 ? parseInt(m3[1], 10) * 1e3 : null;
     }
     function headerNameToString(value) {
       return typeof value === "string" ? headerNameLowerCasedRecord[value] ?? value.toLowerCase() : tree.lookup(value) ?? value.toString("latin1").toLowerCase();
@@ -1184,7 +1184,7 @@ var require_util = __commonJS({
           if (typeof headersValue === "string") {
             obj[key] = headersValue;
           } else {
-            obj[key] = Array.isArray(headersValue) ? headersValue.map((x5) => x5.toString("utf8")) : headersValue.toString("utf8");
+            obj[key] = Array.isArray(headersValue) ? headersValue.map((x) => x.toString("utf8")) : headersValue.toString("utf8");
           }
         }
       }
@@ -1201,19 +1201,19 @@ var require_util = __commonJS({
       let key;
       let val;
       let kLen = 0;
-      for (let n5 = 0; n5 < headers.length; n5 += 2) {
-        key = headers[n5];
-        val = headers[n5 + 1];
+      for (let n2 = 0; n2 < headers.length; n2 += 2) {
+        key = headers[n2];
+        val = headers[n2 + 1];
         typeof key !== "string" && (key = key.toString());
         typeof val !== "string" && (val = val.toString("utf8"));
         kLen = key.length;
         if (kLen === 14 && key[7] === "-" && (key === "content-length" || key.toLowerCase() === "content-length")) {
           hasContentLength = true;
         } else if (kLen === 19 && key[7] === "-" && (key === "content-disposition" || key.toLowerCase() === "content-disposition")) {
-          contentDispositionIdx = n5 + 1;
+          contentDispositionIdx = n2 + 1;
         }
-        ret[n5] = key;
-        ret[n5 + 1] = val;
+        ret[n2] = key;
+        ret[n2 + 1] = val;
       }
       if (hasContentLength && contentDispositionIdx !== -1) {
         ret[contentDispositionIdx] = Buffer.from(ret[contentDispositionIdx]).toString("latin1");
@@ -1362,11 +1362,11 @@ var require_util = __commonJS({
     }
     function parseRangeHeader(range2) {
       if (range2 == null || range2 === "") return { start: 0, end: null, size: null };
-      const m5 = range2 ? range2.match(/^bytes (\d+)-(\d+)\/(\d+)?$/) : null;
-      return m5 ? {
-        start: parseInt(m5[1]),
-        end: m5[2] ? parseInt(m5[2]) : null,
-        size: m5[3] ? parseInt(m5[3]) : null
+      const m3 = range2 ? range2.match(/^bytes (\d+)-(\d+)\/(\d+)?$/) : null;
+      return m3 ? {
+        start: parseInt(m3[1]),
+        end: m3[2] ? parseInt(m3[2]) : null,
+        size: m3[3] ? parseInt(m3[3]) : null
       } : null;
     }
     function addListener(obj, name, listener) {
@@ -2571,16 +2571,16 @@ var require_connect = __commonJS({
         return noop3;
       }
       let s1 = null;
-      let s22 = null;
+      let s2 = null;
       const fastTimer = timers.setFastTimeout(() => {
         s1 = setImmediate(() => {
-          s22 = setImmediate(() => onConnectTimeout(socketWeakRef.deref(), opts));
+          s2 = setImmediate(() => onConnectTimeout(socketWeakRef.deref(), opts));
         });
       }, opts.timeout);
       return () => {
         timers.clearFastTimeout(fastTimer);
         clearImmediate(s1);
-        clearImmediate(s22);
+        clearImmediate(s2);
       };
     } : (socketWeakRef, opts) => {
       if (!opts.timeout) {
@@ -3607,15 +3607,15 @@ var require_webidl = __commonJS({
         message: `"${context.value}" is an invalid ${context.type}.`
       });
     };
-    webidl.brandCheck = function(V, I2, opts) {
+    webidl.brandCheck = function(V, I, opts) {
       if (opts?.strict !== false) {
-        if (!(V instanceof I2)) {
+        if (!(V instanceof I)) {
           const err = new TypeError("Illegal invocation");
           err.code = "ERR_INVALID_THIS";
           throw err;
         }
       } else {
-        if (V?.[Symbol.toStringTag] !== I2.prototype[Symbol.toStringTag]) {
+        if (V?.[Symbol.toStringTag] !== I.prototype[Symbol.toStringTag]) {
           const err = new TypeError("Illegal invocation");
           err.code = "ERR_INVALID_THIS";
           throw err;
@@ -3678,48 +3678,48 @@ var require_webidl = __commonJS({
         lowerBound = Math.pow(-2, bitLength) - 1;
         upperBound = Math.pow(2, bitLength - 1) - 1;
       }
-      let x5 = Number(V);
-      if (x5 === 0) {
-        x5 = 0;
+      let x = Number(V);
+      if (x === 0) {
+        x = 0;
       }
       if (opts?.enforceRange === true) {
-        if (Number.isNaN(x5) || x5 === Number.POSITIVE_INFINITY || x5 === Number.NEGATIVE_INFINITY) {
+        if (Number.isNaN(x) || x === Number.POSITIVE_INFINITY || x === Number.NEGATIVE_INFINITY) {
           throw webidl.errors.exception({
             header: "Integer conversion",
             message: `Could not convert ${webidl.util.Stringify(V)} to an integer.`
           });
         }
-        x5 = webidl.util.IntegerPart(x5);
-        if (x5 < lowerBound || x5 > upperBound) {
+        x = webidl.util.IntegerPart(x);
+        if (x < lowerBound || x > upperBound) {
           throw webidl.errors.exception({
             header: "Integer conversion",
-            message: `Value must be between ${lowerBound}-${upperBound}, got ${x5}.`
+            message: `Value must be between ${lowerBound}-${upperBound}, got ${x}.`
           });
         }
-        return x5;
+        return x;
       }
-      if (!Number.isNaN(x5) && opts?.clamp === true) {
-        x5 = Math.min(Math.max(x5, lowerBound), upperBound);
-        if (Math.floor(x5) % 2 === 0) {
-          x5 = Math.floor(x5);
+      if (!Number.isNaN(x) && opts?.clamp === true) {
+        x = Math.min(Math.max(x, lowerBound), upperBound);
+        if (Math.floor(x) % 2 === 0) {
+          x = Math.floor(x);
         } else {
-          x5 = Math.ceil(x5);
+          x = Math.ceil(x);
         }
-        return x5;
+        return x;
       }
-      if (Number.isNaN(x5) || x5 === 0 && Object.is(0, x5) || x5 === Number.POSITIVE_INFINITY || x5 === Number.NEGATIVE_INFINITY) {
+      if (Number.isNaN(x) || x === 0 && Object.is(0, x) || x === Number.POSITIVE_INFINITY || x === Number.NEGATIVE_INFINITY) {
         return 0;
       }
-      x5 = webidl.util.IntegerPart(x5);
-      x5 = x5 % Math.pow(2, bitLength);
-      if (signedness === "signed" && x5 >= Math.pow(2, bitLength) - 1) {
-        return x5 - Math.pow(2, bitLength);
+      x = webidl.util.IntegerPart(x);
+      x = x % Math.pow(2, bitLength);
+      if (signedness === "signed" && x >= Math.pow(2, bitLength) - 1) {
+        return x - Math.pow(2, bitLength);
       }
-      return x5;
+      return x;
     };
-    webidl.util.IntegerPart = function(n5) {
-      const r5 = Math.floor(Math.abs(n5));
-      if (n5 < 0) {
+    webidl.util.IntegerPart = function(n2) {
+      const r5 = Math.floor(Math.abs(n2));
+      if (n2 < 0) {
         return -1 * r5;
       }
       return r5;
@@ -3867,39 +3867,39 @@ var require_webidl = __commonJS({
       return String(V);
     };
     webidl.converters.ByteString = function(V, prefix, argument) {
-      const x5 = webidl.converters.DOMString(V, prefix, argument);
-      for (let index = 0; index < x5.length; index++) {
-        if (x5.charCodeAt(index) > 255) {
+      const x = webidl.converters.DOMString(V, prefix, argument);
+      for (let index = 0; index < x.length; index++) {
+        if (x.charCodeAt(index) > 255) {
           throw new TypeError(
-            `Cannot convert argument to a ByteString because the character at index ${index} has a value of ${x5.charCodeAt(index)} which is greater than 255.`
+            `Cannot convert argument to a ByteString because the character at index ${index} has a value of ${x.charCodeAt(index)} which is greater than 255.`
           );
         }
       }
-      return x5;
+      return x;
     };
     webidl.converters.USVString = toUSVString;
     webidl.converters.boolean = function(V) {
-      const x5 = Boolean(V);
-      return x5;
+      const x = Boolean(V);
+      return x;
     };
     webidl.converters.any = function(V) {
       return V;
     };
     webidl.converters["long long"] = function(V, prefix, argument) {
-      const x5 = webidl.util.ConvertToInt(V, 64, "signed", void 0, prefix, argument);
-      return x5;
+      const x = webidl.util.ConvertToInt(V, 64, "signed", void 0, prefix, argument);
+      return x;
     };
     webidl.converters["unsigned long long"] = function(V, prefix, argument) {
-      const x5 = webidl.util.ConvertToInt(V, 64, "unsigned", void 0, prefix, argument);
-      return x5;
+      const x = webidl.util.ConvertToInt(V, 64, "unsigned", void 0, prefix, argument);
+      return x;
     };
     webidl.converters["unsigned long"] = function(V, prefix, argument) {
-      const x5 = webidl.util.ConvertToInt(V, 32, "unsigned", void 0, prefix, argument);
-      return x5;
+      const x = webidl.util.ConvertToInt(V, 32, "unsigned", void 0, prefix, argument);
+      return x;
     };
     webidl.converters["unsigned short"] = function(V, prefix, argument, opts) {
-      const x5 = webidl.util.ConvertToInt(V, 16, "unsigned", opts, prefix, argument);
-      return x5;
+      const x = webidl.util.ConvertToInt(V, 16, "unsigned", opts, prefix, argument);
+      return x;
     };
     webidl.converters.ArrayBuffer = function(V, prefix, argument, opts) {
       if (webidl.util.Type(V) !== "Object" || !types.isAnyArrayBuffer(V)) {
@@ -4386,11 +4386,11 @@ var require_util2 = __commonJS({
     }
     function tryUpgradeRequestToAPotentiallyTrustworthyURL(request2) {
     }
-    function sameOrigin(A2, B2) {
-      if (A2.origin === B2.origin && A2.origin === "null") {
+    function sameOrigin(A, B) {
+      if (A.origin === B.origin && A.origin === "null") {
         return true;
       }
-      if (A2.protocol === B2.protocol && A2.hostname === B2.hostname && A2.port === B2.port) {
+      if (A.protocol === B.protocol && A.hostname === B.hostname && A.port === B.port) {
         return true;
       }
       return false;
@@ -4891,13 +4891,13 @@ var require_file = __commonJS({
     var { webidl } = require_webidl();
     var FileLike = class _FileLike {
       constructor(blobLike, fileName, options = {}) {
-        const n5 = fileName;
-        const t5 = options.type;
+        const n2 = fileName;
+        const t = options.type;
         const d5 = options.lastModified ?? Date.now();
         this[kState] = {
           blobLike,
-          name: n5,
-          type: t5,
+          name: n2,
+          type: t,
           lastModified: d5
         };
       }
@@ -5727,39 +5727,39 @@ var require_client_h1 = __commonJS({
       return await WebAssembly.instantiate(mod, {
         env: {
           /* eslint-disable camelcase */
-          wasm_on_url: (p5, at, len) => {
+          wasm_on_url: (p2, at, len) => {
             return 0;
           },
-          wasm_on_status: (p5, at, len) => {
-            assert(currentParser.ptr === p5);
+          wasm_on_status: (p2, at, len) => {
+            assert(currentParser.ptr === p2);
             const start = at - currentBufferPtr + currentBufferRef.byteOffset;
             return currentParser.onStatus(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
           },
-          wasm_on_message_begin: (p5) => {
-            assert(currentParser.ptr === p5);
+          wasm_on_message_begin: (p2) => {
+            assert(currentParser.ptr === p2);
             return currentParser.onMessageBegin() || 0;
           },
-          wasm_on_header_field: (p5, at, len) => {
-            assert(currentParser.ptr === p5);
+          wasm_on_header_field: (p2, at, len) => {
+            assert(currentParser.ptr === p2);
             const start = at - currentBufferPtr + currentBufferRef.byteOffset;
             return currentParser.onHeaderField(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
           },
-          wasm_on_header_value: (p5, at, len) => {
-            assert(currentParser.ptr === p5);
+          wasm_on_header_value: (p2, at, len) => {
+            assert(currentParser.ptr === p2);
             const start = at - currentBufferPtr + currentBufferRef.byteOffset;
             return currentParser.onHeaderValue(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
           },
-          wasm_on_headers_complete: (p5, statusCode, upgrade, shouldKeepAlive) => {
-            assert(currentParser.ptr === p5);
+          wasm_on_headers_complete: (p2, statusCode, upgrade, shouldKeepAlive) => {
+            assert(currentParser.ptr === p2);
             return currentParser.onHeadersComplete(statusCode, Boolean(upgrade), Boolean(shouldKeepAlive)) || 0;
           },
-          wasm_on_body: (p5, at, len) => {
-            assert(currentParser.ptr === p5);
+          wasm_on_body: (p2, at, len) => {
+            assert(currentParser.ptr === p2);
             const start = at - currentBufferPtr + currentBufferRef.byteOffset;
             return currentParser.onBody(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
           },
-          wasm_on_message_complete: (p5) => {
-            assert(currentParser.ptr === p5);
+          wasm_on_message_complete: (p2) => {
+            assert(currentParser.ptr === p2);
             return currentParser.onMessageComplete() || 0;
           }
           /* eslint-enable camelcase */
@@ -6371,9 +6371,9 @@ upgrade: ${upgrade}\r
         header += "connection: close\r\n";
       }
       if (Array.isArray(headers)) {
-        for (let n5 = 0; n5 < headers.length; n5 += 2) {
-          const key = headers[n5 + 0];
-          const val = headers[n5 + 1];
+        for (let n2 = 0; n2 < headers.length; n2 += 2) {
+          const key = headers[n2 + 0];
+          const val = headers[n2 + 1];
           if (Array.isArray(val)) {
             for (let i5 = 0; i5 < val.length; i5++) {
               header += `${key}: ${val[i5]}\r
@@ -6886,9 +6886,9 @@ var require_client_h2 = __commonJS({
         return false;
       }
       const headers = {};
-      for (let n5 = 0; n5 < reqHeaders.length; n5 += 2) {
-        const key = reqHeaders[n5 + 0];
-        const val = reqHeaders[n5 + 1];
+      for (let n2 = 0; n2 < reqHeaders.length; n2 += 2) {
+        const key = reqHeaders[n2 + 0];
+        const val = reqHeaders[n2 + 1];
         if (Array.isArray(val)) {
           for (let i5 = 0; i5 < val.length; i5++) {
             if (headers[key]) {
@@ -8265,9 +8265,9 @@ var require_balanced_pool = __commonJS({
     function getGreatestCommonDivisor(a5, b5) {
       if (a5 === 0) return b5;
       while (b5 !== 0) {
-        const t5 = b5;
+        const t = b5;
         b5 = a5 % b5;
-        a5 = t5;
+        a5 = t;
       }
       return a5;
     }
@@ -8338,7 +8338,7 @@ var require_balanced_pool = __commonJS({
         return this;
       }
       get upstreams() {
-        return this[kClients].filter((dispatcher) => dispatcher.closed !== true && dispatcher.destroyed !== true).map((p5) => p5[kUrl].origin);
+        return this[kClients].filter((dispatcher) => dispatcher.closed !== true && dispatcher.destroyed !== true).map((p2) => p2[kUrl].origin);
       }
       [kGetDispatcher]() {
         if (this[kClients].length === 0) {
@@ -9374,8 +9374,8 @@ var require_readable = __commonJS({
       if (state2.bufferIndex) {
         const start = state2.bufferIndex;
         const end = state2.buffer.length;
-        for (let n5 = start; n5 < end; n5++) {
-          consumePush(consume2, state2.buffer[n5]);
+        for (let n2 = start; n2 < end; n2++) {
+          consumePush(consume2, state2.buffer[n2]);
         }
       } else {
         for (const chunk of state2.buffer) {
@@ -11856,15 +11856,15 @@ var require_headers = __commonJS({
           const firstValue = iterator2.next().value;
           array[0] = [firstValue[0], firstValue[1].value];
           assert(firstValue[1].value !== null);
-          for (let i5 = 1, j5 = 0, right = 0, left = 0, pivot = 0, x5, value; i5 < size; ++i5) {
+          for (let i5 = 1, j5 = 0, right = 0, left = 0, pivot = 0, x, value; i5 < size; ++i5) {
             value = iterator2.next().value;
-            x5 = array[i5] = [value[0], value[1].value];
-            assert(x5[1] !== null);
+            x = array[i5] = [value[0], value[1].value];
+            assert(x[1] !== null);
             left = 0;
             right = i5;
             while (left < right) {
               pivot = left + (right - left >> 1);
-              if (array[pivot][0] <= x5[0]) {
+              if (array[pivot][0] <= x[0]) {
                 left = pivot + 1;
               } else {
                 right = pivot;
@@ -11875,7 +11875,7 @@ var require_headers = __commonJS({
               while (j5 > left) {
                 array[j5] = array[--j5];
               }
-              array[left] = x5;
+              array[left] = x;
             }
           }
           if (!iterator2.next().done) {
@@ -12029,17 +12029,17 @@ var require_headers = __commonJS({
         options.depth ??= depth;
         return `Headers ${util.formatWithOptions(options, this.#headersList.entries)}`;
       }
-      static getHeadersGuard(o5) {
-        return o5.#guard;
+      static getHeadersGuard(o2) {
+        return o2.#guard;
       }
-      static setHeadersGuard(o5, guard) {
-        o5.#guard = guard;
+      static setHeadersGuard(o2, guard) {
+        o2.#guard = guard;
       }
-      static getHeadersList(o5) {
-        return o5.#headersList;
+      static getHeadersList(o2) {
+        return o2.#headersList;
       }
-      static setHeadersList(o5, list2) {
-        o5.#headersList = list2;
+      static setHeadersList(o2, list2) {
+        o2.#headersList = list2;
       }
     };
     var { getHeadersGuard, setHeadersGuard, getHeadersList, setHeadersList } = Headers3;
@@ -12344,12 +12344,12 @@ var require_response = __commonJS({
         ...state2
       };
       return new Proxy(response, {
-        get(target, p5) {
-          return p5 in state2 ? state2[p5] : target[p5];
+        get(target, p2) {
+          return p2 in state2 ? state2[p2] : target[p2];
         },
-        set(target, p5, value) {
-          assert(!(p5 in state2));
-          target[p5] = value;
+        set(target, p2, value) {
+          assert(!(p2 in state2));
+          target[p2] = value;
           return true;
         }
       });
@@ -13337,18 +13337,18 @@ var require_fetch = __commonJS({
     }
     function fetch2(input, init = void 0) {
       webidl.argumentLengthCheck(arguments, 1, "globalThis.fetch");
-      let p5 = createDeferredPromise();
+      let p2 = createDeferredPromise();
       let requestObject;
       try {
         requestObject = new Request2(input, init);
       } catch (e5) {
-        p5.reject(e5);
-        return p5.promise;
+        p2.reject(e5);
+        return p2.promise;
       }
       const request2 = requestObject[kState];
       if (requestObject.signal.aborted) {
-        abortFetch(p5, request2, null, requestObject.signal.reason);
-        return p5.promise;
+        abortFetch(p2, request2, null, requestObject.signal.reason);
+        return p2.promise;
       }
       const globalObject = request2.client.globalObject;
       if (globalObject?.constructor?.name === "ServiceWorkerGlobalScope") {
@@ -13364,7 +13364,7 @@ var require_fetch = __commonJS({
           assert(controller != null);
           controller.abort(requestObject.signal.reason);
           const realResponse = responseObject?.deref();
-          abortFetch(p5, request2, realResponse, requestObject.signal.reason);
+          abortFetch(p2, request2, realResponse, requestObject.signal.reason);
         }
       );
       const processResponse = (response) => {
@@ -13372,16 +13372,16 @@ var require_fetch = __commonJS({
           return;
         }
         if (response.aborted) {
-          abortFetch(p5, request2, responseObject, controller.serializedAbortReason);
+          abortFetch(p2, request2, responseObject, controller.serializedAbortReason);
           return;
         }
         if (response.type === "error") {
-          p5.reject(new TypeError("fetch failed", { cause: response.error }));
+          p2.reject(new TypeError("fetch failed", { cause: response.error }));
           return;
         }
         responseObject = new WeakRef(fromInnerResponse(response, "immutable"));
-        p5.resolve(responseObject.deref());
-        p5 = null;
+        p2.resolve(responseObject.deref());
+        p2 = null;
       };
       controller = fetching({
         request: request2,
@@ -13390,7 +13390,7 @@ var require_fetch = __commonJS({
         dispatcher: requestObject[kDispatcher]
         // undici
       });
-      return p5.promise;
+      return p2.promise;
     }
     function finalizeAndReportTiming(response, initiatorType = "other") {
       if (response.type === "error" && response.aborted) {
@@ -13425,9 +13425,9 @@ var require_fetch = __commonJS({
       );
     }
     var markResourceTiming = performance.markResourceTiming;
-    function abortFetch(p5, request2, responseObject, error3) {
-      if (p5) {
-        p5.reject(error3);
+    function abortFetch(p2, request2, responseObject, error3) {
+      if (p2) {
+        p2.reject(error3);
       }
       if (request2.body != null && isReadable(request2.body?.stream)) {
         request2.body.stream.cancel(error3).catch((err) => {
@@ -15130,9 +15130,9 @@ var require_util5 = __commonJS({
     var assert = require("node:assert");
     var { URLSerializer } = require_data_url();
     var { isValidHeaderName } = require_util2();
-    function urlEquals(A2, B2, excludeFragment = false) {
-      const serializedA = URLSerializer(A2, excludeFragment);
-      const serializedB = URLSerializer(B2, excludeFragment);
+    function urlEquals(A, B, excludeFragment = false) {
+      const serializedA = URLSerializer(A, excludeFragment);
+      const serializedB = URLSerializer(B, excludeFragment);
       return serializedA === serializedB;
     }
     function getFieldValues(header) {
@@ -15186,11 +15186,11 @@ var require_cache = __commonJS({
         webidl.argumentLengthCheck(arguments, 1, prefix);
         request2 = webidl.converters.RequestInfo(request2, prefix, "request");
         options = webidl.converters.CacheQueryOptions(options, prefix, "options");
-        const p5 = this.#internalMatchAll(request2, options, 1);
-        if (p5.length === 0) {
+        const p2 = this.#internalMatchAll(request2, options, 1);
+        if (p2.length === 0) {
           return;
         }
-        return p5[0];
+        return p2[0];
       }
       async matchAll(request2 = void 0, options = {}) {
         webidl.brandCheck(this, _Cache);
@@ -15281,8 +15281,8 @@ var require_cache = __commonJS({
           }));
           responsePromises.push(responsePromise.promise);
         }
-        const p5 = Promise.all(responsePromises);
-        const responses = await p5;
+        const p2 = Promise.all(responsePromises);
+        const responses = await p2;
         const operations = [];
         let index = 0;
         for (const response of responses) {
@@ -17340,34 +17340,34 @@ var require_receiver = __commonJS({
        * @param {number} n
        * @returns {Buffer}
        */
-      consume(n5) {
-        if (n5 > this.#byteOffset) {
+      consume(n2) {
+        if (n2 > this.#byteOffset) {
           throw new Error("Called consume() before buffers satiated.");
-        } else if (n5 === 0) {
+        } else if (n2 === 0) {
           return emptyBuffer;
         }
-        if (this.#buffers[0].length === n5) {
+        if (this.#buffers[0].length === n2) {
           this.#byteOffset -= this.#buffers[0].length;
           return this.#buffers.shift();
         }
-        const buffer = Buffer.allocUnsafe(n5);
+        const buffer = Buffer.allocUnsafe(n2);
         let offset = 0;
-        while (offset !== n5) {
+        while (offset !== n2) {
           const next = this.#buffers[0];
           const { length } = next;
-          if (length + offset === n5) {
+          if (length + offset === n2) {
             buffer.set(this.#buffers.shift(), offset);
             break;
-          } else if (length + offset > n5) {
-            buffer.set(next.subarray(0, n5 - offset), offset);
-            this.#buffers[0] = next.subarray(n5 - offset);
+          } else if (length + offset > n2) {
+            buffer.set(next.subarray(0, n2 - offset), offset);
+            this.#buffers[0] = next.subarray(n2 - offset);
             break;
           } else {
             buffer.set(this.#buffers.shift(), offset);
             offset += next.length;
           }
         }
-        this.#byteOffset -= n5;
+        this.#byteOffset -= n2;
         return buffer;
       }
       writeFragments(fragment) {
@@ -17632,10 +17632,10 @@ var require_websocket = __commonJS({
         if (typeof protocols === "string") {
           protocols = [protocols];
         }
-        if (protocols.length !== new Set(protocols.map((p5) => p5.toLowerCase())).size) {
+        if (protocols.length !== new Set(protocols.map((p2) => p2.toLowerCase())).size) {
           throw new DOMException("Invalid Sec-WebSocket-Protocol value", "SyntaxError");
         }
-        if (protocols.length > 0 && !protocols.every((p5) => isValidSubprotocol(p5))) {
+        if (protocols.length > 0 && !protocols.every((p2) => isValidSubprotocol(p2))) {
           throw new DOMException("Invalid Sec-WebSocket-Protocol value", "SyntaxError");
         }
         this[kWebSocketURL] = new URL(urlRecord.href);
@@ -18861,10 +18861,10 @@ var require_dist_cjs2 = __commonJS({
         this.values = values;
       }
       remove(value) {
-        this.values = this.values.filter((v5) => v5 !== value);
+        this.values = this.values.filter((v) => v !== value);
       }
       toString() {
-        return this.values.map((v5) => v5.includes(",") || v5.includes(" ") ? `"${v5}"` : v5).join(", ");
+        return this.values.map((v) => v.includes(",") || v.includes(" ") ? `"${v}"` : v).join(", ");
       }
       get() {
         return this.values;
@@ -19257,10 +19257,10 @@ var require_dist_cjs5 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/getSmithyContext.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/getSmithyContext.js
 var import_types, getSmithyContext;
 var init_getSmithyContext = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/getSmithyContext.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/getSmithyContext.js"() {
     import_types = __toESM(require_dist_cjs());
     getSmithyContext = (context) => context[import_types.SMITHY_CONTEXT_KEY] || (context[import_types.SMITHY_CONTEXT_KEY] = {});
   }
@@ -19283,10 +19283,10 @@ var require_dist_cjs6 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/resolveAuthOptions.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/resolveAuthOptions.js
 var resolveAuthOptions;
 var init_resolveAuthOptions = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/resolveAuthOptions.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/resolveAuthOptions.js"() {
     resolveAuthOptions = (candidateAuthOptions, authSchemePreference) => {
       if (!authSchemePreference || authSchemePreference.length === 0) {
         return candidateAuthOptions;
@@ -19310,7 +19310,7 @@ var init_resolveAuthOptions = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/httpAuthSchemeMiddleware.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/httpAuthSchemeMiddleware.js
 function convertHttpAuthSchemesToMap(httpAuthSchemes) {
   const map2 = /* @__PURE__ */ new Map();
   for (const scheme of httpAuthSchemes) {
@@ -19320,7 +19320,7 @@ function convertHttpAuthSchemesToMap(httpAuthSchemes) {
 }
 var import_util_middleware, httpAuthSchemeMiddleware;
 var init_httpAuthSchemeMiddleware = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/httpAuthSchemeMiddleware.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/httpAuthSchemeMiddleware.js"() {
     import_util_middleware = __toESM(require_dist_cjs6());
     init_resolveAuthOptions();
     httpAuthSchemeMiddleware = (config, mwOptions) => (next, context) => async (args) => {
@@ -19359,10 +19359,10 @@ var init_httpAuthSchemeMiddleware = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemeEndpointRuleSetPlugin.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemeEndpointRuleSetPlugin.js
 var httpAuthSchemeEndpointRuleSetMiddlewareOptions, getHttpAuthSchemeEndpointRuleSetPlugin;
 var init_getHttpAuthSchemeEndpointRuleSetPlugin = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemeEndpointRuleSetPlugin.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemeEndpointRuleSetPlugin.js"() {
     init_httpAuthSchemeMiddleware();
     httpAuthSchemeEndpointRuleSetMiddlewareOptions = {
       step: "serialize",
@@ -19383,10 +19383,10 @@ var init_getHttpAuthSchemeEndpointRuleSetPlugin = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemePlugin.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemePlugin.js
 var httpAuthSchemeMiddlewareOptions, getHttpAuthSchemePlugin;
 var init_getHttpAuthSchemePlugin = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemePlugin.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/getHttpAuthSchemePlugin.js"() {
     init_httpAuthSchemeMiddleware();
     httpAuthSchemeMiddlewareOptions = {
       step: "serialize",
@@ -19407,19 +19407,19 @@ var init_getHttpAuthSchemePlugin = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/index.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/index.js
 var init_middleware_http_auth_scheme = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-auth-scheme/index.js"() {
     init_httpAuthSchemeMiddleware();
     init_getHttpAuthSchemeEndpointRuleSetPlugin();
     init_getHttpAuthSchemePlugin();
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-signing/httpSigningMiddleware.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-signing/httpSigningMiddleware.js
 var import_protocol_http, import_util_middleware2, defaultErrorHandler, defaultSuccessHandler, httpSigningMiddleware;
 var init_httpSigningMiddleware = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-signing/httpSigningMiddleware.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-signing/httpSigningMiddleware.js"() {
     import_protocol_http = __toESM(require_dist_cjs2());
     import_util_middleware2 = __toESM(require_dist_cjs6());
     defaultErrorHandler = (signingProperties) => (error3) => {
@@ -19447,10 +19447,10 @@ var init_httpSigningMiddleware = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-signing/getHttpSigningMiddleware.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-signing/getHttpSigningMiddleware.js
 var httpSigningMiddlewareOptions, getHttpSigningPlugin;
 var init_getHttpSigningMiddleware = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-signing/getHttpSigningMiddleware.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-signing/getHttpSigningMiddleware.js"() {
     init_httpSigningMiddleware();
     httpSigningMiddlewareOptions = {
       step: "finalizeRequest",
@@ -19469,18 +19469,18 @@ var init_getHttpSigningMiddleware = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-signing/index.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-signing/index.js
 var init_middleware_http_signing = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/middleware-http-signing/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/middleware-http-signing/index.js"() {
     init_httpSigningMiddleware();
     init_getHttpSigningMiddleware();
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/normalizeProvider.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/normalizeProvider.js
 var normalizeProvider;
 var init_normalizeProvider = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/normalizeProvider.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/normalizeProvider.js"() {
     normalizeProvider = (input) => {
       if (typeof input === "function")
         return input;
@@ -19490,7 +19490,7 @@ var init_normalizeProvider = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/pagination/createPaginator.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/pagination/createPaginator.js
 function createPaginator(ClientCtor, CommandCtor, inputTokenName, outputTokenName, pageSizeTokenName) {
   return async function* paginateOperation(config, input, ...additionalArguments) {
     const _input = input;
@@ -19517,7 +19517,7 @@ function createPaginator(ClientCtor, CommandCtor, inputTokenName, outputTokenNam
 }
 var makePagedClientRequest, get2;
 var init_createPaginator = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/pagination/createPaginator.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/pagination/createPaginator.js"() {
     makePagedClientRequest = async (CommandCtor, client, input, withCommand = (_) => _, ...args) => {
       let command = new CommandCtor(input);
       command = withCommand(command) ?? command;
@@ -19671,9 +19671,9 @@ var require_dist_cjs10 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.js
 var require_ChecksumStream = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ChecksumStream = void 0;
@@ -19737,9 +19737,9 @@ var require_ChecksumStream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/stream-type-check.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/stream-type-check.js
 var require_stream_type_check = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/stream-type-check.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/stream-type-check.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isBlob = exports2.isReadableStream = void 0;
@@ -19752,9 +19752,9 @@ var require_stream_type_check = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.browser.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.browser.js
 var require_ChecksumStream_browser = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.browser.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/checksum/ChecksumStream.browser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ChecksumStream = void 0;
@@ -19766,9 +19766,9 @@ var require_ChecksumStream_browser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.browser.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.browser.js
 var require_createChecksumStream_browser = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.browser.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.browser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createChecksumStream = void 0;
@@ -19810,9 +19810,9 @@ var require_createChecksumStream_browser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.js
 var require_createChecksumStream = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/checksum/createChecksumStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createChecksumStream = createChecksumStream;
@@ -19828,9 +19828,9 @@ var require_createChecksumStream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/ByteArrayCollector.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/ByteArrayCollector.js
 var require_ByteArrayCollector = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/ByteArrayCollector.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/ByteArrayCollector.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ByteArrayCollector = void 0;
@@ -19870,9 +19870,9 @@ var require_ByteArrayCollector = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadableStream.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadableStream.js
 var require_createBufferedReadableStream = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadableStream.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadableStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createBufferedReadable = void 0;
@@ -19949,9 +19949,9 @@ var require_createBufferedReadableStream = __commonJS({
     function flush(buffers, mode) {
       switch (mode) {
         case 0:
-          const s5 = buffers[0];
+          const s = buffers[0];
           buffers[0] = "";
-          return s5;
+          return s;
         case 1:
         case 2:
           return buffers[mode].flush();
@@ -19976,9 +19976,9 @@ var require_createBufferedReadableStream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadable.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadable.js
 var require_createBufferedReadable = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadable.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/createBufferedReadable.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createBufferedReadable = createBufferedReadable;
@@ -20042,9 +20042,9 @@ var require_createBufferedReadable = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.browser.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.browser.js
 var require_getAwsChunkedEncodingStream_browser = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.browser.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.browser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getAwsChunkedEncodingStream = void 0;
@@ -20079,9 +20079,9 @@ ${value}\r
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.js
 var require_getAwsChunkedEncodingStream = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/getAwsChunkedEncodingStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getAwsChunkedEncodingStream = getAwsChunkedEncodingStream;
@@ -20128,9 +20128,9 @@ var require_getAwsChunkedEncodingStream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/headStream.browser.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/headStream.browser.js
 var require_headStream_browser = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/headStream.browser.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/headStream.browser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.headStream = headStream;
@@ -20167,9 +20167,9 @@ var require_headStream_browser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/headStream.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/headStream.js
 var require_headStream = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/headStream.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/headStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.headStream = void 0;
@@ -20255,9 +20255,9 @@ var require_dist_cjs12 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+node-http-handler@4.5.3/node_modules/@smithy/node-http-handler/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+node-http-handler@4.6.1/node_modules/@smithy/node-http-handler/dist-cjs/index.js
 var require_dist_cjs13 = __commonJS({
-  "node_modules/.pnpm/@smithy+node-http-handler@4.5.3/node_modules/@smithy/node-http-handler/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+node-http-handler@4.6.1/node_modules/@smithy/node-http-handler/dist-cjs/index.js"(exports2) {
     "use strict";
     var protocolHttp = require_dist_cjs2();
     var querystringBuilder = require_dist_cjs12();
@@ -20656,57 +20656,122 @@ or increase socketAcquisitionWarningTimeout=(millis) in the NodeHttpHandler conf
         };
       }
     };
-    var NodeHttp2ConnectionPool = class {
-      sessions = [];
-      constructor(sessions) {
-        this.sessions = sessions ?? [];
+    var ids = new Uint16Array(1);
+    var ClientHttp2SessionRef = class {
+      id = ids[0]++;
+      total = 0;
+      max = 0;
+      session;
+      refs = 0;
+      constructor(session) {
+        session.unref();
+        this.session = session;
       }
-      poll() {
-        if (this.sessions.length > 0) {
-          return this.sessions.shift();
+      retain() {
+        if (this.session.destroyed) {
+          throw new Error("@smithy/node-http-handler - cannot acquire reference to destroyed session.");
+        }
+        this.refs += 1;
+        this.total += 1;
+        this.max = Math.max(this.refs, this.max);
+        this.session.ref();
+      }
+      free() {
+        if (this.session.destroyed) {
+          return;
+        }
+        this.refs -= 1;
+        if (this.refs === 0) {
+          this.session.unref();
+        }
+        if (this.refs < 0) {
+          throw new Error("@smithy/node-http-handler - ClientHttp2Session refcount at zero, cannot decrement.");
         }
       }
-      offerLast(session) {
-        this.sessions.push(session);
+      deref() {
+        return this.session;
       }
-      contains(session) {
-        return this.sessions.includes(session);
+      close() {
+        if (!this.session.closed) {
+          this.session.close();
+        }
       }
-      remove(session) {
-        this.sessions = this.sessions.filter((s5) => s5 !== session);
+      destroy() {
+        this.refs = 0;
+        if (!this.session.destroyed) {
+          this.session.destroy();
+        }
       }
-      [Symbol.iterator]() {
-        return this.sessions[Symbol.iterator]();
+      useCount() {
+        return this.refs;
       }
-      destroy(connection) {
+    };
+    var NodeHttp2ConnectionPool = class {
+      sessions = [];
+      maxConcurrency = 0;
+      constructor(sessions) {
+        this.sessions = (sessions ?? []).map((session) => new ClientHttp2SessionRef(session));
+      }
+      poll() {
+        let cleanup = false;
         for (const session of this.sessions) {
-          if (session === connection) {
-            if (!session.destroyed) {
-              session.destroy();
+          if (session.deref().destroyed) {
+            cleanup = true;
+            continue;
+          }
+          if (!this.maxConcurrency || session.useCount() < this.maxConcurrency) {
+            return session;
+          }
+        }
+        if (cleanup) {
+          for (const session of this.sessions) {
+            if (session.deref().destroyed) {
+              this.remove(session);
             }
           }
         }
       }
+      offerLast(ref) {
+        this.sessions.push(ref);
+      }
+      remove(ref) {
+        const ix = this.sessions.indexOf(ref);
+        if (ix > -1) {
+          this.sessions.splice(ix, 1);
+        }
+      }
+      [Symbol.iterator]() {
+        return this.sessions[Symbol.iterator]();
+      }
+      setMaxConcurrency(maxConcurrency) {
+        this.maxConcurrency = maxConcurrency;
+      }
+      destroy(ref) {
+        this.remove(ref);
+        ref.destroy();
+      }
     };
     var NodeHttp2ConnectionManager = class {
+      config;
+      connectionPools = /* @__PURE__ */ new Map();
       constructor(config) {
         this.config = config;
         if (this.config.maxConcurrency && this.config.maxConcurrency <= 0) {
           throw new RangeError("maxConcurrency must be greater than zero.");
         }
       }
-      config;
-      sessionCache = /* @__PURE__ */ new Map();
       lease(requestContext, connectionConfiguration) {
         const url = this.getUrlString(requestContext);
-        const existingPool = this.sessionCache.get(url);
-        if (existingPool) {
-          const existingSession = existingPool.poll();
-          if (existingSession && !this.config.disableConcurrency && !connectionConfiguration.isEventStream) {
-            return existingSession;
+        const pool = this.getPool(url);
+        if (!this.config.disableConcurrency && !connectionConfiguration.isEventStream) {
+          const available = pool.poll();
+          if (available) {
+            available.retain();
+            return available;
           }
         }
-        const session = http2.connect(url);
+        const ref = new ClientHttp2SessionRef(http2.connect(url));
+        const session = ref.deref();
         if (this.config.maxConcurrency) {
           session.settings({ maxConcurrentStreams: this.config.maxConcurrency }, (err) => {
             if (err) {
@@ -20714,47 +20779,49 @@ or increase socketAcquisitionWarningTimeout=(millis) in the NodeHttpHandler conf
             }
           });
         }
-        session.unref();
-        const destroySessionCb = () => {
-          session.destroy();
-          this.deleteSession(url, session);
+        const graceful = () => {
+          this.removeFromPoolAndClose(url, ref);
         };
-        session.on("goaway", destroySessionCb);
-        session.on("error", destroySessionCb);
-        session.on("frameError", destroySessionCb);
-        session.on("close", () => this.deleteSession(url, session));
+        const ensureDestroyed = () => {
+          this.removeFromPoolAndCheckedDestroy(url, ref);
+        };
+        session.on("goaway", graceful);
+        session.on("error", ensureDestroyed);
+        session.on("frameError", ensureDestroyed);
+        session.on("close", ensureDestroyed);
         if (connectionConfiguration.requestTimeout) {
-          session.setTimeout(connectionConfiguration.requestTimeout, destroySessionCb);
+          session.setTimeout(connectionConfiguration.requestTimeout, ensureDestroyed);
         }
-        const connectionPool = this.sessionCache.get(url) || new NodeHttp2ConnectionPool();
-        connectionPool.offerLast(session);
-        this.sessionCache.set(url, connectionPool);
-        return session;
+        pool.offerLast(ref);
+        ref.retain();
+        return ref;
       }
-      deleteSession(authority, session) {
-        const existingConnectionPool = this.sessionCache.get(authority);
-        if (!existingConnectionPool) {
-          return;
-        }
-        if (!existingConnectionPool.contains(session)) {
-          return;
-        }
-        existingConnectionPool.remove(session);
-        this.sessionCache.set(authority, existingConnectionPool);
+      release(_requestContext, ref) {
+        ref.free();
       }
-      release(requestContext, session) {
-        const cacheKey = this.getUrlString(requestContext);
-        this.sessionCache.get(cacheKey)?.offerLast(session);
+      createIsolatedSession(requestContext, connectionConfiguration) {
+        const url = this.getUrlString(requestContext);
+        const ref = new ClientHttp2SessionRef(http2.connect(url));
+        const session = ref.deref();
+        session.settings({ maxConcurrentStreams: 1 });
+        const ensureDestroyed = () => {
+          ref.destroy();
+        };
+        session.on("error", ensureDestroyed);
+        session.on("frameError", ensureDestroyed);
+        session.on("close", ensureDestroyed);
+        if (connectionConfiguration.requestTimeout) {
+          session.setTimeout(connectionConfiguration.requestTimeout, ensureDestroyed);
+        }
+        ref.retain();
+        return ref;
       }
       destroy() {
-        for (const [key, connectionPool] of this.sessionCache) {
-          for (const session of connectionPool) {
-            if (!session.destroyed) {
-              session.destroy();
-            }
-            connectionPool.remove(session);
+        for (const [url, connectionPool] of this.connectionPools) {
+          for (const session of [...connectionPool]) {
+            session.destroy();
           }
-          this.sessionCache.delete(key);
+          this.connectionPools.delete(url);
         }
       }
       setMaxConcurrentStreams(maxConcurrentStreams) {
@@ -20762,9 +20829,46 @@ or increase socketAcquisitionWarningTimeout=(millis) in the NodeHttpHandler conf
           throw new RangeError("maxConcurrentStreams must be greater than zero.");
         }
         this.config.maxConcurrency = maxConcurrentStreams;
+        for (const pool of this.connectionPools.values()) {
+          pool.setMaxConcurrency(maxConcurrentStreams);
+        }
       }
       setDisableConcurrentStreams(disableConcurrentStreams) {
         this.config.disableConcurrency = disableConcurrentStreams;
+      }
+      debug() {
+        const pools = {};
+        for (const [url, pool] of this.connectionPools) {
+          const sessions = [];
+          for (const ref of pool) {
+            sessions.push({
+              id: ref.id,
+              active: ref.useCount(),
+              maxConcurrent: ref.max,
+              totalRequests: ref.total
+            });
+          }
+          pools[url] = { sessions };
+        }
+        return pools;
+      }
+      removeFromPoolAndClose(authority, ref) {
+        this.connectionPools.get(authority)?.remove(ref);
+        ref.close();
+      }
+      removeFromPoolAndCheckedDestroy(authority, ref) {
+        this.connectionPools.get(authority)?.remove(ref);
+        ref.destroy();
+      }
+      getPool(url) {
+        if (!this.connectionPools.has(url)) {
+          const pool = new NodeHttp2ConnectionPool();
+          if (this.config.maxConcurrency) {
+            pool.setMaxConcurrency(this.config.maxConcurrency);
+          }
+          this.connectionPools.set(url, pool);
+        }
+        return this.connectionPools.get(url);
       }
       getUrlString(request2) {
         return request2.destination.toString();
@@ -20798,12 +20902,14 @@ or increase socketAcquisitionWarningTimeout=(millis) in the NodeHttpHandler conf
       async handle(request2, { abortSignal, requestTimeout, isEventStream } = {}) {
         if (!this.config) {
           this.config = await this.configProvider;
-          this.connectionManager.setDisableConcurrentStreams(this.config.disableConcurrentStreams ?? false);
-          if (this.config.maxConcurrentStreams) {
-            this.connectionManager.setMaxConcurrentStreams(this.config.maxConcurrentStreams);
+          const { disableConcurrentStreams: disableConcurrentStreams2, maxConcurrentStreams } = this.config;
+          this.connectionManager.setDisableConcurrentStreams(disableConcurrentStreams2 ?? false);
+          if (maxConcurrentStreams) {
+            this.connectionManager.setMaxConcurrentStreams(maxConcurrentStreams);
           }
         }
         const { requestTimeout: configRequestTimeout, disableConcurrentStreams } = this.config;
+        const useIsolatedSession = disableConcurrentStreams || isEventStream;
         const effectiveRequestTimeout = requestTimeout ?? configRequestTimeout;
         return new Promise((_resolve, _reject) => {
           let fulfilled = false;
@@ -20831,13 +20937,15 @@ or increase socketAcquisitionWarningTimeout=(millis) in the NodeHttpHandler conf
           }
           const authority = `${protocol}//${auth6}${hostname}${port ? `:${port}` : ""}`;
           const requestContext = { destination: new URL(authority) };
-          const session = this.connectionManager.lease(requestContext, {
+          const connectConfig = {
             requestTimeout: this.config?.sessionTimeout,
             isEventStream
-          });
+          };
+          const ref = useIsolatedSession ? this.connectionManager.createIsolatedSession(requestContext, connectConfig) : this.connectionManager.lease(requestContext, connectConfig);
+          const session = ref.deref();
           const rejectWithDestroy = (err) => {
-            if (disableConcurrentStreams) {
-              this.destroySession(session);
+            if (useIsolatedSession) {
+              ref.destroy();
             }
             fulfilled = true;
             reject(err);
@@ -20850,28 +20958,14 @@ or increase socketAcquisitionWarningTimeout=(millis) in the NodeHttpHandler conf
           if (request2.fragment) {
             path += `#${request2.fragment}`;
           }
-          const req = session.request({
+          const clientHttp2Stream = session.request({
             ...request2.headers,
             [http2.constants.HTTP2_HEADER_PATH]: path,
             [http2.constants.HTTP2_HEADER_METHOD]: method
           });
-          session.ref();
-          req.on("response", (headers) => {
-            const httpResponse = new protocolHttp.HttpResponse({
-              statusCode: headers[":status"] ?? -1,
-              headers: getTransformedHeaders(headers),
-              body: req
-            });
-            fulfilled = true;
-            resolve({ response: httpResponse });
-            if (disableConcurrentStreams) {
-              session.close();
-              this.connectionManager.deleteSession(authority, session);
-            }
-          });
           if (effectiveRequestTimeout) {
-            req.setTimeout(effectiveRequestTimeout, () => {
-              req.close();
+            clientHttp2Stream.setTimeout(effectiveRequestTimeout, () => {
+              clientHttp2Stream.close();
               const timeoutError = new Error(`Stream timed out because of no activity for ${effectiveRequestTimeout} ms`);
               timeoutError.name = "TimeoutError";
               rejectWithDestroy(timeoutError);
@@ -20879,35 +20973,48 @@ or increase socketAcquisitionWarningTimeout=(millis) in the NodeHttpHandler conf
           }
           if (abortSignal) {
             const onAbort = () => {
-              req.close();
+              clientHttp2Stream.close();
               const abortError = buildAbortError(abortSignal);
               rejectWithDestroy(abortError);
             };
             if (typeof abortSignal.addEventListener === "function") {
               const signal = abortSignal;
               signal.addEventListener("abort", onAbort, { once: true });
-              req.once("close", () => signal.removeEventListener("abort", onAbort));
+              clientHttp2Stream.once("close", () => signal.removeEventListener("abort", onAbort));
             } else {
               abortSignal.onabort = onAbort;
             }
           }
-          req.on("frameError", (type, code, id) => {
+          clientHttp2Stream.on("frameError", (type, code, id) => {
             rejectWithDestroy(new Error(`Frame type id ${type} in stream id ${id} has failed with code ${code}.`));
           });
-          req.on("error", rejectWithDestroy);
-          req.on("aborted", () => {
-            rejectWithDestroy(new Error(`HTTP/2 stream is abnormally aborted in mid-communication with result code ${req.rstCode}.`));
+          clientHttp2Stream.on("error", rejectWithDestroy);
+          clientHttp2Stream.on("aborted", () => {
+            rejectWithDestroy(new Error(`HTTP/2 stream is abnormally aborted in mid-communication with result code ${clientHttp2Stream.rstCode}.`));
           });
-          req.on("close", () => {
-            session.unref();
-            if (disableConcurrentStreams) {
-              session.destroy();
+          clientHttp2Stream.on("response", (headers) => {
+            const httpResponse = new protocolHttp.HttpResponse({
+              statusCode: headers[":status"] ?? -1,
+              headers: getTransformedHeaders(headers),
+              body: clientHttp2Stream
+            });
+            fulfilled = true;
+            resolve({ response: httpResponse });
+            if (useIsolatedSession) {
+              session.close();
+            }
+          });
+          clientHttp2Stream.on("close", () => {
+            if (useIsolatedSession) {
+              ref.destroy();
+            } else {
+              this.connectionManager.release(requestContext, ref);
             }
             if (!fulfilled) {
               rejectWithDestroy(new Error("Unexpected error: http2 request did not get a response"));
             }
           });
-          writeRequestBodyPromise = writeRequestBody(req, request2, effectiveRequestTimeout);
+          writeRequestBodyPromise = writeRequestBody(clientHttp2Stream, request2, effectiveRequestTimeout);
         });
       }
       updateHttpClientConfig(key, value) {
@@ -20921,11 +21028,6 @@ or increase socketAcquisitionWarningTimeout=(millis) in the NodeHttpHandler conf
       }
       httpHandlerConfigs() {
         return this.config ?? {};
-      }
-      destroySession(session) {
-        if (!session.destroyed) {
-          session.destroy();
-        }
       }
     };
     var Collector = class extends node_stream.Writable {
@@ -21253,9 +21355,9 @@ var require_dist_cjs15 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.browser.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.browser.js
 var require_sdk_stream_mixin_browser = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.browser.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.browser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.sdkStreamMixin = void 0;
@@ -21320,9 +21422,9 @@ var require_sdk_stream_mixin_browser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.js
 var require_sdk_stream_mixin = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/sdk-stream-mixin.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.sdkStreamMixin = void 0;
@@ -21378,9 +21480,9 @@ var require_sdk_stream_mixin = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/splitStream.browser.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/splitStream.browser.js
 var require_splitStream_browser = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/splitStream.browser.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/splitStream.browser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.splitStream = splitStream;
@@ -21394,9 +21496,9 @@ var require_splitStream_browser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/splitStream.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/splitStream.js
 var require_splitStream = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/splitStream.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/splitStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.splitStream = splitStream;
@@ -21416,9 +21518,9 @@ var require_splitStream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/index.js
 var require_dist_cjs16 = __commonJS({
-  "node_modules/.pnpm/@smithy+util-stream@4.5.23/node_modules/@smithy/util-stream/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-stream@4.5.25/node_modules/@smithy/util-stream/dist-cjs/index.js"(exports2) {
     "use strict";
     var utilBase64 = require_dist_cjs10();
     var utilUtf8 = require_dist_cjs9();
@@ -21506,10 +21608,10 @@ var require_dist_cjs16 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/collect-stream-body.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/collect-stream-body.js
 var import_util_stream, collectBody;
 var init_collect_stream_body = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/collect-stream-body.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/collect-stream-body.js"() {
     import_util_stream = __toESM(require_dist_cjs16());
     collectBody = async (streamBody = new Uint8Array(), context) => {
       if (streamBody instanceof Uint8Array) {
@@ -21524,21 +21626,21 @@ var init_collect_stream_body = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/extended-encode-uri-component.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/extended-encode-uri-component.js
 function extendedEncodeURIComponent(str) {
   return encodeURIComponent(str).replace(/[!'()*]/g, function(c5) {
     return "%" + c5.charCodeAt(0).toString(16).toUpperCase();
   });
 }
 var init_extended_encode_uri_component = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/extended-encode-uri-component.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/extended-encode-uri-component.js"() {
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/deref.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/deref.js
 var deref;
 var init_deref = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/deref.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/deref.js"() {
     deref = (schemaRef) => {
       if (typeof schemaRef === "function") {
         return schemaRef();
@@ -21548,10 +21650,10 @@ var init_deref = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/operation.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/operation.js
 var operation;
 var init_operation = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/operation.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/operation.js"() {
     operation = (namespace, name, traits, input, output) => ({
       name,
       namespace,
@@ -21562,19 +21664,19 @@ var init_operation = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaDeserializationMiddleware.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaDeserializationMiddleware.js
 var import_protocol_http2, import_util_middleware3, schemaDeserializationMiddleware, findHeader;
 var init_schemaDeserializationMiddleware = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaDeserializationMiddleware.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaDeserializationMiddleware.js"() {
     import_protocol_http2 = __toESM(require_dist_cjs2());
     import_util_middleware3 = __toESM(require_dist_cjs6());
     init_operation();
     schemaDeserializationMiddleware = (config) => (next, context) => async (args) => {
       const { response } = await next(args);
       const { operationSchema } = (0, import_util_middleware3.getSmithyContext)(context);
-      const [, ns, n5, t5, i5, o5] = operationSchema ?? [];
+      const [, ns, n2, t, i5, o2] = operationSchema ?? [];
       try {
-        const parsed = await config.protocol.deserializeResponse(operation(ns, n5, t5, i5, o5), {
+        const parsed = await config.protocol.deserializeResponse(operation(ns, n2, t, i5, o2), {
           ...config,
           ...context
         }, response);
@@ -21685,10 +21787,10 @@ var require_dist_cjs18 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/endpoints/toEndpointV1.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/endpoints/toEndpointV1.js
 var import_url_parser, toEndpointV1;
 var init_toEndpointV1 = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/endpoints/toEndpointV1.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/endpoints/toEndpointV1.js"() {
     import_url_parser = __toESM(require_dist_cjs18());
     toEndpointV1 = (endpoint2) => {
       if (typeof endpoint2 === "object") {
@@ -21696,8 +21798,8 @@ var init_toEndpointV1 = __esm({
           const v1Endpoint = (0, import_url_parser.parseUrl)(endpoint2.url);
           if (endpoint2.headers) {
             v1Endpoint.headers = {};
-            for (const [name, values] of Object.entries(endpoint2.headers)) {
-              v1Endpoint.headers[name.toLowerCase()] = values.join(", ");
+            for (const name in endpoint2.headers) {
+              v1Endpoint.headers[name.toLowerCase()] = endpoint2.headers[name].join(", ");
             }
           }
           return v1Endpoint;
@@ -21709,29 +21811,29 @@ var init_toEndpointV1 = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/endpoints/index.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/endpoints/index.js
 var endpoints_exports = {};
 __export(endpoints_exports, {
   toEndpointV1: () => toEndpointV1
 });
 var init_endpoints = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/endpoints/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/endpoints/index.js"() {
     init_toEndpointV1();
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaSerializationMiddleware.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaSerializationMiddleware.js
 var import_util_middleware4, schemaSerializationMiddleware;
 var init_schemaSerializationMiddleware = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaSerializationMiddleware.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/middleware/schemaSerializationMiddleware.js"() {
     init_endpoints();
     import_util_middleware4 = __toESM(require_dist_cjs6());
     init_operation();
     schemaSerializationMiddleware = (config) => (next, context) => async (args) => {
       const { operationSchema } = (0, import_util_middleware4.getSmithyContext)(context);
-      const [, ns, n5, t5, i5, o5] = operationSchema ?? [];
+      const [, ns, n2, t, i5, o2] = operationSchema ?? [];
       const endpoint2 = context.endpointV2 ? async () => toEndpointV1(context.endpointV2) : config.endpoint;
-      const request2 = await config.protocol.serializeRequest(operation(ns, n5, t5, i5, o5), args.input, {
+      const request2 = await config.protocol.serializeRequest(operation(ns, n2, t, i5, o2), args.input, {
         ...config,
         ...context,
         endpoint: endpoint2
@@ -21744,7 +21846,7 @@ var init_schemaSerializationMiddleware = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/middleware/getSchemaSerdePlugin.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/middleware/getSchemaSerdePlugin.js
 function getSchemaSerdePlugin(config) {
   return {
     applyToStack: (commandStack) => {
@@ -21756,7 +21858,7 @@ function getSchemaSerdePlugin(config) {
 }
 var deserializerMiddlewareOption, serializerMiddlewareOption;
 var init_getSchemaSerdePlugin = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/middleware/getSchemaSerdePlugin.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/middleware/getSchemaSerdePlugin.js"() {
     init_schemaDeserializationMiddleware();
     init_schemaSerializationMiddleware();
     deserializerMiddlewareOption = {
@@ -21774,10 +21876,10 @@ var init_getSchemaSerdePlugin = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/Schema.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/Schema.js
 var Schema;
 var init_Schema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/Schema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/Schema.js"() {
     Schema = class {
       name;
       namespace;
@@ -21801,10 +21903,10 @@ var init_Schema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ListSchema.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ListSchema.js
 var ListSchema, list;
 var init_ListSchema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ListSchema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ListSchema.js"() {
     init_Schema();
     ListSchema = class _ListSchema extends Schema {
       static symbol = /* @__PURE__ */ Symbol.for("@smithy/lis");
@@ -21822,10 +21924,10 @@ var init_ListSchema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/MapSchema.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/MapSchema.js
 var MapSchema, map;
 var init_MapSchema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/MapSchema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/MapSchema.js"() {
     init_Schema();
     MapSchema = class _MapSchema extends Schema {
       static symbol = /* @__PURE__ */ Symbol.for("@smithy/map");
@@ -21845,10 +21947,10 @@ var init_MapSchema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/OperationSchema.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/OperationSchema.js
 var OperationSchema, op;
 var init_OperationSchema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/OperationSchema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/OperationSchema.js"() {
     init_Schema();
     OperationSchema = class _OperationSchema extends Schema {
       static symbol = /* @__PURE__ */ Symbol.for("@smithy/ope");
@@ -21868,10 +21970,10 @@ var init_OperationSchema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/StructureSchema.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/StructureSchema.js
 var StructureSchema, struct;
 var init_StructureSchema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/StructureSchema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/StructureSchema.js"() {
     init_Schema();
     StructureSchema = class _StructureSchema extends Schema {
       static symbol = /* @__PURE__ */ Symbol.for("@smithy/str");
@@ -21891,10 +21993,10 @@ var init_StructureSchema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ErrorSchema.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ErrorSchema.js
 var ErrorSchema, error2;
 var init_ErrorSchema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ErrorSchema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/ErrorSchema.js"() {
     init_Schema();
     init_StructureSchema();
     ErrorSchema = class _ErrorSchema extends StructureSchema {
@@ -21913,7 +22015,7 @@ var init_ErrorSchema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/translateTraits.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/translateTraits.js
 function translateTraits(indicator) {
   if (typeof indicator === "object") {
     return indicator;
@@ -21941,12 +22043,12 @@ function translateTraits(indicator) {
 }
 var traitsCache;
 var init_translateTraits = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/translateTraits.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/translateTraits.js"() {
     traitsCache = [];
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/NormalizedSchema.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/NormalizedSchema.js
 function member(memberSchema, memberName) {
   if (memberSchema instanceof NormalizedSchema) {
     return Object.assign(memberSchema, {
@@ -21959,7 +22061,7 @@ function member(memberSchema, memberName) {
 }
 var anno, simpleSchemaCacheN, simpleSchemaCacheS, NormalizedSchema, isMemberSchema, isStaticSchema;
 var init_NormalizedSchema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/NormalizedSchema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/NormalizedSchema.js"() {
     init_deref();
     init_translateTraits();
     anno = {
@@ -22190,8 +22292,8 @@ var init_NormalizedSchema = __esm({
       getMemberSchemas() {
         const buffer = {};
         try {
-          for (const [k5, v5] of this.structIterator()) {
-            buffer[k5] = v5;
+          for (const [k5, v] of this.structIterator()) {
+            buffer[k5] = v;
           }
         } catch (ignored) {
         }
@@ -22215,17 +22317,17 @@ var init_NormalizedSchema = __esm({
           throw new Error("@smithy/core/schema - cannot iterate non-struct schema.");
         }
         const struct2 = this.getSchema();
-        const z2 = struct2[4].length;
+        const z = struct2[4].length;
         let it = struct2[anno.it];
-        if (it && z2 === it.length) {
+        if (it && z === it.length) {
           yield* it;
           return;
         }
-        it = Array(z2);
-        for (let i5 = 0; i5 < z2; ++i5) {
+        it = Array(z);
+        for (let i5 = 0; i5 < z; ++i5) {
           const k5 = struct2[4][i5];
-          const v5 = member([struct2[5][i5], 0], k5);
-          yield it[i5] = [k5, v5];
+          const v = member([struct2[5][i5], 0], k5);
+          yield it[i5] = [k5, v];
         }
         struct2[anno.it] = it;
       }
@@ -22235,10 +22337,10 @@ var init_NormalizedSchema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/SimpleSchema.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/SimpleSchema.js
 var SimpleSchema, sim, simAdapter;
 var init_SimpleSchema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/SimpleSchema.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/SimpleSchema.js"() {
     init_Schema();
     SimpleSchema = class _SimpleSchema extends Schema {
       static symbol = /* @__PURE__ */ Symbol.for("@smithy/sim");
@@ -22262,10 +22364,10 @@ var init_SimpleSchema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/sentinels.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/sentinels.js
 var SCHEMA;
 var init_sentinels = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/schemas/sentinels.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/schemas/sentinels.js"() {
     SCHEMA = {
       BLOB: 21,
       STREAMING_BLOB: 42,
@@ -22285,10 +22387,10 @@ var init_sentinels = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/TypeRegistry.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/TypeRegistry.js
 var TypeRegistry;
 var init_TypeRegistry = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/TypeRegistry.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/TypeRegistry.js"() {
     TypeRegistry = class _TypeRegistry {
       namespace;
       schemas;
@@ -22307,14 +22409,14 @@ var init_TypeRegistry = __esm({
       }
       copyFrom(other) {
         const { schemas, exceptions } = this;
-        for (const [k5, v5] of other.schemas) {
+        for (const [k5, v] of other.schemas) {
           if (!schemas.has(k5)) {
-            schemas.set(k5, v5);
+            schemas.set(k5, v);
           }
         }
-        for (const [k5, v5] of other.exceptions) {
+        for (const [k5, v] of other.exceptions) {
           if (!exceptions.has(k5)) {
-            exceptions.set(k5, v5);
+            exceptions.set(k5, v);
           }
         }
       }
@@ -22360,7 +22462,12 @@ var init_TypeRegistry = __esm({
         return void 0;
       }
       find(predicate) {
-        return [...this.schemas.values()].find(predicate);
+        for (const schema of this.schemas.values()) {
+          if (predicate(schema)) {
+            return schema;
+          }
+        }
+        return void 0;
       }
       clear() {
         this.schemas.clear();
@@ -22376,7 +22483,7 @@ var init_TypeRegistry = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/index.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/index.js
 var schema_exports = {};
 __export(schema_exports, {
   ErrorSchema: () => ErrorSchema,
@@ -22408,7 +22515,7 @@ __export(schema_exports, {
   translateTraits: () => translateTraits
 });
 var init_schema = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/schema/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/schema/index.js"() {
     init_deref();
     init_getSchemaSerdePlugin();
     init_ListSchema();
@@ -22426,18 +22533,18 @@ var init_schema = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/copyDocumentWithTransform.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/copyDocumentWithTransform.js
 var copyDocumentWithTransform;
 var init_copyDocumentWithTransform = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/copyDocumentWithTransform.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/copyDocumentWithTransform.js"() {
     copyDocumentWithTransform = (source, schemaRef, transform = (_) => _) => source;
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/parse-utils.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/parse-utils.js
 var parseBoolean, expectBoolean, expectNumber, MAX_FLOAT, expectFloat32, expectLong, expectInt, expectInt32, expectShort, expectByte, expectSizedInt, castInt, expectNonNull, expectObject, expectString, expectUnion, strictParseDouble, strictParseFloat, strictParseFloat32, NUMBER_REGEX, parseNumber, limitedParseDouble, handleFloat, limitedParseFloat, limitedParseFloat32, parseFloatString, strictParseLong, strictParseInt, strictParseInt32, strictParseShort, strictParseByte, stackTraceWarning, logger;
 var init_parse_utils = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/parse-utils.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/parse-utils.js"() {
     parseBoolean = (value) => {
       switch (value) {
         case "true":
@@ -22575,7 +22682,12 @@ var init_parse_utils = __esm({
         return void 0;
       }
       const asObject = expectObject(value);
-      const setKeys = Object.entries(asObject).filter(([, v5]) => v5 != null).map(([k5]) => k5);
+      const setKeys = [];
+      for (const k5 in asObject) {
+        if (asObject[k5] != null) {
+          setKeys.push(k5);
+        }
+      }
       if (setKeys.length === 0) {
         throw new TypeError(`Unions must have exactly one non-null member. None were found.`);
       }
@@ -22657,7 +22769,7 @@ var init_parse_utils = __esm({
       return expectByte(value);
     };
     stackTraceWarning = (message) => {
-      return String(new TypeError(message).stack || message).split("\n").slice(0, 5).filter((s5) => !s5.includes("stackTraceWarning")).join("\n");
+      return String(new TypeError(message).stack || message).split("\n").slice(0, 5).filter((s) => !s.includes("stackTraceWarning")).join("\n");
     };
     logger = {
       warn: console.warn
@@ -22665,7 +22777,7 @@ var init_parse_utils = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/date-utils.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/date-utils.js
 function dateToUtcString(date2) {
   const year2 = date2.getUTCFullYear();
   const month = date2.getUTCMonth();
@@ -22682,7 +22794,7 @@ function dateToUtcString(date2) {
 }
 var DAYS, MONTHS, RFC3339, parseRfc3339DateTime, RFC3339_WITH_OFFSET, parseRfc3339DateTimeWithOffset, IMF_FIXDATE, RFC_850_DATE, ASC_TIME, parseRfc7231DateTime, parseEpochTimestamp, buildDate, parseTwoDigitYear, FIFTY_YEARS_IN_MILLIS, adjustRfc850Year, parseMonthByShortName, DAYS_IN_MONTH, validateDayOfMonth, isLeapYear, parseDateValue, parseMilliseconds, parseOffsetToMilliseconds, stripLeadingZeroes;
 var init_date_utils = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/date-utils.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/date-utils.js"() {
     init_parse_utils();
     DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -22903,16 +23015,16 @@ function __extends(d5, b5) {
   }
   d5.prototype = b5 === null ? Object.create(b5) : (__.prototype = b5.prototype, new __());
 }
-function __rest(s5, e5) {
-  var t5 = {};
-  for (var p5 in s5) if (Object.prototype.hasOwnProperty.call(s5, p5) && e5.indexOf(p5) < 0)
-    t5[p5] = s5[p5];
-  if (s5 != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i5 = 0, p5 = Object.getOwnPropertySymbols(s5); i5 < p5.length; i5++) {
-      if (e5.indexOf(p5[i5]) < 0 && Object.prototype.propertyIsEnumerable.call(s5, p5[i5]))
-        t5[p5[i5]] = s5[p5[i5]];
+function __rest(s, e5) {
+  var t = {};
+  for (var p2 in s) if (Object.prototype.hasOwnProperty.call(s, p2) && e5.indexOf(p2) < 0)
+    t[p2] = s[p2];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i5 = 0, p2 = Object.getOwnPropertySymbols(s); i5 < p2.length; i5++) {
+      if (e5.indexOf(p2[i5]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p2[i5]))
+        t[p2[i5]] = s[p2[i5]];
     }
-  return t5;
+  return t;
 }
 function __decorate(decorators, target, key, desc) {
   var c5 = arguments.length, r5 = c5 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d5;
@@ -22936,8 +23048,8 @@ function __esDecorate(ctor, descriptorIn, decorators, contextIn, initializers, e
   var _, done = false;
   for (var i5 = decorators.length - 1; i5 >= 0; i5--) {
     var context = {};
-    for (var p5 in contextIn) context[p5] = p5 === "access" ? {} : contextIn[p5];
-    for (var p5 in contextIn.access) context.access[p5] = contextIn.access[p5];
+    for (var p2 in contextIn) context[p2] = p2 === "access" ? {} : contextIn[p2];
+    for (var p2 in contextIn.access) context.access[p2] = contextIn.access[p2];
     context.addInitializer = function(f5) {
       if (done) throw new TypeError("Cannot add initializers after decoration has completed");
       extraInitializers.push(accept(f5 || null));
@@ -22964,8 +23076,8 @@ function __runInitializers(thisArg, initializers, value) {
   }
   return useValue ? value : void 0;
 }
-function __propKey(x5) {
-  return typeof x5 === "symbol" ? x5 : "".concat(x5);
+function __propKey(x) {
+  return typeof x === "symbol" ? x : "".concat(x);
 }
 function __setFunctionName(f5, name, prefix) {
   if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
@@ -23003,33 +23115,33 @@ function __awaiter2(thisArg, _arguments, P, generator) {
 }
 function __generator(thisArg, body) {
   var _ = { label: 0, sent: function() {
-    if (t5[0] & 1) throw t5[1];
-    return t5[1];
-  }, trys: [], ops: [] }, f5, y2, t5, g5 = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    if (t[0] & 1) throw t[1];
+    return t[1];
+  }, trys: [], ops: [] }, f5, y, t, g5 = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
   return g5.next = verb(0), g5["throw"] = verb(1), g5["return"] = verb(2), typeof Symbol === "function" && (g5[Symbol.iterator] = function() {
     return this;
   }), g5;
-  function verb(n5) {
-    return function(v5) {
-      return step([n5, v5]);
+  function verb(n2) {
+    return function(v) {
+      return step([n2, v]);
     };
   }
   function step(op2) {
     if (f5) throw new TypeError("Generator is already executing.");
     while (g5 && (g5 = 0, op2[0] && (_ = 0)), _) try {
-      if (f5 = 1, y2 && (t5 = op2[0] & 2 ? y2["return"] : op2[0] ? y2["throw"] || ((t5 = y2["return"]) && t5.call(y2), 0) : y2.next) && !(t5 = t5.call(y2, op2[1])).done) return t5;
-      if (y2 = 0, t5) op2 = [op2[0] & 2, t5.value];
+      if (f5 = 1, y && (t = op2[0] & 2 ? y["return"] : op2[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op2[1])).done) return t;
+      if (y = 0, t) op2 = [op2[0] & 2, t.value];
       switch (op2[0]) {
         case 0:
         case 1:
-          t5 = op2;
+          t = op2;
           break;
         case 4:
           _.label++;
           return { value: op2[1], done: false };
         case 5:
           _.label++;
-          y2 = op2[1];
+          y = op2[1];
           op2 = [0];
           continue;
         case 7:
@@ -23037,64 +23149,64 @@ function __generator(thisArg, body) {
           _.trys.pop();
           continue;
         default:
-          if (!(t5 = _.trys, t5 = t5.length > 0 && t5[t5.length - 1]) && (op2[0] === 6 || op2[0] === 2)) {
+          if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op2[0] === 6 || op2[0] === 2)) {
             _ = 0;
             continue;
           }
-          if (op2[0] === 3 && (!t5 || op2[1] > t5[0] && op2[1] < t5[3])) {
+          if (op2[0] === 3 && (!t || op2[1] > t[0] && op2[1] < t[3])) {
             _.label = op2[1];
             break;
           }
-          if (op2[0] === 6 && _.label < t5[1]) {
-            _.label = t5[1];
-            t5 = op2;
+          if (op2[0] === 6 && _.label < t[1]) {
+            _.label = t[1];
+            t = op2;
             break;
           }
-          if (t5 && _.label < t5[2]) {
-            _.label = t5[2];
+          if (t && _.label < t[2]) {
+            _.label = t[2];
             _.ops.push(op2);
             break;
           }
-          if (t5[2]) _.ops.pop();
+          if (t[2]) _.ops.pop();
           _.trys.pop();
           continue;
       }
       op2 = body.call(thisArg, _);
     } catch (e5) {
       op2 = [6, e5];
-      y2 = 0;
+      y = 0;
     } finally {
-      f5 = t5 = 0;
+      f5 = t = 0;
     }
     if (op2[0] & 5) throw op2[1];
     return { value: op2[0] ? op2[1] : void 0, done: true };
   }
 }
-function __exportStar(m5, o5) {
-  for (var p5 in m5) if (p5 !== "default" && !Object.prototype.hasOwnProperty.call(o5, p5)) __createBinding(o5, m5, p5);
+function __exportStar(m3, o2) {
+  for (var p2 in m3) if (p2 !== "default" && !Object.prototype.hasOwnProperty.call(o2, p2)) __createBinding(o2, m3, p2);
 }
-function __values(o5) {
-  var s5 = typeof Symbol === "function" && Symbol.iterator, m5 = s5 && o5[s5], i5 = 0;
-  if (m5) return m5.call(o5);
-  if (o5 && typeof o5.length === "number") return {
+function __values(o2) {
+  var s = typeof Symbol === "function" && Symbol.iterator, m3 = s && o2[s], i5 = 0;
+  if (m3) return m3.call(o2);
+  if (o2 && typeof o2.length === "number") return {
     next: function() {
-      if (o5 && i5 >= o5.length) o5 = void 0;
-      return { value: o5 && o5[i5++], done: !o5 };
+      if (o2 && i5 >= o2.length) o2 = void 0;
+      return { value: o2 && o2[i5++], done: !o2 };
     }
   };
-  throw new TypeError(s5 ? "Object is not iterable." : "Symbol.iterator is not defined.");
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 }
-function __read(o5, n5) {
-  var m5 = typeof Symbol === "function" && o5[Symbol.iterator];
-  if (!m5) return o5;
-  var i5 = m5.call(o5), r5, ar = [], e5;
+function __read(o2, n2) {
+  var m3 = typeof Symbol === "function" && o2[Symbol.iterator];
+  if (!m3) return o2;
+  var i5 = m3.call(o2), r5, ar = [], e5;
   try {
-    while ((n5 === void 0 || n5-- > 0) && !(r5 = i5.next()).done) ar.push(r5.value);
+    while ((n2 === void 0 || n2-- > 0) && !(r5 = i5.next()).done) ar.push(r5.value);
   } catch (error3) {
     e5 = { error: error3 };
   } finally {
     try {
-      if (r5 && !r5.done && (m5 = i5["return"])) m5.call(i5);
+      if (r5 && !r5.done && (m3 = i5["return"])) m3.call(i5);
     } finally {
       if (e5) throw e5.error;
     }
@@ -23107,14 +23219,14 @@ function __spread() {
   return ar;
 }
 function __spreadArrays() {
-  for (var s5 = 0, i5 = 0, il = arguments.length; i5 < il; i5++) s5 += arguments[i5].length;
-  for (var r5 = Array(s5), k5 = 0, i5 = 0; i5 < il; i5++)
+  for (var s = 0, i5 = 0, il = arguments.length; i5 < il; i5++) s += arguments[i5].length;
+  for (var r5 = Array(s), k5 = 0, i5 = 0; i5 < il; i5++)
     for (var a5 = arguments[i5], j5 = 0, jl = a5.length; j5 < jl; j5++, k5++)
       r5[k5] = a5[j5];
   return r5;
 }
 function __spreadArray(to, from, pack) {
-  if (pack || arguments.length === 2) for (var i5 = 0, l5 = from.length, ar; i5 < l5; i5++) {
+  if (pack || arguments.length === 2) for (var i5 = 0, l3 = from.length, ar; i5 < l3; i5++) {
     if (ar || !(i5 in from)) {
       if (!ar) ar = Array.prototype.slice.call(from, 0, i5);
       ar[i5] = from[i5];
@@ -23122,39 +23234,39 @@ function __spreadArray(to, from, pack) {
   }
   return to.concat(ar || Array.prototype.slice.call(from));
 }
-function __await(v5) {
-  return this instanceof __await ? (this.v = v5, this) : new __await(v5);
+function __await(v) {
+  return this instanceof __await ? (this.v = v, this) : new __await(v);
 }
 function __asyncGenerator(thisArg, _arguments, generator) {
   if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-  var g5 = generator.apply(thisArg, _arguments || []), i5, q5 = [];
+  var g5 = generator.apply(thisArg, _arguments || []), i5, q2 = [];
   return i5 = Object.create((typeof AsyncIterator === "function" ? AsyncIterator : Object).prototype), verb("next"), verb("throw"), verb("return", awaitReturn), i5[Symbol.asyncIterator] = function() {
     return this;
   }, i5;
   function awaitReturn(f5) {
-    return function(v5) {
-      return Promise.resolve(v5).then(f5, reject);
+    return function(v) {
+      return Promise.resolve(v).then(f5, reject);
     };
   }
-  function verb(n5, f5) {
-    if (g5[n5]) {
-      i5[n5] = function(v5) {
+  function verb(n2, f5) {
+    if (g5[n2]) {
+      i5[n2] = function(v) {
         return new Promise(function(a5, b5) {
-          q5.push([n5, v5, a5, b5]) > 1 || resume(n5, v5);
+          q2.push([n2, v, a5, b5]) > 1 || resume(n2, v);
         });
       };
-      if (f5) i5[n5] = f5(i5[n5]);
+      if (f5) i5[n2] = f5(i5[n2]);
     }
   }
-  function resume(n5, v5) {
+  function resume(n2, v) {
     try {
-      step(g5[n5](v5));
+      step(g5[n2](v));
     } catch (e5) {
-      settle(q5[0][3], e5);
+      settle(q2[0][3], e5);
     }
   }
   function step(r5) {
-    r5.value instanceof __await ? Promise.resolve(r5.value.v).then(fulfill, reject) : settle(q5[0][2], r5);
+    r5.value instanceof __await ? Promise.resolve(r5.value.v).then(fulfill, reject) : settle(q2[0][2], r5);
   }
   function fulfill(value) {
     resume("next", value);
@@ -23162,39 +23274,39 @@ function __asyncGenerator(thisArg, _arguments, generator) {
   function reject(value) {
     resume("throw", value);
   }
-  function settle(f5, v5) {
-    if (f5(v5), q5.shift(), q5.length) resume(q5[0][0], q5[0][1]);
+  function settle(f5, v) {
+    if (f5(v), q2.shift(), q2.length) resume(q2[0][0], q2[0][1]);
   }
 }
-function __asyncDelegator(o5) {
-  var i5, p5;
+function __asyncDelegator(o2) {
+  var i5, p2;
   return i5 = {}, verb("next"), verb("throw", function(e5) {
     throw e5;
   }), verb("return"), i5[Symbol.iterator] = function() {
     return this;
   }, i5;
-  function verb(n5, f5) {
-    i5[n5] = o5[n5] ? function(v5) {
-      return (p5 = !p5) ? { value: __await(o5[n5](v5)), done: false } : f5 ? f5(v5) : v5;
+  function verb(n2, f5) {
+    i5[n2] = o2[n2] ? function(v) {
+      return (p2 = !p2) ? { value: __await(o2[n2](v)), done: false } : f5 ? f5(v) : v;
     } : f5;
   }
 }
-function __asyncValues(o5) {
+function __asyncValues(o2) {
   if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-  var m5 = o5[Symbol.asyncIterator], i5;
-  return m5 ? m5.call(o5) : (o5 = typeof __values === "function" ? __values(o5) : o5[Symbol.iterator](), i5 = {}, verb("next"), verb("throw"), verb("return"), i5[Symbol.asyncIterator] = function() {
+  var m3 = o2[Symbol.asyncIterator], i5;
+  return m3 ? m3.call(o2) : (o2 = typeof __values === "function" ? __values(o2) : o2[Symbol.iterator](), i5 = {}, verb("next"), verb("throw"), verb("return"), i5[Symbol.asyncIterator] = function() {
     return this;
   }, i5);
-  function verb(n5) {
-    i5[n5] = o5[n5] && function(v5) {
+  function verb(n2) {
+    i5[n2] = o2[n2] && function(v) {
       return new Promise(function(resolve, reject) {
-        v5 = o5[n5](v5), settle(resolve, reject, v5.done, v5.value);
+        v = o2[n2](v), settle(resolve, reject, v.done, v.value);
       });
     };
   }
-  function settle(resolve, reject, d5, v5) {
-    Promise.resolve(v5).then(function(v6) {
-      resolve({ value: v6, done: d5 });
+  function settle(resolve, reject, d5, v) {
+    Promise.resolve(v).then(function(v2) {
+      resolve({ value: v2, done: d5 });
     }, reject);
   }
 }
@@ -23265,31 +23377,31 @@ function __disposeResources(env) {
     env.error = env.hasError ? new _SuppressedError(e5, env.error, "An error was suppressed during disposal.") : e5;
     env.hasError = true;
   }
-  var r5, s5 = 0;
+  var r5, s = 0;
   function next() {
     while (r5 = env.stack.pop()) {
       try {
-        if (!r5.async && s5 === 1) return s5 = 0, env.stack.push(r5), Promise.resolve().then(next);
+        if (!r5.async && s === 1) return s = 0, env.stack.push(r5), Promise.resolve().then(next);
         if (r5.dispose) {
           var result = r5.dispose.call(r5.value);
-          if (r5.async) return s5 |= 2, Promise.resolve(result).then(next, function(e5) {
+          if (r5.async) return s |= 2, Promise.resolve(result).then(next, function(e5) {
             fail(e5);
             return next();
           });
-        } else s5 |= 1;
+        } else s |= 1;
       } catch (e5) {
         fail(e5);
       }
     }
-    if (s5 === 1) return env.hasError ? Promise.reject(env.error) : Promise.resolve();
+    if (s === 1) return env.hasError ? Promise.reject(env.error) : Promise.resolve();
     if (env.hasError) throw env.error;
   }
   return next();
 }
 function __rewriteRelativeImportExtension(path, preserveJsx) {
   if (typeof path === "string" && /^\.\.?\//.test(path)) {
-    return path.replace(/\.(tsx)$|((?:\.d)?)((?:\.[^./]+?)?)\.([cm]?)ts$/i, function(m5, tsx, d5, ext, cm) {
-      return tsx ? preserveJsx ? ".jsx" : ".js" : d5 && (!ext || !cm) ? m5 : d5 + ext + "." + cm.toLowerCase() + "js";
+    return path.replace(/\.(tsx)$|((?:\.d)?)((?:\.[^./]+?)?)\.([cm]?)ts$/i, function(m3, tsx, d5, ext, cm) {
+      return tsx ? preserveJsx ? ".jsx" : ".js" : d5 && (!ext || !cm) ? m3 : d5 + ext + "." + cm.toLowerCase() + "js";
     });
   }
   return path;
@@ -23301,45 +23413,45 @@ var init_tslib_es6 = __esm({
       extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d6, b6) {
         d6.__proto__ = b6;
       } || function(d6, b6) {
-        for (var p5 in b6) if (Object.prototype.hasOwnProperty.call(b6, p5)) d6[p5] = b6[p5];
+        for (var p2 in b6) if (Object.prototype.hasOwnProperty.call(b6, p2)) d6[p2] = b6[p2];
       };
       return extendStatics(d5, b5);
     };
     __assign = function() {
-      __assign = Object.assign || function __assign2(t5) {
-        for (var s5, i5 = 1, n5 = arguments.length; i5 < n5; i5++) {
-          s5 = arguments[i5];
-          for (var p5 in s5) if (Object.prototype.hasOwnProperty.call(s5, p5)) t5[p5] = s5[p5];
+      __assign = Object.assign || function __assign2(t) {
+        for (var s, i5 = 1, n2 = arguments.length; i5 < n2; i5++) {
+          s = arguments[i5];
+          for (var p2 in s) if (Object.prototype.hasOwnProperty.call(s, p2)) t[p2] = s[p2];
         }
-        return t5;
+        return t;
       };
       return __assign.apply(this, arguments);
     };
-    __createBinding = Object.create ? (function(o5, m5, k5, k22) {
+    __createBinding = Object.create ? (function(o2, m3, k5, k22) {
       if (k22 === void 0) k22 = k5;
-      var desc = Object.getOwnPropertyDescriptor(m5, k5);
-      if (!desc || ("get" in desc ? !m5.__esModule : desc.writable || desc.configurable)) {
+      var desc = Object.getOwnPropertyDescriptor(m3, k5);
+      if (!desc || ("get" in desc ? !m3.__esModule : desc.writable || desc.configurable)) {
         desc = { enumerable: true, get: function() {
-          return m5[k5];
+          return m3[k5];
         } };
       }
-      Object.defineProperty(o5, k22, desc);
-    }) : (function(o5, m5, k5, k22) {
+      Object.defineProperty(o2, k22, desc);
+    }) : (function(o2, m3, k5, k22) {
       if (k22 === void 0) k22 = k5;
-      o5[k22] = m5[k5];
+      o2[k22] = m3[k5];
     });
-    __setModuleDefault = Object.create ? (function(o5, v5) {
-      Object.defineProperty(o5, "default", { enumerable: true, value: v5 });
-    }) : function(o5, v5) {
-      o5["default"] = v5;
+    __setModuleDefault = Object.create ? (function(o2, v) {
+      Object.defineProperty(o2, "default", { enumerable: true, value: v });
+    }) : function(o2, v) {
+      o2["default"] = v;
     };
-    ownKeys = function(o5) {
-      ownKeys = Object.getOwnPropertyNames || function(o6) {
+    ownKeys = function(o2) {
+      ownKeys = Object.getOwnPropertyNames || function(o3) {
         var ar = [];
-        for (var k5 in o6) if (Object.prototype.hasOwnProperty.call(o6, k5)) ar[ar.length] = k5;
+        for (var k5 in o3) if (Object.prototype.hasOwnProperty.call(o3, k5)) ar[ar.length] = k5;
         return ar;
       };
-      return ownKeys(o5);
+      return ownKeys(o2);
     };
     _SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function(error3, suppressed, message) {
       var e5 = new Error(message);
@@ -23400,7 +23512,7 @@ var require_dist_cjs19 = __commonJS({
     "use strict";
     var randomUUID2 = require_randomUUID();
     var decimalToHex = Array.from({ length: 256 }, (_, i5) => i5.toString(16).padStart(2, "0"));
-    var v42 = () => {
+    var v4 = () => {
       if (randomUUID2.randomUUID) {
         return randomUUID2.randomUUID();
       }
@@ -23410,22 +23522,22 @@ var require_dist_cjs19 = __commonJS({
       rnds[8] = rnds[8] & 63 | 128;
       return decimalToHex[rnds[0]] + decimalToHex[rnds[1]] + decimalToHex[rnds[2]] + decimalToHex[rnds[3]] + "-" + decimalToHex[rnds[4]] + decimalToHex[rnds[5]] + "-" + decimalToHex[rnds[6]] + decimalToHex[rnds[7]] + "-" + decimalToHex[rnds[8]] + decimalToHex[rnds[9]] + "-" + decimalToHex[rnds[10]] + decimalToHex[rnds[11]] + decimalToHex[rnds[12]] + decimalToHex[rnds[13]] + decimalToHex[rnds[14]] + decimalToHex[rnds[15]];
     };
-    exports2.v4 = v42;
+    exports2.v4 = v4;
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/generateIdempotencyToken.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/generateIdempotencyToken.js
 var import_uuid;
 var init_generateIdempotencyToken = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/generateIdempotencyToken.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/generateIdempotencyToken.js"() {
     import_uuid = __toESM(require_dist_cjs19());
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/lazy-json.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/lazy-json.js
 var LazyJsonString;
 var init_lazy_json = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/lazy-json.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/lazy-json.js"() {
     LazyJsonString = function LazyJsonString2(val) {
       const str = Object.assign(new String(val), {
         deserializeJSON() {
@@ -23452,7 +23564,7 @@ var init_lazy_json = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/quote-header.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/quote-header.js
 function quoteHeader(part) {
   if (part.includes(",") || part.includes('"')) {
     part = `"${part.replace(/"/g, '\\"')}"`;
@@ -23460,20 +23572,20 @@ function quoteHeader(part) {
   return part;
 }
 var init_quote_header = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/quote-header.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/quote-header.js"() {
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/schema-serde-lib/schema-date-utils.js
-function range(v5, min, max) {
-  const _v = Number(v5);
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/schema-serde-lib/schema-date-utils.js
+function range(v, min, max) {
+  const _v = Number(v);
   if (_v < min || _v > max) {
     throw new Error(`Value ${_v} out of range [${min}, ${max}]`);
   }
 }
 var ddd, mmm, time, date, year, RFC3339_WITH_OFFSET2, IMF_FIXDATE2, RFC_850_DATE2, ASC_TIME2, months, _parseEpochTimestamp, _parseRfc3339DateTimeWithOffset, _parseRfc7231DateTime;
 var init_schema_date_utils = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/schema-serde-lib/schema-date-utils.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/schema-serde-lib/schema-date-utils.js"() {
     ddd = `(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)(?:[ne|u?r]?s?day)?`;
     mmm = `(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)`;
     time = `(\\d?\\d):(\\d{2}):(\\d{2})(?:\\.(\\d+))?`;
@@ -23568,7 +23680,7 @@ var init_schema_date_utils = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/split-every.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/split-every.js
 function splitEvery(value, delimiter, numDelimiters) {
   if (numDelimiters <= 0 || !Number.isInteger(numDelimiters)) {
     throw new Error("Invalid number of delimiters (" + numDelimiters + ") for splitEvery.");
@@ -23596,21 +23708,21 @@ function splitEvery(value, delimiter, numDelimiters) {
   return compoundSegments;
 }
 var init_split_every = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/split-every.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/split-every.js"() {
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/split-header.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/split-header.js
 var splitHeader;
 var init_split_header = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/split-header.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/split-header.js"() {
     splitHeader = (value) => {
-      const z2 = value.length;
+      const z = value.length;
       const values = [];
       let withinQuotes = false;
       let prevChar = void 0;
       let anchor = 0;
-      for (let i5 = 0; i5 < z2; ++i5) {
+      for (let i5 = 0; i5 < z; ++i5) {
         const char = value[i5];
         switch (char) {
           case `"`:
@@ -23629,28 +23741,28 @@ var init_split_header = __esm({
         prevChar = char;
       }
       values.push(value.slice(anchor));
-      return values.map((v5) => {
-        v5 = v5.trim();
-        const z3 = v5.length;
-        if (z3 < 2) {
-          return v5;
+      return values.map((v) => {
+        v = v.trim();
+        const z2 = v.length;
+        if (z2 < 2) {
+          return v;
         }
-        if (v5[0] === `"` && v5[z3 - 1] === `"`) {
-          v5 = v5.slice(1, z3 - 1);
+        if (v[0] === `"` && v[z2 - 1] === `"`) {
+          v = v.slice(1, z2 - 1);
         }
-        return v5.replace(/\\"/g, '"');
+        return v.replace(/\\"/g, '"');
       });
     };
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/value/NumericValue.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/value/NumericValue.js
 function nv(input) {
   return new NumericValue(String(input), "bigDecimal");
 }
 var format, NumericValue;
 var init_NumericValue = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/value/NumericValue.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/value/NumericValue.js"() {
     format = /^-?\d*(\.\d+)?$/;
     NumericValue = class _NumericValue {
       string;
@@ -23676,7 +23788,7 @@ var init_NumericValue = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/index.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/index.js
 var serde_exports = {};
 __export(serde_exports, {
   LazyJsonString: () => LazyJsonString,
@@ -23723,7 +23835,7 @@ __export(serde_exports, {
   strictParseShort: () => strictParseShort
 });
 var init_serde = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/serde/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/serde/index.js"() {
     init_copyDocumentWithTransform();
     init_date_utils();
     init_generateIdempotencyToken();
@@ -23737,10 +23849,10 @@ var init_serde = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/SerdeContext.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/SerdeContext.js
 var SerdeContext;
 var init_SerdeContext = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/SerdeContext.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/SerdeContext.js"() {
     SerdeContext = class {
       serdeContext;
       setSerdeContext(serdeContext) {
@@ -23750,10 +23862,10 @@ var init_SerdeContext = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/event-streams/EventStreamSerde.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/event-streams/EventStreamSerde.js
 var import_util_utf8, EventStreamSerde;
 var init_EventStreamSerde = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/event-streams/EventStreamSerde.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/event-streams/EventStreamSerde.js"() {
     import_util_utf8 = __toESM(require_dist_cjs9());
     EventStreamSerde = class {
       marshaller;
@@ -23803,9 +23915,13 @@ var init_EventStreamSerde = __esm({
               body: event.body
             };
           }
-          const unionMember = Object.keys(event).find((key) => {
-            return key !== "__type";
-          }) ?? "";
+          let unionMember = "";
+          for (const key in event) {
+            if (key !== "__type") {
+              unionMember = key;
+              break;
+            }
+          }
           const { additionalHeaders, body, eventType, explicitPayloadContentType } = this.writeEventBody(unionMember, unionSchema, event);
           const headers = {
             ":event-type": { type: "string", value: eventType },
@@ -23826,9 +23942,13 @@ var init_EventStreamSerde = __esm({
         const memberSchemas = unionSchema.getMemberSchemas();
         const initialResponseMarker = /* @__PURE__ */ Symbol("initialResponseMarker");
         const asyncIterable = marshaller.deserialize(response.body, async (event) => {
-          const unionMember = Object.keys(event).find((key) => {
-            return key !== "__type";
-          }) ?? "";
+          let unionMember = "";
+          for (const key in event) {
+            if (key !== "__type") {
+              unionMember = key;
+              break;
+            }
+          }
           const body = event[unionMember].body;
           if (unionMember === "initial-response") {
             const dataObject = await this.deserializer.read(responseSchema, body);
@@ -23897,8 +24017,8 @@ var init_EventStreamSerde = __esm({
           if (!responseSchema) {
             throw new Error("@smithy::core/protocols - initial-response event encountered in event stream but no response schema given.");
           }
-          for (const [key, value] of Object.entries(firstEvent.value)) {
-            initialResponseContainer[key] = value;
+          for (const key in firstEvent.value) {
+            initialResponseContainer[key] = firstEvent.value[key];
           }
         }
         return {
@@ -23992,21 +24112,21 @@ var init_EventStreamSerde = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/event-streams/index.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/event-streams/index.js
 var event_streams_exports = {};
 __export(event_streams_exports, {
   EventStreamSerde: () => EventStreamSerde
 });
 var init_event_streams = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/event-streams/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/event-streams/index.js"() {
     init_EventStreamSerde();
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/HttpProtocol.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/HttpProtocol.js
 var import_protocol_http3, HttpProtocol;
 var init_HttpProtocol = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/HttpProtocol.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/HttpProtocol.js"() {
     init_schema();
     import_protocol_http3 = __toESM(require_dist_cjs2());
     init_SerdeContext();
@@ -24047,12 +24167,12 @@ var init_HttpProtocol = __esm({
           if (!request2.query) {
             request2.query = {};
           }
-          for (const [k5, v5] of endpoint2.url.searchParams.entries()) {
-            request2.query[k5] = v5;
+          for (const [k5, v] of endpoint2.url.searchParams.entries()) {
+            request2.query[k5] = v;
           }
           if (endpoint2.headers) {
-            for (const [name, values] of Object.entries(endpoint2.headers)) {
-              request2.headers[name] = values.join(", ");
+            for (const name in endpoint2.headers) {
+              request2.headers[name] = endpoint2.headers[name].join(", ");
             }
           }
           return request2;
@@ -24065,8 +24185,8 @@ var init_HttpProtocol = __esm({
             ...endpoint2.query
           };
           if (endpoint2.headers) {
-            for (const [name, value] of Object.entries(endpoint2.headers)) {
-              request2.headers[name] = value;
+            for (const name in endpoint2.headers) {
+              request2.headers[name] = endpoint2.headers[name];
             }
           }
           return request2;
@@ -24081,8 +24201,10 @@ var init_HttpProtocol = __esm({
         if (opTraits.endpoint) {
           let hostPrefix = opTraits.endpoint?.[0];
           if (typeof hostPrefix === "string") {
-            const hostLabelInputs = [...inputNs.structIterator()].filter(([, member2]) => member2.getMergedTraits().hostLabel);
-            for (const [name] of hostLabelInputs) {
+            for (const [name, member2] of inputNs.structIterator()) {
+              if (!member2.getMergedTraits().hostLabel) {
+                continue;
+              }
               const replacement = input[name];
               if (typeof replacement !== "string") {
                 throw new Error(`@smithy/core/schema - ${name} in input must be a string as hostLabel.`);
@@ -24149,10 +24271,10 @@ var init_HttpProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/HttpBindingProtocol.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/HttpBindingProtocol.js
 var import_protocol_http4, import_util_stream2, HttpBindingProtocol;
 var init_HttpBindingProtocol = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/HttpBindingProtocol.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/HttpBindingProtocol.js"() {
     init_schema();
     init_serde();
     import_protocol_http4 = __toESM(require_dist_cjs2());
@@ -24195,7 +24317,9 @@ var init_HttpBindingProtocol = __esm({
               request2.path += path;
             }
             const traitSearchParams = new URLSearchParams(search ?? "");
-            Object.assign(query, Object.fromEntries(traitSearchParams));
+            for (const [key, value] of traitSearchParams) {
+              query[key] = value;
+            }
           }
         }
         for (const [memberName, memberNs] of ns.structIterator()) {
@@ -24239,7 +24363,8 @@ var init_HttpBindingProtocol = __esm({
             serializer.write(memberNs, inputMemberValue);
             headers[memberTraits.httpHeader.toLowerCase()] = String(serializer.flush());
           } else if (typeof memberTraits.httpPrefixHeaders === "string") {
-            for (const [key, val] of Object.entries(inputMemberValue)) {
+            for (const key in inputMemberValue) {
+              const val = inputMemberValue[key];
               const amalgam = memberTraits.httpPrefixHeaders + key;
               serializer.write([memberNs.getValueSchema(), { httpHeader: amalgam }], val);
               headers[amalgam.toLowerCase()] = serializer.flush();
@@ -24281,8 +24406,9 @@ var init_HttpBindingProtocol = __esm({
         const serializer = this.serializer;
         const traits = ns.getMergedTraits();
         if (traits.httpQueryParams) {
-          for (const [key, val] of Object.entries(data2)) {
+          for (const key in data2) {
             if (!(key in query)) {
+              const val = data2[key];
               const valueSchema = ns.getValueSchema();
               Object.assign(valueSchema.getMergedTraits(), {
                 ...traits,
@@ -24400,8 +24526,9 @@ var init_HttpBindingProtocol = __esm({
             }
           } else if (memberTraits.httpPrefixHeaders !== void 0) {
             dataObject[memberName] = {};
-            for (const [header, value] of Object.entries(response.headers)) {
+            for (const header in response.headers) {
               if (header.startsWith(memberTraits.httpPrefixHeaders)) {
+                const value = response.headers[header];
                 const valueSchema = memberSchema.getValueSchema();
                 valueSchema.getMergedTraits().httpHeader = header;
                 dataObject[memberName][header.slice(memberTraits.httpPrefixHeaders.length)] = await deserializer.read(valueSchema, value);
@@ -24420,10 +24547,10 @@ var init_HttpBindingProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/RpcProtocol.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/RpcProtocol.js
 var import_protocol_http5, RpcProtocol;
 var init_RpcProtocol = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/RpcProtocol.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/RpcProtocol.js"() {
     init_schema();
     import_protocol_http5 = __toESM(require_dist_cjs2());
     init_collect_stream_body();
@@ -24517,10 +24644,10 @@ var init_RpcProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/resolve-path.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/resolve-path.js
 var resolvedPath;
 var init_resolve_path = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/resolve-path.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/resolve-path.js"() {
     init_extended_encode_uri_component();
     resolvedPath = (resolvedPath2, input, memberName, labelValueProvider, uriLabel, isGreedyLabel) => {
       if (input != null && input[memberName] !== void 0) {
@@ -24537,13 +24664,13 @@ var init_resolve_path = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/requestBuilder.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/requestBuilder.js
 function requestBuilder(input, context) {
   return new RequestBuilder(input, context);
 }
 var import_protocol_http6, RequestBuilder;
 var init_requestBuilder = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/requestBuilder.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/requestBuilder.js"() {
     import_protocol_http6 = __toESM(require_dist_cjs2());
     init_resolve_path();
     RequestBuilder = class {
@@ -24613,7 +24740,7 @@ var init_requestBuilder = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/serde/determineTimestampFormat.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/serde/determineTimestampFormat.js
 function determineTimestampFormat(ns, settings) {
   if (settings.timestampFormat.useTrait) {
     if (ns.isTimestampSchema() && (ns.getSchema() === 5 || ns.getSchema() === 6 || ns.getSchema() === 7)) {
@@ -24625,14 +24752,14 @@ function determineTimestampFormat(ns, settings) {
   return bindingFormat ?? settings.timestampFormat.default;
 }
 var init_determineTimestampFormat = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/serde/determineTimestampFormat.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/serde/determineTimestampFormat.js"() {
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/serde/FromStringShapeDeserializer.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/serde/FromStringShapeDeserializer.js
 var import_util_base64, import_util_utf82, FromStringShapeDeserializer;
 var init_FromStringShapeDeserializer = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/serde/FromStringShapeDeserializer.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/serde/FromStringShapeDeserializer.js"() {
     init_schema();
     init_serde();
     import_util_base64 = __toESM(require_dist_cjs10());
@@ -24702,10 +24829,10 @@ var init_FromStringShapeDeserializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeDeserializer.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeDeserializer.js
 var import_util_utf83, HttpInterceptingShapeDeserializer;
 var init_HttpInterceptingShapeDeserializer = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeDeserializer.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeDeserializer.js"() {
     init_schema();
     import_util_utf83 = __toESM(require_dist_cjs9());
     init_SerdeContext();
@@ -24750,10 +24877,10 @@ var init_HttpInterceptingShapeDeserializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/serde/ToStringShapeSerializer.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/serde/ToStringShapeSerializer.js
 var import_util_base642, ToStringShapeSerializer;
 var init_ToStringShapeSerializer = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/serde/ToStringShapeSerializer.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/serde/ToStringShapeSerializer.js"() {
     init_schema();
     init_serde();
     import_util_base642 = __toESM(require_dist_cjs10());
@@ -24847,10 +24974,10 @@ var init_ToStringShapeSerializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeSerializer.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeSerializer.js
 var HttpInterceptingShapeSerializer;
 var init_HttpInterceptingShapeSerializer = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeSerializer.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/serde/HttpInterceptingShapeSerializer.js"() {
     init_schema();
     init_ToStringShapeSerializer();
     HttpInterceptingShapeSerializer = class {
@@ -24887,7 +25014,7 @@ var init_HttpInterceptingShapeSerializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/index.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/index.js
 var protocols_exports = {};
 __export(protocols_exports, {
   FromStringShapeDeserializer: () => FromStringShapeDeserializer,
@@ -24906,7 +25033,7 @@ __export(protocols_exports, {
   resolvedPath: () => resolvedPath
 });
 var init_protocols = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/protocols/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/protocols/index.js"() {
     init_collect_stream_body();
     init_extended_encode_uri_component();
     init_HttpBindingProtocol();
@@ -24923,14 +25050,14 @@ var init_protocols = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/request-builder/requestBuilder.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/request-builder/requestBuilder.js
 var init_requestBuilder2 = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/request-builder/requestBuilder.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/request-builder/requestBuilder.js"() {
     init_protocols();
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/setFeature.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/setFeature.js
 function setFeature(context, feature, value) {
   if (!context.__smithy_context) {
     context.__smithy_context = {
@@ -24942,18 +25069,19 @@ function setFeature(context, feature, value) {
   context.__smithy_context.features[feature] = value;
 }
 var init_setFeature = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/setFeature.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/setFeature.js"() {
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/util-identity-and-auth/DefaultIdentityProviderConfig.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/util-identity-and-auth/DefaultIdentityProviderConfig.js
 var DefaultIdentityProviderConfig;
 var init_DefaultIdentityProviderConfig = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/util-identity-and-auth/DefaultIdentityProviderConfig.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/util-identity-and-auth/DefaultIdentityProviderConfig.js"() {
     DefaultIdentityProviderConfig = class {
       authSchemes = /* @__PURE__ */ new Map();
       constructor(config) {
-        for (const [key, value] of Object.entries(config)) {
+        for (const key in config) {
+          const value = config[key];
           if (value !== void 0) {
             this.authSchemes.set(key, value);
           }
@@ -24966,10 +25094,10 @@ var init_DefaultIdentityProviderConfig = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpApiKeyAuth.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpApiKeyAuth.js
 var import_protocol_http7, import_types2, HttpApiKeyAuthSigner;
 var init_httpApiKeyAuth = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpApiKeyAuth.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpApiKeyAuth.js"() {
     import_protocol_http7 = __toESM(require_dist_cjs2());
     import_types2 = __toESM(require_dist_cjs());
     HttpApiKeyAuthSigner = class {
@@ -25000,10 +25128,10 @@ var init_httpApiKeyAuth = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpBearerAuth.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpBearerAuth.js
 var import_protocol_http8, HttpBearerAuthSigner;
 var init_httpBearerAuth = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpBearerAuth.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/httpBearerAuth.js"() {
     import_protocol_http8 = __toESM(require_dist_cjs2());
     HttpBearerAuthSigner = class {
       async sign(httpRequest, identity, signingProperties) {
@@ -25018,10 +25146,10 @@ var init_httpBearerAuth = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/noAuth.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/noAuth.js
 var NoAuthSigner;
 var init_noAuth = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/noAuth.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/noAuth.js"() {
     NoAuthSigner = class {
       async sign(httpRequest, identity, signingProperties) {
         return httpRequest;
@@ -25030,19 +25158,19 @@ var init_noAuth = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/index.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/index.js
 var init_httpAuthSchemes = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/util-identity-and-auth/httpAuthSchemes/index.js"() {
     init_httpApiKeyAuth();
     init_httpBearerAuth();
     init_noAuth();
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/util-identity-and-auth/memoizeIdentityProvider.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/util-identity-and-auth/memoizeIdentityProvider.js
 var createIsIdentityExpiredFunction, EXPIRATION_MS, isIdentityExpired, doesIdentityRequireRefresh, memoizeIdentityProvider;
 var init_memoizeIdentityProvider = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/util-identity-and-auth/memoizeIdentityProvider.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/util-identity-and-auth/memoizeIdentityProvider.js"() {
     createIsIdentityExpiredFunction = (expirationMs) => function isIdentityExpired2(identity) {
       return doesIdentityRequireRefresh(identity) && identity.expiration.getTime() - Date.now() < expirationMs;
     };
@@ -25100,16 +25228,16 @@ var init_memoizeIdentityProvider = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/util-identity-and-auth/index.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/util-identity-and-auth/index.js
 var init_util_identity_and_auth = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/util-identity-and-auth/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/util-identity-and-auth/index.js"() {
     init_DefaultIdentityProviderConfig();
     init_httpAuthSchemes();
     init_memoizeIdentityProvider();
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/index.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/index.js
 var dist_es_exports = {};
 __export(dist_es_exports, {
   DefaultIdentityProviderConfig: () => DefaultIdentityProviderConfig,
@@ -25136,7 +25264,7 @@ __export(dist_es_exports, {
   setFeature: () => setFeature
 });
 var init_dist_es = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/index.js"() {
     init_getSmithyContext();
     init_middleware_http_auth_scheme();
     init_middleware_http_signing();
@@ -25148,24 +25276,24 @@ var init_dist_es = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-endpoints@3.4.1/node_modules/@smithy/util-endpoints/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+util-endpoints@3.4.2/node_modules/@smithy/util-endpoints/dist-cjs/index.js
 var require_dist_cjs20 = __commonJS({
-  "node_modules/.pnpm/@smithy+util-endpoints@3.4.1/node_modules/@smithy/util-endpoints/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-endpoints@3.4.2/node_modules/@smithy/util-endpoints/dist-cjs/index.js"(exports2) {
     "use strict";
     var types = require_dist_cjs();
-    var BinaryDecisionDiagram = class _BinaryDecisionDiagram {
+    var BinaryDecisionDiagram5 = class _BinaryDecisionDiagram {
       nodes;
       root;
       conditions;
       results;
-      constructor(bdd, root, conditions, results) {
-        this.nodes = bdd;
-        this.root = root;
+      constructor(bdd5, root5, conditions, results) {
+        this.nodes = bdd5;
+        this.root = root5;
         this.conditions = conditions;
         this.results = results;
       }
-      static from(bdd, root, conditions, results) {
-        return new _BinaryDecisionDiagram(bdd, root, conditions, results);
+      static from(bdd5, root5, conditions, results) {
+        return new _BinaryDecisionDiagram(bdd5, root5, conditions, results);
       }
     };
     var EndpointCache5 = class {
@@ -25312,7 +25440,7 @@ var require_dist_cjs20 = __commonJS({
           if (typeof value === "object" && "hostname" in value) {
             const { hostname: hostname2, port, protocol: protocol2 = "", path = "", query = {} } = value;
             const url = new URL(`${protocol2}//${hostname2}${port ? `:${port}` : ""}${path}`);
-            url.search = Object.entries(query).map(([k5, v5]) => `${k5}=${v5}`).join("&");
+            url.search = Object.entries(query).map(([k5, v]) => `${k5}=${v}`).join("&");
             return url;
           }
           return new URL(value);
@@ -25436,47 +25564,51 @@ var require_dist_cjs20 = __commonJS({
           evaluatedArgs[i5] = group$2.evaluateExpression(arg, "arg", options);
         }
       }
-      if (fn.includes(".")) {
-        const fnSegments = fn.split(".");
-        if (fnSegments[0] in customEndpointFunctions5 && fnSegments[1] != null) {
-          return customEndpointFunctions5[fnSegments[0]][fnSegments[1]](...evaluatedArgs);
+      const namespaceSeparatorIndex = fn.indexOf(".");
+      if (namespaceSeparatorIndex !== -1) {
+        const namespaceFunctions = customEndpointFunctions5[fn.slice(0, namespaceSeparatorIndex)];
+        const customFunction = namespaceFunctions?.[fn.slice(namespaceSeparatorIndex + 1)];
+        if (typeof customFunction === "function") {
+          return customFunction(...evaluatedArgs);
         }
       }
-      if (typeof endpointFunctions[fn] !== "function") {
-        throw new Error(`function ${fn} not loaded in endpointFunctions.`);
-      }
       const callable = endpointFunctions[fn];
-      return callable(...evaluatedArgs);
+      if (typeof callable === "function") {
+        return callable(...evaluatedArgs);
+      }
+      throw new Error(`function ${fn} not loaded in endpointFunctions.`);
     };
     var group$2 = {
       evaluateExpression,
       callFunction
     };
-    var evaluateCondition = ({ assign, ...fnArgs }, options) => {
+    var evaluateCondition = (condition, options) => {
+      const { assign } = condition;
       if (assign && assign in options.referenceRecord) {
         throw new EndpointError(`'${assign}' is already defined in Reference Record.`);
       }
-      const value = callFunction(fnArgs, options);
-      options.logger?.debug?.(`${debugId} evaluateCondition: ${toDebugString(fnArgs)} = ${toDebugString(value)}`);
-      return {
-        result: value === "" ? true : !!value,
-        ...assign != null && { toAssign: { name: assign, value } }
-      };
+      const value = callFunction(condition, options);
+      options.logger?.debug?.(`${debugId} evaluateCondition: ${toDebugString(condition)} = ${toDebugString(value)}`);
+      const result = value === "" ? true : !!value;
+      if (assign != null) {
+        return { result, toAssign: { name: assign, value } };
+      }
+      return { result };
     };
-    var getEndpointHeaders = (headers, options) => Object.entries(headers ?? {}).reduce((acc, [headerKey, headerVal]) => ({
-      ...acc,
-      [headerKey]: headerVal.map((headerValEntry) => {
+    var getEndpointHeaders = (headers, options) => Object.entries(headers ?? {}).reduce((acc, [headerKey, headerVal]) => {
+      acc[headerKey] = headerVal.map((headerValEntry) => {
         const processedExpr = evaluateExpression(headerValEntry, "Header value entry", options);
         if (typeof processedExpr !== "string") {
           throw new EndpointError(`Header '${headerKey}' value '${processedExpr}' is not a string`);
         }
         return processedExpr;
-      })
-    }), {});
-    var getEndpointProperties = (properties, options) => Object.entries(properties).reduce((acc, [propertyKey, propertyVal]) => ({
-      ...acc,
-      [propertyKey]: group$1.getEndpointProperty(propertyVal, options)
-    }), {});
+      });
+      return acc;
+    }, {});
+    var getEndpointProperties = (properties, options) => Object.entries(properties).reduce((acc, [propertyKey, propertyVal]) => {
+      acc[propertyKey] = group$1.getEndpointProperty(propertyVal, options);
+      return acc;
+    }, {});
     var getEndpointProperty = (property, options) => {
       if (Array.isArray(property)) {
         return property.map((propertyEntry) => getEndpointProperty(propertyEntry, options));
@@ -25512,9 +25644,9 @@ var require_dist_cjs20 = __commonJS({
       throw new EndpointError(`Endpoint URL must be a string, got ${typeof expression}`);
     };
     var RESULT = 1e8;
-    var decideEndpoint = (bdd, options) => {
-      const { nodes, root, results, conditions } = bdd;
-      let ref = root;
+    var decideEndpoint5 = (bdd5, options) => {
+      const { nodes: nodes5, root: root5, results, conditions } = bdd5;
+      let ref = root5;
       const referenceRecord = {};
       const closure = {
         referenceRecord,
@@ -25523,7 +25655,7 @@ var require_dist_cjs20 = __commonJS({
       };
       while (ref !== 1 && ref !== -1 && ref < RESULT) {
         const node_i = 3 * (Math.abs(ref) - 1);
-        const [condition_i, highRef, lowRef] = [nodes[node_i], nodes[node_i + 1], nodes[node_i + 2]];
+        const [condition_i, highRef, lowRef] = [nodes5[node_i], nodes5[node_i + 1], nodes5[node_i + 2]];
         const [fn, argv, assign] = conditions[condition_i];
         const evaluation = evaluateCondition({ fn, assign, argv }, closure);
         if (evaluation.toAssign) {
@@ -25549,23 +25681,27 @@ var require_dist_cjs20 = __commonJS({
     };
     var evaluateConditions = (conditions = [], options) => {
       const conditionsReferenceRecord = {};
+      const conditionOptions = {
+        ...options,
+        referenceRecord: { ...options.referenceRecord }
+      };
+      let didAssign = false;
       for (const condition of conditions) {
-        const { result, toAssign } = evaluateCondition(condition, {
-          ...options,
-          referenceRecord: {
-            ...options.referenceRecord,
-            ...conditionsReferenceRecord
-          }
-        });
+        const { result, toAssign } = evaluateCondition(condition, conditionOptions);
         if (!result) {
           return { result };
         }
         if (toAssign) {
+          didAssign = true;
           conditionsReferenceRecord[toAssign.name] = toAssign.value;
+          conditionOptions.referenceRecord[toAssign.name] = toAssign.value;
           options.logger?.debug?.(`${debugId} assign: ${toAssign.name} := ${toDebugString(toAssign.value)}`);
         }
       }
-      return { result: true, referenceRecord: conditionsReferenceRecord };
+      if (didAssign) {
+        return { result: true, referenceRecord: conditionsReferenceRecord };
+      }
+      return { result: true };
     };
     var evaluateEndpointRule = (endpointRule, options) => {
       const { conditions, endpoint: endpoint2 } = endpointRule;
@@ -25573,21 +25709,20 @@ var require_dist_cjs20 = __commonJS({
       if (!result) {
         return;
       }
-      const endpointRuleOptions = {
+      const endpointRuleOptions = referenceRecord ? {
         ...options,
         referenceRecord: { ...options.referenceRecord, ...referenceRecord }
-      };
+      } : options;
       const { url, properties, headers } = endpoint2;
       options.logger?.debug?.(`${debugId} Resolving endpoint from template: ${toDebugString(endpoint2)}`);
-      return {
-        ...headers != void 0 && {
-          headers: getEndpointHeaders(headers, endpointRuleOptions)
-        },
-        ...properties != void 0 && {
-          properties: getEndpointProperties(properties, endpointRuleOptions)
-        },
-        url: getEndpointUrl(url, endpointRuleOptions)
-      };
+      const endpointToReturn = { url: getEndpointUrl(url, endpointRuleOptions) };
+      if (headers != null) {
+        endpointToReturn.headers = getEndpointHeaders(headers, endpointRuleOptions);
+      }
+      if (properties != null) {
+        endpointToReturn.properties = getEndpointProperties(properties, endpointRuleOptions);
+      }
+      return endpointToReturn;
     };
     var evaluateErrorRule = (errorRule, options) => {
       const { conditions, error: error3 } = errorRule;
@@ -25595,10 +25730,11 @@ var require_dist_cjs20 = __commonJS({
       if (!result) {
         return;
       }
-      throw new EndpointError(evaluateExpression(error3, "Error", {
+      const errorRuleOptions = referenceRecord ? {
         ...options,
         referenceRecord: { ...options.referenceRecord, ...referenceRecord }
-      }));
+      } : options;
+      throw new EndpointError(evaluateExpression(error3, "Error", errorRuleOptions));
     };
     var evaluateRules = (rules, options) => {
       for (const rule of rules) {
@@ -25626,16 +25762,14 @@ var require_dist_cjs20 = __commonJS({
       if (!result) {
         return;
       }
-      return group.evaluateRules(rules, {
-        ...options,
-        referenceRecord: { ...options.referenceRecord, ...referenceRecord }
-      });
+      const treeRuleOptions = referenceRecord ? { ...options, referenceRecord: { ...options.referenceRecord, ...referenceRecord } } : options;
+      return group.evaluateRules(rules, treeRuleOptions);
     };
     var group = {
       evaluateRules,
       evaluateTreeRule
     };
-    var resolveEndpoint5 = (ruleSetObject, options) => {
+    var resolveEndpoint = (ruleSetObject, options) => {
       const { endpointParams, logger: logger2 } = options;
       const { parameters, rules } = ruleSetObject;
       options.logger?.debug?.(`${debugId} Initial EndpointParams: ${toDebugString(endpointParams)}`);
@@ -25654,20 +25788,20 @@ var require_dist_cjs20 = __commonJS({
       options.logger?.debug?.(`${debugId} Resolved endpoint: ${toDebugString(endpoint2)}`);
       return endpoint2;
     };
-    exports2.BinaryDecisionDiagram = BinaryDecisionDiagram;
+    exports2.BinaryDecisionDiagram = BinaryDecisionDiagram5;
     exports2.EndpointCache = EndpointCache5;
     exports2.EndpointError = EndpointError;
     exports2.customEndpointFunctions = customEndpointFunctions5;
-    exports2.decideEndpoint = decideEndpoint;
+    exports2.decideEndpoint = decideEndpoint5;
     exports2.isIpAddress = isIpAddress;
     exports2.isValidHostLabel = isValidHostLabel;
-    exports2.resolveEndpoint = resolveEndpoint5;
+    exports2.resolveEndpoint = resolveEndpoint;
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+util-endpoints@3.996.7/node_modules/@aws-sdk/util-endpoints/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+util-endpoints@3.996.8/node_modules/@aws-sdk/util-endpoints/dist-cjs/index.js
 var require_dist_cjs21 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+util-endpoints@3.996.7/node_modules/@aws-sdk/util-endpoints/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+util-endpoints@3.996.8/node_modules/@aws-sdk/util-endpoints/dist-cjs/index.js"(exports2) {
     "use strict";
     var utilEndpoints = require_dist_cjs20();
     var urlParser = require_dist_cjs18();
@@ -26066,10 +26200,10 @@ var require_dist_cjs21 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/client/emitWarningIfUnsupportedVersion.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/emitWarningIfUnsupportedVersion.js
 var state, emitWarningIfUnsupportedVersion;
 var init_emitWarningIfUnsupportedVersion = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/client/emitWarningIfUnsupportedVersion.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/emitWarningIfUnsupportedVersion.js"() {
     state = {
       warningEmitted: false
     };
@@ -26088,10 +26222,10 @@ More information can be found at: https://a.co/c895JFp`);
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/client/longPollMiddleware.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/longPollMiddleware.js
 var longPollMiddleware, longPollMiddlewareOptions, getLongPollPlugin;
 var init_longPollMiddleware = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/client/longPollMiddleware.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/longPollMiddleware.js"() {
     longPollMiddleware = () => (next, context) => async (args) => {
       context.__retryLongPoll = true;
       return next(args);
@@ -26110,7 +26244,7 @@ var init_longPollMiddleware = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/client/setCredentialFeature.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/setCredentialFeature.js
 function setCredentialFeature(credentials, feature, value) {
   if (!credentials.$source) {
     credentials.$source = {};
@@ -26119,62 +26253,13 @@ function setCredentialFeature(credentials, feature, value) {
   return credentials;
 }
 var init_setCredentialFeature = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/client/setCredentialFeature.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/setCredentialFeature.js"() {
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/client/setFeature.js
-function setFeature2(context, feature, value) {
-  if (!context.__aws_sdk_context) {
-    context.__aws_sdk_context = {
-      features: {}
-    };
-  } else if (!context.__aws_sdk_context.features) {
-    context.__aws_sdk_context.features = {};
-  }
-  context.__aws_sdk_context.features[feature] = value;
-}
-var init_setFeature2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/client/setFeature.js"() {
-  }
-});
-
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/client/setTokenFeature.js
-function setTokenFeature(token, feature, value) {
-  if (!token.$source) {
-    token.$source = {};
-  }
-  token.$source[feature] = value;
-  return token;
-}
-var init_setTokenFeature = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/client/setTokenFeature.js"() {
-  }
-});
-
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/client/index.js
-var client_exports = {};
-__export(client_exports, {
-  emitWarningIfUnsupportedVersion: () => emitWarningIfUnsupportedVersion,
-  getLongPollPlugin: () => getLongPollPlugin,
-  setCredentialFeature: () => setCredentialFeature,
-  setFeature: () => setFeature2,
-  setTokenFeature: () => setTokenFeature,
-  state: () => state
-});
-var init_client = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/client/index.js"() {
-    init_emitWarningIfUnsupportedVersion();
-    init_longPollMiddleware();
-    init_setCredentialFeature();
-    init_setFeature2();
-    init_setTokenFeature();
-  }
-});
-
-// node_modules/.pnpm/@smithy+service-error-classification@4.2.14/node_modules/@smithy/service-error-classification/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+service-error-classification@4.3.1/node_modules/@smithy/service-error-classification/dist-cjs/index.js
 var require_dist_cjs22 = __commonJS({
-  "node_modules/.pnpm/@smithy+service-error-classification@4.2.14/node_modules/@smithy/service-error-classification/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+service-error-classification@4.3.1/node_modules/@smithy/service-error-classification/dist-cjs/index.js"(exports2) {
     "use strict";
     var CLOCK_SKEW_ERROR_CODES = [
       "AuthFailure",
@@ -26222,7 +26307,7 @@ var require_dist_cjs22 = __commonJS({
       return errorMessages.has(error3.message);
     };
     var isThrottlingError = (error3) => error3.$metadata?.httpStatusCode === 429 || THROTTLING_ERROR_CODES.includes(error3.name) || error3.$retryable?.throttling == true;
-    var isTransientError = (error3, depth = 0) => isRetryableByTrait(error3) || isClockSkewCorrectedError(error3) || TRANSIENT_ERROR_CODES.includes(error3.name) || NODEJS_TIMEOUT_ERROR_CODES.includes(error3?.code || "") || NODEJS_NETWORK_ERROR_CODES.includes(error3?.code || "") || TRANSIENT_ERROR_STATUS_CODES.includes(error3.$metadata?.httpStatusCode || 0) || isBrowserNetworkError(error3) || error3.cause !== void 0 && depth <= 10 && isTransientError(error3.cause, depth + 1);
+    var isTransientError = (error3, depth = 0) => isRetryableByTrait(error3) || isClockSkewCorrectedError(error3) || error3.name === "InvalidSignatureException" && error3.message?.includes("Signature expired") || TRANSIENT_ERROR_CODES.includes(error3.name) || NODEJS_TIMEOUT_ERROR_CODES.includes(error3?.code || "") || NODEJS_NETWORK_ERROR_CODES.includes(error3?.code || "") || TRANSIENT_ERROR_STATUS_CODES.includes(error3.$metadata?.httpStatusCode || 0) || isBrowserNetworkError(error3) || isNodeJsHttp2TransientError(error3) || error3.cause !== void 0 && depth <= 10 && isTransientError(error3.cause, depth + 1);
     var isServerError = (error3) => {
       if (error3.$metadata?.httpStatusCode !== void 0) {
         const statusCode = error3.$metadata.httpStatusCode;
@@ -26233,9 +26318,13 @@ var require_dist_cjs22 = __commonJS({
       }
       return false;
     };
+    function isNodeJsHttp2TransientError(error3) {
+      return error3.code === "ERR_HTTP2_STREAM_ERROR" && error3.message.includes("NGHTTP2_REFUSED_STREAM");
+    }
     exports2.isBrowserNetworkError = isBrowserNetworkError;
     exports2.isClockSkewCorrectedError = isClockSkewCorrectedError;
     exports2.isClockSkewError = isClockSkewError;
+    exports2.isNodeJsHttp2TransientError = isNodeJsHttp2TransientError;
     exports2.isRetryableByTrait = isRetryableByTrait;
     exports2.isServerError = isServerError;
     exports2.isThrottlingError = isThrottlingError;
@@ -26243,9 +26332,9 @@ var require_dist_cjs22 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-retry@4.3.2/node_modules/@smithy/util-retry/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+util-retry@4.3.6/node_modules/@smithy/util-retry/dist-cjs/index.js
 var require_dist_cjs23 = __commonJS({
-  "node_modules/.pnpm/@smithy+util-retry@4.3.2/node_modules/@smithy/util-retry/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-retry@4.3.6/node_modules/@smithy/util-retry/dist-cjs/index.js"(exports2) {
     "use strict";
     var serviceErrorClassification = require_dist_cjs22();
     exports2.RETRY_MODES = void 0;
@@ -26314,9 +26403,10 @@ var require_dist_cjs23 = __commonJS({
           return;
         }
         this.refillTokenBucket();
-        if (amount > this.availableTokens) {
+        while (amount > this.availableTokens) {
           const delay = (amount - this.availableTokens) / this.fillRate * 1e3;
           await new Promise((resolve) => _DefaultRateLimiter.setTimeoutFn(resolve, delay));
+          this.refillTokenBucket();
         }
         this.availableTokens = this.availableTokens - amount;
       }
@@ -26349,8 +26439,8 @@ var require_dist_cjs23 = __commonJS({
         this.availableTokens = Math.min(this.availableTokens, this.maxCapacity);
       }
       updateMeasuredRate() {
-        const t5 = this.getCurrentTimeInSeconds();
-        const timeBucket = Math.floor(t5 * 2) / 2;
+        const t = this.getCurrentTimeInSeconds();
+        const timeBucket = Math.floor(t * 2) / 2;
         this.requestCount++;
         if (timeBucket > this.lastTxRateBucket) {
           const currentRate = this.requestCount / (timeBucket - this.lastTxRateBucket);
@@ -26372,7 +26462,7 @@ var require_dist_cjs23 = __commonJS({
     var NO_RETRY_INCREMENT = 1;
     var INVOCATION_ID_HEADER = "amz-sdk-invocation-id";
     var REQUEST_HEADER = "amz-sdk-request";
-    var Retry = class _Retry {
+    var Retry2 = class _Retry {
       static v2026 = typeof process !== "undefined" && process.env?.SMITHY_NEW_RETRIES_2026 === "true";
       static delay() {
         return _Retry.v2026 ? 50 : 100;
@@ -26391,7 +26481,7 @@ var require_dist_cjs23 = __commonJS({
       }
     };
     var DefaultRetryBackoffStrategy = class {
-      x = Retry.delay();
+      x = Retry2.delay();
       computeNextBackoffDelay(i5) {
         const b5 = Math.random();
         const r5 = 2;
@@ -26426,6 +26516,11 @@ var require_dist_cjs23 = __commonJS({
         return this.longPoll;
       }
     };
+    var refusal = {
+      incompatible: 1,
+      attempts: 2,
+      capacity: 3
+    };
     var StandardRetryStrategy = class {
       mode = exports2.RETRY_MODES.STANDARD;
       capacity = INITIAL_RETRY_TOKENS;
@@ -26443,25 +26538,29 @@ var require_dist_cjs23 = __commonJS({
           this.retryBackoffStrategy = arg1.backoff;
         }
         this.maxAttemptsProvider ??= async () => DEFAULT_MAX_ATTEMPTS;
-        this.baseDelay ??= Retry.delay();
+        this.baseDelay ??= Retry2.delay();
         this.retryBackoffStrategy ??= new DefaultRetryBackoffStrategy();
       }
       async acquireInitialRetryToken(retryTokenScope) {
-        return new DefaultRetryToken(Retry.delay(), 0, void 0, Retry.v2026 && retryTokenScope.includes(":longpoll"));
+        return new DefaultRetryToken(Retry2.delay(), 0, void 0, Retry2.v2026 && retryTokenScope.includes(":longpoll"));
       }
       async refreshRetryTokenForRetry(token, errorInfo) {
         const maxAttempts = await this.getMaxAttempts();
-        const shouldRetry = this.shouldRetry(token, errorInfo, maxAttempts);
-        if (shouldRetry || token.isLongPoll?.()) {
+        const retryCode = this.retryCode(token, errorInfo, maxAttempts);
+        const shouldRetry = retryCode === 0;
+        const isLongPoll = token.isLongPoll?.();
+        if (shouldRetry || isLongPoll) {
           const errorType = errorInfo.errorType;
-          this.retryBackoffStrategy.setDelayBase(errorType === "THROTTLING" ? Retry.throttlingDelay() : this.baseDelay);
+          this.retryBackoffStrategy.setDelayBase(errorType === "THROTTLING" ? Retry2.throttlingDelay() : this.baseDelay);
           const delayFromErrorType = this.retryBackoffStrategy.computeNextBackoffDelay(token.getRetryCount());
           let retryDelay = delayFromErrorType;
           if (errorInfo.retryAfterHint instanceof Date) {
             retryDelay = Math.max(delayFromErrorType, Math.min(errorInfo.retryAfterHint.getTime() - Date.now(), delayFromErrorType + 5e3));
           }
           if (!shouldRetry) {
-            throw Object.assign(new Error("No retry token available"), { $backoff: Retry.v2026 ? retryDelay : 0 });
+            throw Object.assign(new Error("No retry token available"), {
+              $backoff: Retry2.v2026 && retryCode === refusal.capacity && isLongPoll ? retryDelay : 0
+            });
           } else {
             const capacityCost = this.getCapacityCost(errorType);
             this.capacity -= capacityCost;
@@ -26476,6 +26575,9 @@ var require_dist_cjs23 = __commonJS({
       getCapacity() {
         return this.capacity;
       }
+      async maxAttempts() {
+        return this.maxAttemptsProvider();
+      }
       async getMaxAttempts() {
         try {
           return await this.maxAttemptsProvider();
@@ -26484,18 +26586,18 @@ var require_dist_cjs23 = __commonJS({
           return DEFAULT_MAX_ATTEMPTS;
         }
       }
-      shouldRetry(tokenToRenew, errorInfo, maxAttempts) {
+      retryCode(tokenToRenew, errorInfo, maxAttempts) {
         const attempts = tokenToRenew.getRetryCount() + 1;
-        return attempts < maxAttempts && this.capacity >= this.getCapacityCost(errorInfo.errorType) && this.isRetryableError(errorInfo.errorType);
+        const retryableStatus = this.isRetryableError(errorInfo.errorType) ? 0 : refusal.incompatible;
+        const attemptStatus = attempts < maxAttempts ? 0 : refusal.attempts;
+        const capacityStatus = this.capacity >= this.getCapacityCost(errorInfo.errorType) ? 0 : refusal.capacity;
+        return retryableStatus || attemptStatus || capacityStatus;
       }
       getCapacityCost(errorType) {
-        return errorType === Retry.modifiedCostType() ? Retry.throttlingCost() : Retry.cost();
+        return errorType === Retry2.modifiedCostType() ? Retry2.throttlingCost() : Retry2.cost();
       }
       isRetryableError(errorType) {
         return errorType === "THROTTLING" || errorType === "TRANSIENT";
-      }
-      async maxAttempts() {
-        return this.maxAttemptsProvider();
       }
     };
     var AdaptiveRetryStrategy = class {
@@ -26511,12 +26613,15 @@ var require_dist_cjs23 = __commonJS({
         }) : new StandardRetryStrategy(maxAttemptsProvider);
       }
       async acquireInitialRetryToken(retryTokenScope) {
+        const token = this.standardRetryStrategy.acquireInitialRetryToken(retryTokenScope);
         await this.rateLimiter.getSendToken();
-        return this.standardRetryStrategy.acquireInitialRetryToken(retryTokenScope);
+        return token;
       }
       async refreshRetryTokenForRetry(tokenToRenew, errorInfo) {
         this.rateLimiter.updateClientSendingRate(errorInfo);
-        return this.standardRetryStrategy.refreshRetryTokenForRetry(tokenToRenew, errorInfo);
+        const token = this.standardRetryStrategy.refreshRetryTokenForRetry(tokenToRenew, errorInfo);
+        await this.rateLimiter.getSendToken();
+        return token;
       }
       recordSuccess(token) {
         this.rateLimiter.updateClientSendingRate({});
@@ -26528,7 +26633,7 @@ var require_dist_cjs23 = __commonJS({
     };
     var ConfiguredRetryStrategy = class extends StandardRetryStrategy {
       computeNextBackoffDelay;
-      constructor(maxAttempts, computeNextBackoffDelay = Retry.delay()) {
+      constructor(maxAttempts, computeNextBackoffDelay = Retry2.delay()) {
         super(typeof maxAttempts === "function" ? maxAttempts : async () => maxAttempts);
         if (typeof computeNextBackoffDelay === "number") {
           this.computeNextBackoffDelay = () => computeNextBackoffDelay;
@@ -26554,16 +26659,68 @@ var require_dist_cjs23 = __commonJS({
     exports2.NO_RETRY_INCREMENT = NO_RETRY_INCREMENT;
     exports2.REQUEST_HEADER = REQUEST_HEADER;
     exports2.RETRY_COST = RETRY_COST;
-    exports2.Retry = Retry;
+    exports2.Retry = Retry2;
     exports2.StandardRetryStrategy = StandardRetryStrategy;
     exports2.THROTTLING_RETRY_DELAY_BASE = THROTTLING_RETRY_DELAY_BASE;
     exports2.TIMEOUT_RETRY_COST = TIMEOUT_RETRY_COST;
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+middleware-user-agent@3.972.31/node_modules/@aws-sdk/middleware-user-agent/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/setFeature.js
+function setFeature2(context, feature, value) {
+  if (!context.__aws_sdk_context) {
+    context.__aws_sdk_context = {
+      features: {}
+    };
+  } else if (!context.__aws_sdk_context.features) {
+    context.__aws_sdk_context.features = {};
+  }
+  context.__aws_sdk_context.features[feature] = value;
+}
+var import_util_retry;
+var init_setFeature2 = __esm({
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/setFeature.js"() {
+    import_util_retry = __toESM(require_dist_cjs23());
+    import_util_retry.Retry.v2026 ||= typeof process === "object" && process.env?.AWS_NEW_RETRIES_2026 === "true";
+  }
+});
+
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/setTokenFeature.js
+function setTokenFeature(token, feature, value) {
+  if (!token.$source) {
+    token.$source = {};
+  }
+  token.$source[feature] = value;
+  return token;
+}
+var init_setTokenFeature = __esm({
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/setTokenFeature.js"() {
+  }
+});
+
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/index.js
+var client_exports = {};
+__export(client_exports, {
+  emitWarningIfUnsupportedVersion: () => emitWarningIfUnsupportedVersion,
+  getLongPollPlugin: () => getLongPollPlugin,
+  setCredentialFeature: () => setCredentialFeature,
+  setFeature: () => setFeature2,
+  setTokenFeature: () => setTokenFeature,
+  state: () => state
+});
+var init_client = __esm({
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/index.js"() {
+    init_emitWarningIfUnsupportedVersion();
+    init_longPollMiddleware();
+    init_setCredentialFeature();
+    init_setFeature2();
+    init_setTokenFeature();
+  }
+});
+
+// node_modules/.pnpm/@aws-sdk+middleware-user-agent@3.972.37/node_modules/@aws-sdk/middleware-user-agent/dist-cjs/index.js
 var require_dist_cjs24 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+middleware-user-agent@3.972.31/node_modules/@aws-sdk/middleware-user-agent/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+middleware-user-agent@3.972.37/node_modules/@aws-sdk/middleware-user-agent/dist-cjs/index.js"(exports2) {
     "use strict";
     var core = (init_dist_es(), __toCommonJS(dist_es_exports));
     var utilEndpoints = require_dist_cjs21();
@@ -26774,9 +26931,9 @@ var require_dist_cjs25 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+config-resolver@4.4.16/node_modules/@smithy/config-resolver/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+config-resolver@4.4.17/node_modules/@smithy/config-resolver/dist-cjs/index.js
 var require_dist_cjs26 = __commonJS({
-  "node_modules/.pnpm/@smithy+config-resolver@4.4.16/node_modules/@smithy/config-resolver/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+config-resolver@4.4.17/node_modules/@smithy/config-resolver/dist-cjs/index.js"(exports2) {
     "use strict";
     var utilConfigProvider = require_dist_cjs25();
     var utilMiddleware = require_dist_cjs6();
@@ -27421,9 +27578,9 @@ var require_dist_cjs30 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+middleware-endpoint@4.4.30/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointUrlConfig.js
+// node_modules/.pnpm/@smithy+middleware-endpoint@4.4.32/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointUrlConfig.js
 var require_getEndpointUrlConfig = __commonJS({
-  "node_modules/.pnpm/@smithy+middleware-endpoint@4.4.30/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointUrlConfig.js"(exports2) {
+  "node_modules/.pnpm/@smithy+middleware-endpoint@4.4.32/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointUrlConfig.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getEndpointUrlConfig = void 0;
@@ -27432,7 +27589,7 @@ var require_getEndpointUrlConfig = __commonJS({
     var CONFIG_ENDPOINT_URL = "endpoint_url";
     var getEndpointUrlConfig = (serviceId) => ({
       environmentVariableSelector: (env) => {
-        const serviceSuffixParts = serviceId.split(" ").map((w5) => w5.toUpperCase());
+        const serviceSuffixParts = serviceId.split(" ").map((w) => w.toUpperCase());
         const serviceEndpointUrl = env[[ENV_ENDPOINT_URL, ...serviceSuffixParts].join("_")];
         if (serviceEndpointUrl)
           return serviceEndpointUrl;
@@ -27445,7 +27602,7 @@ var require_getEndpointUrlConfig = __commonJS({
         if (config && profile.services) {
           const servicesSection = config[["services", profile.services].join(shared_ini_file_loader_1.CONFIG_PREFIX_SEPARATOR)];
           if (servicesSection) {
-            const servicePrefixParts = serviceId.split(" ").map((w5) => w5.toLowerCase());
+            const servicePrefixParts = serviceId.split(" ").map((w) => w.toLowerCase());
             const endpointUrl2 = servicesSection[[servicePrefixParts.join("_"), CONFIG_ENDPOINT_URL].join(shared_ini_file_loader_1.CONFIG_PREFIX_SEPARATOR)];
             if (endpointUrl2)
               return endpointUrl2;
@@ -27462,9 +27619,9 @@ var require_getEndpointUrlConfig = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+middleware-endpoint@4.4.30/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointFromConfig.js
+// node_modules/.pnpm/@smithy+middleware-endpoint@4.4.32/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointFromConfig.js
 var require_getEndpointFromConfig = __commonJS({
-  "node_modules/.pnpm/@smithy+middleware-endpoint@4.4.30/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointFromConfig.js"(exports2) {
+  "node_modules/.pnpm/@smithy+middleware-endpoint@4.4.32/node_modules/@smithy/middleware-endpoint/dist-cjs/adaptors/getEndpointFromConfig.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getEndpointFromConfig = void 0;
@@ -27475,9 +27632,9 @@ var require_getEndpointFromConfig = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+middleware-serde@4.2.18/node_modules/@smithy/middleware-serde/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+middleware-serde@4.2.20/node_modules/@smithy/middleware-serde/dist-cjs/index.js
 var require_dist_cjs31 = __commonJS({
-  "node_modules/.pnpm/@smithy+middleware-serde@4.2.18/node_modules/@smithy/middleware-serde/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+middleware-serde@4.2.20/node_modules/@smithy/middleware-serde/dist-cjs/index.js"(exports2) {
     "use strict";
     var protocolHttp = require_dist_cjs2();
     var endpoints = (init_endpoints(), __toCommonJS(endpoints_exports));
@@ -27574,9 +27731,9 @@ var require_dist_cjs31 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+middleware-endpoint@4.4.30/node_modules/@smithy/middleware-endpoint/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+middleware-endpoint@4.4.32/node_modules/@smithy/middleware-endpoint/dist-cjs/index.js
 var require_dist_cjs32 = __commonJS({
-  "node_modules/.pnpm/@smithy+middleware-endpoint@4.4.30/node_modules/@smithy/middleware-endpoint/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+middleware-endpoint@4.4.32/node_modules/@smithy/middleware-endpoint/dist-cjs/index.js"(exports2) {
     "use strict";
     var core = (init_dist_es(), __toCommonJS(dist_es_exports));
     var utilMiddleware = require_dist_cjs6();
@@ -27692,7 +27849,7 @@ var require_dist_cjs32 = __commonJS({
           clientConfig.isCustomEndpoint = true;
         }
       }
-      const endpointParams = await resolveParams(commandInput, instructionsSupplier, clientConfig);
+      const endpointParams = await resolveParams2(commandInput, instructionsSupplier, clientConfig);
       if (typeof clientConfig.endpointProvider !== "function") {
         throw new Error("config.endpointProvider is not set.");
       }
@@ -27708,7 +27865,7 @@ var require_dist_cjs32 = __commonJS({
       }
       return endpoint2;
     };
-    var resolveParams = async (commandInput, instructionsSupplier, clientConfig) => {
+    var resolveParams2 = async (commandInput, instructionsSupplier, clientConfig) => {
       const endpointParams = {};
       const instructions = instructionsSupplier?.getEndpointParameterInstructions?.() || {};
       for (const [name, instruction] of Object.entries(instructions)) {
@@ -27823,7 +27980,7 @@ var require_dist_cjs32 = __commonJS({
     exports2.getEndpointPlugin = getEndpointPlugin6;
     exports2.resolveEndpointConfig = resolveEndpointConfig5;
     exports2.resolveEndpointRequiredConfig = resolveEndpointRequiredConfig;
-    exports2.resolveParams = resolveParams;
+    exports2.resolveParams = resolveParams2;
     exports2.toEndpointV1 = toEndpointV12;
   }
 });
@@ -28099,9 +28256,9 @@ var require_dist_cjs33 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+smithy-client@4.12.11/node_modules/@smithy/smithy-client/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+smithy-client@4.12.13/node_modules/@smithy/smithy-client/dist-cjs/index.js
 var require_dist_cjs34 = __commonJS({
-  "node_modules/.pnpm/@smithy+smithy-client@4.12.11/node_modules/@smithy/smithy-client/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+smithy-client@4.12.13/node_modules/@smithy/smithy-client/dist-cjs/index.js"(exports2) {
     "use strict";
     var middlewareStack = require_dist_cjs33();
     var types = require_dist_cjs();
@@ -28395,9 +28552,9 @@ var require_dist_cjs34 = __commonJS({
       }
     };
     var decorateServiceException2 = (exception, additions = {}) => {
-      Object.entries(additions).filter(([, v5]) => v5 !== void 0).forEach(([k5, v5]) => {
+      Object.entries(additions).filter(([, v]) => v !== void 0).forEach(([k5, v]) => {
         if (exception[k5] == void 0 || exception[k5] === "") {
-          exception[k5] = v5;
+          exception[k5] = v;
         }
       });
       const message = exception.message || exception.Message || "UnknownError";
@@ -28581,8 +28738,8 @@ var require_dist_cjs34 = __commonJS({
     }
     var convertMap = (target) => {
       const output = {};
-      for (const [k5, v5] of Object.entries(target || {})) {
-        output[k5] = [, v5];
+      for (const [k5, v] of Object.entries(target || {})) {
+        output[k5] = [, v];
       }
       return output;
     };
@@ -28708,9 +28865,9 @@ var require_dist_cjs34 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+middleware-retry@4.5.3/node_modules/@smithy/middleware-retry/dist-cjs/isStreamingPayload/isStreamingPayload.js
+// node_modules/.pnpm/@smithy+middleware-retry@4.5.7/node_modules/@smithy/middleware-retry/dist-cjs/isStreamingPayload/isStreamingPayload.js
 var require_isStreamingPayload = __commonJS({
-  "node_modules/.pnpm/@smithy+middleware-retry@4.5.3/node_modules/@smithy/middleware-retry/dist-cjs/isStreamingPayload/isStreamingPayload.js"(exports2) {
+  "node_modules/.pnpm/@smithy+middleware-retry@4.5.7/node_modules/@smithy/middleware-retry/dist-cjs/isStreamingPayload/isStreamingPayload.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isStreamingPayload = void 0;
@@ -28720,9 +28877,9 @@ var require_isStreamingPayload = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+middleware-retry@4.5.3/node_modules/@smithy/middleware-retry/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+middleware-retry@4.5.7/node_modules/@smithy/middleware-retry/dist-cjs/index.js
 var require_dist_cjs35 = __commonJS({
-  "node_modules/.pnpm/@smithy+middleware-retry@4.5.3/node_modules/@smithy/middleware-retry/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+middleware-retry@4.5.7/node_modules/@smithy/middleware-retry/dist-cjs/index.js"(exports2) {
     "use strict";
     var utilRetry = require_dist_cjs23();
     var protocolHttp = require_dist_cjs2();
@@ -28968,10 +29125,10 @@ var require_dist_cjs35 = __commonJS({
           }
           return new Date(Date.now() + retryAfterSeconds * 1e3);
         } else if (h5 === "x-amz-retry-after") {
-          const v5 = response.headers[header];
-          const backoffMilliseconds = Number(v5);
+          const v = response.headers[header];
+          const backoffMilliseconds = Number(v);
           if (isNaN(backoffMilliseconds)) {
-            logger2?.trace?.(`Failed to parse x-amz-retry-after=${v5}`);
+            logger2?.trace?.(`Failed to parse x-amz-retry-after=${v}`);
             return;
           }
           return new Date(Date.now() + backoffMilliseconds);
@@ -29094,36 +29251,36 @@ var require_dist_cjs35 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getDateHeader.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getDateHeader.js
 var import_protocol_http9, getDateHeader;
 var init_getDateHeader = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getDateHeader.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getDateHeader.js"() {
     import_protocol_http9 = __toESM(require_dist_cjs2());
     getDateHeader = (response) => import_protocol_http9.HttpResponse.isInstance(response) ? response.headers?.date ?? response.headers?.Date : void 0;
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getSkewCorrectedDate.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getSkewCorrectedDate.js
 var getSkewCorrectedDate;
 var init_getSkewCorrectedDate = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getSkewCorrectedDate.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getSkewCorrectedDate.js"() {
     getSkewCorrectedDate = (systemClockOffset) => new Date(Date.now() + systemClockOffset);
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/isClockSkewed.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/isClockSkewed.js
 var isClockSkewed;
 var init_isClockSkewed = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/isClockSkewed.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/isClockSkewed.js"() {
     init_getSkewCorrectedDate();
     isClockSkewed = (clockTime, systemClockOffset) => Math.abs(getSkewCorrectedDate(systemClockOffset).getTime() - clockTime) >= 3e5;
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getUpdatedSystemClockOffset.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getUpdatedSystemClockOffset.js
 var getUpdatedSystemClockOffset;
 var init_getUpdatedSystemClockOffset = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getUpdatedSystemClockOffset.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getUpdatedSystemClockOffset.js"() {
     init_isClockSkewed();
     getUpdatedSystemClockOffset = (clockTime, currentSystemClockOffset) => {
       const clockTimeInMs = Date.parse(clockTime);
@@ -29135,19 +29292,19 @@ var init_getUpdatedSystemClockOffset = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/index.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/index.js
 var init_utils = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/index.js"() {
     init_getDateHeader();
     init_getSkewCorrectedDate();
     init_getUpdatedSystemClockOffset();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4Signer.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4Signer.js
 var import_protocol_http10, throwSigningPropertyError, validateSigningProperties, AwsSdkSigV4Signer, AWSSDKSigV4Signer;
 var init_AwsSdkSigV4Signer = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4Signer.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4Signer.js"() {
     import_protocol_http10 = __toESM(require_dist_cjs2());
     init_utils();
     throwSigningPropertyError = (name, property) => {
@@ -29223,10 +29380,10 @@ var init_AwsSdkSigV4Signer = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4ASigner.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4ASigner.js
 var import_protocol_http11, AwsSdkSigV4ASigner;
 var init_AwsSdkSigV4ASigner = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4ASigner.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4ASigner.js"() {
     import_protocol_http11 = __toESM(require_dist_cjs2());
     init_utils();
     init_AwsSdkSigV4Signer();
@@ -29249,26 +29406,26 @@ var init_AwsSdkSigV4ASigner = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getArrayForCommaSeparatedString.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getArrayForCommaSeparatedString.js
 var getArrayForCommaSeparatedString;
 var init_getArrayForCommaSeparatedString = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getArrayForCommaSeparatedString.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getArrayForCommaSeparatedString.js"() {
     getArrayForCommaSeparatedString = (str) => typeof str === "string" && str.length > 0 ? str.split(",").map((item) => item.trim()) : [];
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getBearerTokenEnvKey.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getBearerTokenEnvKey.js
 var getBearerTokenEnvKey;
 var init_getBearerTokenEnvKey = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getBearerTokenEnvKey.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getBearerTokenEnvKey.js"() {
     getBearerTokenEnvKey = (signingName) => `AWS_BEARER_TOKEN_${signingName.replace(/[\s-]/g, "_").toUpperCase()}`;
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/NODE_AUTH_SCHEME_PREFERENCE_OPTIONS.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/NODE_AUTH_SCHEME_PREFERENCE_OPTIONS.js
 var NODE_AUTH_SCHEME_PREFERENCE_ENV_KEY, NODE_AUTH_SCHEME_PREFERENCE_CONFIG_KEY, NODE_AUTH_SCHEME_PREFERENCE_OPTIONS;
 var init_NODE_AUTH_SCHEME_PREFERENCE_OPTIONS = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/NODE_AUTH_SCHEME_PREFERENCE_OPTIONS.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/NODE_AUTH_SCHEME_PREFERENCE_OPTIONS.js"() {
     init_getArrayForCommaSeparatedString();
     init_getBearerTokenEnvKey();
     NODE_AUTH_SCHEME_PREFERENCE_ENV_KEY = "AWS_AUTH_SCHEME_PREFERENCE";
@@ -29294,10 +29451,10 @@ var init_NODE_AUTH_SCHEME_PREFERENCE_OPTIONS = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4AConfig.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4AConfig.js
 var import_property_provider, resolveAwsSdkSigV4AConfig, NODE_SIGV4A_CONFIG_OPTIONS;
 var init_resolveAwsSdkSigV4AConfig = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4AConfig.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4AConfig.js"() {
     init_dist_es();
     import_property_provider = __toESM(require_dist_cjs28());
     resolveAwsSdkSigV4AConfig = (config) => {
@@ -29866,7 +30023,7 @@ ${utilHexEncoding.toHex(hashedRequest)}`;
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4Config.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4Config.js
 function normalizeCredentialProvider(config, { credentials, credentialDefaultProvider }) {
   let credentialsProvider;
   if (credentials) {
@@ -29900,7 +30057,7 @@ function bindCallerConfig(config, credentialsProvider) {
 }
 var import_signature_v4, resolveAwsSdkSigV4Config, resolveAWSSDKSigV4Config;
 var init_resolveAwsSdkSigV4Config = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4Config.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4Config.js"() {
     init_client();
     init_dist_es();
     import_signature_v4 = __toESM(require_dist_cjs36());
@@ -30004,9 +30161,9 @@ var init_resolveAwsSdkSigV4Config = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/index.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/index.js
 var init_aws_sdk = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/index.js"() {
     init_AwsSdkSigV4Signer();
     init_AwsSdkSigV4ASigner();
     init_NODE_AUTH_SCHEME_PREFERENCE_OPTIONS();
@@ -30015,7 +30172,7 @@ var init_aws_sdk = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/index.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/index.js
 var httpAuthSchemes_exports = {};
 __export(httpAuthSchemes_exports, {
   AWSSDKSigV4Signer: () => AWSSDKSigV4Signer,
@@ -30030,15 +30187,15 @@ __export(httpAuthSchemes_exports, {
   validateSigningProperties: () => validateSigningProperties
 });
 var init_httpAuthSchemes2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/index.js"() {
     init_aws_sdk();
     init_getBearerTokenEnvKey();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/auth/httpAuthSchemeProvider.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/auth/httpAuthSchemeProvider.js
 var require_httpAuthSchemeProvider = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/auth/httpAuthSchemeProvider.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/auth/httpAuthSchemeProvider.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.resolveHttpAuthSchemeConfig = exports2.defaultKMSHttpAuthSchemeProvider = exports2.defaultKMSHttpAuthSchemeParametersProvider = void 0;
@@ -30088,13 +30245,13 @@ var require_httpAuthSchemeProvider = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/package.json
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/package.json
 var require_package = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/package.json"(exports2, module2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/package.json"(exports2, module2) {
     module2.exports = {
       name: "@aws-sdk/client-kms",
       description: "AWS SDK for JavaScript Kms Client for Node.js, Browser and React Native",
-      version: "3.1032.0",
+      version: "3.1038.0",
       scripts: {
         build: "concurrently 'yarn:build:types' 'yarn:build:es' && yarn build:cjs",
         "build:cjs": "node ../../scripts/compilation/inline client-kms",
@@ -30116,41 +30273,41 @@ var require_package = __commonJS({
       dependencies: {
         "@aws-crypto/sha256-browser": "5.2.0",
         "@aws-crypto/sha256-js": "5.2.0",
-        "@aws-sdk/core": "^3.974.1",
-        "@aws-sdk/credential-provider-node": "^3.972.32",
+        "@aws-sdk/core": "^3.974.6",
+        "@aws-sdk/credential-provider-node": "^3.972.37",
         "@aws-sdk/middleware-host-header": "^3.972.10",
         "@aws-sdk/middleware-logger": "^3.972.10",
         "@aws-sdk/middleware-recursion-detection": "^3.972.11",
-        "@aws-sdk/middleware-user-agent": "^3.972.31",
-        "@aws-sdk/region-config-resolver": "^3.972.12",
+        "@aws-sdk/middleware-user-agent": "^3.972.36",
+        "@aws-sdk/region-config-resolver": "^3.972.13",
         "@aws-sdk/types": "^3.973.8",
-        "@aws-sdk/util-endpoints": "^3.996.7",
+        "@aws-sdk/util-endpoints": "^3.996.8",
         "@aws-sdk/util-user-agent-browser": "^3.972.10",
-        "@aws-sdk/util-user-agent-node": "^3.973.17",
-        "@smithy/config-resolver": "^4.4.16",
-        "@smithy/core": "^3.23.15",
+        "@aws-sdk/util-user-agent-node": "^3.973.22",
+        "@smithy/config-resolver": "^4.4.17",
+        "@smithy/core": "^3.23.17",
         "@smithy/fetch-http-handler": "^5.3.17",
         "@smithy/hash-node": "^4.2.14",
         "@smithy/invalid-dependency": "^4.2.14",
         "@smithy/middleware-content-length": "^4.2.14",
-        "@smithy/middleware-endpoint": "^4.4.30",
-        "@smithy/middleware-retry": "^4.5.3",
-        "@smithy/middleware-serde": "^4.2.18",
+        "@smithy/middleware-endpoint": "^4.4.32",
+        "@smithy/middleware-retry": "^4.5.6",
+        "@smithy/middleware-serde": "^4.2.20",
         "@smithy/middleware-stack": "^4.2.14",
         "@smithy/node-config-provider": "^4.3.14",
-        "@smithy/node-http-handler": "^4.5.3",
+        "@smithy/node-http-handler": "^4.6.1",
         "@smithy/protocol-http": "^5.3.14",
-        "@smithy/smithy-client": "^4.12.11",
+        "@smithy/smithy-client": "^4.12.13",
         "@smithy/types": "^4.14.1",
         "@smithy/url-parser": "^4.2.14",
         "@smithy/util-base64": "^4.3.2",
         "@smithy/util-body-length-browser": "^4.2.2",
         "@smithy/util-body-length-node": "^4.2.3",
-        "@smithy/util-defaults-mode-browser": "^4.3.47",
-        "@smithy/util-defaults-mode-node": "^4.2.52",
-        "@smithy/util-endpoints": "^3.4.1",
+        "@smithy/util-defaults-mode-browser": "^4.3.49",
+        "@smithy/util-defaults-mode-node": "^4.2.54",
+        "@smithy/util-endpoints": "^3.4.2",
         "@smithy/util-middleware": "^4.2.14",
-        "@smithy/util-retry": "^4.3.2",
+        "@smithy/util-retry": "^4.3.5",
         "@smithy/util-utf8": "^4.2.2",
         tslib: "^2.6.2"
       },
@@ -30196,9 +30353,9 @@ var require_package = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-env@3.972.27/node_modules/@aws-sdk/credential-provider-env/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-env@3.972.33/node_modules/@aws-sdk/credential-provider-env/dist-cjs/index.js
 var require_dist_cjs37 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-env@3.972.27/node_modules/@aws-sdk/credential-provider-env/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-env@3.972.33/node_modules/@aws-sdk/credential-provider-env/dist-cjs/index.js"(exports2) {
     "use strict";
     var client = (init_client(), __toCommonJS(client_exports));
     var propertyProvider = require_dist_cjs28();
@@ -30586,9 +30743,9 @@ For more information, please visit: ` + STATIC_STABILITY_DOC_URL);
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.29/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/checkUrl.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/checkUrl.js
 var require_checkUrl = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.29/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/checkUrl.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/checkUrl.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.checkUrl = void 0;
@@ -30629,9 +30786,9 @@ var require_checkUrl = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.29/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/requestHelpers.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/requestHelpers.js
 var require_requestHelpers = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.29/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/requestHelpers.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/requestHelpers.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createGetRequest = createGetRequest;
@@ -30646,8 +30803,8 @@ var require_requestHelpers = __commonJS({
         hostname: url.hostname,
         port: Number(url.port),
         path: url.pathname,
-        query: Array.from(url.searchParams.entries()).reduce((acc, [k5, v5]) => {
-          acc[k5] = v5;
+        query: Array.from(url.searchParams.entries()).reduce((acc, [k5, v]) => {
+          acc[k5] = v;
           return acc;
         }, {}),
         fragment: url.hash
@@ -30684,9 +30841,9 @@ var require_requestHelpers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.29/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/retry-wrapper.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/retry-wrapper.js
 var require_retry_wrapper = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.29/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/retry-wrapper.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/retry-wrapper.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.retryWrapper = void 0;
@@ -30706,9 +30863,9 @@ var require_retry_wrapper = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.29/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/fromHttp.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/fromHttp.js
 var require_fromHttp = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.29/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/fromHttp.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/fromHttp.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.fromHttp = void 0;
@@ -30774,9 +30931,9 @@ Set AWS_CONTAINER_CREDENTIALS_FULL_URI or AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.29/node_modules/@aws-sdk/credential-provider-http/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/index.js
 var require_dist_cjs39 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.29/node_modules/@aws-sdk/credential-provider-http/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.fromHttp = void 0;
@@ -30787,7 +30944,7 @@ var require_dist_cjs39 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthSchemeProvider.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthSchemeProvider.js
 function createAwsAuthSigv4HttpAuthOption(authParameters) {
   return {
     schemeId: "aws.auth#sigv4",
@@ -30810,7 +30967,7 @@ function createSmithyApiNoAuthHttpAuthOption(authParameters) {
 }
 var import_util_middleware5, defaultSSOOIDCHttpAuthSchemeParametersProvider, defaultSSOOIDCHttpAuthSchemeProvider, resolveHttpAuthSchemeConfig;
 var init_httpAuthSchemeProvider = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthSchemeProvider.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthSchemeProvider.js"() {
     init_httpAuthSchemes2();
     import_util_middleware5 = __toESM(require_dist_cjs6());
     defaultSSOOIDCHttpAuthSchemeParametersProvider = async (config, context, input) => {
@@ -30843,10 +31000,10 @@ var init_httpAuthSchemeProvider = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/EndpointParameters.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/EndpointParameters.js
 var resolveClientEndpointParameters, commonParams;
 var init_EndpointParameters = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/EndpointParameters.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/EndpointParameters.js"() {
     resolveClientEndpointParameters = (options) => {
       return Object.assign(options, {
         useDualstackEndpoint: options.useDualstackEndpoint ?? false,
@@ -30863,13 +31020,13 @@ var init_EndpointParameters = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/package.json
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/package.json
 var package_default;
 var init_package = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/package.json"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/package.json"() {
     package_default = {
       name: "@aws-sdk/nested-clients",
-      version: "3.996.21",
+      version: "3.997.5",
       description: "Nested clients for AWS SDK packages.",
       main: "./dist-cjs/index.js",
       module: "./dist-es/index.js",
@@ -30898,40 +31055,41 @@ var init_package = __esm({
       dependencies: {
         "@aws-crypto/sha256-browser": "5.2.0",
         "@aws-crypto/sha256-js": "5.2.0",
-        "@aws-sdk/core": "^3.974.1",
+        "@aws-sdk/core": "^3.974.7",
         "@aws-sdk/middleware-host-header": "^3.972.10",
         "@aws-sdk/middleware-logger": "^3.972.10",
         "@aws-sdk/middleware-recursion-detection": "^3.972.11",
-        "@aws-sdk/middleware-user-agent": "^3.972.31",
-        "@aws-sdk/region-config-resolver": "^3.972.12",
+        "@aws-sdk/middleware-user-agent": "^3.972.37",
+        "@aws-sdk/region-config-resolver": "^3.972.13",
+        "@aws-sdk/signature-v4-multi-region": "^3.996.24",
         "@aws-sdk/types": "^3.973.8",
-        "@aws-sdk/util-endpoints": "^3.996.7",
+        "@aws-sdk/util-endpoints": "^3.996.8",
         "@aws-sdk/util-user-agent-browser": "^3.972.10",
-        "@aws-sdk/util-user-agent-node": "^3.973.17",
-        "@smithy/config-resolver": "^4.4.16",
-        "@smithy/core": "^3.23.15",
+        "@aws-sdk/util-user-agent-node": "^3.973.23",
+        "@smithy/config-resolver": "^4.4.17",
+        "@smithy/core": "^3.23.17",
         "@smithy/fetch-http-handler": "^5.3.17",
         "@smithy/hash-node": "^4.2.14",
         "@smithy/invalid-dependency": "^4.2.14",
         "@smithy/middleware-content-length": "^4.2.14",
-        "@smithy/middleware-endpoint": "^4.4.30",
-        "@smithy/middleware-retry": "^4.5.3",
-        "@smithy/middleware-serde": "^4.2.18",
+        "@smithy/middleware-endpoint": "^4.4.32",
+        "@smithy/middleware-retry": "^4.5.7",
+        "@smithy/middleware-serde": "^4.2.20",
         "@smithy/middleware-stack": "^4.2.14",
         "@smithy/node-config-provider": "^4.3.14",
-        "@smithy/node-http-handler": "^4.5.3",
+        "@smithy/node-http-handler": "^4.6.1",
         "@smithy/protocol-http": "^5.3.14",
-        "@smithy/smithy-client": "^4.12.11",
+        "@smithy/smithy-client": "^4.12.13",
         "@smithy/types": "^4.14.1",
         "@smithy/url-parser": "^4.2.14",
         "@smithy/util-base64": "^4.3.2",
         "@smithy/util-body-length-browser": "^4.2.2",
         "@smithy/util-body-length-node": "^4.2.3",
-        "@smithy/util-defaults-mode-browser": "^4.3.47",
-        "@smithy/util-defaults-mode-node": "^4.2.52",
-        "@smithy/util-endpoints": "^3.4.1",
+        "@smithy/util-defaults-mode-browser": "^4.3.49",
+        "@smithy/util-defaults-mode-node": "^4.2.54",
+        "@smithy/util-endpoints": "^3.4.2",
         "@smithy/util-middleware": "^4.2.14",
-        "@smithy/util-retry": "^4.3.2",
+        "@smithy/util-retry": "^4.3.6",
         "@smithy/util-utf8": "^4.2.2",
         tslib: "^2.6.2"
       },
@@ -31017,9 +31175,9 @@ var init_package = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+util-user-agent-node@3.973.17/node_modules/@aws-sdk/util-user-agent-node/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+util-user-agent-node@3.973.23/node_modules/@aws-sdk/util-user-agent-node/dist-cjs/index.js
 var require_dist_cjs40 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+util-user-agent-node@3.973.17/node_modules/@aws-sdk/util-user-agent-node/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+util-user-agent-node@3.973.23/node_modules/@aws-sdk/util-user-agent-node/dist-cjs/index.js"(exports2) {
     "use strict";
     var node_os = require("node:os");
     var node_process = require("node:process");
@@ -31065,7 +31223,7 @@ var require_dist_cjs40 = __commonJS({
       if (ALLOWED_DIST_TAGS.includes(version)) {
         return version;
       }
-      const prefix = ALLOWED_PREFIXES.find((p5) => version.startsWith(p5)) ?? "";
+      const prefix = ALLOWED_PREFIXES.find((p2) => version.startsWith(p2)) ?? "";
       const sanitizedTypeScriptVersion = getSanitizedTypeScriptVersion(version.slice(prefix.length));
       if (!sanitizedTypeScriptVersion) {
         return void 0;
@@ -31266,9 +31424,9 @@ var require_dist_cjs42 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-defaults-mode-node@4.2.52/node_modules/@smithy/util-defaults-mode-node/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+util-defaults-mode-node@4.2.54/node_modules/@smithy/util-defaults-mode-node/dist-cjs/index.js
 var require_dist_cjs43 = __commonJS({
-  "node_modules/.pnpm/@smithy+util-defaults-mode-node@4.2.52/node_modules/@smithy/util-defaults-mode-node/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-defaults-mode-node@4.2.54/node_modules/@smithy/util-defaults-mode-node/dist-cjs/index.js"(exports2) {
     "use strict";
     var configResolver = require_dist_cjs26();
     var nodeConfigProvider = require_dist_cjs30();
@@ -31339,7 +31497,7 @@ var require_dist_cjs43 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-types.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-types.js
 function alloc(size) {
   return typeof Buffer !== "undefined" ? Buffer.alloc(size) : new Uint8Array(size);
 }
@@ -31349,7 +31507,7 @@ function tag(data2) {
 }
 var majorUint64, majorNegativeInt64, majorUnstructuredByteString, majorUtf8String, majorList, majorMap, majorTag, majorSpecial, specialFalse, specialTrue, specialNull, specialUndefined, extendedOneByte, extendedFloat16, extendedFloat32, extendedFloat64, minorIndefinite, tagSymbol;
 var init_cbor_types = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-types.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-types.js"() {
     majorUint64 = 0;
     majorNegativeInt64 = 1;
     majorUnstructuredByteString = 2;
@@ -31371,7 +31529,7 @@ var init_cbor_types = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-decode.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-decode.js
 function setPayload(bytes) {
   payload = bytes;
   dataView = new DataView(payload.buffer, payload.byteOffset, payload.byteLength);
@@ -31663,8 +31821,8 @@ function decodeListIndefinite(at, to) {
       return list2;
     }
     const item = decode(at, to);
-    const n5 = _offset;
-    at += n5;
+    const n2 = _offset;
+    at += n2;
     list2.push(item);
   }
   throw new Error("expected break marker.");
@@ -31763,7 +31921,7 @@ function castBigInt(bigInt) {
 }
 var import_util_utf84, USE_TEXT_DECODER, USE_BUFFER, payload, dataView, textDecoder, _offset, minorValueToArgumentLength;
 var init_cbor_decode = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-decode.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-decode.js"() {
     init_serde();
     import_util_utf84 = __toESM(require_dist_cjs9());
     init_cbor_types();
@@ -31782,7 +31940,7 @@ var init_cbor_decode = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-encode.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-encode.js
 function ensureSpace(bytes) {
   const remaining = data.byteLength - cursor;
   if (remaining < bytes) {
@@ -31880,19 +32038,19 @@ function encode(_input) {
       const nonNegative = input >= 0;
       const major = nonNegative ? majorUint64 : majorNegativeInt64;
       const value = nonNegative ? input : -input - BigInt(1);
-      const n5 = Number(value);
-      if (n5 < 24) {
-        data[cursor++] = major << 5 | n5;
-      } else if (n5 < 256) {
+      const n2 = Number(value);
+      if (n2 < 24) {
+        data[cursor++] = major << 5 | n2;
+      } else if (n2 < 256) {
         data[cursor++] = major << 5 | 24;
-        data[cursor++] = n5;
-      } else if (n5 < 65536) {
+        data[cursor++] = n2;
+      } else if (n2 < 65536) {
         data[cursor++] = major << 5 | extendedFloat16;
-        data[cursor++] = n5 >> 8;
-        data[cursor++] = n5 & 255;
-      } else if (n5 < 4294967296) {
+        data[cursor++] = n2 >> 8;
+        data[cursor++] = n2 & 255;
+      } else if (n2 < 4294967296) {
         data[cursor++] = major << 5 | extendedFloat32;
-        dataView2.setUint32(cursor, n5);
+        dataView2.setUint32(cursor, n2);
         cursor += 4;
       } else if (value < BigInt("18446744073709551616")) {
         data[cursor++] = major << 5 | extendedFloat64;
@@ -31972,7 +32130,7 @@ function encode(_input) {
 }
 var import_util_utf85, USE_BUFFER2, initialSize, data, dataView2, cursor;
 var init_cbor_encode = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-encode.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/cbor-encode.js"() {
     init_serde();
     import_util_utf85 = __toESM(require_dist_cjs9());
     init_cbor_types();
@@ -31984,10 +32142,10 @@ var init_cbor_encode = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/cbor.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/cbor.js
 var cbor;
 var init_cbor = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/cbor.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/cbor.js"() {
     init_cbor_decode();
     init_cbor_encode();
     cbor = {
@@ -32011,10 +32169,10 @@ var init_cbor = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/parseCborBody.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/parseCborBody.js
 var dateToTag, loadSmithyRpcV2CborErrorCode;
 var init_parseCborBody = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/parseCborBody.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/parseCborBody.js"() {
     init_cbor_types();
     dateToTag = (date2) => {
       return tag({
@@ -32042,7 +32200,13 @@ var init_parseCborBody = __esm({
       if (data2["__type"] !== void 0) {
         return sanitizeErrorCode2(data2["__type"]);
       }
-      const codeKey = Object.keys(data2).find((key) => key.toLowerCase() === "code");
+      let codeKey;
+      for (const key in data2) {
+        if (key.toLowerCase() === "code") {
+          codeKey = key;
+          break;
+        }
+      }
       if (codeKey && data2[codeKey] !== void 0) {
         return sanitizeErrorCode2(data2[codeKey]);
       }
@@ -32050,10 +32214,10 @@ var init_parseCborBody = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/CborCodec.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/CborCodec.js
 var import_util_base643, CborCodec, CborShapeSerializer, CborShapeDeserializer;
 var init_CborCodec = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/CborCodec.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/CborCodec.js"() {
     init_protocols();
     init_schema();
     init_serde();
@@ -32118,7 +32282,7 @@ var init_CborCodec = __esm({
           const newObject = {};
           if (ns.isMapSchema()) {
             const sparse = !!ns.getMergedTraits().sparse;
-            for (const key of Object.keys(sourceObject)) {
+            for (const key in sourceObject) {
               const value = this.serialize(ns.getValueSchema(), sourceObject[key]);
               if (value != null || sparse) {
                 newObject[key] = value;
@@ -32133,17 +32297,17 @@ var init_CborCodec = __esm({
             }
             const isUnion = ns.isUnionSchema();
             if (isUnion && Array.isArray(sourceObject.$unknown)) {
-              const [k5, v5] = sourceObject.$unknown;
-              newObject[k5] = v5;
+              const [k5, v] = sourceObject.$unknown;
+              newObject[k5] = v;
             } else if (typeof sourceObject.__type === "string") {
-              for (const [k5, v5] of Object.entries(sourceObject)) {
+              for (const k5 in sourceObject) {
                 if (!(k5 in newObject)) {
-                  newObject[k5] = this.serialize(15, v5);
+                  newObject[k5] = this.serialize(15, sourceObject[k5]);
                 }
               }
             }
           } else if (ns.isDocumentSchema()) {
-            for (const key of Object.keys(sourceObject)) {
+            for (const key in sourceObject) {
               newObject[key] = this.serialize(ns.getValueSchema(), sourceObject[key]);
             }
           } else if (ns.isBigDecimalSchema()) {
@@ -32209,7 +32373,7 @@ var init_CborCodec = __esm({
           const newObject = {};
           if (ns.isMapSchema()) {
             const targetSchema = ns.getValueSchema();
-            for (const key of Object.keys(value)) {
+            for (const key in value) {
               const itemValue = this.readValue(targetSchema, value[key]);
               newObject[key] = itemValue;
             }
@@ -32217,7 +32381,12 @@ var init_CborCodec = __esm({
             const isUnion = ns.isUnionSchema();
             let keys;
             if (isUnion) {
-              keys = new Set(Object.keys(value).filter((k5) => k5 !== "__type"));
+              keys = /* @__PURE__ */ new Set();
+              for (const k5 in value) {
+                if (k5 !== "__type") {
+                  keys.add(k5);
+                }
+              }
             }
             for (const [key, memberSchema] of ns.structIterator()) {
               if (isUnion) {
@@ -32227,13 +32396,20 @@ var init_CborCodec = __esm({
                 newObject[key] = this.readValue(memberSchema, value[key]);
               }
             }
-            if (isUnion && keys?.size === 1 && Object.keys(newObject).length === 0) {
-              const k5 = keys.values().next().value;
-              newObject.$unknown = [k5, value[k5]];
+            if (isUnion && keys?.size === 1) {
+              let newObjectEmpty = true;
+              for (const _ in newObject) {
+                newObjectEmpty = false;
+                break;
+              }
+              if (newObjectEmpty) {
+                const k5 = keys.values().next().value;
+                newObject.$unknown = [k5, value[k5]];
+              }
             } else if (typeof value.__type === "string") {
-              for (const [k5, v5] of Object.entries(value)) {
+              for (const k5 in value) {
                 if (!(k5 in newObject)) {
-                  newObject[k5] = v5;
+                  newObject[k5] = value[k5];
                 }
               }
             }
@@ -32249,10 +32425,10 @@ var init_CborCodec = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/SmithyRpcV2CborProtocol.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/SmithyRpcV2CborProtocol.js
 var import_util_middleware6, SmithyRpcV2CborProtocol;
 var init_SmithyRpcV2CborProtocol = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/SmithyRpcV2CborProtocol.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/SmithyRpcV2CborProtocol.js"() {
     init_protocols();
     init_schema();
     init_schema();
@@ -32353,19 +32529,19 @@ var init_SmithyRpcV2CborProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/index.js
+// node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/index.js
 var init_cbor2 = __esm({
-  "node_modules/.pnpm/@smithy+core@3.23.15/node_modules/@smithy/core/dist-es/submodules/cbor/index.js"() {
+  "node_modules/.pnpm/@smithy+core@3.23.17/node_modules/@smithy/core/dist-es/submodules/cbor/index.js"() {
     init_parseCborBody();
     init_SmithyRpcV2CborProtocol();
     init_CborCodec();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ProtocolLib.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ProtocolLib.js
 var import_smithy_client, ProtocolLib;
 var init_ProtocolLib = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ProtocolLib.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ProtocolLib.js"() {
     init_schema();
     import_smithy_client = __toESM(require_dist_cjs34());
     ProtocolLib = class {
@@ -32376,8 +32552,8 @@ var init_ProtocolLib = __esm({
       }
       resolveRestContentType(defaultContentType, inputSchema) {
         const members = inputSchema.getMemberSchemas();
-        const httpPayloadMember = Object.values(members).find((m5) => {
-          return !!m5.getMergedTraits().httpPayload;
+        const httpPayloadMember = Object.values(members).find((m3) => {
+          return !!m3.getMergedTraits().httpPayload;
         });
         if (httpPayloadMember) {
           const mediaType = httpPayloadMember.getMergedTraits().mediaType;
@@ -32391,8 +32567,8 @@ var init_ProtocolLib = __esm({
             return defaultContentType;
           }
         } else if (!inputSchema.isUnitSchema()) {
-          const hasBody = Object.values(members).find((m5) => {
-            const { httpQuery, httpQueryParams, httpHeader, httpLabel, httpPrefixHeaders } = m5.getMergedTraits();
+          const hasBody = Object.values(members).find((m3) => {
+            const { httpQuery, httpQueryParams, httpHeader, httpLabel, httpPrefixHeaders } = m3.getMergedTraits();
             const noPrefixHeaders = httpPrefixHeaders === void 0;
             return !httpQuery && !httpQueryParams && !httpHeader && !httpLabel && noPrefixHeaders;
           });
@@ -32503,10 +32679,10 @@ var init_ProtocolLib = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/cbor/AwsSmithyRpcV2CborProtocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/cbor/AwsSmithyRpcV2CborProtocol.js
 var AwsSmithyRpcV2CborProtocol;
 var init_AwsSmithyRpcV2CborProtocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/cbor/AwsSmithyRpcV2CborProtocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/cbor/AwsSmithyRpcV2CborProtocol.js"() {
     init_cbor2();
     init_schema();
     init_ProtocolLib();
@@ -32560,10 +32736,10 @@ var init_AwsSmithyRpcV2CborProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/coercing-serializers.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/coercing-serializers.js
 var _toStr, _toBool, _toNum;
 var init_coercing_serializers = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/coercing-serializers.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/coercing-serializers.js"() {
     _toStr = (val) => {
       if (val == null) {
         return val;
@@ -32620,10 +32796,10 @@ var init_coercing_serializers = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ConfigurableSerdeContext.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ConfigurableSerdeContext.js
 var SerdeContextConfig;
 var init_ConfigurableSerdeContext = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ConfigurableSerdeContext.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ConfigurableSerdeContext.js"() {
     SerdeContextConfig = class {
       serdeContext;
       setSerdeContext(serdeContext) {
@@ -32633,10 +32809,10 @@ var init_ConfigurableSerdeContext = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/UnionSerde.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/UnionSerde.js
 var UnionSerde;
 var init_UnionSerde = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/UnionSerde.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/UnionSerde.js"() {
     UnionSerde = class {
       from;
       to;
@@ -32658,15 +32834,15 @@ var init_UnionSerde = __esm({
       writeUnknown() {
         if (this.hasUnknown()) {
           const k5 = this.keys.values().next().value;
-          const v5 = this.from[k5];
-          this.to.$unknown = [k5, v5];
+          const v = this.from[k5];
+          this.to.$unknown = [k5, v];
         }
       }
     };
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReviver.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReviver.js
 function jsonReviver(key, value, context) {
   if (context?.source) {
     const numericString = context.source;
@@ -32684,25 +32860,25 @@ function jsonReviver(key, value, context) {
   return value;
 }
 var init_jsonReviver = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReviver.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReviver.js"() {
     init_serde();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/common.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/common.js
 var import_smithy_client2, import_util_utf86, collectBodyString;
 var init_common = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/common.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/common.js"() {
     import_smithy_client2 = __toESM(require_dist_cjs34());
     import_util_utf86 = __toESM(require_dist_cjs9());
     collectBodyString = (streamBody, context) => (0, import_smithy_client2.collectBody)(streamBody, context).then((body) => (context?.utf8Encoder ?? import_util_utf86.toUtf8)(body));
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/parseJsonBody.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/parseJsonBody.js
 var parseJsonBody, parseJsonErrorBody, findKey, sanitizeErrorCode, loadRestJsonErrorCode;
 var init_parseJsonBody = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/parseJsonBody.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/parseJsonBody.js"() {
     init_common();
     parseJsonBody = (streamBody, context) => collectBodyString(streamBody, context).then((encoded) => {
       if (encoded.length) {
@@ -32759,10 +32935,10 @@ var init_parseJsonBody = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeDeserializer.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeDeserializer.js
 var import_util_base644, JsonShapeDeserializer;
 var init_JsonShapeDeserializer = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeDeserializer.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeDeserializer.js"() {
     init_protocols();
     init_schema();
     init_serde();
@@ -32816,10 +32992,11 @@ var init_JsonShapeDeserializer = __esm({
             if (union) {
               unionSerde.writeUnknown();
             } else if (typeof record.__type === "string") {
-              for (const [k5, v5] of Object.entries(record)) {
-                const t5 = jsonName ? nameMap[k5] ?? k5 : k5;
-                if (!(t5 in out)) {
-                  out[t5] = v5;
+              for (const k5 in record) {
+                const v = record[k5];
+                const t = jsonName ? nameMap[k5] ?? k5 : k5;
+                if (!(t in out)) {
+                  out[t] = v;
                 }
               }
             }
@@ -32836,8 +33013,8 @@ var init_JsonShapeDeserializer = __esm({
           if (ns.isMapSchema()) {
             const mapMember = ns.getValueSchema();
             const out = {};
-            for (const [_k, _v] of Object.entries(value)) {
-              out[_k] = this._read(mapMember, _v);
+            for (const _k in value) {
+              out[_k] = this._read(mapMember, value[_k]);
             }
             return out;
           }
@@ -32894,11 +33071,12 @@ var init_JsonShapeDeserializer = __esm({
         if (ns.isDocumentSchema()) {
           if (isObject) {
             const out = Array.isArray(value) ? [] : {};
-            for (const [k5, v5] of Object.entries(value)) {
-              if (v5 instanceof NumericValue) {
-                out[k5] = v5;
+            for (const k5 in value) {
+              const v = value[k5];
+              if (v instanceof NumericValue) {
+                out[k5] = v;
               } else {
-                out[k5] = this._read(ns, v5);
+                out[k5] = this._read(ns, v);
               }
             }
             return out;
@@ -32912,10 +33090,10 @@ var init_JsonShapeDeserializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReplacer.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReplacer.js
 var NUMERIC_CONTROL_CHAR, JsonReplacer;
 var init_jsonReplacer = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReplacer.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReplacer.js"() {
     init_serde();
     NUMERIC_CONTROL_CHAR = String.fromCharCode(925);
     JsonReplacer = class {
@@ -32932,15 +33110,15 @@ var init_jsonReplacer = __esm({
         this.stage = 1;
         return (key, value) => {
           if (value instanceof NumericValue) {
-            const v5 = `${NUMERIC_CONTROL_CHAR + "nv" + this.counter++}_` + value.string;
-            this.values.set(`"${v5}"`, value.string);
-            return v5;
+            const v = `${NUMERIC_CONTROL_CHAR + "nv" + this.counter++}_` + value.string;
+            this.values.set(`"${v}"`, value.string);
+            return v;
           }
           if (typeof value === "bigint") {
-            const s5 = value.toString();
-            const v5 = `${NUMERIC_CONTROL_CHAR + "b" + this.counter++}_` + s5;
-            this.values.set(`"${v5}"`, s5);
-            return v5;
+            const s = value.toString();
+            const v = `${NUMERIC_CONTROL_CHAR + "b" + this.counter++}_` + s;
+            this.values.set(`"${v}"`, s);
+            return v;
           }
           return value;
         };
@@ -32965,10 +33143,10 @@ var init_jsonReplacer = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeSerializer.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeSerializer.js
 var import_util_base645, JsonShapeSerializer;
 var init_JsonShapeSerializer = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeSerializer.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeSerializer.js"() {
     init_protocols();
     init_schema();
     init_serde();
@@ -33035,14 +33213,15 @@ var init_JsonShapeSerializer = __esm({
             if (ns.isUnionSchema() && outCount === 0) {
               const { $unknown } = record;
               if (Array.isArray($unknown)) {
-                const [k5, v5] = $unknown;
-                out[k5] = this._write(15, v5);
+                const [k5, v] = $unknown;
+                out[k5] = this._write(15, v);
               }
             } else if (typeof record.__type === "string") {
-              for (const [k5, v5] of Object.entries(record)) {
+              for (const k5 in record) {
+                const v = record[k5];
                 const targetKey = jsonName ? nameMap[k5] ?? k5 : k5;
                 if (!(targetKey in out)) {
-                  out[targetKey] = this._write(15, v5);
+                  out[targetKey] = this._write(15, v);
                 }
               }
             }
@@ -33063,7 +33242,8 @@ var init_JsonShapeSerializer = __esm({
             const mapMember = ns.getValueSchema();
             const out = {};
             const sparse = !!ns.getMergedTraits().sparse;
-            for (const [_k, _v] of Object.entries(value)) {
+            for (const _k in value) {
+              const _v = value[_k];
               if (sparse || _v != null) {
                 out[_k] = this._write(mapMember, _v);
               }
@@ -33128,12 +33308,13 @@ var init_JsonShapeSerializer = __esm({
         if (ns.isDocumentSchema()) {
           if (isObject) {
             const out = Array.isArray(value) ? [] : {};
-            for (const [k5, v5] of Object.entries(value)) {
-              if (v5 instanceof NumericValue) {
+            for (const k5 in value) {
+              const v = value[k5];
+              if (v instanceof NumericValue) {
                 this.useReplacer = true;
-                out[k5] = v5;
+                out[k5] = v;
               } else {
-                out[k5] = this._write(ns, v5);
+                out[k5] = this._write(ns, v);
               }
             }
             return out;
@@ -33147,10 +33328,10 @@ var init_JsonShapeSerializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonCodec.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonCodec.js
 var JsonCodec;
 var init_JsonCodec = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonCodec.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonCodec.js"() {
     init_ConfigurableSerdeContext();
     init_JsonShapeDeserializer();
     init_JsonShapeSerializer();
@@ -33174,10 +33355,10 @@ var init_JsonCodec = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJsonRpcProtocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJsonRpcProtocol.js
 var AwsJsonRpcProtocol;
 var init_AwsJsonRpcProtocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJsonRpcProtocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJsonRpcProtocol.js"() {
     init_protocols();
     init_schema();
     init_ProtocolLib();
@@ -33256,10 +33437,10 @@ var init_AwsJsonRpcProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_0Protocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_0Protocol.js
 var AwsJson1_0Protocol;
 var init_AwsJson1_0Protocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_0Protocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_0Protocol.js"() {
     init_AwsJsonRpcProtocol();
     AwsJson1_0Protocol = class extends AwsJsonRpcProtocol {
       constructor({ defaultNamespace, errorTypeRegistries: errorTypeRegistries5, serviceTarget, awsQueryCompatible, jsonCodec }) {
@@ -33284,10 +33465,10 @@ var init_AwsJson1_0Protocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_1Protocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_1Protocol.js
 var AwsJson1_1Protocol;
 var init_AwsJson1_1Protocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_1Protocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_1Protocol.js"() {
     init_AwsJsonRpcProtocol();
     AwsJson1_1Protocol = class extends AwsJsonRpcProtocol {
       constructor({ defaultNamespace, errorTypeRegistries: errorTypeRegistries5, serviceTarget, awsQueryCompatible, jsonCodec }) {
@@ -33312,10 +33493,10 @@ var init_AwsJson1_1Protocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsRestJsonProtocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsRestJsonProtocol.js
 var AwsRestJsonProtocol;
 var init_AwsRestJsonProtocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsRestJsonProtocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsRestJsonProtocol.js"() {
     init_protocols();
     init_schema();
     init_ProtocolLib();
@@ -33404,10 +33585,10 @@ var init_AwsRestJsonProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/awsExpectUnion.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/awsExpectUnion.js
 var import_smithy_client3, awsExpectUnion;
 var init_awsExpectUnion = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/awsExpectUnion.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/awsExpectUnion.js"() {
     import_smithy_client3 = __toESM(require_dist_cjs34());
     awsExpectUnion = (value) => {
       if (value == null) {
@@ -33421,114 +33602,114 @@ var init_awsExpectUnion = __esm({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@5.5.8/node_modules/fast-xml-parser/lib/fxp.cjs
+// node_modules/.pnpm/fast-xml-parser@5.7.2/node_modules/fast-xml-parser/lib/fxp.cjs
 var require_fxp = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@5.5.8/node_modules/fast-xml-parser/lib/fxp.cjs"(exports2, module2) {
+  "node_modules/.pnpm/fast-xml-parser@5.7.2/node_modules/fast-xml-parser/lib/fxp.cjs"(exports2, module2) {
     (() => {
       "use strict";
-      var t5 = { d: (e6, i6) => {
-        for (var n6 in i6) t5.o(i6, n6) && !t5.o(e6, n6) && Object.defineProperty(e6, n6, { enumerable: true, get: i6[n6] });
-      }, o: (t6, e6) => Object.prototype.hasOwnProperty.call(t6, e6), r: (t6) => {
-        "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(t6, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(t6, "__esModule", { value: true });
+      var t = { d: (e6, n3) => {
+        for (var i6 in n3) t.o(n3, i6) && !t.o(e6, i6) && Object.defineProperty(e6, i6, { enumerable: true, get: n3[i6] });
+      }, o: (t2, e6) => Object.prototype.hasOwnProperty.call(t2, e6), r: (t2) => {
+        "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(t2, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(t2, "__esModule", { value: true });
       } }, e5 = {};
-      t5.r(e5), t5.d(e5, { XMLBuilder: () => $t, XMLParser: () => gt, XMLValidator: () => It });
-      const i5 = ":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD", n5 = new RegExp("^[" + i5 + "][" + i5 + "\\-.\\d\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$");
-      function s5(t6, e6) {
-        const i6 = [];
-        let n6 = e6.exec(t6);
-        for (; n6; ) {
-          const s6 = [];
-          s6.startIndex = e6.lastIndex - n6[0].length;
-          const r6 = n6.length;
-          for (let t7 = 0; t7 < r6; t7++) s6.push(n6[t7]);
-          i6.push(s6), n6 = e6.exec(t6);
+      t.r(e5), t.d(e5, { XMLBuilder: () => Bt, XMLParser: () => Tt, XMLValidator: () => Ut });
+      const n2 = ":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD", i5 = new RegExp("^[" + n2 + "][" + n2 + "\\-.\\d\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$");
+      function s(t2, e6) {
+        const n3 = [];
+        let i6 = e6.exec(t2);
+        for (; i6; ) {
+          const s2 = [];
+          s2.startIndex = e6.lastIndex - i6[0].length;
+          const r6 = i6.length;
+          for (let t3 = 0; t3 < r6; t3++) s2.push(i6[t3]);
+          n3.push(s2), i6 = e6.exec(t2);
         }
-        return i6;
+        return n3;
       }
-      const r5 = function(t6) {
-        return !(null == n5.exec(t6));
-      }, o5 = ["hasOwnProperty", "toString", "valueOf", "__defineGetter__", "__defineSetter__", "__lookupGetter__", "__lookupSetter__"], a5 = ["__proto__", "constructor", "prototype"], h5 = { allowBooleanAttributes: false, unpairedTags: [] };
-      function l5(t6, e6) {
+      const r5 = function(t2) {
+        return !(null == i5.exec(t2));
+      }, o2 = ["hasOwnProperty", "toString", "valueOf", "__defineGetter__", "__defineSetter__", "__lookupGetter__", "__lookupSetter__"], a5 = ["__proto__", "constructor", "prototype"], h5 = { allowBooleanAttributes: false, unpairedTags: [] };
+      function l3(t2, e6) {
         e6 = Object.assign({}, h5, e6);
-        const i6 = [];
-        let n6 = false, s6 = false;
-        "\uFEFF" === t6[0] && (t6 = t6.substr(1));
-        for (let r6 = 0; r6 < t6.length; r6++) if ("<" === t6[r6] && "?" === t6[r6 + 1]) {
-          if (r6 += 2, r6 = u5(t6, r6), r6.err) return r6;
+        const n3 = [];
+        let i6 = false, s2 = false;
+        "\uFEFF" === t2[0] && (t2 = t2.substr(1));
+        for (let r6 = 0; r6 < t2.length; r6++) if ("<" === t2[r6] && "?" === t2[r6 + 1]) {
+          if (r6 += 2, r6 = p2(t2, r6), r6.err) return r6;
         } else {
-          if ("<" !== t6[r6]) {
-            if (p5(t6[r6])) continue;
-            return b5("InvalidChar", "char '" + t6[r6] + "' is not expected.", w5(t6, r6));
+          if ("<" !== t2[r6]) {
+            if (u(t2[r6])) continue;
+            return b5("InvalidChar", "char '" + t2[r6] + "' is not expected.", w(t2, r6));
           }
           {
-            let o6 = r6;
-            if (r6++, "!" === t6[r6]) {
-              r6 = c5(t6, r6);
+            let o3 = r6;
+            if (r6++, "!" === t2[r6]) {
+              r6 = c5(t2, r6);
               continue;
             }
             {
               let a6 = false;
-              "/" === t6[r6] && (a6 = true, r6++);
+              "/" === t2[r6] && (a6 = true, r6++);
               let h6 = "";
-              for (; r6 < t6.length && ">" !== t6[r6] && " " !== t6[r6] && "	" !== t6[r6] && "\n" !== t6[r6] && "\r" !== t6[r6]; r6++) h6 += t6[r6];
-              if (h6 = h6.trim(), "/" === h6[h6.length - 1] && (h6 = h6.substring(0, h6.length - 1), r6--), !y2(h6)) {
+              for (; r6 < t2.length && ">" !== t2[r6] && " " !== t2[r6] && "	" !== t2[r6] && "\n" !== t2[r6] && "\r" !== t2[r6]; r6++) h6 += t2[r6];
+              if (h6 = h6.trim(), "/" === h6[h6.length - 1] && (h6 = h6.substring(0, h6.length - 1), r6--), !E(h6)) {
                 let e7;
-                return e7 = 0 === h6.trim().length ? "Invalid space after '<'." : "Tag '" + h6 + "' is an invalid name.", b5("InvalidTag", e7, w5(t6, r6));
+                return e7 = 0 === h6.trim().length ? "Invalid space after '<'." : "Tag '" + h6 + "' is an invalid name.", b5("InvalidTag", e7, w(t2, r6));
               }
-              const l6 = g5(t6, r6);
-              if (false === l6) return b5("InvalidAttr", "Attributes for '" + h6 + "' have open quote.", w5(t6, r6));
-              let d6 = l6.value;
-              if (r6 = l6.index, "/" === d6[d6.length - 1]) {
-                const i7 = r6 - d6.length;
+              const l4 = g5(t2, r6);
+              if (false === l4) return b5("InvalidAttr", "Attributes for '" + h6 + "' have open quote.", w(t2, r6));
+              let d6 = l4.value;
+              if (r6 = l4.index, "/" === d6[d6.length - 1]) {
+                const n4 = r6 - d6.length;
                 d6 = d6.substring(0, d6.length - 1);
-                const s7 = x5(d6, e6);
-                if (true !== s7) return b5(s7.err.code, s7.err.msg, w5(t6, i7 + s7.err.line));
-                n6 = true;
+                const s3 = x(d6, e6);
+                if (true !== s3) return b5(s3.err.code, s3.err.msg, w(t2, n4 + s3.err.line));
+                i6 = true;
               } else if (a6) {
-                if (!l6.tagClosed) return b5("InvalidTag", "Closing tag '" + h6 + "' doesn't have proper closing.", w5(t6, r6));
-                if (d6.trim().length > 0) return b5("InvalidTag", "Closing tag '" + h6 + "' can't have attributes or invalid starting.", w5(t6, o6));
-                if (0 === i6.length) return b5("InvalidTag", "Closing tag '" + h6 + "' has not been opened.", w5(t6, o6));
+                if (!l4.tagClosed) return b5("InvalidTag", "Closing tag '" + h6 + "' doesn't have proper closing.", w(t2, r6));
+                if (d6.trim().length > 0) return b5("InvalidTag", "Closing tag '" + h6 + "' can't have attributes or invalid starting.", w(t2, o3));
+                if (0 === n3.length) return b5("InvalidTag", "Closing tag '" + h6 + "' has not been opened.", w(t2, o3));
                 {
-                  const e7 = i6.pop();
+                  const e7 = n3.pop();
                   if (h6 !== e7.tagName) {
-                    let i7 = w5(t6, e7.tagStartPos);
-                    return b5("InvalidTag", "Expected closing tag '" + e7.tagName + "' (opened in line " + i7.line + ", col " + i7.col + ") instead of closing tag '" + h6 + "'.", w5(t6, o6));
+                    let n4 = w(t2, e7.tagStartPos);
+                    return b5("InvalidTag", "Expected closing tag '" + e7.tagName + "' (opened in line " + n4.line + ", col " + n4.col + ") instead of closing tag '" + h6 + "'.", w(t2, o3));
                   }
-                  0 == i6.length && (s6 = true);
+                  0 == n3.length && (s2 = true);
                 }
               } else {
-                const a7 = x5(d6, e6);
-                if (true !== a7) return b5(a7.err.code, a7.err.msg, w5(t6, r6 - d6.length + a7.err.line));
-                if (true === s6) return b5("InvalidXml", "Multiple possible root nodes found.", w5(t6, r6));
-                -1 !== e6.unpairedTags.indexOf(h6) || i6.push({ tagName: h6, tagStartPos: o6 }), n6 = true;
+                const a7 = x(d6, e6);
+                if (true !== a7) return b5(a7.err.code, a7.err.msg, w(t2, r6 - d6.length + a7.err.line));
+                if (true === s2) return b5("InvalidXml", "Multiple possible root nodes found.", w(t2, r6));
+                -1 !== e6.unpairedTags.indexOf(h6) || n3.push({ tagName: h6, tagStartPos: o3 }), i6 = true;
               }
-              for (r6++; r6 < t6.length; r6++) if ("<" === t6[r6]) {
-                if ("!" === t6[r6 + 1]) {
-                  r6++, r6 = c5(t6, r6);
+              for (r6++; r6 < t2.length; r6++) if ("<" === t2[r6]) {
+                if ("!" === t2[r6 + 1]) {
+                  r6++, r6 = c5(t2, r6);
                   continue;
                 }
-                if ("?" !== t6[r6 + 1]) break;
-                if (r6 = u5(t6, ++r6), r6.err) return r6;
-              } else if ("&" === t6[r6]) {
-                const e7 = N(t6, r6);
-                if (-1 == e7) return b5("InvalidChar", "char '&' is not expected.", w5(t6, r6));
+                if ("?" !== t2[r6 + 1]) break;
+                if (r6 = p2(t2, ++r6), r6.err) return r6;
+              } else if ("&" === t2[r6]) {
+                const e7 = N(t2, r6);
+                if (-1 == e7) return b5("InvalidChar", "char '&' is not expected.", w(t2, r6));
                 r6 = e7;
-              } else if (true === s6 && !p5(t6[r6])) return b5("InvalidXml", "Extra text at the end", w5(t6, r6));
-              "<" === t6[r6] && r6--;
+              } else if (true === s2 && !u(t2[r6])) return b5("InvalidXml", "Extra text at the end", w(t2, r6));
+              "<" === t2[r6] && r6--;
             }
           }
         }
-        return n6 ? 1 == i6.length ? b5("InvalidTag", "Unclosed tag '" + i6[0].tagName + "'.", w5(t6, i6[0].tagStartPos)) : !(i6.length > 0) || b5("InvalidXml", "Invalid '" + JSON.stringify(i6.map((t7) => t7.tagName), null, 4).replace(/\r?\n/g, "") + "' found.", { line: 1, col: 1 }) : b5("InvalidXml", "Start tag expected.", 1);
+        return i6 ? 1 == n3.length ? b5("InvalidTag", "Unclosed tag '" + n3[0].tagName + "'.", w(t2, n3[0].tagStartPos)) : !(n3.length > 0) || b5("InvalidXml", "Invalid '" + JSON.stringify(n3.map((t3) => t3.tagName), null, 4).replace(/\r?\n/g, "") + "' found.", { line: 1, col: 1 }) : b5("InvalidXml", "Start tag expected.", 1);
       }
-      function p5(t6) {
-        return " " === t6 || "	" === t6 || "\n" === t6 || "\r" === t6;
+      function u(t2) {
+        return " " === t2 || "	" === t2 || "\n" === t2 || "\r" === t2;
       }
-      function u5(t6, e6) {
-        const i6 = e6;
-        for (; e6 < t6.length; e6++) if ("?" == t6[e6] || " " == t6[e6]) {
-          const n6 = t6.substr(i6, e6 - i6);
-          if (e6 > 5 && "xml" === n6) return b5("InvalidXml", "XML declaration allowed only at the start of the document.", w5(t6, e6));
-          if ("?" == t6[e6] && ">" == t6[e6 + 1]) {
+      function p2(t2, e6) {
+        const n3 = e6;
+        for (; e6 < t2.length; e6++) if ("?" == t2[e6] || " " == t2[e6]) {
+          const i6 = t2.substr(n3, e6 - n3);
+          if (e6 > 5 && "xml" === i6) return b5("InvalidXml", "XML declaration allowed only at the start of the document.", w(t2, e6));
+          if ("?" == t2[e6] && ">" == t2[e6 + 1]) {
             e6++;
             break;
           }
@@ -33536,18 +33717,18 @@ var require_fxp = __commonJS({
         }
         return e6;
       }
-      function c5(t6, e6) {
-        if (t6.length > e6 + 5 && "-" === t6[e6 + 1] && "-" === t6[e6 + 2]) {
-          for (e6 += 3; e6 < t6.length; e6++) if ("-" === t6[e6] && "-" === t6[e6 + 1] && ">" === t6[e6 + 2]) {
+      function c5(t2, e6) {
+        if (t2.length > e6 + 5 && "-" === t2[e6 + 1] && "-" === t2[e6 + 2]) {
+          for (e6 += 3; e6 < t2.length; e6++) if ("-" === t2[e6] && "-" === t2[e6 + 1] && ">" === t2[e6 + 2]) {
             e6 += 2;
             break;
           }
-        } else if (t6.length > e6 + 8 && "D" === t6[e6 + 1] && "O" === t6[e6 + 2] && "C" === t6[e6 + 3] && "T" === t6[e6 + 4] && "Y" === t6[e6 + 5] && "P" === t6[e6 + 6] && "E" === t6[e6 + 7]) {
-          let i6 = 1;
-          for (e6 += 8; e6 < t6.length; e6++) if ("<" === t6[e6]) i6++;
-          else if (">" === t6[e6] && (i6--, 0 === i6)) break;
-        } else if (t6.length > e6 + 9 && "[" === t6[e6 + 1] && "C" === t6[e6 + 2] && "D" === t6[e6 + 3] && "A" === t6[e6 + 4] && "T" === t6[e6 + 5] && "A" === t6[e6 + 6] && "[" === t6[e6 + 7]) {
-          for (e6 += 8; e6 < t6.length; e6++) if ("]" === t6[e6] && "]" === t6[e6 + 1] && ">" === t6[e6 + 2]) {
+        } else if (t2.length > e6 + 8 && "D" === t2[e6 + 1] && "O" === t2[e6 + 2] && "C" === t2[e6 + 3] && "T" === t2[e6 + 4] && "Y" === t2[e6 + 5] && "P" === t2[e6 + 6] && "E" === t2[e6 + 7]) {
+          let n3 = 1;
+          for (e6 += 8; e6 < t2.length; e6++) if ("<" === t2[e6]) n3++;
+          else if (">" === t2[e6] && (n3--, 0 === n3)) break;
+        } else if (t2.length > e6 + 9 && "[" === t2[e6 + 1] && "C" === t2[e6 + 2] && "D" === t2[e6 + 3] && "A" === t2[e6 + 4] && "T" === t2[e6 + 5] && "A" === t2[e6 + 6] && "[" === t2[e6 + 7]) {
+          for (e6 += 8; e6 < t2.length; e6++) if ("]" === t2[e6] && "]" === t2[e6 + 1] && ">" === t2[e6 + 2]) {
             e6 += 2;
             break;
           }
@@ -33555,264 +33736,316 @@ var require_fxp = __commonJS({
         return e6;
       }
       const d5 = '"', f5 = "'";
-      function g5(t6, e6) {
-        let i6 = "", n6 = "", s6 = false;
-        for (; e6 < t6.length; e6++) {
-          if (t6[e6] === d5 || t6[e6] === f5) "" === n6 ? n6 = t6[e6] : n6 !== t6[e6] || (n6 = "");
-          else if (">" === t6[e6] && "" === n6) {
-            s6 = true;
+      function g5(t2, e6) {
+        let n3 = "", i6 = "", s2 = false;
+        for (; e6 < t2.length; e6++) {
+          if (t2[e6] === d5 || t2[e6] === f5) "" === i6 ? i6 = t2[e6] : i6 !== t2[e6] || (i6 = "");
+          else if (">" === t2[e6] && "" === i6) {
+            s2 = true;
             break;
           }
-          i6 += t6[e6];
+          n3 += t2[e6];
         }
-        return "" === n6 && { value: i6, index: e6, tagClosed: s6 };
+        return "" === i6 && { value: n3, index: e6, tagClosed: s2 };
       }
-      const m5 = new RegExp(`(\\s*)([^\\s=]+)(\\s*=)?(\\s*(['"])(([\\s\\S])*?)\\5)?`, "g");
-      function x5(t6, e6) {
-        const i6 = s5(t6, m5), n6 = {};
-        for (let t7 = 0; t7 < i6.length; t7++) {
-          if (0 === i6[t7][1].length) return b5("InvalidAttr", "Attribute '" + i6[t7][2] + "' has no space in starting.", v5(i6[t7]));
-          if (void 0 !== i6[t7][3] && void 0 === i6[t7][4]) return b5("InvalidAttr", "Attribute '" + i6[t7][2] + "' is without value.", v5(i6[t7]));
-          if (void 0 === i6[t7][3] && !e6.allowBooleanAttributes) return b5("InvalidAttr", "boolean attribute '" + i6[t7][2] + "' is not allowed.", v5(i6[t7]));
-          const s6 = i6[t7][2];
-          if (!E2(s6)) return b5("InvalidAttr", "Attribute '" + s6 + "' is an invalid name.", v5(i6[t7]));
-          if (Object.prototype.hasOwnProperty.call(n6, s6)) return b5("InvalidAttr", "Attribute '" + s6 + "' is repeated.", v5(i6[t7]));
-          n6[s6] = 1;
+      const m3 = new RegExp(`(\\s*)([^\\s=]+)(\\s*=)?(\\s*(['"])(([\\s\\S])*?)\\5)?`, "g");
+      function x(t2, e6) {
+        const n3 = s(t2, m3), i6 = {};
+        for (let t3 = 0; t3 < n3.length; t3++) {
+          if (0 === n3[t3][1].length) return b5("InvalidAttr", "Attribute '" + n3[t3][2] + "' has no space in starting.", v(n3[t3]));
+          if (void 0 !== n3[t3][3] && void 0 === n3[t3][4]) return b5("InvalidAttr", "Attribute '" + n3[t3][2] + "' is without value.", v(n3[t3]));
+          if (void 0 === n3[t3][3] && !e6.allowBooleanAttributes) return b5("InvalidAttr", "boolean attribute '" + n3[t3][2] + "' is not allowed.", v(n3[t3]));
+          const s2 = n3[t3][2];
+          if (!y(s2)) return b5("InvalidAttr", "Attribute '" + s2 + "' is an invalid name.", v(n3[t3]));
+          if (Object.prototype.hasOwnProperty.call(i6, s2)) return b5("InvalidAttr", "Attribute '" + s2 + "' is repeated.", v(n3[t3]));
+          i6[s2] = 1;
         }
         return true;
       }
-      function N(t6, e6) {
-        if (";" === t6[++e6]) return -1;
-        if ("#" === t6[e6]) return (function(t7, e7) {
-          let i7 = /\d/;
-          for ("x" === t7[e7] && (e7++, i7 = /[\da-fA-F]/); e7 < t7.length; e7++) {
-            if (";" === t7[e7]) return e7;
-            if (!t7[e7].match(i7)) break;
+      function N(t2, e6) {
+        if (";" === t2[++e6]) return -1;
+        if ("#" === t2[e6]) return (function(t3, e7) {
+          let n4 = /\d/;
+          for ("x" === t3[e7] && (e7++, n4 = /[\da-fA-F]/); e7 < t3.length; e7++) {
+            if (";" === t3[e7]) return e7;
+            if (!t3[e7].match(n4)) break;
           }
           return -1;
-        })(t6, ++e6);
-        let i6 = 0;
-        for (; e6 < t6.length; e6++, i6++) if (!(t6[e6].match(/\w/) && i6 < 20)) {
-          if (";" === t6[e6]) break;
+        })(t2, ++e6);
+        let n3 = 0;
+        for (; e6 < t2.length; e6++, n3++) if (!(t2[e6].match(/\w/) && n3 < 20)) {
+          if (";" === t2[e6]) break;
           return -1;
         }
         return e6;
       }
-      function b5(t6, e6, i6) {
-        return { err: { code: t6, msg: e6, line: i6.line || i6, col: i6.col } };
+      function b5(t2, e6, n3) {
+        return { err: { code: t2, msg: e6, line: n3.line || n3, col: n3.col } };
       }
-      function E2(t6) {
-        return r5(t6);
+      function y(t2) {
+        return r5(t2);
       }
-      function y2(t6) {
-        return r5(t6);
+      function E(t2) {
+        return r5(t2);
       }
-      function w5(t6, e6) {
-        const i6 = t6.substring(0, e6).split(/\r?\n/);
-        return { line: i6.length, col: i6[i6.length - 1].length + 1 };
+      function w(t2, e6) {
+        const n3 = t2.substring(0, e6).split(/\r?\n/);
+        return { line: n3.length, col: n3[n3.length - 1].length + 1 };
       }
-      function v5(t6) {
-        return t6.startIndex + t6[1].length;
+      function v(t2) {
+        return t2.startIndex + t2[1].length;
       }
-      const T = (t6) => o5.includes(t6) ? "__" + t6 : t6, P = { preserveOrder: false, attributeNamePrefix: "@_", attributesGroupName: false, textNodeName: "#text", ignoreAttributes: true, removeNSPrefix: false, allowBooleanAttributes: false, parseTagValue: true, parseAttributeValue: false, trimValues: true, cdataPropName: false, numberParseOptions: { hex: true, leadingZeros: true, eNotation: true }, tagValueProcessor: function(t6, e6) {
+      const S = (t2) => o2.includes(t2) ? "__" + t2 : t2, _ = { preserveOrder: false, attributeNamePrefix: "@_", attributesGroupName: false, textNodeName: "#text", ignoreAttributes: true, removeNSPrefix: false, allowBooleanAttributes: false, parseTagValue: true, parseAttributeValue: false, trimValues: true, cdataPropName: false, numberParseOptions: { hex: true, leadingZeros: true, eNotation: true }, tagValueProcessor: function(t2, e6) {
         return e6;
-      }, attributeValueProcessor: function(t6, e6) {
+      }, attributeValueProcessor: function(t2, e6) {
         return e6;
-      }, stopNodes: [], alwaysCreateTextNode: false, isArray: () => false, commentPropName: false, unpairedTags: [], processEntities: true, htmlEntities: false, ignoreDeclaration: false, ignorePiTags: false, transformTagName: false, transformAttributeName: false, updateTag: function(t6, e6, i6) {
-        return t6;
-      }, captureMetaData: false, maxNestedTags: 100, strictReservedNames: true, jPath: true, onDangerousProperty: T };
-      function S(t6, e6) {
-        if ("string" != typeof t6) return;
-        const i6 = t6.toLowerCase();
-        if (o5.some((t7) => i6 === t7.toLowerCase())) throw new Error(`[SECURITY] Invalid ${e6}: "${t6}" is a reserved JavaScript keyword that could cause prototype pollution`);
-        if (a5.some((t7) => i6 === t7.toLowerCase())) throw new Error(`[SECURITY] Invalid ${e6}: "${t6}" is a reserved JavaScript keyword that could cause prototype pollution`);
+      }, stopNodes: [], alwaysCreateTextNode: false, isArray: () => false, commentPropName: false, unpairedTags: [], processEntities: true, htmlEntities: false, entityDecoder: null, ignoreDeclaration: false, ignorePiTags: false, transformTagName: false, transformAttributeName: false, updateTag: function(t2, e6, n3) {
+        return t2;
+      }, captureMetaData: false, maxNestedTags: 100, strictReservedNames: true, jPath: true, onDangerousProperty: S };
+      function A(t2, e6) {
+        if ("string" != typeof t2) return;
+        const n3 = t2.toLowerCase();
+        if (o2.some((t3) => n3 === t3.toLowerCase())) throw new Error(`[SECURITY] Invalid ${e6}: "${t2}" is a reserved JavaScript keyword that could cause prototype pollution`);
+        if (a5.some((t3) => n3 === t3.toLowerCase())) throw new Error(`[SECURITY] Invalid ${e6}: "${t2}" is a reserved JavaScript keyword that could cause prototype pollution`);
       }
-      function A2(t6) {
-        return "boolean" == typeof t6 ? { enabled: t6, maxEntitySize: 1e4, maxExpansionDepth: 10, maxTotalExpansions: 1e3, maxExpandedLength: 1e5, maxEntityCount: 100, allowedTags: null, tagFilter: null } : "object" == typeof t6 && null !== t6 ? { enabled: false !== t6.enabled, maxEntitySize: Math.max(1, t6.maxEntitySize ?? 1e4), maxExpansionDepth: Math.max(1, t6.maxExpansionDepth ?? 10), maxTotalExpansions: Math.max(1, t6.maxTotalExpansions ?? 1e3), maxExpandedLength: Math.max(1, t6.maxExpandedLength ?? 1e5), maxEntityCount: Math.max(1, t6.maxEntityCount ?? 100), allowedTags: t6.allowedTags ?? null, tagFilter: t6.tagFilter ?? null } : A2(true);
+      function T(t2, e6) {
+        return "boolean" == typeof t2 ? { enabled: t2, maxEntitySize: 1e4, maxExpansionDepth: 1e4, maxTotalExpansions: 1 / 0, maxExpandedLength: 1e5, maxEntityCount: 1e3, allowedTags: null, tagFilter: null, appliesTo: "all" } : "object" == typeof t2 && null !== t2 ? { enabled: false !== t2.enabled, maxEntitySize: Math.max(1, t2.maxEntitySize ?? 1e4), maxExpansionDepth: Math.max(1, t2.maxExpansionDepth ?? 1e4), maxTotalExpansions: Math.max(1, t2.maxTotalExpansions ?? 1 / 0), maxExpandedLength: Math.max(1, t2.maxExpandedLength ?? 1e5), maxEntityCount: Math.max(1, t2.maxEntityCount ?? 1e3), allowedTags: t2.allowedTags ?? null, tagFilter: t2.tagFilter ?? null, appliesTo: t2.appliesTo ?? "all" } : T(true);
       }
-      const O = function(t6) {
-        const e6 = Object.assign({}, P, t6), i6 = [{ value: e6.attributeNamePrefix, name: "attributeNamePrefix" }, { value: e6.attributesGroupName, name: "attributesGroupName" }, { value: e6.textNodeName, name: "textNodeName" }, { value: e6.cdataPropName, name: "cdataPropName" }, { value: e6.commentPropName, name: "commentPropName" }];
-        for (const { value: t7, name: e7 } of i6) t7 && S(t7, e7);
-        return null === e6.onDangerousProperty && (e6.onDangerousProperty = T), e6.processEntities = A2(e6.processEntities), e6.stopNodes && Array.isArray(e6.stopNodes) && (e6.stopNodes = e6.stopNodes.map((t7) => "string" == typeof t7 && t7.startsWith("*.") ? ".." + t7.substring(2) : t7)), e6;
+      const C = function(t2) {
+        const e6 = Object.assign({}, _, t2), n3 = [{ value: e6.attributeNamePrefix, name: "attributeNamePrefix" }, { value: e6.attributesGroupName, name: "attributesGroupName" }, { value: e6.textNodeName, name: "textNodeName" }, { value: e6.cdataPropName, name: "cdataPropName" }, { value: e6.commentPropName, name: "commentPropName" }];
+        for (const { value: t3, name: e7 } of n3) t3 && A(t3, e7);
+        return null === e6.onDangerousProperty && (e6.onDangerousProperty = S), e6.processEntities = T(e6.processEntities, e6.htmlEntities), e6.unpairedTagsSet = new Set(e6.unpairedTags), e6.stopNodes && Array.isArray(e6.stopNodes) && (e6.stopNodes = e6.stopNodes.map((t3) => "string" == typeof t3 && t3.startsWith("*.") ? ".." + t3.substring(2) : t3)), e6;
       };
-      let C2;
-      C2 = "function" != typeof Symbol ? "@@xmlMetadata" : /* @__PURE__ */ Symbol("XML Node Metadata");
-      class $ {
-        constructor(t6) {
-          this.tagname = t6, this.child = [], this[":@"] = /* @__PURE__ */ Object.create(null);
+      let P;
+      P = "function" != typeof Symbol ? "@@xmlMetadata" : /* @__PURE__ */ Symbol("XML Node Metadata");
+      class O {
+        constructor(t2) {
+          this.tagname = t2, this.child = [], this[":@"] = /* @__PURE__ */ Object.create(null);
         }
-        add(t6, e6) {
-          "__proto__" === t6 && (t6 = "#__proto__"), this.child.push({ [t6]: e6 });
+        add(t2, e6) {
+          "__proto__" === t2 && (t2 = "#__proto__"), this.child.push({ [t2]: e6 });
         }
-        addChild(t6, e6) {
-          "__proto__" === t6.tagname && (t6.tagname = "#__proto__"), t6[":@"] && Object.keys(t6[":@"]).length > 0 ? this.child.push({ [t6.tagname]: t6.child, ":@": t6[":@"] }) : this.child.push({ [t6.tagname]: t6.child }), void 0 !== e6 && (this.child[this.child.length - 1][C2] = { startIndex: e6 });
+        addChild(t2, e6) {
+          "__proto__" === t2.tagname && (t2.tagname = "#__proto__"), t2[":@"] && Object.keys(t2[":@"]).length > 0 ? this.child.push({ [t2.tagname]: t2.child, ":@": t2[":@"] }) : this.child.push({ [t2.tagname]: t2.child }), void 0 !== e6 && (this.child[this.child.length - 1][P] = { startIndex: e6 });
         }
         static getMetaDataSymbol() {
-          return C2;
+          return P;
         }
       }
-      class I2 {
-        constructor(t6) {
-          this.suppressValidationErr = !t6, this.options = t6;
+      class $ {
+        constructor(t2) {
+          this.suppressValidationErr = !t2, this.options = t2;
         }
-        readDocType(t6, e6) {
-          const i6 = /* @__PURE__ */ Object.create(null);
-          let n6 = 0;
-          if ("O" !== t6[e6 + 3] || "C" !== t6[e6 + 4] || "T" !== t6[e6 + 5] || "Y" !== t6[e6 + 6] || "P" !== t6[e6 + 7] || "E" !== t6[e6 + 8]) throw new Error("Invalid Tag instead of DOCTYPE");
+        readDocType(t2, e6) {
+          const n3 = /* @__PURE__ */ Object.create(null);
+          let i6 = 0;
+          if ("O" !== t2[e6 + 3] || "C" !== t2[e6 + 4] || "T" !== t2[e6 + 5] || "Y" !== t2[e6 + 6] || "P" !== t2[e6 + 7] || "E" !== t2[e6 + 8]) throw new Error("Invalid Tag instead of DOCTYPE");
           {
             e6 += 9;
-            let s6 = 1, r6 = false, o6 = false, a6 = "";
-            for (; e6 < t6.length; e6++) if ("<" !== t6[e6] || o6) if (">" === t6[e6]) {
-              if (o6 ? "-" === t6[e6 - 1] && "-" === t6[e6 - 2] && (o6 = false, s6--) : s6--, 0 === s6) break;
-            } else "[" === t6[e6] ? r6 = true : a6 += t6[e6];
+            let s2 = 1, r6 = false, o3 = false, a6 = "";
+            for (; e6 < t2.length; e6++) if ("<" !== t2[e6] || o3) if (">" === t2[e6]) {
+              if (o3 ? "-" === t2[e6 - 1] && "-" === t2[e6 - 2] && (o3 = false, s2--) : s2--, 0 === s2) break;
+            } else "[" === t2[e6] ? r6 = true : a6 += t2[e6];
             else {
-              if (r6 && M(t6, "!ENTITY", e6)) {
-                let s7, r7;
-                if (e6 += 7, [s7, r7, e6] = this.readEntityExp(t6, e6 + 1, this.suppressValidationErr), -1 === r7.indexOf("&")) {
-                  if (false !== this.options.enabled && null != this.options.maxEntityCount && n6 >= this.options.maxEntityCount) throw new Error(`Entity count (${n6 + 1}) exceeds maximum allowed (${this.options.maxEntityCount})`);
-                  const t7 = s7.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-                  i6[s7] = { regx: RegExp(`&${t7};`, "g"), val: r7 }, n6++;
+              if (r6 && D(t2, "!ENTITY", e6)) {
+                let s3, r7;
+                if (e6 += 7, [s3, r7, e6] = this.readEntityExp(t2, e6 + 1, this.suppressValidationErr), -1 === r7.indexOf("&")) {
+                  if (false !== this.options.enabled && null != this.options.maxEntityCount && i6 >= this.options.maxEntityCount) throw new Error(`Entity count (${i6 + 1}) exceeds maximum allowed (${this.options.maxEntityCount})`);
+                  n3[s3] = r7, i6++;
                 }
-              } else if (r6 && M(t6, "!ELEMENT", e6)) {
+              } else if (r6 && D(t2, "!ELEMENT", e6)) {
                 e6 += 8;
-                const { index: i7 } = this.readElementExp(t6, e6 + 1);
-                e6 = i7;
-              } else if (r6 && M(t6, "!ATTLIST", e6)) e6 += 8;
-              else if (r6 && M(t6, "!NOTATION", e6)) {
+                const { index: n4 } = this.readElementExp(t2, e6 + 1);
+                e6 = n4;
+              } else if (r6 && D(t2, "!ATTLIST", e6)) e6 += 8;
+              else if (r6 && D(t2, "!NOTATION", e6)) {
                 e6 += 9;
-                const { index: i7 } = this.readNotationExp(t6, e6 + 1, this.suppressValidationErr);
-                e6 = i7;
+                const { index: n4 } = this.readNotationExp(t2, e6 + 1, this.suppressValidationErr);
+                e6 = n4;
               } else {
-                if (!M(t6, "!--", e6)) throw new Error("Invalid DOCTYPE");
-                o6 = true;
+                if (!D(t2, "!--", e6)) throw new Error("Invalid DOCTYPE");
+                o3 = true;
               }
-              s6++, a6 = "";
+              s2++, a6 = "";
             }
-            if (0 !== s6) throw new Error("Unclosed DOCTYPE");
+            if (0 !== s2) throw new Error("Unclosed DOCTYPE");
           }
-          return { entities: i6, i: e6 };
+          return { entities: n3, i: e6 };
         }
-        readEntityExp(t6, e6) {
-          const i6 = e6 = j5(t6, e6);
-          for (; e6 < t6.length && !/\s/.test(t6[e6]) && '"' !== t6[e6] && "'" !== t6[e6]; ) e6++;
-          let n6 = t6.substring(i6, e6);
-          if (_(n6), e6 = j5(t6, e6), !this.suppressValidationErr) {
-            if ("SYSTEM" === t6.substring(e6, e6 + 6).toUpperCase()) throw new Error("External entities are not supported");
-            if ("%" === t6[e6]) throw new Error("Parameter entities are not supported");
+        readEntityExp(t2, e6) {
+          const n3 = e6 = I(t2, e6);
+          for (; e6 < t2.length && !/\s/.test(t2[e6]) && '"' !== t2[e6] && "'" !== t2[e6]; ) e6++;
+          let i6 = t2.substring(n3, e6);
+          if (M(i6), e6 = I(t2, e6), !this.suppressValidationErr) {
+            if ("SYSTEM" === t2.substring(e6, e6 + 6).toUpperCase()) throw new Error("External entities are not supported");
+            if ("%" === t2[e6]) throw new Error("Parameter entities are not supported");
           }
-          let s6 = "";
-          if ([e6, s6] = this.readIdentifierVal(t6, e6, "entity"), false !== this.options.enabled && null != this.options.maxEntitySize && s6.length > this.options.maxEntitySize) throw new Error(`Entity "${n6}" size (${s6.length}) exceeds maximum allowed size (${this.options.maxEntitySize})`);
-          return [n6, s6, --e6];
+          let s2 = "";
+          if ([e6, s2] = this.readIdentifierVal(t2, e6, "entity"), false !== this.options.enabled && null != this.options.maxEntitySize && s2.length > this.options.maxEntitySize) throw new Error(`Entity "${i6}" size (${s2.length}) exceeds maximum allowed size (${this.options.maxEntitySize})`);
+          return [i6, s2, --e6];
         }
-        readNotationExp(t6, e6) {
-          const i6 = e6 = j5(t6, e6);
-          for (; e6 < t6.length && !/\s/.test(t6[e6]); ) e6++;
-          let n6 = t6.substring(i6, e6);
-          !this.suppressValidationErr && _(n6), e6 = j5(t6, e6);
-          const s6 = t6.substring(e6, e6 + 6).toUpperCase();
-          if (!this.suppressValidationErr && "SYSTEM" !== s6 && "PUBLIC" !== s6) throw new Error(`Expected SYSTEM or PUBLIC, found "${s6}"`);
-          e6 += s6.length, e6 = j5(t6, e6);
-          let r6 = null, o6 = null;
-          if ("PUBLIC" === s6) [e6, r6] = this.readIdentifierVal(t6, e6, "publicIdentifier"), '"' !== t6[e6 = j5(t6, e6)] && "'" !== t6[e6] || ([e6, o6] = this.readIdentifierVal(t6, e6, "systemIdentifier"));
-          else if ("SYSTEM" === s6 && ([e6, o6] = this.readIdentifierVal(t6, e6, "systemIdentifier"), !this.suppressValidationErr && !o6)) throw new Error("Missing mandatory system identifier for SYSTEM notation");
-          return { notationName: n6, publicIdentifier: r6, systemIdentifier: o6, index: --e6 };
+        readNotationExp(t2, e6) {
+          const n3 = e6 = I(t2, e6);
+          for (; e6 < t2.length && !/\s/.test(t2[e6]); ) e6++;
+          let i6 = t2.substring(n3, e6);
+          !this.suppressValidationErr && M(i6), e6 = I(t2, e6);
+          const s2 = t2.substring(e6, e6 + 6).toUpperCase();
+          if (!this.suppressValidationErr && "SYSTEM" !== s2 && "PUBLIC" !== s2) throw new Error(`Expected SYSTEM or PUBLIC, found "${s2}"`);
+          e6 += s2.length, e6 = I(t2, e6);
+          let r6 = null, o3 = null;
+          if ("PUBLIC" === s2) [e6, r6] = this.readIdentifierVal(t2, e6, "publicIdentifier"), '"' !== t2[e6 = I(t2, e6)] && "'" !== t2[e6] || ([e6, o3] = this.readIdentifierVal(t2, e6, "systemIdentifier"));
+          else if ("SYSTEM" === s2 && ([e6, o3] = this.readIdentifierVal(t2, e6, "systemIdentifier"), !this.suppressValidationErr && !o3)) throw new Error("Missing mandatory system identifier for SYSTEM notation");
+          return { notationName: i6, publicIdentifier: r6, systemIdentifier: o3, index: --e6 };
         }
-        readIdentifierVal(t6, e6, i6) {
-          let n6 = "";
-          const s6 = t6[e6];
-          if ('"' !== s6 && "'" !== s6) throw new Error(`Expected quoted string, found "${s6}"`);
+        readIdentifierVal(t2, e6, n3) {
+          let i6 = "";
+          const s2 = t2[e6];
+          if ('"' !== s2 && "'" !== s2) throw new Error(`Expected quoted string, found "${s2}"`);
           const r6 = ++e6;
-          for (; e6 < t6.length && t6[e6] !== s6; ) e6++;
-          if (n6 = t6.substring(r6, e6), t6[e6] !== s6) throw new Error(`Unterminated ${i6} value`);
-          return [++e6, n6];
+          for (; e6 < t2.length && t2[e6] !== s2; ) e6++;
+          if (i6 = t2.substring(r6, e6), t2[e6] !== s2) throw new Error(`Unterminated ${n3} value`);
+          return [++e6, i6];
         }
-        readElementExp(t6, e6) {
-          const i6 = e6 = j5(t6, e6);
-          for (; e6 < t6.length && !/\s/.test(t6[e6]); ) e6++;
-          let n6 = t6.substring(i6, e6);
-          if (!this.suppressValidationErr && !r5(n6)) throw new Error(`Invalid element name: "${n6}"`);
-          let s6 = "";
-          if ("E" === t6[e6 = j5(t6, e6)] && M(t6, "MPTY", e6)) e6 += 4;
-          else if ("A" === t6[e6] && M(t6, "NY", e6)) e6 += 2;
-          else if ("(" === t6[e6]) {
-            const i7 = ++e6;
-            for (; e6 < t6.length && ")" !== t6[e6]; ) e6++;
-            if (s6 = t6.substring(i7, e6), ")" !== t6[e6]) throw new Error("Unterminated content model");
-          } else if (!this.suppressValidationErr) throw new Error(`Invalid Element Expression, found "${t6[e6]}"`);
-          return { elementName: n6, contentModel: s6.trim(), index: e6 };
+        readElementExp(t2, e6) {
+          const n3 = e6 = I(t2, e6);
+          for (; e6 < t2.length && !/\s/.test(t2[e6]); ) e6++;
+          let i6 = t2.substring(n3, e6);
+          if (!this.suppressValidationErr && !r5(i6)) throw new Error(`Invalid element name: "${i6}"`);
+          let s2 = "";
+          if ("E" === t2[e6 = I(t2, e6)] && D(t2, "MPTY", e6)) e6 += 4;
+          else if ("A" === t2[e6] && D(t2, "NY", e6)) e6 += 2;
+          else if ("(" === t2[e6]) {
+            const n4 = ++e6;
+            for (; e6 < t2.length && ")" !== t2[e6]; ) e6++;
+            if (s2 = t2.substring(n4, e6), ")" !== t2[e6]) throw new Error("Unterminated content model");
+          } else if (!this.suppressValidationErr) throw new Error(`Invalid Element Expression, found "${t2[e6]}"`);
+          return { elementName: i6, contentModel: s2.trim(), index: e6 };
         }
-        readAttlistExp(t6, e6) {
-          let i6 = e6 = j5(t6, e6);
-          for (; e6 < t6.length && !/\s/.test(t6[e6]); ) e6++;
-          let n6 = t6.substring(i6, e6);
-          for (_(n6), i6 = e6 = j5(t6, e6); e6 < t6.length && !/\s/.test(t6[e6]); ) e6++;
-          let s6 = t6.substring(i6, e6);
-          if (!_(s6)) throw new Error(`Invalid attribute name: "${s6}"`);
-          e6 = j5(t6, e6);
+        readAttlistExp(t2, e6) {
+          let n3 = e6 = I(t2, e6);
+          for (; e6 < t2.length && !/\s/.test(t2[e6]); ) e6++;
+          let i6 = t2.substring(n3, e6);
+          for (M(i6), n3 = e6 = I(t2, e6); e6 < t2.length && !/\s/.test(t2[e6]); ) e6++;
+          let s2 = t2.substring(n3, e6);
+          if (!M(s2)) throw new Error(`Invalid attribute name: "${s2}"`);
+          e6 = I(t2, e6);
           let r6 = "";
-          if ("NOTATION" === t6.substring(e6, e6 + 8).toUpperCase()) {
-            if (r6 = "NOTATION", "(" !== t6[e6 = j5(t6, e6 += 8)]) throw new Error(`Expected '(', found "${t6[e6]}"`);
+          if ("NOTATION" === t2.substring(e6, e6 + 8).toUpperCase()) {
+            if (r6 = "NOTATION", "(" !== t2[e6 = I(t2, e6 += 8)]) throw new Error(`Expected '(', found "${t2[e6]}"`);
             e6++;
-            let i7 = [];
-            for (; e6 < t6.length && ")" !== t6[e6]; ) {
-              const n7 = e6;
-              for (; e6 < t6.length && "|" !== t6[e6] && ")" !== t6[e6]; ) e6++;
-              let s7 = t6.substring(n7, e6);
-              if (s7 = s7.trim(), !_(s7)) throw new Error(`Invalid notation name: "${s7}"`);
-              i7.push(s7), "|" === t6[e6] && (e6++, e6 = j5(t6, e6));
+            let n4 = [];
+            for (; e6 < t2.length && ")" !== t2[e6]; ) {
+              const i7 = e6;
+              for (; e6 < t2.length && "|" !== t2[e6] && ")" !== t2[e6]; ) e6++;
+              let s3 = t2.substring(i7, e6);
+              if (s3 = s3.trim(), !M(s3)) throw new Error(`Invalid notation name: "${s3}"`);
+              n4.push(s3), "|" === t2[e6] && (e6++, e6 = I(t2, e6));
             }
-            if (")" !== t6[e6]) throw new Error("Unterminated list of notations");
-            e6++, r6 += " (" + i7.join("|") + ")";
+            if (")" !== t2[e6]) throw new Error("Unterminated list of notations");
+            e6++, r6 += " (" + n4.join("|") + ")";
           } else {
-            const i7 = e6;
-            for (; e6 < t6.length && !/\s/.test(t6[e6]); ) e6++;
-            r6 += t6.substring(i7, e6);
-            const n7 = ["CDATA", "ID", "IDREF", "IDREFS", "ENTITY", "ENTITIES", "NMTOKEN", "NMTOKENS"];
-            if (!this.suppressValidationErr && !n7.includes(r6.toUpperCase())) throw new Error(`Invalid attribute type: "${r6}"`);
+            const n4 = e6;
+            for (; e6 < t2.length && !/\s/.test(t2[e6]); ) e6++;
+            r6 += t2.substring(n4, e6);
+            const i7 = ["CDATA", "ID", "IDREF", "IDREFS", "ENTITY", "ENTITIES", "NMTOKEN", "NMTOKENS"];
+            if (!this.suppressValidationErr && !i7.includes(r6.toUpperCase())) throw new Error(`Invalid attribute type: "${r6}"`);
           }
-          e6 = j5(t6, e6);
-          let o6 = "";
-          return "#REQUIRED" === t6.substring(e6, e6 + 8).toUpperCase() ? (o6 = "#REQUIRED", e6 += 8) : "#IMPLIED" === t6.substring(e6, e6 + 7).toUpperCase() ? (o6 = "#IMPLIED", e6 += 7) : [e6, o6] = this.readIdentifierVal(t6, e6, "ATTLIST"), { elementName: n6, attributeName: s6, attributeType: r6, defaultValue: o6, index: e6 };
+          e6 = I(t2, e6);
+          let o3 = "";
+          return "#REQUIRED" === t2.substring(e6, e6 + 8).toUpperCase() ? (o3 = "#REQUIRED", e6 += 8) : "#IMPLIED" === t2.substring(e6, e6 + 7).toUpperCase() ? (o3 = "#IMPLIED", e6 += 7) : [e6, o3] = this.readIdentifierVal(t2, e6, "ATTLIST"), { elementName: i6, attributeName: s2, attributeType: r6, defaultValue: o3, index: e6 };
         }
       }
-      const j5 = (t6, e6) => {
-        for (; e6 < t6.length && /\s/.test(t6[e6]); ) e6++;
+      const I = (t2, e6) => {
+        for (; e6 < t2.length && /\s/.test(t2[e6]); ) e6++;
         return e6;
       };
-      function M(t6, e6, i6) {
-        for (let n6 = 0; n6 < e6.length; n6++) if (e6[n6] !== t6[i6 + n6 + 1]) return false;
+      function D(t2, e6, n3) {
+        for (let i6 = 0; i6 < e6.length; i6++) if (e6[i6] !== t2[n3 + i6 + 1]) return false;
         return true;
       }
-      function _(t6) {
-        if (r5(t6)) return t6;
-        throw new Error(`Invalid entity name ${t6}`);
+      function M(t2) {
+        if (r5(t2)) return t2;
+        throw new Error(`Invalid entity name ${t2}`);
       }
-      const D2 = /^[-+]?0x[a-fA-F0-9]+$/, V = /^([\-\+])?(0*)([0-9]*(\.[0-9]*)?)$/, k5 = { hex: true, leadingZeros: true, decimalPoint: ".", eNotation: true, infinity: "original" };
-      const F2 = /^([-+])?(0*)(\d*(\.\d*)?[eE][-\+]?\d+)$/, L = /* @__PURE__ */ new Set(["push", "pop", "reset", "updateCurrent", "restore"]);
-      class G2 {
-        constructor(t6 = {}) {
-          this.separator = t6.separator || ".", this.path = [], this.siblingStacks = [];
+      const j5 = /^[-+]?0x[a-fA-F0-9]+$/, V = /^([\-\+])?(0*)([0-9]*(\.[0-9]*)?)$/, L = { hex: true, leadingZeros: true, decimalPoint: ".", eNotation: true, infinity: "original" };
+      const k5 = /^([-+])?(0*)(\d*(\.\d*)?[eE][-\+]?\d+)$/;
+      class F {
+        constructor(t2) {
+          this._matcher = t2;
         }
-        push(t6, e6 = null, i6 = null) {
-          this.path.length > 0 && (this.path[this.path.length - 1].values = void 0);
-          const n6 = this.path.length;
-          this.siblingStacks[n6] || (this.siblingStacks[n6] = /* @__PURE__ */ new Map());
-          const s6 = this.siblingStacks[n6], r6 = i6 ? `${i6}:${t6}` : t6, o6 = s6.get(r6) || 0;
+        get separator() {
+          return this._matcher.separator;
+        }
+        getCurrentTag() {
+          const t2 = this._matcher.path;
+          return t2.length > 0 ? t2[t2.length - 1].tag : void 0;
+        }
+        getCurrentNamespace() {
+          const t2 = this._matcher.path;
+          return t2.length > 0 ? t2[t2.length - 1].namespace : void 0;
+        }
+        getAttrValue(t2) {
+          const e6 = this._matcher.path;
+          if (0 !== e6.length) return e6[e6.length - 1].values?.[t2];
+        }
+        hasAttr(t2) {
+          const e6 = this._matcher.path;
+          if (0 === e6.length) return false;
+          const n3 = e6[e6.length - 1];
+          return void 0 !== n3.values && t2 in n3.values;
+        }
+        getPosition() {
+          const t2 = this._matcher.path;
+          return 0 === t2.length ? -1 : t2[t2.length - 1].position ?? 0;
+        }
+        getCounter() {
+          const t2 = this._matcher.path;
+          return 0 === t2.length ? -1 : t2[t2.length - 1].counter ?? 0;
+        }
+        getIndex() {
+          return this.getPosition();
+        }
+        getDepth() {
+          return this._matcher.path.length;
+        }
+        toString(t2, e6 = true) {
+          return this._matcher.toString(t2, e6);
+        }
+        toArray() {
+          return this._matcher.path.map((t2) => t2.tag);
+        }
+        matches(t2) {
+          return this._matcher.matches(t2);
+        }
+        matchesAny(t2) {
+          return t2.matchesAny(this._matcher);
+        }
+      }
+      class R {
+        constructor(t2 = {}) {
+          this.separator = t2.separator || ".", this.path = [], this.siblingStacks = [], this._pathStringCache = null, this._view = new F(this);
+        }
+        push(t2, e6 = null, n3 = null) {
+          this._pathStringCache = null, this.path.length > 0 && (this.path[this.path.length - 1].values = void 0);
+          const i6 = this.path.length;
+          this.siblingStacks[i6] || (this.siblingStacks[i6] = /* @__PURE__ */ new Map());
+          const s2 = this.siblingStacks[i6], r6 = n3 ? `${n3}:${t2}` : t2, o3 = s2.get(r6) || 0;
           let a6 = 0;
-          for (const t7 of s6.values()) a6 += t7;
-          s6.set(r6, o6 + 1);
-          const h6 = { tag: t6, position: a6, counter: o6 };
-          null != i6 && (h6.namespace = i6), null != e6 && (h6.values = e6), this.path.push(h6);
+          for (const t3 of s2.values()) a6 += t3;
+          s2.set(r6, o3 + 1);
+          const h6 = { tag: t2, position: a6, counter: o3 };
+          null != n3 && (h6.namespace = n3), null != e6 && (h6.values = e6), this.path.push(h6);
         }
         pop() {
           if (0 === this.path.length) return;
-          const t6 = this.path.pop();
-          return this.siblingStacks.length > this.path.length + 1 && (this.siblingStacks.length = this.path.length + 1), t6;
+          this._pathStringCache = null;
+          const t2 = this.path.pop();
+          return this.siblingStacks.length > this.path.length + 1 && (this.siblingStacks.length = this.path.length + 1), t2;
         }
-        updateCurrent(t6) {
+        updateCurrent(t2) {
           if (this.path.length > 0) {
             const e6 = this.path[this.path.length - 1];
-            null != t6 && (e6.values = t6);
+            null != t2 && (e6.values = t2);
           }
         }
         getCurrentTag() {
@@ -33821,15 +34054,13 @@ var require_fxp = __commonJS({
         getCurrentNamespace() {
           return this.path.length > 0 ? this.path[this.path.length - 1].namespace : void 0;
         }
-        getAttrValue(t6) {
-          if (0 === this.path.length) return;
-          const e6 = this.path[this.path.length - 1];
-          return e6.values?.[t6];
+        getAttrValue(t2) {
+          if (0 !== this.path.length) return this.path[this.path.length - 1].values?.[t2];
         }
-        hasAttr(t6) {
+        hasAttr(t2) {
           if (0 === this.path.length) return false;
           const e6 = this.path[this.path.length - 1];
-          return void 0 !== e6.values && t6 in e6.values;
+          return void 0 !== e6.values && t2 in e6.values;
         }
         getPosition() {
           return 0 === this.path.length ? -1 : this.path[this.path.length - 1].position ?? 0;
@@ -33843,129 +34074,117 @@ var require_fxp = __commonJS({
         getDepth() {
           return this.path.length;
         }
-        toString(t6, e6 = true) {
-          const i6 = t6 || this.separator;
-          return this.path.map((t7) => e6 && t7.namespace ? `${t7.namespace}:${t7.tag}` : t7.tag).join(i6);
+        toString(t2, e6 = true) {
+          const n3 = t2 || this.separator;
+          if (n3 === this.separator && true === e6) {
+            if (null !== this._pathStringCache) return this._pathStringCache;
+            const t3 = this.path.map((t4) => t4.namespace ? `${t4.namespace}:${t4.tag}` : t4.tag).join(n3);
+            return this._pathStringCache = t3, t3;
+          }
+          return this.path.map((t3) => e6 && t3.namespace ? `${t3.namespace}:${t3.tag}` : t3.tag).join(n3);
         }
         toArray() {
-          return this.path.map((t6) => t6.tag);
+          return this.path.map((t2) => t2.tag);
         }
         reset() {
-          this.path = [], this.siblingStacks = [];
+          this._pathStringCache = null, this.path = [], this.siblingStacks = [];
         }
-        matches(t6) {
-          const e6 = t6.segments;
-          return 0 !== e6.length && (t6.hasDeepWildcard() ? this._matchWithDeepWildcard(e6) : this._matchSimple(e6));
+        matches(t2) {
+          const e6 = t2.segments;
+          return 0 !== e6.length && (t2.hasDeepWildcard() ? this._matchWithDeepWildcard(e6) : this._matchSimple(e6));
         }
-        _matchSimple(t6) {
-          if (this.path.length !== t6.length) return false;
-          for (let e6 = 0; e6 < t6.length; e6++) {
-            const i6 = t6[e6], n6 = this.path[e6], s6 = e6 === this.path.length - 1;
-            if (!this._matchSegment(i6, n6, s6)) return false;
-          }
+        _matchSimple(t2) {
+          if (this.path.length !== t2.length) return false;
+          for (let e6 = 0; e6 < t2.length; e6++) if (!this._matchSegment(t2[e6], this.path[e6], e6 === this.path.length - 1)) return false;
           return true;
         }
-        _matchWithDeepWildcard(t6) {
-          let e6 = this.path.length - 1, i6 = t6.length - 1;
-          for (; i6 >= 0 && e6 >= 0; ) {
-            const n6 = t6[i6];
-            if ("deep-wildcard" === n6.type) {
-              if (i6--, i6 < 0) return true;
-              const n7 = t6[i6];
-              let s6 = false;
-              for (let t7 = e6; t7 >= 0; t7--) {
-                const r6 = t7 === this.path.length - 1;
-                if (this._matchSegment(n7, this.path[t7], r6)) {
-                  e6 = t7 - 1, i6--, s6 = true;
-                  break;
-                }
+        _matchWithDeepWildcard(t2) {
+          let e6 = this.path.length - 1, n3 = t2.length - 1;
+          for (; n3 >= 0 && e6 >= 0; ) {
+            const i6 = t2[n3];
+            if ("deep-wildcard" === i6.type) {
+              if (n3--, n3 < 0) return true;
+              const i7 = t2[n3];
+              let s2 = false;
+              for (let t3 = e6; t3 >= 0; t3--) if (this._matchSegment(i7, this.path[t3], t3 === this.path.length - 1)) {
+                e6 = t3 - 1, n3--, s2 = true;
+                break;
               }
-              if (!s6) return false;
+              if (!s2) return false;
             } else {
-              const t7 = e6 === this.path.length - 1;
-              if (!this._matchSegment(n6, this.path[e6], t7)) return false;
-              e6--, i6--;
+              if (!this._matchSegment(i6, this.path[e6], e6 === this.path.length - 1)) return false;
+              e6--, n3--;
             }
           }
-          return i6 < 0;
+          return n3 < 0;
         }
-        _matchSegment(t6, e6, i6) {
-          if ("*" !== t6.tag && t6.tag !== e6.tag) return false;
-          if (void 0 !== t6.namespace && "*" !== t6.namespace && t6.namespace !== e6.namespace) return false;
-          if (void 0 !== t6.attrName) {
-            if (!i6) return false;
-            if (!e6.values || !(t6.attrName in e6.values)) return false;
-            if (void 0 !== t6.attrValue) {
-              const i7 = e6.values[t6.attrName];
-              if (String(i7) !== String(t6.attrValue)) return false;
-            }
+        _matchSegment(t2, e6, n3) {
+          if ("*" !== t2.tag && t2.tag !== e6.tag) return false;
+          if (void 0 !== t2.namespace && "*" !== t2.namespace && t2.namespace !== e6.namespace) return false;
+          if (void 0 !== t2.attrName) {
+            if (!n3) return false;
+            if (!e6.values || !(t2.attrName in e6.values)) return false;
+            if (void 0 !== t2.attrValue && String(e6.values[t2.attrName]) !== String(t2.attrValue)) return false;
           }
-          if (void 0 !== t6.position) {
-            if (!i6) return false;
-            const n6 = e6.counter ?? 0;
-            if ("first" === t6.position && 0 !== n6) return false;
-            if ("odd" === t6.position && n6 % 2 != 1) return false;
-            if ("even" === t6.position && n6 % 2 != 0) return false;
-            if ("nth" === t6.position && n6 !== t6.positionValue) return false;
+          if (void 0 !== t2.position) {
+            if (!n3) return false;
+            const i6 = e6.counter ?? 0;
+            if ("first" === t2.position && 0 !== i6) return false;
+            if ("odd" === t2.position && i6 % 2 != 1) return false;
+            if ("even" === t2.position && i6 % 2 != 0) return false;
+            if ("nth" === t2.position && i6 !== t2.positionValue) return false;
           }
           return true;
+        }
+        matchesAny(t2) {
+          return t2.matchesAny(this);
         }
         snapshot() {
-          return { path: this.path.map((t6) => ({ ...t6 })), siblingStacks: this.siblingStacks.map((t6) => new Map(t6)) };
+          return { path: this.path.map((t2) => ({ ...t2 })), siblingStacks: this.siblingStacks.map((t2) => new Map(t2)) };
         }
-        restore(t6) {
-          this.path = t6.path.map((t7) => ({ ...t7 })), this.siblingStacks = t6.siblingStacks.map((t7) => new Map(t7));
+        restore(t2) {
+          this._pathStringCache = null, this.path = t2.path.map((t3) => ({ ...t3 })), this.siblingStacks = t2.siblingStacks.map((t3) => new Map(t3));
         }
         readOnly() {
-          return new Proxy(this, { get(t6, e6, i6) {
-            if (L.has(e6)) return () => {
-              throw new TypeError(`Cannot call '${e6}' on a read-only Matcher. Obtain a writable instance to mutate state.`);
-            };
-            const n6 = Reflect.get(t6, e6, i6);
-            return "path" === e6 || "siblingStacks" === e6 ? Object.freeze(Array.isArray(n6) ? n6.map((t7) => t7 instanceof Map ? Object.freeze(new Map(t7)) : Object.freeze({ ...t7 })) : n6) : "function" == typeof n6 ? n6.bind(t6) : n6;
-          }, set(t6, e6) {
-            throw new TypeError(`Cannot set property '${String(e6)}' on a read-only Matcher.`);
-          }, deleteProperty(t6, e6) {
-            throw new TypeError(`Cannot delete property '${String(e6)}' from a read-only Matcher.`);
-          } });
+          return this._view;
         }
       }
-      class R {
-        constructor(t6, e6 = {}) {
-          this.pattern = t6, this.separator = e6.separator || ".", this.segments = this._parse(t6), this._hasDeepWildcard = this.segments.some((t7) => "deep-wildcard" === t7.type), this._hasAttributeCondition = this.segments.some((t7) => void 0 !== t7.attrName), this._hasPositionSelector = this.segments.some((t7) => void 0 !== t7.position);
+      class G {
+        constructor(t2, e6 = {}, n3) {
+          this.pattern = t2, this.separator = e6.separator || ".", this.segments = this._parse(t2), this.data = n3, this._hasDeepWildcard = this.segments.some((t3) => "deep-wildcard" === t3.type), this._hasAttributeCondition = this.segments.some((t3) => void 0 !== t3.attrName), this._hasPositionSelector = this.segments.some((t3) => void 0 !== t3.position);
         }
-        _parse(t6) {
+        _parse(t2) {
           const e6 = [];
-          let i6 = 0, n6 = "";
-          for (; i6 < t6.length; ) t6[i6] === this.separator ? i6 + 1 < t6.length && t6[i6 + 1] === this.separator ? (n6.trim() && (e6.push(this._parseSegment(n6.trim())), n6 = ""), e6.push({ type: "deep-wildcard" }), i6 += 2) : (n6.trim() && e6.push(this._parseSegment(n6.trim())), n6 = "", i6++) : (n6 += t6[i6], i6++);
-          return n6.trim() && e6.push(this._parseSegment(n6.trim())), e6;
+          let n3 = 0, i6 = "";
+          for (; n3 < t2.length; ) t2[n3] === this.separator ? n3 + 1 < t2.length && t2[n3 + 1] === this.separator ? (i6.trim() && (e6.push(this._parseSegment(i6.trim())), i6 = ""), e6.push({ type: "deep-wildcard" }), n3 += 2) : (i6.trim() && e6.push(this._parseSegment(i6.trim())), i6 = "", n3++) : (i6 += t2[n3], n3++);
+          return i6.trim() && e6.push(this._parseSegment(i6.trim())), e6;
         }
-        _parseSegment(t6) {
+        _parseSegment(t2) {
           const e6 = { type: "tag" };
-          let i6 = null, n6 = t6;
-          const s6 = t6.match(/^([^\[]+)(\[[^\]]*\])(.*)$/);
-          if (s6 && (n6 = s6[1] + s6[3], s6[2])) {
-            const t7 = s6[2].slice(1, -1);
-            t7 && (i6 = t7);
+          let n3 = null, i6 = t2;
+          const s2 = t2.match(/^([^\[]+)(\[[^\]]*\])(.*)$/);
+          if (s2 && (i6 = s2[1] + s2[3], s2[2])) {
+            const t3 = s2[2].slice(1, -1);
+            t3 && (n3 = t3);
           }
-          let r6, o6, a6 = n6;
-          if (n6.includes("::")) {
-            const e7 = n6.indexOf("::");
-            if (r6 = n6.substring(0, e7).trim(), a6 = n6.substring(e7 + 2).trim(), !r6) throw new Error(`Invalid namespace in pattern: ${t6}`);
+          let r6, o3, a6 = i6;
+          if (i6.includes("::")) {
+            const e7 = i6.indexOf("::");
+            if (r6 = i6.substring(0, e7).trim(), a6 = i6.substring(e7 + 2).trim(), !r6) throw new Error(`Invalid namespace in pattern: ${t2}`);
           }
           let h6 = null;
           if (a6.includes(":")) {
-            const t7 = a6.lastIndexOf(":"), e7 = a6.substring(0, t7).trim(), i7 = a6.substring(t7 + 1).trim();
-            ["first", "last", "odd", "even"].includes(i7) || /^nth\(\d+\)$/.test(i7) ? (o6 = e7, h6 = i7) : o6 = a6;
-          } else o6 = a6;
-          if (!o6) throw new Error(`Invalid segment pattern: ${t6}`);
-          if (e6.tag = o6, r6 && (e6.namespace = r6), i6) if (i6.includes("=")) {
-            const t7 = i6.indexOf("=");
-            e6.attrName = i6.substring(0, t7).trim(), e6.attrValue = i6.substring(t7 + 1).trim();
-          } else e6.attrName = i6.trim();
+            const t3 = a6.lastIndexOf(":"), e7 = a6.substring(0, t3).trim(), n4 = a6.substring(t3 + 1).trim();
+            ["first", "last", "odd", "even"].includes(n4) || /^nth\(\d+\)$/.test(n4) ? (o3 = e7, h6 = n4) : o3 = a6;
+          } else o3 = a6;
+          if (!o3) throw new Error(`Invalid segment pattern: ${t2}`);
+          if (e6.tag = o3, r6 && (e6.namespace = r6), n3) if (n3.includes("=")) {
+            const t3 = n3.indexOf("=");
+            e6.attrName = n3.substring(0, t3).trim(), e6.attrValue = n3.substring(t3 + 1).trim();
+          } else e6.attrName = n3.trim();
           if (h6) {
-            const t7 = h6.match(/^nth\((\d+)\)$/);
-            t7 ? (e6.position = "nth", e6.positionValue = parseInt(t7[1], 10)) : e6.position = h6;
+            const t3 = h6.match(/^nth\((\d+)\)$/);
+            t3 ? (e6.position = "nth", e6.positionValue = parseInt(t3[1], 10)) : e6.position = h6;
           }
           return e6;
         }
@@ -33985,744 +34204,1272 @@ var require_fxp = __commonJS({
           return this.pattern;
         }
       }
-      function U(t6, e6) {
-        if (!t6) return {};
-        const i6 = e6.attributesGroupName ? t6[e6.attributesGroupName] : t6;
-        if (!i6) return {};
-        const n6 = {};
-        for (const t7 in i6) t7.startsWith(e6.attributeNamePrefix) ? n6[t7.substring(e6.attributeNamePrefix.length)] = i6[t7] : n6[t7] = i6[t7];
-        return n6;
-      }
-      function B2(t6) {
-        if (!t6 || "string" != typeof t6) return;
-        const e6 = t6.indexOf(":");
-        if (-1 !== e6 && e6 > 0) {
-          const i6 = t6.substring(0, e6);
-          if ("xmlns" !== i6) return i6;
+      class B {
+        constructor() {
+          this._byDepthAndTag = /* @__PURE__ */ new Map(), this._wildcardByDepth = /* @__PURE__ */ new Map(), this._deepWildcards = [], this._patterns = /* @__PURE__ */ new Set(), this._sealed = false;
+        }
+        add(t2) {
+          if (this._sealed) throw new TypeError("ExpressionSet is sealed. Create a new ExpressionSet to add more expressions.");
+          if (this._patterns.has(t2.pattern)) return this;
+          if (this._patterns.add(t2.pattern), t2.hasDeepWildcard()) return this._deepWildcards.push(t2), this;
+          const e6 = t2.length, n3 = t2.segments[t2.segments.length - 1], i6 = n3?.tag;
+          if (i6 && "*" !== i6) {
+            const n4 = `${e6}:${i6}`;
+            this._byDepthAndTag.has(n4) || this._byDepthAndTag.set(n4, []), this._byDepthAndTag.get(n4).push(t2);
+          } else this._wildcardByDepth.has(e6) || this._wildcardByDepth.set(e6, []), this._wildcardByDepth.get(e6).push(t2);
+          return this;
+        }
+        addAll(t2) {
+          for (const e6 of t2) this.add(e6);
+          return this;
+        }
+        has(t2) {
+          return this._patterns.has(t2.pattern);
+        }
+        get size() {
+          return this._patterns.size;
+        }
+        seal() {
+          return this._sealed = true, this;
+        }
+        get isSealed() {
+          return this._sealed;
+        }
+        matchesAny(t2) {
+          return null !== this.findMatch(t2);
+        }
+        findMatch(t2) {
+          const e6 = t2.getDepth(), n3 = `${e6}:${t2.getCurrentTag()}`, i6 = this._byDepthAndTag.get(n3);
+          if (i6) {
+            for (let e7 = 0; e7 < i6.length; e7++) if (t2.matches(i6[e7])) return i6[e7];
+          }
+          const s2 = this._wildcardByDepth.get(e6);
+          if (s2) {
+            for (let e7 = 0; e7 < s2.length; e7++) if (t2.matches(s2[e7])) return s2[e7];
+          }
+          for (let e7 = 0; e7 < this._deepWildcards.length; e7++) if (t2.matches(this._deepWildcards[e7])) return this._deepWildcards[e7];
+          return null;
         }
       }
-      class W {
-        constructor(t6) {
+      const U = { cent: "\xA2", pound: "\xA3", curren: "\xA4", yen: "\xA5", euro: "\u20AC", dollar: "$", euro: "\u20AC", fnof: "\u0192", inr: "\u20B9", af: "\u060B", birr: "\u1265\u122D", peso: "\u20B1", rub: "\u20BD", won: "\u20A9", yuan: "\xA5", cedil: "\xB8" }, W = { amp: "&", apos: "'", gt: ">", lt: "<", quot: '"' }, X = { nbsp: "\xA0", copy: "\xA9", reg: "\xAE", trade: "\u2122", mdash: "\u2014", ndash: "\u2013", hellip: "\u2026", laquo: "\xAB", raquo: "\xBB", lsquo: "\u2018", rsquo: "\u2019", ldquo: "\u201C", rdquo: "\u201D", bull: "\u2022", para: "\xB6", sect: "\xA7", deg: "\xB0", frac12: "\xBD", frac14: "\xBC", frac34: "\xBE" }, Y = new Set("!?\\\\/[]$%{}^&*()<>|+");
+      function z(t2) {
+        if ("#" === t2[0]) throw new Error(`[EntityReplacer] Invalid character '#' in entity name: "${t2}"`);
+        for (const e6 of t2) if (Y.has(e6)) throw new Error(`[EntityReplacer] Invalid character '${e6}' in entity name: "${t2}"`);
+        return t2;
+      }
+      function q2(...t2) {
+        const e6 = /* @__PURE__ */ Object.create(null);
+        for (const n3 of t2) if (n3) for (const t3 of Object.keys(n3)) {
+          const i6 = n3[t3];
+          if ("string" == typeof i6) e6[t3] = i6;
+          else if (i6 && "object" == typeof i6 && void 0 !== i6.val) {
+            const n4 = i6.val;
+            "string" == typeof n4 && (e6[t3] = n4);
+          }
+        }
+        return e6;
+      }
+      const Z = "external", J = "base", K = "all", Q = Object.freeze({ allow: 0, leave: 1, remove: 2, throw: 3 }), H = /* @__PURE__ */ new Set([9, 10, 13]);
+      class tt {
+        constructor(t2 = {}) {
           var e6;
-          if (this.options = t6, this.currentNode = null, this.tagsNodeStack = [], this.docTypeEntities = {}, this.lastEntities = { apos: { regex: /&(apos|#39|#x27);/g, val: "'" }, gt: { regex: /&(gt|#62|#x3E);/g, val: ">" }, lt: { regex: /&(lt|#60|#x3C);/g, val: "<" }, quot: { regex: /&(quot|#34|#x22);/g, val: '"' } }, this.ampEntity = { regex: /&(amp|#38|#x26);/g, val: "&" }, this.htmlEntities = { space: { regex: /&(nbsp|#160);/g, val: " " }, cent: { regex: /&(cent|#162);/g, val: "\xA2" }, pound: { regex: /&(pound|#163);/g, val: "\xA3" }, yen: { regex: /&(yen|#165);/g, val: "\xA5" }, euro: { regex: /&(euro|#8364);/g, val: "\u20AC" }, copyright: { regex: /&(copy|#169);/g, val: "\xA9" }, reg: { regex: /&(reg|#174);/g, val: "\xAE" }, inr: { regex: /&(inr|#8377);/g, val: "\u20B9" }, num_dec: { regex: /&#([0-9]{1,7});/g, val: (t7, e7) => rt(e7, 10, "&#") }, num_hex: { regex: /&#x([0-9a-fA-F]{1,6});/g, val: (t7, e7) => rt(e7, 16, "&#x") } }, this.addExternalEntities = Y, this.parseXml = J2, this.parseTextData = z2, this.resolveNameSpace = X, this.buildAttributesMap = Z, this.isItStopNode = tt, this.replaceEntitiesValue = Q, this.readStopNodeData = nt, this.saveTextToParentTag = H2, this.addChild = K, this.ignoreAttributesFn = "function" == typeof (e6 = this.options.ignoreAttributes) ? e6 : Array.isArray(e6) ? (t7) => {
-            for (const i6 of e6) {
-              if ("string" == typeof i6 && t7 === i6) return true;
-              if (i6 instanceof RegExp && i6.test(t7)) return true;
+          this._limit = t2.limit || {}, this._maxTotalExpansions = this._limit.maxTotalExpansions || 0, this._maxExpandedLength = this._limit.maxExpandedLength || 0, this._postCheck = "function" == typeof t2.postCheck ? t2.postCheck : (t3) => t3, this._limitTiers = (e6 = this._limit.applyLimitsTo ?? Z) && e6 !== Z ? e6 === K ? /* @__PURE__ */ new Set([K]) : e6 === J ? /* @__PURE__ */ new Set([J]) : Array.isArray(e6) ? new Set(e6) : /* @__PURE__ */ new Set([Z]) : /* @__PURE__ */ new Set([Z]), this._numericAllowed = t2.numericAllowed ?? true, this._baseMap = q2(W, t2.namedEntities || null), this._externalMap = /* @__PURE__ */ Object.create(null), this._inputMap = /* @__PURE__ */ Object.create(null), this._totalExpansions = 0, this._expandedLength = 0, this._removeSet = new Set(t2.remove && Array.isArray(t2.remove) ? t2.remove : []), this._leaveSet = new Set(t2.leave && Array.isArray(t2.leave) ? t2.leave : []);
+          const n3 = (function(t3) {
+            if (!t3) return { xmlVersion: 1, onLevel: Q.allow, nullLevel: Q.remove };
+            const e7 = 1.1 === t3.xmlVersion ? 1.1 : 1, n4 = Q[t3.onNCR] ?? Q.allow, i6 = Q[t3.nullNCR] ?? Q.remove;
+            return { xmlVersion: e7, onLevel: n4, nullLevel: Math.max(i6, Q.remove) };
+          })(t2.ncr);
+          this._ncrXmlVersion = n3.xmlVersion, this._ncrOnLevel = n3.onLevel, this._ncrNullLevel = n3.nullLevel;
+        }
+        setExternalEntities(t2) {
+          if (t2) for (const e6 of Object.keys(t2)) z(e6);
+          this._externalMap = q2(t2);
+        }
+        addExternalEntity(t2, e6) {
+          z(t2), "string" == typeof e6 && -1 === e6.indexOf("&") && (this._externalMap[t2] = e6);
+        }
+        addInputEntities(t2) {
+          this._totalExpansions = 0, this._expandedLength = 0, this._inputMap = q2(t2);
+        }
+        reset() {
+          return this._inputMap = /* @__PURE__ */ Object.create(null), this._totalExpansions = 0, this._expandedLength = 0, this;
+        }
+        setXmlVersion(t2) {
+          this._ncrXmlVersion = 1.1 === t2 ? 1.1 : 1;
+        }
+        decode(t2) {
+          if ("string" != typeof t2 || 0 === t2.length) return t2;
+          const e6 = t2, n3 = [], i6 = t2.length;
+          let s2 = 0, r6 = 0;
+          const o3 = this._maxTotalExpansions > 0, a6 = this._maxExpandedLength > 0, h6 = o3 || a6;
+          for (; r6 < i6; ) {
+            if (38 !== t2.charCodeAt(r6)) {
+              r6++;
+              continue;
             }
-          } : () => false, this.entityExpansionCount = 0, this.currentExpandedLength = 0, this.matcher = new G2(), this.readonlyMatcher = this.matcher.readOnly(), this.isCurrentNodeStopNode = false, this.options.stopNodes && this.options.stopNodes.length > 0) {
-            this.stopNodeExpressions = [];
-            for (let t7 = 0; t7 < this.options.stopNodes.length; t7++) {
-              const e7 = this.options.stopNodes[t7];
-              "string" == typeof e7 ? this.stopNodeExpressions.push(new R(e7)) : e7 instanceof R && this.stopNodeExpressions.push(e7);
+            let e7 = r6 + 1;
+            for (; e7 < i6 && 59 !== t2.charCodeAt(e7) && e7 - r6 <= 32; ) e7++;
+            if (e7 >= i6 || 59 !== t2.charCodeAt(e7)) {
+              r6++;
+              continue;
             }
-          }
-        }
-      }
-      function Y(t6) {
-        const e6 = Object.keys(t6);
-        for (let i6 = 0; i6 < e6.length; i6++) {
-          const n6 = e6[i6], s6 = n6.replace(/[.\-+*:]/g, "\\.");
-          this.lastEntities[n6] = { regex: new RegExp("&" + s6 + ";", "g"), val: t6[n6] };
-        }
-      }
-      function z2(t6, e6, i6, n6, s6, r6, o6) {
-        if (void 0 !== t6 && (this.options.trimValues && !n6 && (t6 = t6.trim()), t6.length > 0)) {
-          o6 || (t6 = this.replaceEntitiesValue(t6, e6, i6));
-          const n7 = this.options.jPath ? i6.toString() : i6, a6 = this.options.tagValueProcessor(e6, t6, n7, s6, r6);
-          return null == a6 ? t6 : typeof a6 != typeof t6 || a6 !== t6 ? a6 : this.options.trimValues || t6.trim() === t6 ? st(t6, this.options.parseTagValue, this.options.numberParseOptions) : t6;
-        }
-      }
-      function X(t6) {
-        if (this.options.removeNSPrefix) {
-          const e6 = t6.split(":"), i6 = "/" === t6.charAt(0) ? "/" : "";
-          if ("xmlns" === e6[0]) return "";
-          2 === e6.length && (t6 = i6 + e6[1]);
-        }
-        return t6;
-      }
-      const q5 = new RegExp(`([^\\s=]+)\\s*(=\\s*(['"])([\\s\\S]*?)\\3)?`, "gm");
-      function Z(t6, e6, i6) {
-        if (true !== this.options.ignoreAttributes && "string" == typeof t6) {
-          const n6 = s5(t6, q5), r6 = n6.length, o6 = {}, a6 = {};
-          for (let t7 = 0; t7 < r6; t7++) {
-            const e7 = this.resolveNameSpace(n6[t7][1]), s6 = n6[t7][4];
-            if (e7.length && void 0 !== s6) {
-              let t8 = s6;
-              this.options.trimValues && (t8 = t8.trim()), t8 = this.replaceEntitiesValue(t8, i6, this.readonlyMatcher), a6[e7] = t8;
+            const l5 = t2.slice(r6 + 1, e7);
+            if (0 === l5.length) {
+              r6++;
+              continue;
             }
-          }
-          Object.keys(a6).length > 0 && "object" == typeof e6 && e6.updateCurrent && e6.updateCurrent(a6);
-          for (let t7 = 0; t7 < r6; t7++) {
-            const s6 = this.resolveNameSpace(n6[t7][1]), r7 = this.options.jPath ? e6.toString() : this.readonlyMatcher;
-            if (this.ignoreAttributesFn(s6, r7)) continue;
-            let a7 = n6[t7][4], h6 = this.options.attributeNamePrefix + s6;
-            if (s6.length) if (this.options.transformAttributeName && (h6 = this.options.transformAttributeName(h6)), h6 = at(h6, this.options), void 0 !== a7) {
-              this.options.trimValues && (a7 = a7.trim()), a7 = this.replaceEntitiesValue(a7, i6, this.readonlyMatcher);
-              const t8 = this.options.jPath ? e6.toString() : this.readonlyMatcher, n7 = this.options.attributeValueProcessor(s6, a7, t8);
-              o6[h6] = null == n7 ? a7 : typeof n7 != typeof a7 || n7 !== a7 ? n7 : st(a7, this.options.parseAttributeValue, this.options.numberParseOptions);
-            } else this.options.allowBooleanAttributes && (o6[h6] = true);
-          }
-          if (!Object.keys(o6).length) return;
-          if (this.options.attributesGroupName) {
-            const t7 = {};
-            return t7[this.options.attributesGroupName] = o6, t7;
-          }
-          return o6;
-        }
-      }
-      const J2 = function(t6) {
-        t6 = t6.replace(/\r\n?/g, "\n");
-        const e6 = new $("!xml");
-        let i6 = e6, n6 = "";
-        this.matcher.reset(), this.entityExpansionCount = 0, this.currentExpandedLength = 0;
-        const s6 = new I2(this.options.processEntities);
-        for (let r6 = 0; r6 < t6.length; r6++) if ("<" === t6[r6]) if ("/" === t6[r6 + 1]) {
-          const e7 = et(t6, ">", r6, "Closing Tag is not closed.");
-          let s7 = t6.substring(r6 + 2, e7).trim();
-          if (this.options.removeNSPrefix) {
-            const t7 = s7.indexOf(":");
-            -1 !== t7 && (s7 = s7.substr(t7 + 1));
-          }
-          s7 = ot(this.options.transformTagName, s7, "", this.options).tagName, i6 && (n6 = this.saveTextToParentTag(n6, i6, this.readonlyMatcher));
-          const o6 = this.matcher.getCurrentTag();
-          if (s7 && -1 !== this.options.unpairedTags.indexOf(s7)) throw new Error(`Unpaired tag can not be used as closing tag: </${s7}>`);
-          o6 && -1 !== this.options.unpairedTags.indexOf(o6) && (this.matcher.pop(), this.tagsNodeStack.pop()), this.matcher.pop(), this.isCurrentNodeStopNode = false, i6 = this.tagsNodeStack.pop(), n6 = "", r6 = e7;
-        } else if ("?" === t6[r6 + 1]) {
-          let e7 = it(t6, r6, false, "?>");
-          if (!e7) throw new Error("Pi Tag is not closed.");
-          if (n6 = this.saveTextToParentTag(n6, i6, this.readonlyMatcher), this.options.ignoreDeclaration && "?xml" === e7.tagName || this.options.ignorePiTags) ;
-          else {
-            const t7 = new $(e7.tagName);
-            t7.add(this.options.textNodeName, ""), e7.tagName !== e7.tagExp && e7.attrExpPresent && (t7[":@"] = this.buildAttributesMap(e7.tagExp, this.matcher, e7.tagName)), this.addChild(i6, t7, this.readonlyMatcher, r6);
-          }
-          r6 = e7.closeIndex + 1;
-        } else if ("!--" === t6.substr(r6 + 1, 3)) {
-          const e7 = et(t6, "-->", r6 + 4, "Comment is not closed.");
-          if (this.options.commentPropName) {
-            const s7 = t6.substring(r6 + 4, e7 - 2);
-            n6 = this.saveTextToParentTag(n6, i6, this.readonlyMatcher), i6.add(this.options.commentPropName, [{ [this.options.textNodeName]: s7 }]);
-          }
-          r6 = e7;
-        } else if ("!D" === t6.substr(r6 + 1, 2)) {
-          const e7 = s6.readDocType(t6, r6);
-          this.docTypeEntities = e7.entities, r6 = e7.i;
-        } else if ("![" === t6.substr(r6 + 1, 2)) {
-          const e7 = et(t6, "]]>", r6, "CDATA is not closed.") - 2, s7 = t6.substring(r6 + 9, e7);
-          n6 = this.saveTextToParentTag(n6, i6, this.readonlyMatcher);
-          let o6 = this.parseTextData(s7, i6.tagname, this.readonlyMatcher, true, false, true, true);
-          null == o6 && (o6 = ""), this.options.cdataPropName ? i6.add(this.options.cdataPropName, [{ [this.options.textNodeName]: s7 }]) : i6.add(this.options.textNodeName, o6), r6 = e7 + 2;
-        } else {
-          let s7 = it(t6, r6, this.options.removeNSPrefix);
-          if (!s7) {
-            const e7 = t6.substring(Math.max(0, r6 - 50), Math.min(t6.length, r6 + 50));
-            throw new Error(`readTagExp returned undefined at position ${r6}. Context: "${e7}"`);
-          }
-          let o6 = s7.tagName;
-          const a6 = s7.rawTagName;
-          let h6 = s7.tagExp, l6 = s7.attrExpPresent, p6 = s7.closeIndex;
-          if ({ tagName: o6, tagExp: h6 } = ot(this.options.transformTagName, o6, h6, this.options), this.options.strictReservedNames && (o6 === this.options.commentPropName || o6 === this.options.cdataPropName || o6 === this.options.textNodeName || o6 === this.options.attributesGroupName)) throw new Error(`Invalid tag name: ${o6}`);
-          i6 && n6 && "!xml" !== i6.tagname && (n6 = this.saveTextToParentTag(n6, i6, this.readonlyMatcher, false));
-          const u6 = i6;
-          u6 && -1 !== this.options.unpairedTags.indexOf(u6.tagname) && (i6 = this.tagsNodeStack.pop(), this.matcher.pop());
-          let c6 = false;
-          h6.length > 0 && h6.lastIndexOf("/") === h6.length - 1 && (c6 = true, "/" === o6[o6.length - 1] ? (o6 = o6.substr(0, o6.length - 1), h6 = o6) : h6 = h6.substr(0, h6.length - 1), l6 = o6 !== h6);
-          let d6, f6 = null, g6 = {};
-          d6 = B2(a6), o6 !== e6.tagname && this.matcher.push(o6, {}, d6), o6 !== h6 && l6 && (f6 = this.buildAttributesMap(h6, this.matcher, o6), f6 && (g6 = U(f6, this.options))), o6 !== e6.tagname && (this.isCurrentNodeStopNode = this.isItStopNode(this.stopNodeExpressions, this.matcher));
-          const m6 = r6;
-          if (this.isCurrentNodeStopNode) {
-            let e7 = "";
-            if (c6) r6 = s7.closeIndex;
-            else if (-1 !== this.options.unpairedTags.indexOf(o6)) r6 = s7.closeIndex;
+            let u2, p3;
+            if (this._removeSet.has(l5)) u2 = "", void 0 === p3 && (p3 = Z);
             else {
-              const i7 = this.readStopNodeData(t6, a6, p6 + 1);
-              if (!i7) throw new Error(`Unexpected end of ${a6}`);
-              r6 = i7.i, e7 = i7.tagContent;
-            }
-            const n7 = new $(o6);
-            f6 && (n7[":@"] = f6), n7.add(this.options.textNodeName, e7), this.matcher.pop(), this.isCurrentNodeStopNode = false, this.addChild(i6, n7, this.readonlyMatcher, m6);
-          } else {
-            if (c6) {
-              ({ tagName: o6, tagExp: h6 } = ot(this.options.transformTagName, o6, h6, this.options));
-              const t7 = new $(o6);
-              f6 && (t7[":@"] = f6), this.addChild(i6, t7, this.readonlyMatcher, m6), this.matcher.pop(), this.isCurrentNodeStopNode = false;
-            } else {
-              if (-1 !== this.options.unpairedTags.indexOf(o6)) {
-                const t7 = new $(o6);
-                f6 && (t7[":@"] = f6), this.addChild(i6, t7, this.readonlyMatcher, m6), this.matcher.pop(), this.isCurrentNodeStopNode = false, r6 = s7.closeIndex;
+              if (this._leaveSet.has(l5)) {
+                r6++;
                 continue;
               }
-              {
-                const t7 = new $(o6);
-                if (this.tagsNodeStack.length > this.options.maxNestedTags) throw new Error("Maximum nested tags exceeded");
-                this.tagsNodeStack.push(i6), f6 && (t7[":@"] = f6), this.addChild(i6, t7, this.readonlyMatcher, m6), i6 = t7;
+              if (35 === l5.charCodeAt(0)) {
+                const t3 = this._resolveNCR(l5);
+                if (void 0 === t3) {
+                  r6++;
+                  continue;
+                }
+                u2 = t3, p3 = J;
+              } else {
+                const t3 = this._resolveName(l5);
+                u2 = t3?.value, p3 = t3?.tier;
               }
             }
-            n6 = "", r6 = p6;
+            if (void 0 !== u2) {
+              if (r6 > s2 && n3.push(t2.slice(s2, r6)), n3.push(u2), s2 = e7 + 1, r6 = s2, h6 && this._tierCounts(p3)) {
+                if (o3 && (this._totalExpansions++, this._totalExpansions > this._maxTotalExpansions)) throw new Error(`[EntityReplacer] Entity expansion count limit exceeded: ${this._totalExpansions} > ${this._maxTotalExpansions}`);
+                if (a6) {
+                  const t3 = u2.length - (l5.length + 2);
+                  if (t3 > 0 && (this._expandedLength += t3, this._expandedLength > this._maxExpandedLength)) throw new Error(`[EntityReplacer] Expanded content length limit exceeded: ${this._expandedLength} > ${this._maxExpandedLength}`);
+                }
+              }
+            } else r6++;
+          }
+          s2 < i6 && n3.push(t2.slice(s2));
+          const l4 = 0 === n3.length ? t2 : n3.join("");
+          return this._postCheck(l4, e6);
+        }
+        _tierCounts(t2) {
+          return !!this._limitTiers.has(K) || this._limitTiers.has(t2);
+        }
+        _resolveName(t2) {
+          return t2 in this._inputMap ? { value: this._inputMap[t2], tier: Z } : t2 in this._externalMap ? { value: this._externalMap[t2], tier: Z } : t2 in this._baseMap ? { value: this._baseMap[t2], tier: J } : void 0;
+        }
+        _classifyNCR(t2) {
+          return 0 === t2 ? this._ncrNullLevel : t2 >= 55296 && t2 <= 57343 || 1 === this._ncrXmlVersion && t2 >= 1 && t2 <= 31 && !H.has(t2) ? Q.remove : -1;
+        }
+        _applyNCRAction(t2, e6, n3) {
+          switch (t2) {
+            case Q.allow:
+              return String.fromCodePoint(n3);
+            case Q.remove:
+              return "";
+            case Q.leave:
+              return;
+            case Q.throw:
+              throw new Error(`[EntityDecoder] Prohibited numeric character reference &${e6}; (U+${n3.toString(16).toUpperCase().padStart(4, "0")})`);
+            default:
+              return String.fromCodePoint(n3);
           }
         }
-        else n6 += t6[r6];
+        _resolveNCR(t2) {
+          const e6 = t2.charCodeAt(1);
+          let n3;
+          if (n3 = 120 === e6 || 88 === e6 ? parseInt(t2.slice(2), 16) : parseInt(t2.slice(1), 10), Number.isNaN(n3) || n3 < 0 || n3 > 1114111) return;
+          const i6 = this._classifyNCR(n3);
+          if (!this._numericAllowed && i6 < Q.remove) return;
+          const s2 = -1 === i6 ? this._ncrOnLevel : Math.max(this._ncrOnLevel, i6);
+          return this._applyNCRAction(s2, t2, n3);
+        }
+      }
+      function et(t2, e6) {
+        if (!t2) return {};
+        const n3 = e6.attributesGroupName ? t2[e6.attributesGroupName] : t2;
+        if (!n3) return {};
+        const i6 = {};
+        for (const t3 in n3) t3.startsWith(e6.attributeNamePrefix) ? i6[t3.substring(e6.attributeNamePrefix.length)] = n3[t3] : i6[t3] = n3[t3];
+        return i6;
+      }
+      function nt(t2) {
+        if (!t2 || "string" != typeof t2) return;
+        const e6 = t2.indexOf(":");
+        if (-1 !== e6 && e6 > 0) {
+          const n3 = t2.substring(0, e6);
+          if ("xmlns" !== n3) return n3;
+        }
+      }
+      class it {
+        constructor(t2, e6) {
+          var n3;
+          this.options = t2, this.currentNode = null, this.tagsNodeStack = [], this.parseXml = ht, this.parseTextData = st, this.resolveNameSpace = rt, this.buildAttributesMap = at, this.isItStopNode = ct, this.replaceEntitiesValue = ut, this.readStopNodeData = mt, this.saveTextToParentTag = pt, this.addChild = lt, this.ignoreAttributesFn = "function" == typeof (n3 = this.options.ignoreAttributes) ? n3 : Array.isArray(n3) ? (t3) => {
+            for (const e7 of n3) {
+              if ("string" == typeof e7 && t3 === e7) return true;
+              if (e7 instanceof RegExp && e7.test(t3)) return true;
+            }
+          } : () => false, this.entityExpansionCount = 0, this.currentExpandedLength = 0;
+          let i6 = { ...W };
+          this.options.entityDecoder ? this.entityDecoder = this.options.entityDecoder : ("object" == typeof this.options.htmlEntities ? i6 = this.options.htmlEntities : true === this.options.htmlEntities && (i6 = { ...X, ...U }), this.entityDecoder = new tt({ namedEntities: { ...i6, ...e6 }, numericAllowed: this.options.htmlEntities, limit: { maxTotalExpansions: this.options.processEntities.maxTotalExpansions, maxExpandedLength: this.options.processEntities.maxExpandedLength, applyLimitsTo: this.options.processEntities.appliesTo } })), this.matcher = new R(), this.readonlyMatcher = this.matcher.readOnly(), this.isCurrentNodeStopNode = false, this.stopNodeExpressionsSet = new B();
+          const s2 = this.options.stopNodes;
+          if (s2 && s2.length > 0) {
+            for (let t3 = 0; t3 < s2.length; t3++) {
+              const e7 = s2[t3];
+              "string" == typeof e7 ? this.stopNodeExpressionsSet.add(new G(e7)) : e7 instanceof G && this.stopNodeExpressionsSet.add(e7);
+            }
+            this.stopNodeExpressionsSet.seal();
+          }
+        }
+      }
+      function st(t2, e6, n3, i6, s2, r6, o3) {
+        const a6 = this.options;
+        if (void 0 !== t2 && (a6.trimValues && !i6 && (t2 = t2.trim()), t2.length > 0)) {
+          o3 || (t2 = this.replaceEntitiesValue(t2, e6, n3));
+          const i7 = a6.jPath ? n3.toString() : n3, h6 = a6.tagValueProcessor(e6, t2, i7, s2, r6);
+          return null == h6 ? t2 : typeof h6 != typeof t2 || h6 !== t2 ? h6 : a6.trimValues || t2.trim() === t2 ? xt(t2, a6.parseTagValue, a6.numberParseOptions) : t2;
+        }
+      }
+      function rt(t2) {
+        if (this.options.removeNSPrefix) {
+          const e6 = t2.split(":"), n3 = "/" === t2.charAt(0) ? "/" : "";
+          if ("xmlns" === e6[0]) return "";
+          2 === e6.length && (t2 = n3 + e6[1]);
+        }
+        return t2;
+      }
+      const ot = new RegExp(`([^\\s=]+)\\s*(=\\s*(['"])([\\s\\S]*?)\\3)?`, "gm");
+      function at(t2, e6, n3, i6 = false) {
+        const r6 = this.options;
+        if (true === i6 || true !== r6.ignoreAttributes && "string" == typeof t2) {
+          const i7 = s(t2, ot), o3 = i7.length, a6 = {}, h6 = new Array(o3);
+          let l4 = false;
+          const u2 = {};
+          for (let t3 = 0; t3 < o3; t3++) {
+            const e7 = this.resolveNameSpace(i7[t3][1]), s2 = i7[t3][4];
+            if (e7.length && void 0 !== s2) {
+              let i8 = s2;
+              r6.trimValues && (i8 = i8.trim()), i8 = this.replaceEntitiesValue(i8, n3, this.readonlyMatcher), h6[t3] = i8, u2[e7] = i8, l4 = true;
+            }
+          }
+          l4 && "object" == typeof e6 && e6.updateCurrent && e6.updateCurrent(u2);
+          const p3 = r6.jPath ? e6.toString() : this.readonlyMatcher;
+          let c6 = false;
+          for (let t3 = 0; t3 < o3; t3++) {
+            const e7 = this.resolveNameSpace(i7[t3][1]);
+            if (this.ignoreAttributesFn(e7, p3)) continue;
+            let n4 = r6.attributeNamePrefix + e7;
+            if (e7.length) if (r6.transformAttributeName && (n4 = r6.transformAttributeName(n4)), n4 = bt(n4, r6), void 0 !== i7[t3][4]) {
+              const i8 = h6[t3], s2 = r6.attributeValueProcessor(e7, i8, p3);
+              a6[n4] = null == s2 ? i8 : typeof s2 != typeof i8 || s2 !== i8 ? s2 : xt(i8, r6.parseAttributeValue, r6.numberParseOptions), c6 = true;
+            } else r6.allowBooleanAttributes && (a6[n4] = true, c6 = true);
+          }
+          if (!c6) return;
+          if (r6.attributesGroupName && !r6.preserveOrder) {
+            const t3 = {};
+            return t3[r6.attributesGroupName] = a6, t3;
+          }
+          return a6;
+        }
+      }
+      const ht = function(t2) {
+        t2 = t2.replace(/\r\n?/g, "\n");
+        const e6 = new O("!xml");
+        let n3 = e6, i6 = "";
+        this.matcher.reset(), this.entityDecoder.reset(), this.entityExpansionCount = 0, this.currentExpandedLength = 0;
+        const s2 = this.options, r6 = new $(s2.processEntities), o3 = t2.length;
+        for (let a6 = 0; a6 < o3; a6++) if ("<" === t2[a6]) {
+          const h6 = t2.charCodeAt(a6 + 1);
+          if (47 === h6) {
+            const e7 = dt(t2, ">", a6, "Closing Tag is not closed.");
+            let r7 = t2.substring(a6 + 2, e7).trim();
+            if (s2.removeNSPrefix) {
+              const t3 = r7.indexOf(":");
+              -1 !== t3 && (r7 = r7.substr(t3 + 1));
+            }
+            r7 = Nt(s2.transformTagName, r7, "", s2).tagName, n3 && (i6 = this.saveTextToParentTag(i6, n3, this.readonlyMatcher));
+            const o4 = this.matcher.getCurrentTag();
+            if (r7 && s2.unpairedTagsSet.has(r7)) throw new Error(`Unpaired tag can not be used as closing tag: </${r7}>`);
+            o4 && s2.unpairedTagsSet.has(o4) && (this.matcher.pop(), this.tagsNodeStack.pop()), this.matcher.pop(), this.isCurrentNodeStopNode = false, n3 = this.tagsNodeStack.pop(), i6 = "", a6 = e7;
+          } else if (63 === h6) {
+            let e7 = gt(t2, a6, false, "?>");
+            if (!e7) throw new Error("Pi Tag is not closed.");
+            i6 = this.saveTextToParentTag(i6, n3, this.readonlyMatcher);
+            const r7 = this.buildAttributesMap(e7.tagExp, this.matcher, e7.tagName, true);
+            if (r7) {
+              const t3 = r7[this.options.attributeNamePrefix + "version"];
+              this.entityDecoder.setXmlVersion(Number(t3) || 1);
+            }
+            if (s2.ignoreDeclaration && "?xml" === e7.tagName || s2.ignorePiTags) ;
+            else {
+              const t3 = new O(e7.tagName);
+              t3.add(s2.textNodeName, ""), e7.tagName !== e7.tagExp && e7.attrExpPresent && true !== s2.ignoreAttributes && (t3[":@"] = r7), this.addChild(n3, t3, this.readonlyMatcher, a6);
+            }
+            a6 = e7.closeIndex + 1;
+          } else if (33 === h6 && 45 === t2.charCodeAt(a6 + 2) && 45 === t2.charCodeAt(a6 + 3)) {
+            const e7 = dt(t2, "-->", a6 + 4, "Comment is not closed.");
+            if (s2.commentPropName) {
+              const r7 = t2.substring(a6 + 4, e7 - 2);
+              i6 = this.saveTextToParentTag(i6, n3, this.readonlyMatcher), n3.add(s2.commentPropName, [{ [s2.textNodeName]: r7 }]);
+            }
+            a6 = e7;
+          } else if (33 === h6 && 68 === t2.charCodeAt(a6 + 2)) {
+            const e7 = r6.readDocType(t2, a6);
+            this.entityDecoder.addInputEntities(e7.entities), a6 = e7.i;
+          } else if (33 === h6 && 91 === t2.charCodeAt(a6 + 2)) {
+            const e7 = dt(t2, "]]>", a6, "CDATA is not closed.") - 2, r7 = t2.substring(a6 + 9, e7);
+            i6 = this.saveTextToParentTag(i6, n3, this.readonlyMatcher);
+            let o4 = this.parseTextData(r7, n3.tagname, this.readonlyMatcher, true, false, true, true);
+            null == o4 && (o4 = ""), s2.cdataPropName ? n3.add(s2.cdataPropName, [{ [s2.textNodeName]: r7 }]) : n3.add(s2.textNodeName, o4), a6 = e7 + 2;
+          } else {
+            let r7 = gt(t2, a6, s2.removeNSPrefix);
+            if (!r7) {
+              const e7 = t2.substring(Math.max(0, a6 - 50), Math.min(o3, a6 + 50));
+              throw new Error(`readTagExp returned undefined at position ${a6}. Context: "${e7}"`);
+            }
+            let h7 = r7.tagName;
+            const l4 = r7.rawTagName;
+            let u2 = r7.tagExp, p3 = r7.attrExpPresent, c6 = r7.closeIndex;
+            if ({ tagName: h7, tagExp: u2 } = Nt(s2.transformTagName, h7, u2, s2), s2.strictReservedNames && (h7 === s2.commentPropName || h7 === s2.cdataPropName || h7 === s2.textNodeName || h7 === s2.attributesGroupName)) throw new Error(`Invalid tag name: ${h7}`);
+            n3 && i6 && "!xml" !== n3.tagname && (i6 = this.saveTextToParentTag(i6, n3, this.readonlyMatcher, false));
+            const d6 = n3;
+            d6 && s2.unpairedTagsSet.has(d6.tagname) && (n3 = this.tagsNodeStack.pop(), this.matcher.pop());
+            let f6 = false;
+            u2.length > 0 && u2.lastIndexOf("/") === u2.length - 1 && (f6 = true, "/" === h7[h7.length - 1] ? (h7 = h7.substr(0, h7.length - 1), u2 = h7) : u2 = u2.substr(0, u2.length - 1), p3 = h7 !== u2);
+            let g6, m4 = null, x2 = {};
+            g6 = nt(l4), h7 !== e6.tagname && this.matcher.push(h7, {}, g6), h7 !== u2 && p3 && (m4 = this.buildAttributesMap(u2, this.matcher, h7), m4 && (x2 = et(m4, s2))), h7 !== e6.tagname && (this.isCurrentNodeStopNode = this.isItStopNode());
+            const N2 = a6;
+            if (this.isCurrentNodeStopNode) {
+              let e7 = "";
+              if (f6) a6 = r7.closeIndex;
+              else if (s2.unpairedTagsSet.has(h7)) a6 = r7.closeIndex;
+              else {
+                const n4 = this.readStopNodeData(t2, l4, c6 + 1);
+                if (!n4) throw new Error(`Unexpected end of ${l4}`);
+                a6 = n4.i, e7 = n4.tagContent;
+              }
+              const i7 = new O(h7);
+              m4 && (i7[":@"] = m4), i7.add(s2.textNodeName, e7), this.matcher.pop(), this.isCurrentNodeStopNode = false, this.addChild(n3, i7, this.readonlyMatcher, N2);
+            } else {
+              if (f6) {
+                ({ tagName: h7, tagExp: u2 } = Nt(s2.transformTagName, h7, u2, s2));
+                const t3 = new O(h7);
+                m4 && (t3[":@"] = m4), this.addChild(n3, t3, this.readonlyMatcher, N2), this.matcher.pop(), this.isCurrentNodeStopNode = false;
+              } else {
+                if (s2.unpairedTagsSet.has(h7)) {
+                  const t3 = new O(h7);
+                  m4 && (t3[":@"] = m4), this.addChild(n3, t3, this.readonlyMatcher, N2), this.matcher.pop(), this.isCurrentNodeStopNode = false, a6 = r7.closeIndex;
+                  continue;
+                }
+                {
+                  const t3 = new O(h7);
+                  if (this.tagsNodeStack.length > s2.maxNestedTags) throw new Error("Maximum nested tags exceeded");
+                  this.tagsNodeStack.push(n3), m4 && (t3[":@"] = m4), this.addChild(n3, t3, this.readonlyMatcher, N2), n3 = t3;
+                }
+              }
+              i6 = "", a6 = c6;
+            }
+          }
+        } else i6 += t2[a6];
         return e6.child;
       };
-      function K(t6, e6, i6, n6) {
-        this.options.captureMetaData || (n6 = void 0);
-        const s6 = this.options.jPath ? i6.toString() : i6, r6 = this.options.updateTag(e6.tagname, s6, e6[":@"]);
-        false === r6 || ("string" == typeof r6 ? (e6.tagname = r6, t6.addChild(e6, n6)) : t6.addChild(e6, n6));
+      function lt(t2, e6, n3, i6) {
+        this.options.captureMetaData || (i6 = void 0);
+        const s2 = this.options.jPath ? n3.toString() : n3, r6 = this.options.updateTag(e6.tagname, s2, e6[":@"]);
+        false === r6 || ("string" == typeof r6 ? (e6.tagname = r6, t2.addChild(e6, i6)) : t2.addChild(e6, i6));
       }
-      function Q(t6, e6, i6) {
-        const n6 = this.options.processEntities;
-        if (!n6 || !n6.enabled) return t6;
-        if (n6.allowedTags) {
-          const s6 = this.options.jPath ? i6.toString() : i6;
-          if (!(Array.isArray(n6.allowedTags) ? n6.allowedTags.includes(e6) : n6.allowedTags(e6, s6))) return t6;
+      function ut(t2, e6, n3) {
+        const i6 = this.options.processEntities;
+        if (!i6 || !i6.enabled) return t2;
+        if (i6.allowedTags) {
+          const s2 = this.options.jPath ? n3.toString() : n3;
+          if (!(Array.isArray(i6.allowedTags) ? i6.allowedTags.includes(e6) : i6.allowedTags(e6, s2))) return t2;
         }
-        if (n6.tagFilter) {
-          const s6 = this.options.jPath ? i6.toString() : i6;
-          if (!n6.tagFilter(e6, s6)) return t6;
+        if (i6.tagFilter) {
+          const s2 = this.options.jPath ? n3.toString() : n3;
+          if (!i6.tagFilter(e6, s2)) return t2;
         }
-        for (const e7 of Object.keys(this.docTypeEntities)) {
-          const i7 = this.docTypeEntities[e7], s6 = t6.match(i7.regx);
-          if (s6) {
-            if (this.entityExpansionCount += s6.length, n6.maxTotalExpansions && this.entityExpansionCount > n6.maxTotalExpansions) throw new Error(`Entity expansion limit exceeded: ${this.entityExpansionCount} > ${n6.maxTotalExpansions}`);
-            const e8 = t6.length;
-            if (t6 = t6.replace(i7.regx, i7.val), n6.maxExpandedLength && (this.currentExpandedLength += t6.length - e8, this.currentExpandedLength > n6.maxExpandedLength)) throw new Error(`Total expanded content size exceeded: ${this.currentExpandedLength} > ${n6.maxExpandedLength}`);
+        return this.entityDecoder.decode(t2);
+      }
+      function pt(t2, e6, n3, i6) {
+        return t2 && (void 0 === i6 && (i6 = 0 === e6.child.length), void 0 !== (t2 = this.parseTextData(t2, e6.tagname, n3, false, !!e6[":@"] && 0 !== Object.keys(e6[":@"]).length, i6)) && "" !== t2 && e6.add(this.options.textNodeName, t2), t2 = ""), t2;
+      }
+      function ct() {
+        return 0 !== this.stopNodeExpressionsSet.size && this.matcher.matchesAny(this.stopNodeExpressionsSet);
+      }
+      function dt(t2, e6, n3, i6) {
+        const s2 = t2.indexOf(e6, n3);
+        if (-1 === s2) throw new Error(i6);
+        return s2 + e6.length - 1;
+      }
+      function ft(t2, e6, n3, i6) {
+        const s2 = t2.indexOf(e6, n3);
+        if (-1 === s2) throw new Error(i6);
+        return s2;
+      }
+      function gt(t2, e6, n3, i6 = ">") {
+        const s2 = (function(t3, e7, n4 = ">") {
+          let i7 = 0;
+          const s3 = t3.length, r7 = n4.charCodeAt(0), o4 = n4.length > 1 ? n4.charCodeAt(1) : -1;
+          let a7 = "", h7 = e7;
+          for (let n5 = e7; n5 < s3; n5++) {
+            const e8 = t3.charCodeAt(n5);
+            if (i7) e8 === i7 && (i7 = 0);
+            else if (34 === e8 || 39 === e8) i7 = e8;
+            else if (e8 === r7) {
+              if (-1 === o4) return a7 += t3.substring(h7, n5), { data: a7, index: n5 };
+              if (t3.charCodeAt(n5 + 1) === o4) return a7 += t3.substring(h7, n5), { data: a7, index: n5 };
+            } else 9 !== e8 || i7 || (a7 += t3.substring(h7, n5) + " ", h7 = n5 + 1);
           }
-        }
-        for (const e7 of Object.keys(this.lastEntities)) {
-          const i7 = this.lastEntities[e7], s6 = t6.match(i7.regex);
-          if (s6 && (this.entityExpansionCount += s6.length, n6.maxTotalExpansions && this.entityExpansionCount > n6.maxTotalExpansions)) throw new Error(`Entity expansion limit exceeded: ${this.entityExpansionCount} > ${n6.maxTotalExpansions}`);
-          t6 = t6.replace(i7.regex, i7.val);
-        }
-        if (-1 === t6.indexOf("&")) return t6;
-        if (this.options.htmlEntities) for (const e7 of Object.keys(this.htmlEntities)) {
-          const i7 = this.htmlEntities[e7], s6 = t6.match(i7.regex);
-          if (s6 && (this.entityExpansionCount += s6.length, n6.maxTotalExpansions && this.entityExpansionCount > n6.maxTotalExpansions)) throw new Error(`Entity expansion limit exceeded: ${this.entityExpansionCount} > ${n6.maxTotalExpansions}`);
-          t6 = t6.replace(i7.regex, i7.val);
-        }
-        return t6.replace(this.ampEntity.regex, this.ampEntity.val);
-      }
-      function H2(t6, e6, i6, n6) {
-        return t6 && (void 0 === n6 && (n6 = 0 === e6.child.length), void 0 !== (t6 = this.parseTextData(t6, e6.tagname, i6, false, !!e6[":@"] && 0 !== Object.keys(e6[":@"]).length, n6)) && "" !== t6 && e6.add(this.options.textNodeName, t6), t6 = ""), t6;
-      }
-      function tt(t6, e6) {
-        if (!t6 || 0 === t6.length) return false;
-        for (let i6 = 0; i6 < t6.length; i6++) if (e6.matches(t6[i6])) return true;
-        return false;
-      }
-      function et(t6, e6, i6, n6) {
-        const s6 = t6.indexOf(e6, i6);
-        if (-1 === s6) throw new Error(n6);
-        return s6 + e6.length - 1;
-      }
-      function it(t6, e6, i6, n6 = ">") {
-        const s6 = (function(t7, e7, i7 = ">") {
-          let n7, s7 = "";
-          for (let r7 = e7; r7 < t7.length; r7++) {
-            let e8 = t7[r7];
-            if (n7) e8 === n7 && (n7 = "");
-            else if ('"' === e8 || "'" === e8) n7 = e8;
-            else if (e8 === i7[0]) {
-              if (!i7[1]) return { data: s7, index: r7 };
-              if (t7[r7 + 1] === i7[1]) return { data: s7, index: r7 };
-            } else "	" === e8 && (e8 = " ");
-            s7 += e8;
-          }
-        })(t6, e6 + 1, n6);
-        if (!s6) return;
-        let r6 = s6.data;
-        const o6 = s6.index, a6 = r6.search(/\s/);
-        let h6 = r6, l6 = true;
+        })(t2, e6 + 1, i6);
+        if (!s2) return;
+        let r6 = s2.data;
+        const o3 = s2.index, a6 = r6.search(/\s/);
+        let h6 = r6, l4 = true;
         -1 !== a6 && (h6 = r6.substring(0, a6), r6 = r6.substring(a6 + 1).trimStart());
-        const p6 = h6;
-        if (i6) {
-          const t7 = h6.indexOf(":");
-          -1 !== t7 && (h6 = h6.substr(t7 + 1), l6 = h6 !== s6.data.substr(t7 + 1));
+        const u2 = h6;
+        if (n3) {
+          const t3 = h6.indexOf(":");
+          -1 !== t3 && (h6 = h6.substr(t3 + 1), l4 = h6 !== s2.data.substr(t3 + 1));
         }
-        return { tagName: h6, tagExp: r6, closeIndex: o6, attrExpPresent: l6, rawTagName: p6 };
+        return { tagName: h6, tagExp: r6, closeIndex: o3, attrExpPresent: l4, rawTagName: u2 };
       }
-      function nt(t6, e6, i6) {
-        const n6 = i6;
-        let s6 = 1;
-        for (; i6 < t6.length; i6++) if ("<" === t6[i6]) if ("/" === t6[i6 + 1]) {
-          const r6 = et(t6, ">", i6, `${e6} is not closed`);
-          if (t6.substring(i6 + 2, r6).trim() === e6 && (s6--, 0 === s6)) return { tagContent: t6.substring(n6, i6), i: r6 };
-          i6 = r6;
-        } else if ("?" === t6[i6 + 1]) i6 = et(t6, "?>", i6 + 1, "StopNode is not closed.");
-        else if ("!--" === t6.substr(i6 + 1, 3)) i6 = et(t6, "-->", i6 + 3, "StopNode is not closed.");
-        else if ("![" === t6.substr(i6 + 1, 2)) i6 = et(t6, "]]>", i6, "StopNode is not closed.") - 2;
-        else {
-          const n7 = it(t6, i6, ">");
-          n7 && ((n7 && n7.tagName) === e6 && "/" !== n7.tagExp[n7.tagExp.length - 1] && s6++, i6 = n7.closeIndex);
+      function mt(t2, e6, n3) {
+        const i6 = n3;
+        let s2 = 1;
+        const r6 = t2.length;
+        for (; n3 < r6; n3++) if ("<" === t2[n3]) {
+          const r7 = t2.charCodeAt(n3 + 1);
+          if (47 === r7) {
+            const r8 = ft(t2, ">", n3, `${e6} is not closed`);
+            if (t2.substring(n3 + 2, r8).trim() === e6 && (s2--, 0 === s2)) return { tagContent: t2.substring(i6, n3), i: r8 };
+            n3 = r8;
+          } else if (63 === r7) n3 = dt(t2, "?>", n3 + 1, "StopNode is not closed.");
+          else if (33 === r7 && 45 === t2.charCodeAt(n3 + 2) && 45 === t2.charCodeAt(n3 + 3)) n3 = dt(t2, "-->", n3 + 3, "StopNode is not closed.");
+          else if (33 === r7 && 91 === t2.charCodeAt(n3 + 2)) n3 = dt(t2, "]]>", n3, "StopNode is not closed.") - 2;
+          else {
+            const i7 = gt(t2, n3, ">");
+            i7 && ((i7 && i7.tagName) === e6 && "/" !== i7.tagExp[i7.tagExp.length - 1] && s2++, n3 = i7.closeIndex);
+          }
         }
       }
-      function st(t6, e6, i6) {
-        if (e6 && "string" == typeof t6) {
-          const e7 = t6.trim();
-          return "true" === e7 || "false" !== e7 && (function(t7, e8 = {}) {
-            if (e8 = Object.assign({}, k5, e8), !t7 || "string" != typeof t7) return t7;
-            let i7 = t7.trim();
-            if (void 0 !== e8.skipLike && e8.skipLike.test(i7)) return t7;
-            if ("0" === t7) return 0;
-            if (e8.hex && D2.test(i7)) return (function(t8) {
-              if (parseInt) return parseInt(t8, 16);
-              if (Number.parseInt) return Number.parseInt(t8, 16);
-              if (window && window.parseInt) return window.parseInt(t8, 16);
+      function xt(t2, e6, n3) {
+        if (e6 && "string" == typeof t2) {
+          const e7 = t2.trim();
+          return "true" === e7 || "false" !== e7 && (function(t3, e8 = {}) {
+            if (e8 = Object.assign({}, L, e8), !t3 || "string" != typeof t3) return t3;
+            let n4 = t3.trim();
+            if (0 === n4.length) return t3;
+            if (void 0 !== e8.skipLike && e8.skipLike.test(n4)) return t3;
+            if ("0" === n4) return 0;
+            if (e8.hex && j5.test(n4)) return (function(t4) {
+              if (parseInt) return parseInt(t4, 16);
+              if (Number.parseInt) return Number.parseInt(t4, 16);
+              if (window && window.parseInt) return window.parseInt(t4, 16);
               throw new Error("parseInt, Number.parseInt, window.parseInt are not supported");
-            })(i7);
-            if (isFinite(i7)) {
-              if (i7.includes("e") || i7.includes("E")) return (function(t8, e9, i8) {
-                if (!i8.eNotation) return t8;
-                const n7 = e9.match(F2);
-                if (n7) {
-                  let s6 = n7[1] || "";
-                  const r6 = -1 === n7[3].indexOf("e") ? "E" : "e", o6 = n7[2], a6 = s6 ? t8[o6.length + 1] === r6 : t8[o6.length] === r6;
-                  return o6.length > 1 && a6 ? t8 : (1 !== o6.length || !n7[3].startsWith(`.${r6}`) && n7[3][0] !== r6) && o6.length > 0 ? i8.leadingZeros && !a6 ? (e9 = (n7[1] || "") + n7[3], Number(e9)) : t8 : Number(e9);
+            })(n4);
+            if (isFinite(n4)) {
+              if (n4.includes("e") || n4.includes("E")) return (function(t4, e9, n5) {
+                if (!n5.eNotation) return t4;
+                const i7 = e9.match(k5);
+                if (i7) {
+                  let s2 = i7[1] || "";
+                  const r6 = -1 === i7[3].indexOf("e") ? "E" : "e", o3 = i7[2], a6 = s2 ? t4[o3.length + 1] === r6 : t4[o3.length] === r6;
+                  return o3.length > 1 && a6 ? t4 : (1 !== o3.length || !i7[3].startsWith(`.${r6}`) && i7[3][0] !== r6) && o3.length > 0 ? n5.leadingZeros && !a6 ? (e9 = (i7[1] || "") + i7[3], Number(e9)) : t4 : Number(e9);
                 }
-                return t8;
-              })(t7, i7, e8);
+                return t4;
+              })(t3, n4, e8);
               {
-                const s6 = V.exec(i7);
-                if (s6) {
-                  const r6 = s6[1] || "", o6 = s6[2];
-                  let a6 = (n6 = s6[3]) && -1 !== n6.indexOf(".") ? ("." === (n6 = n6.replace(/0+$/, "")) ? n6 = "0" : "." === n6[0] ? n6 = "0" + n6 : "." === n6[n6.length - 1] && (n6 = n6.substring(0, n6.length - 1)), n6) : n6;
-                  const h6 = r6 ? "." === t7[o6.length + 1] : "." === t7[o6.length];
-                  if (!e8.leadingZeros && (o6.length > 1 || 1 === o6.length && !h6)) return t7;
+                const s2 = V.exec(n4);
+                if (s2) {
+                  const r6 = s2[1] || "", o3 = s2[2];
+                  let a6 = (i6 = s2[3]) && -1 !== i6.indexOf(".") ? ("." === (i6 = i6.replace(/0+$/, "")) ? i6 = "0" : "." === i6[0] ? i6 = "0" + i6 : "." === i6[i6.length - 1] && (i6 = i6.substring(0, i6.length - 1)), i6) : i6;
+                  const h6 = r6 ? "." === t3[o3.length + 1] : "." === t3[o3.length];
+                  if (!e8.leadingZeros && (o3.length > 1 || 1 === o3.length && !h6)) return t3;
                   {
-                    const n7 = Number(i7), s7 = String(n7);
-                    if (0 === n7) return n7;
-                    if (-1 !== s7.search(/[eE]/)) return e8.eNotation ? n7 : t7;
-                    if (-1 !== i7.indexOf(".")) return "0" === s7 || s7 === a6 || s7 === `${r6}${a6}` ? n7 : t7;
-                    let h7 = o6 ? a6 : i7;
-                    return o6 ? h7 === s7 || r6 + h7 === s7 ? n7 : t7 : h7 === s7 || h7 === r6 + s7 ? n7 : t7;
+                    const i7 = Number(n4), s3 = String(i7);
+                    if (0 === i7) return i7;
+                    if (-1 !== s3.search(/[eE]/)) return e8.eNotation ? i7 : t3;
+                    if (-1 !== n4.indexOf(".")) return "0" === s3 || s3 === a6 || s3 === `${r6}${a6}` ? i7 : t3;
+                    let h7 = o3 ? a6 : n4;
+                    return o3 ? h7 === s3 || r6 + h7 === s3 ? i7 : t3 : h7 === s3 || h7 === r6 + s3 ? i7 : t3;
                   }
                 }
-                return t7;
+                return t3;
               }
             }
-            var n6;
-            return (function(t8, e9, i8) {
-              const n7 = e9 === 1 / 0;
-              switch (i8.infinity.toLowerCase()) {
+            var i6;
+            return (function(t4, e9, n5) {
+              const i7 = e9 === 1 / 0;
+              switch (n5.infinity.toLowerCase()) {
                 case "null":
                   return null;
                 case "infinity":
                   return e9;
                 case "string":
-                  return n7 ? "Infinity" : "-Infinity";
+                  return i7 ? "Infinity" : "-Infinity";
                 default:
-                  return t8;
+                  return t4;
               }
-            })(t7, Number(i7), e8);
-          })(t6, i6);
+            })(t3, Number(n4), e8);
+          })(t2, n3);
         }
-        return void 0 !== t6 ? t6 : "";
+        return void 0 !== t2 ? t2 : "";
       }
-      function rt(t6, e6, i6) {
-        const n6 = Number.parseInt(t6, e6);
-        return n6 >= 0 && n6 <= 1114111 ? String.fromCodePoint(n6) : i6 + t6 + ";";
-      }
-      function ot(t6, e6, i6, n6) {
-        if (t6) {
-          const n7 = t6(e6);
-          i6 === e6 && (i6 = n7), e6 = n7;
+      function Nt(t2, e6, n3, i6) {
+        if (t2) {
+          const i7 = t2(e6);
+          n3 === e6 && (n3 = i7), e6 = i7;
         }
-        return { tagName: e6 = at(e6, n6), tagExp: i6 };
+        return { tagName: e6 = bt(e6, i6), tagExp: n3 };
       }
-      function at(t6, e6) {
-        if (a5.includes(t6)) throw new Error(`[SECURITY] Invalid name: "${t6}" is a reserved JavaScript keyword that could cause prototype pollution`);
-        return o5.includes(t6) ? e6.onDangerousProperty(t6) : t6;
+      function bt(t2, e6) {
+        if (a5.includes(t2)) throw new Error(`[SECURITY] Invalid name: "${t2}" is a reserved JavaScript keyword that could cause prototype pollution`);
+        return o2.includes(t2) ? e6.onDangerousProperty(t2) : t2;
       }
-      const ht = $.getMetaDataSymbol();
-      function lt(t6, e6) {
-        if (!t6 || "object" != typeof t6) return {};
-        if (!e6) return t6;
-        const i6 = {};
-        for (const n6 in t6) n6.startsWith(e6) ? i6[n6.substring(e6.length)] = t6[n6] : i6[n6] = t6[n6];
-        return i6;
+      const yt = O.getMetaDataSymbol();
+      function Et(t2, e6) {
+        if (!t2 || "object" != typeof t2) return {};
+        if (!e6) return t2;
+        const n3 = {};
+        for (const i6 in t2) i6.startsWith(e6) ? n3[i6.substring(e6.length)] = t2[i6] : n3[i6] = t2[i6];
+        return n3;
       }
-      function pt(t6, e6, i6, n6) {
-        return ut(t6, e6, i6, n6);
+      function wt(t2, e6, n3, i6) {
+        return vt(t2, e6, n3, i6);
       }
-      function ut(t6, e6, i6, n6) {
-        let s6;
+      function vt(t2, e6, n3, i6) {
+        let s2;
         const r6 = {};
-        for (let o6 = 0; o6 < t6.length; o6++) {
-          const a6 = t6[o6], h6 = ct(a6);
+        for (let o3 = 0; o3 < t2.length; o3++) {
+          const a6 = t2[o3], h6 = St(a6);
           if (void 0 !== h6 && h6 !== e6.textNodeName) {
-            const t7 = lt(a6[":@"] || {}, e6.attributeNamePrefix);
-            i6.push(h6, t7);
+            const t3 = Et(a6[":@"] || {}, e6.attributeNamePrefix);
+            n3.push(h6, t3);
           }
-          if (h6 === e6.textNodeName) void 0 === s6 ? s6 = a6[h6] : s6 += "" + a6[h6];
+          if (h6 === e6.textNodeName) void 0 === s2 ? s2 = a6[h6] : s2 += "" + a6[h6];
           else {
             if (void 0 === h6) continue;
             if (a6[h6]) {
-              let t7 = ut(a6[h6], e6, i6, n6);
-              const s7 = ft(t7, e6);
-              if (a6[":@"] ? dt(t7, a6[":@"], n6, e6) : 1 !== Object.keys(t7).length || void 0 === t7[e6.textNodeName] || e6.alwaysCreateTextNode ? 0 === Object.keys(t7).length && (e6.alwaysCreateTextNode ? t7[e6.textNodeName] = "" : t7 = "") : t7 = t7[e6.textNodeName], void 0 !== a6[ht] && "object" == typeof t7 && null !== t7 && (t7[ht] = a6[ht]), void 0 !== r6[h6] && Object.prototype.hasOwnProperty.call(r6, h6)) Array.isArray(r6[h6]) || (r6[h6] = [r6[h6]]), r6[h6].push(t7);
+              let t3 = vt(a6[h6], e6, n3, i6);
+              const s3 = At(t3, e6);
+              if (a6[":@"] ? _t(t3, a6[":@"], i6, e6) : 1 !== Object.keys(t3).length || void 0 === t3[e6.textNodeName] || e6.alwaysCreateTextNode ? 0 === Object.keys(t3).length && (e6.alwaysCreateTextNode ? t3[e6.textNodeName] = "" : t3 = "") : t3 = t3[e6.textNodeName], void 0 !== a6[yt] && "object" == typeof t3 && null !== t3 && (t3[yt] = a6[yt]), void 0 !== r6[h6] && Object.prototype.hasOwnProperty.call(r6, h6)) Array.isArray(r6[h6]) || (r6[h6] = [r6[h6]]), r6[h6].push(t3);
               else {
-                const i7 = e6.jPath ? n6.toString() : n6;
-                e6.isArray(h6, i7, s7) ? r6[h6] = [t7] : r6[h6] = t7;
+                const n4 = e6.jPath ? i6.toString() : i6;
+                e6.isArray(h6, n4, s3) ? r6[h6] = [t3] : r6[h6] = t3;
               }
-              void 0 !== h6 && h6 !== e6.textNodeName && i6.pop();
+              void 0 !== h6 && h6 !== e6.textNodeName && n3.pop();
             }
           }
         }
-        return "string" == typeof s6 ? s6.length > 0 && (r6[e6.textNodeName] = s6) : void 0 !== s6 && (r6[e6.textNodeName] = s6), r6;
+        return "string" == typeof s2 ? s2.length > 0 && (r6[e6.textNodeName] = s2) : void 0 !== s2 && (r6[e6.textNodeName] = s2), r6;
       }
-      function ct(t6) {
-        const e6 = Object.keys(t6);
-        for (let t7 = 0; t7 < e6.length; t7++) {
-          const i6 = e6[t7];
-          if (":@" !== i6) return i6;
+      function St(t2) {
+        const e6 = Object.keys(t2);
+        for (let t3 = 0; t3 < e6.length; t3++) {
+          const n3 = e6[t3];
+          if (":@" !== n3) return n3;
         }
       }
-      function dt(t6, e6, i6, n6) {
+      function _t(t2, e6, n3, i6) {
         if (e6) {
-          const s6 = Object.keys(e6), r6 = s6.length;
-          for (let o6 = 0; o6 < r6; o6++) {
-            const r7 = s6[o6], a6 = r7.startsWith(n6.attributeNamePrefix) ? r7.substring(n6.attributeNamePrefix.length) : r7, h6 = n6.jPath ? i6.toString() + "." + a6 : i6;
-            n6.isArray(r7, h6, true, true) ? t6[r7] = [e6[r7]] : t6[r7] = e6[r7];
+          const s2 = Object.keys(e6), r6 = s2.length;
+          for (let o3 = 0; o3 < r6; o3++) {
+            const r7 = s2[o3], a6 = r7.startsWith(i6.attributeNamePrefix) ? r7.substring(i6.attributeNamePrefix.length) : r7, h6 = i6.jPath ? n3.toString() + "." + a6 : n3;
+            i6.isArray(r7, h6, true, true) ? t2[r7] = [e6[r7]] : t2[r7] = e6[r7];
           }
         }
       }
-      function ft(t6, e6) {
-        const { textNodeName: i6 } = e6, n6 = Object.keys(t6).length;
-        return 0 === n6 || !(1 !== n6 || !t6[i6] && "boolean" != typeof t6[i6] && 0 !== t6[i6]);
+      function At(t2, e6) {
+        const { textNodeName: n3 } = e6, i6 = Object.keys(t2).length;
+        return 0 === i6 || !(1 !== i6 || !t2[n3] && "boolean" != typeof t2[n3] && 0 !== t2[n3]);
       }
-      class gt {
-        constructor(t6) {
-          this.externalEntities = {}, this.options = O(t6);
+      class Tt {
+        constructor(t2) {
+          this.externalEntities = {}, this.options = C(t2);
         }
-        parse(t6, e6) {
-          if ("string" != typeof t6 && t6.toString) t6 = t6.toString();
-          else if ("string" != typeof t6) throw new Error("XML data is accepted in String or Bytes[] form.");
+        parse(t2, e6) {
+          if ("string" != typeof t2 && t2.toString) t2 = t2.toString();
+          else if ("string" != typeof t2) throw new Error("XML data is accepted in String or Bytes[] form.");
           if (e6) {
             true === e6 && (e6 = {});
-            const i7 = l5(t6, e6);
-            if (true !== i7) throw Error(`${i7.err.msg}:${i7.err.line}:${i7.err.col}`);
+            const n4 = l3(t2, e6);
+            if (true !== n4) throw Error(`${n4.err.msg}:${n4.err.line}:${n4.err.col}`);
           }
-          const i6 = new W(this.options);
-          i6.addExternalEntities(this.externalEntities);
-          const n6 = i6.parseXml(t6);
-          return this.options.preserveOrder || void 0 === n6 ? n6 : pt(n6, this.options, i6.matcher, i6.readonlyMatcher);
+          const n3 = new it(this.options, this.externalEntities), i6 = n3.parseXml(t2);
+          return this.options.preserveOrder || void 0 === i6 ? i6 : wt(i6, this.options, n3.matcher, n3.readonlyMatcher);
         }
-        addEntity(t6, e6) {
+        addEntity(t2, e6) {
           if (-1 !== e6.indexOf("&")) throw new Error("Entity value can't have '&'");
-          if (-1 !== t6.indexOf("&") || -1 !== t6.indexOf(";")) throw new Error("An entity must be set without '&' and ';'. Eg. use '#xD' for '&#xD;'");
+          if (-1 !== t2.indexOf("&") || -1 !== t2.indexOf(";")) throw new Error("An entity must be set without '&' and ';'. Eg. use '#xD' for '&#xD;'");
           if ("&" === e6) throw new Error("An entity with value '&' is not permitted");
-          this.externalEntities[t6] = e6;
+          this.externalEntities[t2] = e6;
         }
         static getMetaDataSymbol() {
-          return $.getMetaDataSymbol();
+          return O.getMetaDataSymbol();
         }
       }
-      function mt(t6, e6) {
-        let i6 = "";
-        e6.format && e6.indentBy.length > 0 && (i6 = "\n");
-        const n6 = [];
-        if (e6.stopNodes && Array.isArray(e6.stopNodes)) for (let t7 = 0; t7 < e6.stopNodes.length; t7++) {
-          const i7 = e6.stopNodes[t7];
-          "string" == typeof i7 ? n6.push(new R(i7)) : i7 instanceof R && n6.push(i7);
+      function Ct(t2, e6) {
+        let n3 = "";
+        e6.format && e6.indentBy.length > 0 && (n3 = "\n");
+        const i6 = [];
+        if (e6.stopNodes && Array.isArray(e6.stopNodes)) for (let t3 = 0; t3 < e6.stopNodes.length; t3++) {
+          const n4 = e6.stopNodes[t3];
+          "string" == typeof n4 ? i6.push(new G(n4)) : n4 instanceof G && i6.push(n4);
         }
-        return xt(t6, e6, i6, new G2(), n6);
+        return Pt(t2, e6, n3, new R(), i6);
       }
-      function xt(t6, e6, i6, n6, s6) {
-        let r6 = "", o6 = false;
-        if (e6.maxNestedTags && n6.getDepth() > e6.maxNestedTags) throw new Error("Maximum nested tags exceeded");
-        if (!Array.isArray(t6)) {
-          if (null != t6) {
-            let i7 = t6.toString();
-            return i7 = Tt(i7, e6), i7;
+      function Pt(t2, e6, n3, i6, s2) {
+        let r6 = "", o3 = false;
+        if (e6.maxNestedTags && i6.getDepth() > e6.maxNestedTags) throw new Error("Maximum nested tags exceeded");
+        if (!Array.isArray(t2)) {
+          if (null != t2) {
+            let n4 = t2.toString();
+            return n4 = Vt(n4, e6), n4;
           }
           return "";
         }
-        for (let a6 = 0; a6 < t6.length; a6++) {
-          const h6 = t6[a6], l6 = yt(h6);
-          if (void 0 === l6) continue;
-          const p6 = Nt(h6[":@"], e6);
-          n6.push(l6, p6);
-          const u6 = vt(n6, s6);
-          if (l6 === e6.textNodeName) {
-            let t7 = h6[l6];
-            u6 || (t7 = e6.tagValueProcessor(l6, t7), t7 = Tt(t7, e6)), o6 && (r6 += i6), r6 += t7, o6 = false, n6.pop();
+        for (let a6 = 0; a6 < t2.length; a6++) {
+          const h6 = t2[a6], l4 = Dt(h6);
+          if (void 0 === l4) continue;
+          const u2 = Ot(h6[":@"], e6);
+          i6.push(l4, u2);
+          const p3 = jt(i6, s2);
+          if (l4 === e6.textNodeName) {
+            let t3 = h6[l4];
+            p3 || (t3 = e6.tagValueProcessor(l4, t3), t3 = Vt(t3, e6)), o3 && (r6 += n3), r6 += t3, o3 = false, i6.pop();
             continue;
           }
-          if (l6 === e6.cdataPropName) {
-            o6 && (r6 += i6), r6 += `<![CDATA[${h6[l6][0][e6.textNodeName]}]]>`, o6 = false, n6.pop();
+          if (l4 === e6.cdataPropName) {
+            o3 && (r6 += n3);
+            const t3 = h6[l4][0][e6.textNodeName];
+            r6 += `<![CDATA[${String(t3).replace(/\]\]>/g, "]]]]><![CDATA[>")}]]>`, o3 = false, i6.pop();
             continue;
           }
-          if (l6 === e6.commentPropName) {
-            r6 += i6 + `<!--${h6[l6][0][e6.textNodeName]}-->`, o6 = true, n6.pop();
+          if (l4 === e6.commentPropName) {
+            const t3 = h6[l4][0][e6.textNodeName];
+            r6 += n3 + `<!--${String(t3).replace(/--/g, "- -").replace(/-$/, "- ")}-->`, o3 = true, i6.pop();
             continue;
           }
-          if ("?" === l6[0]) {
-            const t7 = wt(h6[":@"], e6, u6), s7 = "?xml" === l6 ? "" : i6;
-            let a7 = h6[l6][0][e6.textNodeName];
-            a7 = 0 !== a7.length ? " " + a7 : "", r6 += s7 + `<${l6}${a7}${t7}?>`, o6 = true, n6.pop();
+          if ("?" === l4[0]) {
+            const t3 = Mt(h6[":@"], e6, p3), s3 = "?xml" === l4 ? "" : n3;
+            let a7 = h6[l4][0][e6.textNodeName];
+            a7 = 0 !== a7.length ? " " + a7 : "", r6 += s3 + `<${l4}${a7}${t3}?>`, o3 = true, i6.pop();
             continue;
           }
-          let c6 = i6;
+          let c6 = n3;
           "" !== c6 && (c6 += e6.indentBy);
-          const d6 = i6 + `<${l6}${wt(h6[":@"], e6, u6)}`;
+          const d6 = n3 + `<${l4}${Mt(h6[":@"], e6, p3)}`;
           let f6;
-          f6 = u6 ? bt(h6[l6], e6) : xt(h6[l6], e6, c6, n6, s6), -1 !== e6.unpairedTags.indexOf(l6) ? e6.suppressUnpairedNode ? r6 += d6 + ">" : r6 += d6 + "/>" : f6 && 0 !== f6.length || !e6.suppressEmptyNode ? f6 && f6.endsWith(">") ? r6 += d6 + `>${f6}${i6}</${l6}>` : (r6 += d6 + ">", f6 && "" !== i6 && (f6.includes("/>") || f6.includes("</")) ? r6 += i6 + e6.indentBy + f6 + i6 : r6 += f6, r6 += `</${l6}>`) : r6 += d6 + "/>", o6 = true, n6.pop();
+          f6 = p3 ? $t(h6[l4], e6) : Pt(h6[l4], e6, c6, i6, s2), -1 !== e6.unpairedTags.indexOf(l4) ? e6.suppressUnpairedNode ? r6 += d6 + ">" : r6 += d6 + "/>" : f6 && 0 !== f6.length || !e6.suppressEmptyNode ? f6 && f6.endsWith(">") ? r6 += d6 + `>${f6}${n3}</${l4}>` : (r6 += d6 + ">", f6 && "" !== n3 && (f6.includes("/>") || f6.includes("</")) ? r6 += n3 + e6.indentBy + f6 + n3 : r6 += f6, r6 += `</${l4}>`) : r6 += d6 + "/>", o3 = true, i6.pop();
         }
         return r6;
       }
-      function Nt(t6, e6) {
-        if (!t6 || e6.ignoreAttributes) return null;
-        const i6 = {};
-        let n6 = false;
-        for (let s6 in t6) Object.prototype.hasOwnProperty.call(t6, s6) && (i6[s6.startsWith(e6.attributeNamePrefix) ? s6.substr(e6.attributeNamePrefix.length) : s6] = t6[s6], n6 = true);
-        return n6 ? i6 : null;
+      function Ot(t2, e6) {
+        if (!t2 || e6.ignoreAttributes) return null;
+        const n3 = {};
+        let i6 = false;
+        for (let s2 in t2) Object.prototype.hasOwnProperty.call(t2, s2) && (n3[s2.startsWith(e6.attributeNamePrefix) ? s2.substr(e6.attributeNamePrefix.length) : s2] = t2[s2], i6 = true);
+        return i6 ? n3 : null;
       }
-      function bt(t6, e6) {
-        if (!Array.isArray(t6)) return null != t6 ? t6.toString() : "";
-        let i6 = "";
-        for (let n6 = 0; n6 < t6.length; n6++) {
-          const s6 = t6[n6], r6 = yt(s6);
-          if (r6 === e6.textNodeName) i6 += s6[r6];
-          else if (r6 === e6.cdataPropName) i6 += s6[r6][0][e6.textNodeName];
-          else if (r6 === e6.commentPropName) i6 += s6[r6][0][e6.textNodeName];
+      function $t(t2, e6) {
+        if (!Array.isArray(t2)) return null != t2 ? t2.toString() : "";
+        let n3 = "";
+        for (let i6 = 0; i6 < t2.length; i6++) {
+          const s2 = t2[i6], r6 = Dt(s2);
+          if (r6 === e6.textNodeName) n3 += s2[r6];
+          else if (r6 === e6.cdataPropName) n3 += s2[r6][0][e6.textNodeName];
+          else if (r6 === e6.commentPropName) n3 += s2[r6][0][e6.textNodeName];
           else {
             if (r6 && "?" === r6[0]) continue;
             if (r6) {
-              const t7 = Et(s6[":@"], e6), n7 = bt(s6[r6], e6);
-              n7 && 0 !== n7.length ? i6 += `<${r6}${t7}>${n7}</${r6}>` : i6 += `<${r6}${t7}/>`;
+              const t3 = It(s2[":@"], e6), i7 = $t(s2[r6], e6);
+              i7 && 0 !== i7.length ? n3 += `<${r6}${t3}>${i7}</${r6}>` : n3 += `<${r6}${t3}/>`;
             }
           }
         }
-        return i6;
+        return n3;
       }
-      function Et(t6, e6) {
+      function It(t2, e6) {
+        let n3 = "";
+        if (t2 && !e6.ignoreAttributes) for (let i6 in t2) {
+          if (!Object.prototype.hasOwnProperty.call(t2, i6)) continue;
+          let s2 = t2[i6];
+          true === s2 && e6.suppressBooleanAttributes ? n3 += ` ${i6.substr(e6.attributeNamePrefix.length)}` : n3 += ` ${i6.substr(e6.attributeNamePrefix.length)}="${s2}"`;
+        }
+        return n3;
+      }
+      function Dt(t2) {
+        const e6 = Object.keys(t2);
+        for (let n3 = 0; n3 < e6.length; n3++) {
+          const i6 = e6[n3];
+          if (Object.prototype.hasOwnProperty.call(t2, i6) && ":@" !== i6) return i6;
+        }
+      }
+      function Mt(t2, e6, n3) {
         let i6 = "";
-        if (t6 && !e6.ignoreAttributes) for (let n6 in t6) {
-          if (!Object.prototype.hasOwnProperty.call(t6, n6)) continue;
-          let s6 = t6[n6];
-          true === s6 && e6.suppressBooleanAttributes ? i6 += ` ${n6.substr(e6.attributeNamePrefix.length)}` : i6 += ` ${n6.substr(e6.attributeNamePrefix.length)}="${s6}"`;
+        if (t2 && !e6.ignoreAttributes) for (let s2 in t2) {
+          if (!Object.prototype.hasOwnProperty.call(t2, s2)) continue;
+          let r6;
+          n3 ? r6 = t2[s2] : (r6 = e6.attributeValueProcessor(s2, t2[s2]), r6 = Vt(r6, e6)), true === r6 && e6.suppressBooleanAttributes ? i6 += ` ${s2.substr(e6.attributeNamePrefix.length)}` : i6 += ` ${s2.substr(e6.attributeNamePrefix.length)}="${r6}"`;
         }
         return i6;
       }
-      function yt(t6) {
-        const e6 = Object.keys(t6);
-        for (let i6 = 0; i6 < e6.length; i6++) {
-          const n6 = e6[i6];
-          if (Object.prototype.hasOwnProperty.call(t6, n6) && ":@" !== n6) return n6;
-        }
-      }
-      function wt(t6, e6, i6) {
-        let n6 = "";
-        if (t6 && !e6.ignoreAttributes) for (let s6 in t6) {
-          if (!Object.prototype.hasOwnProperty.call(t6, s6)) continue;
-          let r6;
-          i6 ? r6 = t6[s6] : (r6 = e6.attributeValueProcessor(s6, t6[s6]), r6 = Tt(r6, e6)), true === r6 && e6.suppressBooleanAttributes ? n6 += ` ${s6.substr(e6.attributeNamePrefix.length)}` : n6 += ` ${s6.substr(e6.attributeNamePrefix.length)}="${r6}"`;
-        }
-        return n6;
-      }
-      function vt(t6, e6) {
+      function jt(t2, e6) {
         if (!e6 || 0 === e6.length) return false;
-        for (let i6 = 0; i6 < e6.length; i6++) if (t6.matches(e6[i6])) return true;
+        for (let n3 = 0; n3 < e6.length; n3++) if (t2.matches(e6[n3])) return true;
         return false;
       }
-      function Tt(t6, e6) {
-        if (t6 && t6.length > 0 && e6.processEntities) for (let i6 = 0; i6 < e6.entities.length; i6++) {
-          const n6 = e6.entities[i6];
-          t6 = t6.replace(n6.regex, n6.val);
+      function Vt(t2, e6) {
+        if (t2 && t2.length > 0 && e6.processEntities) for (let n3 = 0; n3 < e6.entities.length; n3++) {
+          const i6 = e6.entities[n3];
+          t2 = t2.replace(i6.regex, i6.val);
         }
-        return t6;
+        return t2;
       }
-      const Pt = { attributeNamePrefix: "@_", attributesGroupName: false, textNodeName: "#text", ignoreAttributes: true, cdataPropName: false, format: false, indentBy: "  ", suppressEmptyNode: false, suppressUnpairedNode: true, suppressBooleanAttributes: true, tagValueProcessor: function(t6, e6) {
+      const Lt = { attributeNamePrefix: "@_", attributesGroupName: false, textNodeName: "#text", ignoreAttributes: true, cdataPropName: false, format: false, indentBy: "  ", suppressEmptyNode: false, suppressUnpairedNode: true, suppressBooleanAttributes: true, tagValueProcessor: function(t2, e6) {
         return e6;
-      }, attributeValueProcessor: function(t6, e6) {
+      }, attributeValueProcessor: function(t2, e6) {
         return e6;
       }, preserveOrder: false, commentPropName: false, unpairedTags: [], entities: [{ regex: new RegExp("&", "g"), val: "&amp;" }, { regex: new RegExp(">", "g"), val: "&gt;" }, { regex: new RegExp("<", "g"), val: "&lt;" }, { regex: new RegExp("'", "g"), val: "&apos;" }, { regex: new RegExp('"', "g"), val: "&quot;" }], processEntities: true, stopNodes: [], oneListGroup: false, maxNestedTags: 100, jPath: true };
-      function St(t6) {
-        if (this.options = Object.assign({}, Pt, t6), this.options.stopNodes && Array.isArray(this.options.stopNodes) && (this.options.stopNodes = this.options.stopNodes.map((t7) => "string" == typeof t7 && t7.startsWith("*.") ? ".." + t7.substring(2) : t7)), this.stopNodeExpressions = [], this.options.stopNodes && Array.isArray(this.options.stopNodes)) for (let t7 = 0; t7 < this.options.stopNodes.length; t7++) {
-          const e7 = this.options.stopNodes[t7];
-          "string" == typeof e7 ? this.stopNodeExpressions.push(new R(e7)) : e7 instanceof R && this.stopNodeExpressions.push(e7);
+      function kt(t2) {
+        if (this.options = Object.assign({}, Lt, t2), this.options.stopNodes && Array.isArray(this.options.stopNodes) && (this.options.stopNodes = this.options.stopNodes.map((t3) => "string" == typeof t3 && t3.startsWith("*.") ? ".." + t3.substring(2) : t3)), this.stopNodeExpressions = [], this.options.stopNodes && Array.isArray(this.options.stopNodes)) for (let t3 = 0; t3 < this.options.stopNodes.length; t3++) {
+          const e7 = this.options.stopNodes[t3];
+          "string" == typeof e7 ? this.stopNodeExpressions.push(new G(e7)) : e7 instanceof G && this.stopNodeExpressions.push(e7);
         }
         var e6;
         true === this.options.ignoreAttributes || this.options.attributesGroupName ? this.isAttribute = function() {
           return false;
-        } : (this.ignoreAttributesFn = "function" == typeof (e6 = this.options.ignoreAttributes) ? e6 : Array.isArray(e6) ? (t7) => {
-          for (const i6 of e6) {
-            if ("string" == typeof i6 && t7 === i6) return true;
-            if (i6 instanceof RegExp && i6.test(t7)) return true;
+        } : (this.ignoreAttributesFn = "function" == typeof (e6 = this.options.ignoreAttributes) ? e6 : Array.isArray(e6) ? (t3) => {
+          for (const n3 of e6) {
+            if ("string" == typeof n3 && t3 === n3) return true;
+            if (n3 instanceof RegExp && n3.test(t3)) return true;
           }
-        } : () => false, this.attrPrefixLen = this.options.attributeNamePrefix.length, this.isAttribute = Ct), this.processTextOrObjNode = At, this.options.format ? (this.indentate = Ot, this.tagEndChar = ">\n", this.newLine = "\n") : (this.indentate = function() {
+        } : () => false, this.attrPrefixLen = this.options.attributeNamePrefix.length, this.isAttribute = Gt), this.processTextOrObjNode = Ft, this.options.format ? (this.indentate = Rt, this.tagEndChar = ">\n", this.newLine = "\n") : (this.indentate = function() {
           return "";
         }, this.tagEndChar = ">", this.newLine = "");
       }
-      function At(t6, e6, i6, n6) {
-        const s6 = this.extractAttributes(t6);
-        if (n6.push(e6, s6), this.checkStopNode(n6)) {
-          const s7 = this.buildRawContent(t6), r7 = this.buildAttributesForStopNode(t6);
-          return n6.pop(), this.buildObjectNode(s7, e6, r7, i6);
+      function Ft(t2, e6, n3, i6) {
+        const s2 = this.extractAttributes(t2);
+        if (i6.push(e6, s2), this.checkStopNode(i6)) {
+          const s3 = this.buildRawContent(t2), r7 = this.buildAttributesForStopNode(t2);
+          return i6.pop(), this.buildObjectNode(s3, e6, r7, n3);
         }
-        const r6 = this.j2x(t6, i6 + 1, n6);
-        return n6.pop(), void 0 !== t6[this.options.textNodeName] && 1 === Object.keys(t6).length ? this.buildTextValNode(t6[this.options.textNodeName], e6, r6.attrStr, i6, n6) : this.buildObjectNode(r6.val, e6, r6.attrStr, i6);
+        const r6 = this.j2x(t2, n3 + 1, i6);
+        return i6.pop(), void 0 !== t2[this.options.textNodeName] && 1 === Object.keys(t2).length ? this.buildTextValNode(t2[this.options.textNodeName], e6, r6.attrStr, n3, i6) : this.buildObjectNode(r6.val, e6, r6.attrStr, n3);
       }
-      function Ot(t6) {
-        return this.options.indentBy.repeat(t6);
+      function Rt(t2) {
+        return this.options.indentBy.repeat(t2);
       }
-      function Ct(t6) {
-        return !(!t6.startsWith(this.options.attributeNamePrefix) || t6 === this.options.textNodeName) && t6.substr(this.attrPrefixLen);
+      function Gt(t2) {
+        return !(!t2.startsWith(this.options.attributeNamePrefix) || t2 === this.options.textNodeName) && t2.substr(this.attrPrefixLen);
       }
-      St.prototype.build = function(t6) {
-        if (this.options.preserveOrder) return mt(t6, this.options);
+      kt.prototype.build = function(t2) {
+        if (this.options.preserveOrder) return Ct(t2, this.options);
         {
-          Array.isArray(t6) && this.options.arrayNodeName && this.options.arrayNodeName.length > 1 && (t6 = { [this.options.arrayNodeName]: t6 });
-          const e6 = new G2();
-          return this.j2x(t6, 0, e6).val;
+          Array.isArray(t2) && this.options.arrayNodeName && this.options.arrayNodeName.length > 1 && (t2 = { [this.options.arrayNodeName]: t2 });
+          const e6 = new R();
+          return this.j2x(t2, 0, e6).val;
         }
-      }, St.prototype.j2x = function(t6, e6, i6) {
-        let n6 = "", s6 = "";
-        if (this.options.maxNestedTags && i6.getDepth() >= this.options.maxNestedTags) throw new Error("Maximum nested tags exceeded");
-        const r6 = this.options.jPath ? i6.toString() : i6, o6 = this.checkStopNode(i6);
-        for (let a6 in t6) if (Object.prototype.hasOwnProperty.call(t6, a6)) if (void 0 === t6[a6]) this.isAttribute(a6) && (s6 += "");
-        else if (null === t6[a6]) this.isAttribute(a6) || a6 === this.options.cdataPropName ? s6 += "" : "?" === a6[0] ? s6 += this.indentate(e6) + "<" + a6 + "?" + this.tagEndChar : s6 += this.indentate(e6) + "<" + a6 + "/" + this.tagEndChar;
-        else if (t6[a6] instanceof Date) s6 += this.buildTextValNode(t6[a6], a6, "", e6, i6);
-        else if ("object" != typeof t6[a6]) {
+      }, kt.prototype.j2x = function(t2, e6, n3) {
+        let i6 = "", s2 = "";
+        if (this.options.maxNestedTags && n3.getDepth() >= this.options.maxNestedTags) throw new Error("Maximum nested tags exceeded");
+        const r6 = this.options.jPath ? n3.toString() : n3, o3 = this.checkStopNode(n3);
+        for (let a6 in t2) if (Object.prototype.hasOwnProperty.call(t2, a6)) if (void 0 === t2[a6]) this.isAttribute(a6) && (s2 += "");
+        else if (null === t2[a6]) this.isAttribute(a6) || a6 === this.options.cdataPropName ? s2 += "" : "?" === a6[0] ? s2 += this.indentate(e6) + "<" + a6 + "?" + this.tagEndChar : s2 += this.indentate(e6) + "<" + a6 + "/" + this.tagEndChar;
+        else if (t2[a6] instanceof Date) s2 += this.buildTextValNode(t2[a6], a6, "", e6, n3);
+        else if ("object" != typeof t2[a6]) {
           const h6 = this.isAttribute(a6);
-          if (h6 && !this.ignoreAttributesFn(h6, r6)) n6 += this.buildAttrPairStr(h6, "" + t6[a6], o6);
+          if (h6 && !this.ignoreAttributesFn(h6, r6)) i6 += this.buildAttrPairStr(h6, "" + t2[a6], o3);
           else if (!h6) if (a6 === this.options.textNodeName) {
-            let e7 = this.options.tagValueProcessor(a6, "" + t6[a6]);
-            s6 += this.replaceEntitiesValue(e7);
+            let e7 = this.options.tagValueProcessor(a6, "" + t2[a6]);
+            s2 += this.replaceEntitiesValue(e7);
           } else {
-            i6.push(a6);
-            const n7 = this.checkStopNode(i6);
-            if (i6.pop(), n7) {
-              const i7 = "" + t6[a6];
-              s6 += "" === i7 ? this.indentate(e6) + "<" + a6 + this.closeTag(a6) + this.tagEndChar : this.indentate(e6) + "<" + a6 + ">" + i7 + "</" + a6 + this.tagEndChar;
-            } else s6 += this.buildTextValNode(t6[a6], a6, "", e6, i6);
+            n3.push(a6);
+            const i7 = this.checkStopNode(n3);
+            if (n3.pop(), i7) {
+              const n4 = "" + t2[a6];
+              s2 += "" === n4 ? this.indentate(e6) + "<" + a6 + this.closeTag(a6) + this.tagEndChar : this.indentate(e6) + "<" + a6 + ">" + n4 + "</" + a6 + this.tagEndChar;
+            } else s2 += this.buildTextValNode(t2[a6], a6, "", e6, n3);
           }
-        } else if (Array.isArray(t6[a6])) {
-          const n7 = t6[a6].length;
-          let r7 = "", o7 = "";
-          for (let h6 = 0; h6 < n7; h6++) {
-            const n8 = t6[a6][h6];
-            if (void 0 === n8) ;
-            else if (null === n8) "?" === a6[0] ? s6 += this.indentate(e6) + "<" + a6 + "?" + this.tagEndChar : s6 += this.indentate(e6) + "<" + a6 + "/" + this.tagEndChar;
-            else if ("object" == typeof n8) if (this.options.oneListGroup) {
-              i6.push(a6);
-              const t7 = this.j2x(n8, e6 + 1, i6);
-              i6.pop(), r7 += t7.val, this.options.attributesGroupName && n8.hasOwnProperty(this.options.attributesGroupName) && (o7 += t7.attrStr);
-            } else r7 += this.processTextOrObjNode(n8, a6, e6, i6);
+        } else if (Array.isArray(t2[a6])) {
+          const i7 = t2[a6].length;
+          let r7 = "", o4 = "";
+          for (let h6 = 0; h6 < i7; h6++) {
+            const i8 = t2[a6][h6];
+            if (void 0 === i8) ;
+            else if (null === i8) "?" === a6[0] ? s2 += this.indentate(e6) + "<" + a6 + "?" + this.tagEndChar : s2 += this.indentate(e6) + "<" + a6 + "/" + this.tagEndChar;
+            else if ("object" == typeof i8) if (this.options.oneListGroup) {
+              n3.push(a6);
+              const t3 = this.j2x(i8, e6 + 1, n3);
+              n3.pop(), r7 += t3.val, this.options.attributesGroupName && i8.hasOwnProperty(this.options.attributesGroupName) && (o4 += t3.attrStr);
+            } else r7 += this.processTextOrObjNode(i8, a6, e6, n3);
             else if (this.options.oneListGroup) {
-              let t7 = this.options.tagValueProcessor(a6, n8);
-              t7 = this.replaceEntitiesValue(t7), r7 += t7;
+              let t3 = this.options.tagValueProcessor(a6, i8);
+              t3 = this.replaceEntitiesValue(t3), r7 += t3;
             } else {
-              i6.push(a6);
-              const t7 = this.checkStopNode(i6);
-              if (i6.pop(), t7) {
-                const t8 = "" + n8;
-                r7 += "" === t8 ? this.indentate(e6) + "<" + a6 + this.closeTag(a6) + this.tagEndChar : this.indentate(e6) + "<" + a6 + ">" + t8 + "</" + a6 + this.tagEndChar;
-              } else r7 += this.buildTextValNode(n8, a6, "", e6, i6);
+              n3.push(a6);
+              const t3 = this.checkStopNode(n3);
+              if (n3.pop(), t3) {
+                const t4 = "" + i8;
+                r7 += "" === t4 ? this.indentate(e6) + "<" + a6 + this.closeTag(a6) + this.tagEndChar : this.indentate(e6) + "<" + a6 + ">" + t4 + "</" + a6 + this.tagEndChar;
+              } else r7 += this.buildTextValNode(i8, a6, "", e6, n3);
             }
           }
-          this.options.oneListGroup && (r7 = this.buildObjectNode(r7, a6, o7, e6)), s6 += r7;
+          this.options.oneListGroup && (r7 = this.buildObjectNode(r7, a6, o4, e6)), s2 += r7;
         } else if (this.options.attributesGroupName && a6 === this.options.attributesGroupName) {
-          const e7 = Object.keys(t6[a6]), i7 = e7.length;
-          for (let s7 = 0; s7 < i7; s7++) n6 += this.buildAttrPairStr(e7[s7], "" + t6[a6][e7[s7]], o6);
-        } else s6 += this.processTextOrObjNode(t6[a6], a6, e6, i6);
-        return { attrStr: n6, val: s6 };
-      }, St.prototype.buildAttrPairStr = function(t6, e6, i6) {
-        return i6 || (e6 = this.options.attributeValueProcessor(t6, "" + e6), e6 = this.replaceEntitiesValue(e6)), this.options.suppressBooleanAttributes && "true" === e6 ? " " + t6 : " " + t6 + '="' + e6 + '"';
-      }, St.prototype.extractAttributes = function(t6) {
-        if (!t6 || "object" != typeof t6) return null;
+          const e7 = Object.keys(t2[a6]), n4 = e7.length;
+          for (let s3 = 0; s3 < n4; s3++) i6 += this.buildAttrPairStr(e7[s3], "" + t2[a6][e7[s3]], o3);
+        } else s2 += this.processTextOrObjNode(t2[a6], a6, e6, n3);
+        return { attrStr: i6, val: s2 };
+      }, kt.prototype.buildAttrPairStr = function(t2, e6, n3) {
+        return n3 || (e6 = this.options.attributeValueProcessor(t2, "" + e6), e6 = this.replaceEntitiesValue(e6)), this.options.suppressBooleanAttributes && "true" === e6 ? " " + t2 : " " + t2 + '="' + e6 + '"';
+      }, kt.prototype.extractAttributes = function(t2) {
+        if (!t2 || "object" != typeof t2) return null;
         const e6 = {};
-        let i6 = false;
-        if (this.options.attributesGroupName && t6[this.options.attributesGroupName]) {
-          const n6 = t6[this.options.attributesGroupName];
-          for (let t7 in n6) Object.prototype.hasOwnProperty.call(n6, t7) && (e6[t7.startsWith(this.options.attributeNamePrefix) ? t7.substring(this.options.attributeNamePrefix.length) : t7] = n6[t7], i6 = true);
-        } else for (let n6 in t6) {
-          if (!Object.prototype.hasOwnProperty.call(t6, n6)) continue;
-          const s6 = this.isAttribute(n6);
-          s6 && (e6[s6] = t6[n6], i6 = true);
+        let n3 = false;
+        if (this.options.attributesGroupName && t2[this.options.attributesGroupName]) {
+          const i6 = t2[this.options.attributesGroupName];
+          for (let t3 in i6) Object.prototype.hasOwnProperty.call(i6, t3) && (e6[t3.startsWith(this.options.attributeNamePrefix) ? t3.substring(this.options.attributeNamePrefix.length) : t3] = i6[t3], n3 = true);
+        } else for (let i6 in t2) {
+          if (!Object.prototype.hasOwnProperty.call(t2, i6)) continue;
+          const s2 = this.isAttribute(i6);
+          s2 && (e6[s2] = t2[i6], n3 = true);
         }
-        return i6 ? e6 : null;
-      }, St.prototype.buildRawContent = function(t6) {
-        if ("string" == typeof t6) return t6;
-        if ("object" != typeof t6 || null === t6) return String(t6);
-        if (void 0 !== t6[this.options.textNodeName]) return t6[this.options.textNodeName];
+        return n3 ? e6 : null;
+      }, kt.prototype.buildRawContent = function(t2) {
+        if ("string" == typeof t2) return t2;
+        if ("object" != typeof t2 || null === t2) return String(t2);
+        if (void 0 !== t2[this.options.textNodeName]) return t2[this.options.textNodeName];
         let e6 = "";
-        for (let i6 in t6) {
-          if (!Object.prototype.hasOwnProperty.call(t6, i6)) continue;
-          if (this.isAttribute(i6)) continue;
-          if (this.options.attributesGroupName && i6 === this.options.attributesGroupName) continue;
-          const n6 = t6[i6];
-          if (i6 === this.options.textNodeName) e6 += n6;
-          else if (Array.isArray(n6)) {
-            for (let t7 of n6) if ("string" == typeof t7 || "number" == typeof t7) e6 += `<${i6}>${t7}</${i6}>`;
-            else if ("object" == typeof t7 && null !== t7) {
-              const n7 = this.buildRawContent(t7), s6 = this.buildAttributesForStopNode(t7);
-              e6 += "" === n7 ? `<${i6}${s6}/>` : `<${i6}${s6}>${n7}</${i6}>`;
+        for (let n3 in t2) {
+          if (!Object.prototype.hasOwnProperty.call(t2, n3)) continue;
+          if (this.isAttribute(n3)) continue;
+          if (this.options.attributesGroupName && n3 === this.options.attributesGroupName) continue;
+          const i6 = t2[n3];
+          if (n3 === this.options.textNodeName) e6 += i6;
+          else if (Array.isArray(i6)) {
+            for (let t3 of i6) if ("string" == typeof t3 || "number" == typeof t3) e6 += `<${n3}>${t3}</${n3}>`;
+            else if ("object" == typeof t3 && null !== t3) {
+              const i7 = this.buildRawContent(t3), s2 = this.buildAttributesForStopNode(t3);
+              e6 += "" === i7 ? `<${n3}${s2}/>` : `<${n3}${s2}>${i7}</${n3}>`;
             }
-          } else if ("object" == typeof n6 && null !== n6) {
-            const t7 = this.buildRawContent(n6), s6 = this.buildAttributesForStopNode(n6);
-            e6 += "" === t7 ? `<${i6}${s6}/>` : `<${i6}${s6}>${t7}</${i6}>`;
-          } else e6 += `<${i6}>${n6}</${i6}>`;
+          } else if ("object" == typeof i6 && null !== i6) {
+            const t3 = this.buildRawContent(i6), s2 = this.buildAttributesForStopNode(i6);
+            e6 += "" === t3 ? `<${n3}${s2}/>` : `<${n3}${s2}>${t3}</${n3}>`;
+          } else e6 += `<${n3}>${i6}</${n3}>`;
         }
         return e6;
-      }, St.prototype.buildAttributesForStopNode = function(t6) {
-        if (!t6 || "object" != typeof t6) return "";
+      }, kt.prototype.buildAttributesForStopNode = function(t2) {
+        if (!t2 || "object" != typeof t2) return "";
         let e6 = "";
-        if (this.options.attributesGroupName && t6[this.options.attributesGroupName]) {
-          const i6 = t6[this.options.attributesGroupName];
-          for (let t7 in i6) {
-            if (!Object.prototype.hasOwnProperty.call(i6, t7)) continue;
-            const n6 = t7.startsWith(this.options.attributeNamePrefix) ? t7.substring(this.options.attributeNamePrefix.length) : t7, s6 = i6[t7];
-            true === s6 && this.options.suppressBooleanAttributes ? e6 += " " + n6 : e6 += " " + n6 + '="' + s6 + '"';
+        if (this.options.attributesGroupName && t2[this.options.attributesGroupName]) {
+          const n3 = t2[this.options.attributesGroupName];
+          for (let t3 in n3) {
+            if (!Object.prototype.hasOwnProperty.call(n3, t3)) continue;
+            const i6 = t3.startsWith(this.options.attributeNamePrefix) ? t3.substring(this.options.attributeNamePrefix.length) : t3, s2 = n3[t3];
+            true === s2 && this.options.suppressBooleanAttributes ? e6 += " " + i6 : e6 += " " + i6 + '="' + s2 + '"';
           }
-        } else for (let i6 in t6) {
-          if (!Object.prototype.hasOwnProperty.call(t6, i6)) continue;
-          const n6 = this.isAttribute(i6);
-          if (n6) {
-            const s6 = t6[i6];
-            true === s6 && this.options.suppressBooleanAttributes ? e6 += " " + n6 : e6 += " " + n6 + '="' + s6 + '"';
+        } else for (let n3 in t2) {
+          if (!Object.prototype.hasOwnProperty.call(t2, n3)) continue;
+          const i6 = this.isAttribute(n3);
+          if (i6) {
+            const s2 = t2[n3];
+            true === s2 && this.options.suppressBooleanAttributes ? e6 += " " + i6 : e6 += " " + i6 + '="' + s2 + '"';
           }
         }
         return e6;
-      }, St.prototype.buildObjectNode = function(t6, e6, i6, n6) {
-        if ("" === t6) return "?" === e6[0] ? this.indentate(n6) + "<" + e6 + i6 + "?" + this.tagEndChar : this.indentate(n6) + "<" + e6 + i6 + this.closeTag(e6) + this.tagEndChar;
+      }, kt.prototype.buildObjectNode = function(t2, e6, n3, i6) {
+        if ("" === t2) return "?" === e6[0] ? this.indentate(i6) + "<" + e6 + n3 + "?" + this.tagEndChar : this.indentate(i6) + "<" + e6 + n3 + this.closeTag(e6) + this.tagEndChar;
         {
-          let s6 = "</" + e6 + this.tagEndChar, r6 = "";
-          return "?" === e6[0] && (r6 = "?", s6 = ""), !i6 && "" !== i6 || -1 !== t6.indexOf("<") ? false !== this.options.commentPropName && e6 === this.options.commentPropName && 0 === r6.length ? this.indentate(n6) + `<!--${t6}-->` + this.newLine : this.indentate(n6) + "<" + e6 + i6 + r6 + this.tagEndChar + t6 + this.indentate(n6) + s6 : this.indentate(n6) + "<" + e6 + i6 + r6 + ">" + t6 + s6;
+          let s2 = "</" + e6 + this.tagEndChar, r6 = "";
+          return "?" === e6[0] && (r6 = "?", s2 = ""), !n3 && "" !== n3 || -1 !== t2.indexOf("<") ? false !== this.options.commentPropName && e6 === this.options.commentPropName && 0 === r6.length ? this.indentate(i6) + `<!--${t2}-->` + this.newLine : this.indentate(i6) + "<" + e6 + n3 + r6 + this.tagEndChar + t2 + this.indentate(i6) + s2 : this.indentate(i6) + "<" + e6 + n3 + r6 + ">" + t2 + s2;
         }
-      }, St.prototype.closeTag = function(t6) {
+      }, kt.prototype.closeTag = function(t2) {
         let e6 = "";
-        return -1 !== this.options.unpairedTags.indexOf(t6) ? this.options.suppressUnpairedNode || (e6 = "/") : e6 = this.options.suppressEmptyNode ? "/" : `></${t6}`, e6;
-      }, St.prototype.checkStopNode = function(t6) {
+        return -1 !== this.options.unpairedTags.indexOf(t2) ? this.options.suppressUnpairedNode || (e6 = "/") : e6 = this.options.suppressEmptyNode ? "/" : `></${t2}`, e6;
+      }, kt.prototype.checkStopNode = function(t2) {
         if (!this.stopNodeExpressions || 0 === this.stopNodeExpressions.length) return false;
-        for (let e6 = 0; e6 < this.stopNodeExpressions.length; e6++) if (t6.matches(this.stopNodeExpressions[e6])) return true;
+        for (let e6 = 0; e6 < this.stopNodeExpressions.length; e6++) if (t2.matches(this.stopNodeExpressions[e6])) return true;
         return false;
-      }, St.prototype.buildTextValNode = function(t6, e6, i6, n6, s6) {
-        if (false !== this.options.cdataPropName && e6 === this.options.cdataPropName) return this.indentate(n6) + `<![CDATA[${t6}]]>` + this.newLine;
-        if (false !== this.options.commentPropName && e6 === this.options.commentPropName) return this.indentate(n6) + `<!--${t6}-->` + this.newLine;
-        if ("?" === e6[0]) return this.indentate(n6) + "<" + e6 + i6 + "?" + this.tagEndChar;
+      }, kt.prototype.buildTextValNode = function(t2, e6, n3, i6, s2) {
+        if (false !== this.options.cdataPropName && e6 === this.options.cdataPropName) {
+          const e7 = String(t2).replace(/\]\]>/g, "]]]]><![CDATA[>");
+          return this.indentate(i6) + `<![CDATA[${e7}]]>` + this.newLine;
+        }
+        if (false !== this.options.commentPropName && e6 === this.options.commentPropName) {
+          const e7 = String(t2).replace(/--/g, "- -").replace(/-$/, "- ");
+          return this.indentate(i6) + `<!--${e7}-->` + this.newLine;
+        }
+        if ("?" === e6[0]) return this.indentate(i6) + "<" + e6 + n3 + "?" + this.tagEndChar;
         {
-          let s7 = this.options.tagValueProcessor(e6, t6);
-          return s7 = this.replaceEntitiesValue(s7), "" === s7 ? this.indentate(n6) + "<" + e6 + i6 + this.closeTag(e6) + this.tagEndChar : this.indentate(n6) + "<" + e6 + i6 + ">" + s7 + "</" + e6 + this.tagEndChar;
+          let s3 = this.options.tagValueProcessor(e6, t2);
+          return s3 = this.replaceEntitiesValue(s3), "" === s3 ? this.indentate(i6) + "<" + e6 + n3 + this.closeTag(e6) + this.tagEndChar : this.indentate(i6) + "<" + e6 + n3 + ">" + s3 + "</" + e6 + this.tagEndChar;
         }
-      }, St.prototype.replaceEntitiesValue = function(t6) {
-        if (t6 && t6.length > 0 && this.options.processEntities) for (let e6 = 0; e6 < this.options.entities.length; e6++) {
-          const i6 = this.options.entities[e6];
-          t6 = t6.replace(i6.regex, i6.val);
+      }, kt.prototype.replaceEntitiesValue = function(t2) {
+        if (t2 && t2.length > 0 && this.options.processEntities) for (let e6 = 0; e6 < this.options.entities.length; e6++) {
+          const n3 = this.options.entities[e6];
+          t2 = t2.replace(n3.regex, n3.val);
         }
-        return t6;
+        return t2;
       };
-      const $t = St, It = { validate: l5 };
+      const Bt = kt, Ut = { validate: l3 };
       module2.exports = e5;
     })();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+xml-builder@3.972.18/node_modules/@aws-sdk/xml-builder/dist-cjs/xml-parser.js
+// node_modules/.pnpm/@aws-sdk+xml-builder@3.972.22/node_modules/@aws-sdk/xml-builder/dist-cjs/xml-external/nodable_entities.js
+var require_nodable_entities = __commonJS({
+  "node_modules/.pnpm/@aws-sdk+xml-builder@3.972.22/node_modules/@aws-sdk/xml-builder/dist-cjs/xml-external/nodable_entities.js"(exports2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", { value: true });
+    exports2.EntityDecoderImpl = exports2.CURRENCY = exports2.COMMON_HTML = exports2.XML = void 0;
+    exports2.XML = {
+      amp: "&",
+      apos: "'",
+      gt: ">",
+      lt: "<",
+      quot: '"'
+    };
+    exports2.COMMON_HTML = {
+      nbsp: "\xA0",
+      copy: "\xA9",
+      reg: "\xAE",
+      trade: "\u2122",
+      mdash: "\u2014",
+      ndash: "\u2013",
+      hellip: "\u2026",
+      laquo: "\xAB",
+      raquo: "\xBB",
+      lsquo: "\u2018",
+      rsquo: "\u2019",
+      ldquo: "\u201C",
+      rdquo: "\u201D",
+      bull: "\u2022",
+      para: "\xB6",
+      sect: "\xA7",
+      deg: "\xB0",
+      frac12: "\xBD",
+      frac14: "\xBC",
+      frac34: "\xBE"
+    };
+    exports2.CURRENCY = {
+      cent: "\xA2",
+      pound: "\xA3",
+      curren: "\xA4",
+      yen: "\xA5",
+      euro: "\u20AC",
+      dollar: "$",
+      fnof: "\u0192",
+      inr: "\u20B9",
+      af: "\u060B",
+      birr: "\u1265\u122D",
+      peso: "\u20B1",
+      rub: "\u20BD",
+      won: "\u20A9",
+      yuan: "\xA5",
+      cedil: "\xB8"
+    };
+    var SPECIAL_CHARS = new Set("!?\\/[]$%{}^&*()<>|+");
+    function validateEntityName(name) {
+      if (name[0] === "#") {
+        throw new Error(`[EntityReplacer] Invalid character '#' in entity name: "${name}"`);
+      }
+      for (const ch of name) {
+        if (SPECIAL_CHARS.has(ch)) {
+          throw new Error(`[EntityReplacer] Invalid character '${ch}' in entity name: "${name}"`);
+        }
+      }
+      return name;
+    }
+    function mergeEntityMaps(...maps) {
+      const out = /* @__PURE__ */ Object.create(null);
+      for (const map2 of maps) {
+        if (!map2) {
+          continue;
+        }
+        for (const key of Object.keys(map2)) {
+          const raw = map2[key];
+          if (typeof raw === "string") {
+            out[key] = raw;
+          } else if (raw && typeof raw === "object" && raw.val !== void 0) {
+            const val = raw.val;
+            if (typeof val === "string") {
+              out[key] = val;
+            }
+          }
+        }
+      }
+      return out;
+    }
+    var LIMIT_TIER_EXTERNAL = "external";
+    var LIMIT_TIER_BASE = "base";
+    var LIMIT_TIER_ALL = "all";
+    function parseLimitTiers(raw) {
+      if (!raw || raw === LIMIT_TIER_EXTERNAL) {
+        return /* @__PURE__ */ new Set([LIMIT_TIER_EXTERNAL]);
+      }
+      if (raw === LIMIT_TIER_ALL) {
+        return /* @__PURE__ */ new Set([LIMIT_TIER_ALL]);
+      }
+      if (raw === LIMIT_TIER_BASE) {
+        return /* @__PURE__ */ new Set([LIMIT_TIER_BASE]);
+      }
+      if (Array.isArray(raw)) {
+        return new Set(raw);
+      }
+      return /* @__PURE__ */ new Set([LIMIT_TIER_EXTERNAL]);
+    }
+    var NCR_LEVEL = Object.freeze({ allow: 0, leave: 1, remove: 2, throw: 3 });
+    var XML10_ALLOWED_C0 = /* @__PURE__ */ new Set([9, 10, 13]);
+    function parseNCRConfig(ncr) {
+      if (!ncr) {
+        return { xmlVersion: 1, onLevel: NCR_LEVEL.allow, nullLevel: NCR_LEVEL.remove };
+      }
+      const xmlVersion = ncr.xmlVersion === 1.1 ? 1.1 : 1;
+      const onLevel = NCR_LEVEL[ncr.onNCR ?? "allow"] ?? NCR_LEVEL.allow;
+      const nullLevel = NCR_LEVEL[ncr.nullNCR ?? "remove"] ?? NCR_LEVEL.remove;
+      const clampedNull = Math.max(nullLevel, NCR_LEVEL.remove);
+      return { xmlVersion, onLevel, nullLevel: clampedNull };
+    }
+    var EntityDecoderImpl = class EntityDecoderImpl {
+      _limit;
+      _maxTotalExpansions;
+      _maxExpandedLength;
+      _postCheck;
+      _limitTiers;
+      _numericAllowed;
+      _baseMap;
+      _externalMap;
+      _inputMap;
+      _totalExpansions;
+      _expandedLength;
+      _removeSet;
+      _leaveSet;
+      _ncrXmlVersion;
+      _ncrOnLevel;
+      _ncrNullLevel;
+      constructor(options = {}) {
+        this._limit = options.limit || {};
+        this._maxTotalExpansions = this._limit.maxTotalExpansions || 0;
+        this._maxExpandedLength = this._limit.maxExpandedLength || 0;
+        this._postCheck = typeof options.postCheck === "function" ? options.postCheck : (r5) => r5;
+        this._limitTiers = parseLimitTiers(this._limit.applyLimitsTo ?? LIMIT_TIER_EXTERNAL);
+        this._numericAllowed = options.numericAllowed ?? true;
+        this._baseMap = mergeEntityMaps(exports2.XML, options.namedEntities || null);
+        this._externalMap = /* @__PURE__ */ Object.create(null);
+        this._inputMap = /* @__PURE__ */ Object.create(null);
+        this._totalExpansions = 0;
+        this._expandedLength = 0;
+        this._removeSet = new Set(options.remove && Array.isArray(options.remove) ? options.remove : []);
+        this._leaveSet = new Set(options.leave && Array.isArray(options.leave) ? options.leave : []);
+        const ncrCfg = parseNCRConfig(options.ncr);
+        this._ncrXmlVersion = ncrCfg.xmlVersion;
+        this._ncrOnLevel = ncrCfg.onLevel;
+        this._ncrNullLevel = ncrCfg.nullLevel;
+      }
+      setExternalEntities(map2) {
+        if (map2) {
+          for (const key of Object.keys(map2)) {
+            validateEntityName(key);
+          }
+        }
+        this._externalMap = mergeEntityMaps(map2);
+      }
+      addExternalEntity(key, value) {
+        validateEntityName(key);
+        if (typeof value === "string" && value.indexOf("&") === -1) {
+          this._externalMap[key] = value;
+        }
+      }
+      addInputEntities(map2) {
+        this._totalExpansions = 0;
+        this._expandedLength = 0;
+        this._inputMap = mergeEntityMaps(map2);
+      }
+      reset() {
+        this._inputMap = /* @__PURE__ */ Object.create(null);
+        this._totalExpansions = 0;
+        this._expandedLength = 0;
+        return this;
+      }
+      setXmlVersion(version) {
+        this._ncrXmlVersion = version === "1.1" || version === 1.1 ? 1.1 : 1;
+      }
+      decode(str) {
+        if (typeof str !== "string" || str.length === 0) {
+          return str;
+        }
+        const original = str;
+        const chunks = [];
+        const len = str.length;
+        let last = 0;
+        let i5 = 0;
+        const limitExpansions = this._maxTotalExpansions > 0;
+        const limitLength = this._maxExpandedLength > 0;
+        const checkLimits = limitExpansions || limitLength;
+        while (i5 < len) {
+          if (str.charCodeAt(i5) !== 38) {
+            i5++;
+            continue;
+          }
+          let j5 = i5 + 1;
+          while (j5 < len && str.charCodeAt(j5) !== 59 && j5 - i5 <= 32) {
+            j5++;
+          }
+          if (j5 >= len || str.charCodeAt(j5) !== 59) {
+            i5++;
+            continue;
+          }
+          const token = str.slice(i5 + 1, j5);
+          if (token.length === 0) {
+            i5++;
+            continue;
+          }
+          let replacement;
+          let tier;
+          if (this._removeSet.has(token)) {
+            replacement = "";
+            if (tier === void 0) {
+              tier = LIMIT_TIER_EXTERNAL;
+            }
+          } else if (this._leaveSet.has(token)) {
+            i5++;
+            continue;
+          } else if (token.charCodeAt(0) === 35) {
+            const ncrResult = this._resolveNCR(token);
+            if (ncrResult === void 0) {
+              i5++;
+              continue;
+            }
+            replacement = ncrResult;
+            tier = LIMIT_TIER_BASE;
+          } else {
+            const resolved = this._resolveName(token);
+            replacement = resolved?.value;
+            tier = resolved?.tier;
+          }
+          if (replacement === void 0) {
+            i5++;
+            continue;
+          }
+          if (i5 > last) {
+            chunks.push(str.slice(last, i5));
+          }
+          chunks.push(replacement);
+          last = j5 + 1;
+          i5 = last;
+          if (checkLimits && this._tierCounts(tier)) {
+            if (limitExpansions) {
+              this._totalExpansions++;
+              if (this._totalExpansions > this._maxTotalExpansions) {
+                throw new Error(`[EntityReplacer] Entity expansion count limit exceeded: ${this._totalExpansions} > ${this._maxTotalExpansions}`);
+              }
+            }
+            if (limitLength) {
+              const delta = replacement.length - (token.length + 2);
+              if (delta > 0) {
+                this._expandedLength += delta;
+                if (this._expandedLength > this._maxExpandedLength) {
+                  throw new Error(`[EntityReplacer] Expanded content length limit exceeded: ${this._expandedLength} > ${this._maxExpandedLength}`);
+                }
+              }
+            }
+          }
+        }
+        if (last < len) {
+          chunks.push(str.slice(last));
+        }
+        const result = chunks.length === 0 ? str : chunks.join("");
+        return this._postCheck(result, original);
+      }
+      _tierCounts(tier) {
+        if (this._limitTiers.has(LIMIT_TIER_ALL)) {
+          return true;
+        }
+        return this._limitTiers.has(tier);
+      }
+      _resolveName(name) {
+        if (name in this._inputMap) {
+          return { value: this._inputMap[name], tier: LIMIT_TIER_EXTERNAL };
+        }
+        if (name in this._externalMap) {
+          return { value: this._externalMap[name], tier: LIMIT_TIER_EXTERNAL };
+        }
+        if (name in this._baseMap) {
+          return { value: this._baseMap[name], tier: LIMIT_TIER_BASE };
+        }
+        return void 0;
+      }
+      _classifyNCR(cp) {
+        if (cp === 0) {
+          return this._ncrNullLevel;
+        }
+        if (cp >= 55296 && cp <= 57343) {
+          return NCR_LEVEL.remove;
+        }
+        if (this._ncrXmlVersion === 1) {
+          if (cp >= 1 && cp <= 31 && !XML10_ALLOWED_C0.has(cp)) {
+            return NCR_LEVEL.remove;
+          }
+        }
+        return -1;
+      }
+      _applyNCRAction(action, token, cp) {
+        switch (action) {
+          case NCR_LEVEL.allow:
+            return String.fromCodePoint(cp);
+          case NCR_LEVEL.remove:
+            return "";
+          case NCR_LEVEL.leave:
+            return void 0;
+          case NCR_LEVEL.throw:
+            throw new Error(`[EntityDecoder] Prohibited numeric character reference &${token}; (U+${cp.toString(16).toUpperCase().padStart(4, "0")})`);
+          default:
+            return String.fromCodePoint(cp);
+        }
+      }
+      _resolveNCR(token) {
+        const second = token.charCodeAt(1);
+        let cp;
+        if (second === 120 || second === 88) {
+          cp = parseInt(token.slice(2), 16);
+        } else {
+          cp = parseInt(token.slice(1), 10);
+        }
+        if (Number.isNaN(cp) || cp < 0 || cp > 1114111) {
+          return void 0;
+        }
+        const minimum = this._classifyNCR(cp);
+        if (!this._numericAllowed && minimum < NCR_LEVEL.remove) {
+          return void 0;
+        }
+        const effective = minimum === -1 ? this._ncrOnLevel : Math.max(this._ncrOnLevel, minimum);
+        return this._applyNCRAction(effective, token, cp);
+      }
+    };
+    exports2.EntityDecoderImpl = EntityDecoderImpl;
+  }
+});
+
+// node_modules/.pnpm/@aws-sdk+xml-builder@3.972.22/node_modules/@aws-sdk/xml-builder/dist-cjs/xml-parser.js
 var require_xml_parser = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+xml-builder@3.972.18/node_modules/@aws-sdk/xml-builder/dist-cjs/xml-parser.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+xml-builder@3.972.22/node_modules/@aws-sdk/xml-builder/dist-cjs/xml-parser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.parseXML = parseXML3;
     var fast_xml_parser_1 = require_fxp();
+    var nodable_entities_1 = require_nodable_entities();
+    var entityDecoder = new nodable_entities_1.EntityDecoderImpl({
+      namedEntities: { ...nodable_entities_1.XML, ...nodable_entities_1.COMMON_HTML, ...nodable_entities_1.CURRENCY },
+      numericAllowed: true,
+      limit: {
+        maxTotalExpansions: Infinity
+      },
+      ncr: {
+        xmlVersion: 1.1
+      }
+    });
     var parser = new fast_xml_parser_1.XMLParser({
       attributeNamePrefix: "",
       processEntities: {
@@ -34730,6 +35477,21 @@ var require_xml_parser = __commonJS({
         maxTotalExpansions: Infinity
       },
       htmlEntities: true,
+      entityDecoder: {
+        setExternalEntities: (entities) => {
+          entityDecoder.setExternalEntities(entities);
+        },
+        addInputEntities: (entities) => {
+          entityDecoder.addInputEntities(entities);
+        },
+        reset: () => {
+          entityDecoder.reset();
+        },
+        decode: (text) => {
+          return entityDecoder.decode(text);
+        },
+        setXmlVersion: (version) => void {}
+      },
       ignoreAttributes: false,
       ignoreDeclaration: true,
       parseTagValue: false,
@@ -34737,17 +35499,15 @@ var require_xml_parser = __commonJS({
       tagValueProcessor: (_, val) => val.trim() === "" && val.includes("\n") ? "" : void 0,
       maxNestedTags: Infinity
     });
-    parser.addEntity("#xD", "\r");
-    parser.addEntity("#10", "\n");
     function parseXML3(xmlString) {
       return parser.parse(xmlString, true);
     }
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+xml-builder@3.972.18/node_modules/@aws-sdk/xml-builder/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+xml-builder@3.972.22/node_modules/@aws-sdk/xml-builder/dist-cjs/index.js
 var require_dist_cjs44 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+xml-builder@3.972.18/node_modules/@aws-sdk/xml-builder/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+xml-builder@3.972.22/node_modules/@aws-sdk/xml-builder/dist-cjs/index.js"(exports2) {
     "use strict";
     var xmlParser = require_xml_parser();
     var ATTR_ESCAPE_RE = /[&<>"]/g;
@@ -34840,8 +35600,8 @@ var require_dist_cjs44 = __commonJS({
       }
       l(input, listName, memberName, valueProvider) {
         if (input[listName] != null) {
-          const nodes = valueProvider();
-          nodes.map((node) => {
+          const nodes5 = valueProvider();
+          nodes5.map((node) => {
             node.withName(memberName);
             this.c(node);
           });
@@ -34849,9 +35609,9 @@ var require_dist_cjs44 = __commonJS({
       }
       lc(input, listName, memberName, valueProvider) {
         if (input[listName] != null) {
-          const nodes = valueProvider();
+          const nodes5 = valueProvider();
           const containerNode = new _XmlNode(memberName);
-          nodes.map((node) => {
+          nodes5.map((node) => {
             containerNode.c(node);
           });
           this.c(containerNode);
@@ -34876,10 +35636,10 @@ var require_dist_cjs44 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeDeserializer.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeDeserializer.js
 var import_xml_builder, import_smithy_client4, import_util_utf87, XmlShapeDeserializer;
 var init_XmlShapeDeserializer = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeDeserializer.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeDeserializer.js"() {
     import_xml_builder = __toESM(require_dist_cjs44());
     init_protocols();
     init_schema();
@@ -34943,8 +35703,8 @@ var init_XmlShapeDeserializer = __esm({
               return buffer2;
             }
             const sourceArray = Array.isArray(source) ? source : [source];
-            for (const v5 of sourceArray) {
-              buffer2.push(this.readSchema(listValue, v5));
+            for (const v of sourceArray) {
+              buffer2.push(this.readSchema(listValue, v));
             }
             return buffer2;
           }
@@ -35029,10 +35789,10 @@ var init_XmlShapeDeserializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QueryShapeSerializer.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QueryShapeSerializer.js
 var import_smithy_client5, import_util_base646, QueryShapeSerializer;
 var init_QueryShapeSerializer = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QueryShapeSerializer.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QueryShapeSerializer.js"() {
     init_protocols();
     init_schema();
     init_serde();
@@ -35135,8 +35895,9 @@ var init_QueryShapeSerializer = __esm({
             const memberSchema = ns.getValueSchema();
             const flat = ns.getMergedTraits().xmlFlattened;
             let i5 = 1;
-            for (const [k5, v5] of Object.entries(value)) {
-              if (v5 == null) {
+            for (const k5 in value) {
+              const v = value[k5];
+              if (v == null) {
                 continue;
               }
               const keyTraits = keySchema.getMergedTraits();
@@ -35146,7 +35907,7 @@ var init_QueryShapeSerializer = __esm({
               const valueSuffix = this.getKey("value", valTraits.xmlName, valTraits.ec2QueryName);
               const valueKey = flat ? `${prefix}${i5}.${valueSuffix}` : `${prefix}entry.${i5}.${valueSuffix}`;
               this.write(keySchema, k5, key);
-              this.write(memberSchema, v5, valueKey);
+              this.write(memberSchema, v, valueKey);
               ++i5;
             }
           }
@@ -35166,9 +35927,9 @@ var init_QueryShapeSerializer = __esm({
             if (!didWriteMember && ns.isUnionSchema()) {
               const { $unknown } = value;
               if (Array.isArray($unknown)) {
-                const [k5, v5] = $unknown;
+                const [k5, v] = $unknown;
                 const key = `${prefix}${k5}`;
-                this.write(15, v5, key);
+                this.write(15, v, key);
               }
             }
           }
@@ -35209,10 +35970,10 @@ var init_QueryShapeSerializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsQueryProtocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsQueryProtocol.js
 var AwsQueryProtocol;
 var init_AwsQueryProtocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsQueryProtocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsQueryProtocol.js"() {
     init_protocols();
     init_schema();
     init_ProtocolLib();
@@ -35349,10 +36110,10 @@ var init_AwsQueryProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsEc2QueryProtocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsEc2QueryProtocol.js
 var AwsEc2QueryProtocol;
 var init_AwsEc2QueryProtocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsEc2QueryProtocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsEc2QueryProtocol.js"() {
     init_AwsQueryProtocol();
     AwsEc2QueryProtocol = class extends AwsQueryProtocol {
       options;
@@ -35377,16 +36138,16 @@ var init_AwsEc2QueryProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QuerySerializerSettings.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QuerySerializerSettings.js
 var init_QuerySerializerSettings = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QuerySerializerSettings.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QuerySerializerSettings.js"() {
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/parseXmlBody.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/parseXmlBody.js
 var import_xml_builder2, import_smithy_client6, parseXmlBody, parseXmlErrorBody, loadRestXmlErrorCode;
 var init_parseXmlBody = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/parseXmlBody.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/parseXmlBody.js"() {
     import_xml_builder2 = __toESM(require_dist_cjs44());
     import_smithy_client6 = __toESM(require_dist_cjs34());
     init_common();
@@ -35435,10 +36196,10 @@ var init_parseXmlBody = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeSerializer.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeSerializer.js
 var import_xml_builder3, import_smithy_client7, import_util_base647, XmlShapeSerializer;
 var init_XmlShapeSerializer = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeSerializer.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeSerializer.js"() {
     import_xml_builder3 = __toESM(require_dist_cjs44());
     init_protocols();
     init_schema();
@@ -35519,16 +36280,16 @@ var init_XmlShapeSerializer = __esm({
         }
         const { $unknown } = value;
         if ($unknown && ns.isUnionSchema() && Array.isArray($unknown) && Object.keys(value).length === 1) {
-          const [k5, v5] = $unknown;
+          const [k5, v] = $unknown;
           const node = import_xml_builder3.XmlNode.of(k5);
-          if (typeof v5 !== "string") {
+          if (typeof v !== "string") {
             if (value instanceof import_xml_builder3.XmlNode || value instanceof import_xml_builder3.XmlText) {
               structXmlNode.addChildNode(value);
             } else {
               throw new Error(`@aws-sdk - $unknown union member in XML requires value of type string, @aws-sdk/xml-builder::XmlNode or XmlText.`);
             }
           }
-          this.writeSimpleInto(0, v5, node, xmlns);
+          this.writeSimpleInto(0, v, node, xmlns);
           structXmlNode.addChildNode(node);
         }
         if (xmlns) {
@@ -35613,7 +36374,8 @@ var init_XmlShapeSerializer = __esm({
           entry.addChildNode(valueNode);
         };
         if (flat) {
-          for (const [key, val] of Object.entries(map2)) {
+          for (const key in map2) {
+            const val = map2[key];
             if (sparse || val != null) {
               const entry = import_xml_builder3.XmlNode.of(mapTraits.xmlName ?? mapMember.getMemberName());
               addKeyValue(entry, key, val);
@@ -35629,7 +36391,8 @@ var init_XmlShapeSerializer = __esm({
             }
             container.addChildNode(mapNode);
           }
-          for (const [key, val] of Object.entries(map2)) {
+          for (const key in map2) {
+            const val = map2[key];
             if (sparse || val != null) {
               const entry = import_xml_builder3.XmlNode.of("entry");
               addKeyValue(entry, key, val);
@@ -35712,10 +36475,10 @@ var init_XmlShapeSerializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlCodec.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlCodec.js
 var XmlCodec;
 var init_XmlCodec = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlCodec.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlCodec.js"() {
     init_ConfigurableSerdeContext();
     init_XmlShapeDeserializer();
     init_XmlShapeSerializer();
@@ -35739,10 +36502,10 @@ var init_XmlCodec = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/AwsRestXmlProtocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/AwsRestXmlProtocol.js
 var AwsRestXmlProtocol;
 var init_AwsRestXmlProtocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/AwsRestXmlProtocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/AwsRestXmlProtocol.js"() {
     init_protocols();
     init_schema();
     init_ProtocolLib();
@@ -35767,7 +36530,6 @@ var init_AwsRestXmlProtocol = __esm({
         this.codec = new XmlCodec(settings);
         this.serializer = new HttpInterceptingShapeSerializer(this.codec.createSerializer(), settings);
         this.deserializer = new HttpInterceptingShapeDeserializer(this.codec.createDeserializer(), settings);
-        this.compositeErrorRegistry;
       }
       getPayloadCodec() {
         return this.codec;
@@ -35839,7 +36601,7 @@ var init_AwsRestXmlProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/index.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/index.js
 var protocols_exports2 = {};
 __export(protocols_exports2, {
   AwsEc2QueryProtocol: () => AwsEc2QueryProtocol,
@@ -35869,7 +36631,7 @@ __export(protocols_exports2, {
   parseXmlErrorBody: () => parseXmlErrorBody
 });
 var init_protocols2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.1/node_modules/@aws-sdk/core/dist-es/submodules/protocols/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/index.js"() {
     init_AwsSmithyRpcV2CborProtocol();
     init_coercing_serializers();
     init_AwsJson1_0Protocol();
@@ -35893,163 +36655,124 @@ var init_protocols2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/ruleset.js
-var u, v, w, x, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, _data, ruleSet;
-var init_ruleset = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/ruleset.js"() {
-    u = "required";
-    v = "fn";
-    w = "argv";
-    x = "ref";
-    a = true;
-    b = "isSet";
-    c = "booleanEquals";
-    d = "error";
-    e = "endpoint";
-    f = "tree";
-    g = "PartitionResult";
-    h = "getAttr";
-    i = { [u]: false, type: "string" };
-    j = { [u]: true, default: false, type: "boolean" };
-    k = { [x]: "Endpoint" };
-    l = { [v]: c, [w]: [{ [x]: "UseFIPS" }, true] };
-    m = { [v]: c, [w]: [{ [x]: "UseDualStack" }, true] };
-    n = {};
-    o = { [v]: h, [w]: [{ [x]: g }, "supportsFIPS"] };
-    p = { [x]: g };
-    q = { [v]: c, [w]: [true, { [v]: h, [w]: [p, "supportsDualStack"] }] };
-    r = [l];
-    s = [m];
-    t = [{ [x]: "Region" }];
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/bdd.js
+var import_util_endpoints, k, a, b, c, d, e, f, g, h, i, j, _data, root, r, nodes, bdd;
+var init_bdd = __esm({
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/bdd.js"() {
+    import_util_endpoints = __toESM(require_dist_cjs20());
+    k = "ref";
+    a = -1;
+    b = true;
+    c = "isSet";
+    d = "PartitionResult";
+    e = "booleanEquals";
+    f = "getAttr";
+    g = { [k]: "Endpoint" };
+    h = { [k]: d };
+    i = {};
+    j = [{ [k]: "Region" }];
     _data = {
-      version: "1.0",
-      parameters: { Region: i, UseDualStack: j, UseFIPS: j, Endpoint: i },
-      rules: [
-        {
-          conditions: [{ [v]: b, [w]: [k] }],
-          rules: [
-            { conditions: r, error: "Invalid Configuration: FIPS and custom endpoint are not supported", type: d },
-            { conditions: s, error: "Invalid Configuration: Dualstack and custom endpoint are not supported", type: d },
-            { endpoint: { url: k, properties: n, headers: n }, type: e }
-          ],
-          type: f
-        },
-        {
-          conditions: [{ [v]: b, [w]: t }],
-          rules: [
-            {
-              conditions: [{ [v]: "aws.partition", [w]: t, assign: g }],
-              rules: [
-                {
-                  conditions: [l, m],
-                  rules: [
-                    {
-                      conditions: [{ [v]: c, [w]: [a, o] }, q],
-                      rules: [
-                        {
-                          endpoint: {
-                            url: "https://oidc-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                            properties: n,
-                            headers: n
-                          },
-                          type: e
-                        }
-                      ],
-                      type: f
-                    },
-                    { error: "FIPS and DualStack are enabled, but this partition does not support one or both", type: d }
-                  ],
-                  type: f
-                },
-                {
-                  conditions: r,
-                  rules: [
-                    {
-                      conditions: [{ [v]: c, [w]: [o, a] }],
-                      rules: [
-                        {
-                          conditions: [{ [v]: "stringEquals", [w]: [{ [v]: h, [w]: [p, "name"] }, "aws-us-gov"] }],
-                          endpoint: { url: "https://oidc.{Region}.amazonaws.com", properties: n, headers: n },
-                          type: e
-                        },
-                        {
-                          endpoint: {
-                            url: "https://oidc-fips.{Region}.{PartitionResult#dnsSuffix}",
-                            properties: n,
-                            headers: n
-                          },
-                          type: e
-                        }
-                      ],
-                      type: f
-                    },
-                    { error: "FIPS is enabled but this partition does not support FIPS", type: d }
-                  ],
-                  type: f
-                },
-                {
-                  conditions: s,
-                  rules: [
-                    {
-                      conditions: [q],
-                      rules: [
-                        {
-                          endpoint: {
-                            url: "https://oidc.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                            properties: n,
-                            headers: n
-                          },
-                          type: e
-                        }
-                      ],
-                      type: f
-                    },
-                    { error: "DualStack is enabled but this partition does not support DualStack", type: d }
-                  ],
-                  type: f
-                },
-                {
-                  endpoint: { url: "https://oidc.{Region}.{PartitionResult#dnsSuffix}", properties: n, headers: n },
-                  type: e
-                }
-              ],
-              type: f
-            }
-          ],
-          type: f
-        },
-        { error: "Invalid Configuration: Missing Region", type: d }
+      conditions: [
+        [c, [g]],
+        [c, j],
+        ["aws.partition", j, d],
+        [e, [{ [k]: "UseFIPS" }, b]],
+        [e, [{ [k]: "UseDualStack" }, b]],
+        [e, [{ fn: f, argv: [h, "supportsDualStack"] }, b]],
+        [e, [{ fn: f, argv: [h, "supportsFIPS"] }, b]],
+        ["stringEquals", [{ fn: f, argv: [h, "name"] }, "aws-us-gov"]]
+      ],
+      results: [
+        [a],
+        [a, "Invalid Configuration: FIPS and custom endpoint are not supported"],
+        [a, "Invalid Configuration: Dualstack and custom endpoint are not supported"],
+        [g, i],
+        ["https://oidc-fips.{Region}.{PartitionResult#dualStackDnsSuffix}", i],
+        [a, "FIPS and DualStack are enabled, but this partition does not support one or both"],
+        ["https://oidc.{Region}.amazonaws.com", i],
+        ["https://oidc-fips.{Region}.{PartitionResult#dnsSuffix}", i],
+        [a, "FIPS is enabled but this partition does not support FIPS"],
+        ["https://oidc.{Region}.{PartitionResult#dualStackDnsSuffix}", i],
+        [a, "DualStack is enabled but this partition does not support DualStack"],
+        ["https://oidc.{Region}.{PartitionResult#dnsSuffix}", i],
+        [a, "Invalid Configuration: Missing Region"]
       ]
     };
-    ruleSet = _data;
+    root = 2;
+    r = 1e8;
+    nodes = new Int32Array([
+      -1,
+      1,
+      -1,
+      0,
+      13,
+      3,
+      1,
+      4,
+      r + 12,
+      2,
+      5,
+      r + 12,
+      3,
+      8,
+      6,
+      4,
+      7,
+      r + 11,
+      5,
+      r + 9,
+      r + 10,
+      4,
+      11,
+      9,
+      6,
+      10,
+      r + 8,
+      7,
+      r + 6,
+      r + 7,
+      5,
+      12,
+      r + 5,
+      6,
+      r + 4,
+      r + 5,
+      3,
+      r + 1,
+      14,
+      4,
+      r + 2,
+      r + 3
+    ]);
+    bdd = import_util_endpoints.BinaryDecisionDiagram.from(nodes, root, _data.conditions, _data.results);
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/endpointResolver.js
-var import_util_endpoints, import_util_endpoints2, cache, defaultEndpointResolver;
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/endpointResolver.js
+var import_util_endpoints2, import_util_endpoints3, cache, defaultEndpointResolver;
 var init_endpointResolver = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/endpointResolver.js"() {
-    import_util_endpoints = __toESM(require_dist_cjs21());
-    import_util_endpoints2 = __toESM(require_dist_cjs20());
-    init_ruleset();
-    cache = new import_util_endpoints2.EndpointCache({
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/endpointResolver.js"() {
+    import_util_endpoints2 = __toESM(require_dist_cjs21());
+    import_util_endpoints3 = __toESM(require_dist_cjs20());
+    init_bdd();
+    cache = new import_util_endpoints3.EndpointCache({
       size: 50,
       params: ["Endpoint", "Region", "UseDualStack", "UseFIPS"]
     });
     defaultEndpointResolver = (endpointParams, context = {}) => {
-      return cache.get(endpointParams, () => (0, import_util_endpoints2.resolveEndpoint)(ruleSet, {
+      return cache.get(endpointParams, () => (0, import_util_endpoints3.decideEndpoint)(bdd, {
         endpointParams,
         logger: context.logger
       }));
     };
-    import_util_endpoints2.customEndpointFunctions.aws = import_util_endpoints.awsEndpointFunctions;
+    import_util_endpoints3.customEndpointFunctions.aws = import_util_endpoints2.awsEndpointFunctions;
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/SSOOIDCServiceException.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/SSOOIDCServiceException.js
 var import_smithy_client8, SSOOIDCServiceException;
 var init_SSOOIDCServiceException = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/SSOOIDCServiceException.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/SSOOIDCServiceException.js"() {
     import_smithy_client8 = __toESM(require_dist_cjs34());
     SSOOIDCServiceException = class _SSOOIDCServiceException extends import_smithy_client8.ServiceException {
       constructor(options) {
@@ -36060,10 +36783,10 @@ var init_SSOOIDCServiceException = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/errors.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/errors.js
 var AccessDeniedException, AuthorizationPendingException, ExpiredTokenException, InternalServerException, InvalidClientException, InvalidGrantException, InvalidRequestException, InvalidScopeException, SlowDownException, UnauthorizedClientException, UnsupportedGrantTypeException;
 var init_errors = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/errors.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/errors.js"() {
     init_SSOOIDCServiceException();
     AccessDeniedException = class _AccessDeniedException extends SSOOIDCServiceException {
       name = "AccessDeniedException";
@@ -36248,10 +36971,10 @@ var init_errors = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/schemas/schemas_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/schemas/schemas_0.js
 var _ADE, _APE, _AT, _CS, _CT, _CTR, _CTRr, _CV, _ETE, _ICE, _IGE, _IRE, _ISE, _ISEn, _IT, _RT, _SDE, _UCE, _UGTE, _aT, _c, _cI, _cS, _cV, _co, _dC, _e, _eI, _ed, _gT, _h, _hE, _iT, _r, _rT, _rU, _s, _sc, _se, _tT, n0, _s_registry, SSOOIDCServiceException$, n0_registry, AccessDeniedException$, AuthorizationPendingException$, ExpiredTokenException$, InternalServerException$, InvalidClientException$, InvalidGrantException$, InvalidRequestException$, InvalidScopeException$, SlowDownException$, UnauthorizedClientException$, UnsupportedGrantTypeException$, errorTypeRegistries, AccessToken, ClientSecret, CodeVerifier, IdToken, RefreshToken, CreateTokenRequest$, CreateTokenResponse$, Scopes, CreateToken$;
 var init_schemas_0 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/schemas/schemas_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/schemas/schemas_0.js"() {
     init_schema();
     init_errors();
     init_SSOOIDCServiceException();
@@ -36392,10 +37115,10 @@ var init_schemas_0 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.shared.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.shared.js
 var import_smithy_client9, import_url_parser2, import_util_base648, import_util_utf88, getRuntimeConfig;
 var init_runtimeConfig_shared = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.shared.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.shared.js"() {
     init_httpAuthSchemes2();
     init_protocols2();
     init_dist_es();
@@ -36444,10 +37167,10 @@ var init_runtimeConfig_shared = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.js
-var import_util_user_agent_node, import_config_resolver, import_hash_node, import_middleware_retry, import_node_config_provider, import_node_http_handler, import_smithy_client10, import_util_body_length_node, import_util_defaults_mode_node, import_util_retry, getRuntimeConfig2;
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.js
+var import_util_user_agent_node, import_config_resolver, import_hash_node, import_middleware_retry, import_node_config_provider, import_node_http_handler, import_smithy_client10, import_util_body_length_node, import_util_defaults_mode_node, import_util_retry2, getRuntimeConfig2;
 var init_runtimeConfig = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.js"() {
     init_package();
     init_client();
     init_httpAuthSchemes2();
@@ -36460,7 +37183,7 @@ var init_runtimeConfig = __esm({
     import_smithy_client10 = __toESM(require_dist_cjs34());
     import_util_body_length_node = __toESM(require_dist_cjs42());
     import_util_defaults_mode_node = __toESM(require_dist_cjs43());
-    import_util_retry = __toESM(require_dist_cjs23());
+    import_util_retry2 = __toESM(require_dist_cjs23());
     init_runtimeConfig_shared();
     getRuntimeConfig2 = (config) => {
       (0, import_smithy_client10.emitWarningIfUnsupportedVersion)(process.version);
@@ -36485,7 +37208,7 @@ var init_runtimeConfig = __esm({
         requestHandler: import_node_http_handler.NodeHttpHandler.create(config?.requestHandler ?? defaultConfigProvider),
         retryMode: config?.retryMode ?? (0, import_node_config_provider.loadConfig)({
           ...import_middleware_retry.NODE_RETRY_MODE_CONFIG_OPTIONS,
-          default: async () => (await defaultConfigProvider()).retryMode || import_util_retry.DEFAULT_RETRY_MODE
+          default: async () => (await defaultConfigProvider()).retryMode || import_util_retry2.DEFAULT_RETRY_MODE
         }, config),
         sha256: config?.sha256 ?? import_hash_node.Hash.bind(null, "sha256"),
         streamCollector: config?.streamCollector ?? import_node_http_handler.streamCollector,
@@ -36497,9 +37220,9 @@ var init_runtimeConfig = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+region-config-resolver@3.972.12/node_modules/@aws-sdk/region-config-resolver/dist-cjs/regionConfig/stsRegionDefaultResolver.js
+// node_modules/.pnpm/@aws-sdk+region-config-resolver@3.972.13/node_modules/@aws-sdk/region-config-resolver/dist-cjs/regionConfig/stsRegionDefaultResolver.js
 var require_stsRegionDefaultResolver = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+region-config-resolver@3.972.12/node_modules/@aws-sdk/region-config-resolver/dist-cjs/regionConfig/stsRegionDefaultResolver.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+region-config-resolver@3.972.13/node_modules/@aws-sdk/region-config-resolver/dist-cjs/regionConfig/stsRegionDefaultResolver.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.warning = void 0;
@@ -36523,9 +37246,9 @@ var require_stsRegionDefaultResolver = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+region-config-resolver@3.972.12/node_modules/@aws-sdk/region-config-resolver/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+region-config-resolver@3.972.13/node_modules/@aws-sdk/region-config-resolver/dist-cjs/index.js
 var require_dist_cjs45 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+region-config-resolver@3.972.12/node_modules/@aws-sdk/region-config-resolver/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+region-config-resolver@3.972.13/node_modules/@aws-sdk/region-config-resolver/dist-cjs/index.js"(exports2) {
     "use strict";
     var stsRegionDefaultResolver2 = require_stsRegionDefaultResolver();
     var configResolver = require_dist_cjs26();
@@ -36561,10 +37284,10 @@ var require_dist_cjs45 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthExtensionConfiguration.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthExtensionConfiguration.js
 var getHttpAuthExtensionConfiguration, resolveHttpAuthRuntimeConfig;
 var init_httpAuthExtensionConfiguration = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthExtensionConfiguration.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthExtensionConfiguration.js"() {
     getHttpAuthExtensionConfiguration = (runtimeConfig) => {
       const _httpAuthSchemes = runtimeConfig.httpAuthSchemes;
       let _httpAuthSchemeProvider = runtimeConfig.httpAuthSchemeProvider;
@@ -36605,10 +37328,10 @@ var init_httpAuthExtensionConfiguration = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeExtensions.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeExtensions.js
 var import_region_config_resolver, import_protocol_http12, import_smithy_client11, resolveRuntimeExtensions;
 var init_runtimeExtensions = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeExtensions.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeExtensions.js"() {
     import_region_config_resolver = __toESM(require_dist_cjs45());
     import_protocol_http12 = __toESM(require_dist_cjs2());
     import_smithy_client11 = __toESM(require_dist_cjs34());
@@ -36621,10 +37344,10 @@ var init_runtimeExtensions = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDCClient.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDCClient.js
 var import_middleware_host_header, import_middleware_logger, import_middleware_recursion_detection, import_middleware_user_agent, import_config_resolver2, import_middleware_content_length, import_middleware_endpoint, import_middleware_retry2, import_smithy_client12, SSOOIDCClient;
 var init_SSOOIDCClient = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDCClient.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDCClient.js"() {
     import_middleware_host_header = __toESM(require_dist_cjs3());
     import_middleware_logger = __toESM(require_dist_cjs4());
     import_middleware_recursion_detection = __toESM(require_dist_cjs5());
@@ -36677,25 +37400,25 @@ var init_SSOOIDCClient = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/CreateTokenCommand.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/CreateTokenCommand.js
 var import_middleware_endpoint2, import_smithy_client13, CreateTokenCommand;
 var init_CreateTokenCommand = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/CreateTokenCommand.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/CreateTokenCommand.js"() {
     import_middleware_endpoint2 = __toESM(require_dist_cjs32());
     import_smithy_client13 = __toESM(require_dist_cjs34());
     init_EndpointParameters();
     init_schemas_0();
-    CreateTokenCommand = class extends import_smithy_client13.Command.classBuilder().ep(commonParams).m(function(Command2, cs, config, o5) {
+    CreateTokenCommand = class extends import_smithy_client13.Command.classBuilder().ep(commonParams).m(function(Command2, cs, config, o2) {
       return [(0, import_middleware_endpoint2.getEndpointPlugin)(config, Command2.getEndpointParameterInstructions())];
     }).s("AWSSSOOIDCService", "CreateToken", {}).n("SSOOIDCClient", "CreateTokenCommand").sc(CreateToken$).build() {
     };
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDC.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDC.js
 var import_smithy_client14, commands, SSOOIDC;
 var init_SSOOIDC = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDC.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDC.js"() {
     import_smithy_client14 = __toESM(require_dist_cjs34());
     init_CreateTokenCommand();
     init_SSOOIDCClient();
@@ -36708,17 +37431,17 @@ var init_SSOOIDC = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/index.js
 var init_commands = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/index.js"() {
     init_CreateTokenCommand();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/enums.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/enums.js
 var AccessDeniedExceptionReason, InvalidRequestExceptionReason;
 var init_enums = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/enums.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/enums.js"() {
     AccessDeniedExceptionReason = {
       KMS_ACCESS_DENIED: "KMS_AccessDeniedException"
     };
@@ -36731,13 +37454,13 @@ var init_enums = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/models_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/models_0.js
 var init_models_0 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/models_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/models_0.js"() {
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/index.js
 var sso_oidc_exports = {};
 __export(sso_oidc_exports, {
   $Command: () => import_smithy_client13.Command,
@@ -36777,7 +37500,7 @@ __export(sso_oidc_exports, {
   errorTypeRegistries: () => errorTypeRegistries
 });
 var init_sso_oidc = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/index.js"() {
     init_SSOOIDCClient();
     init_SSOOIDC();
     init_commands();
@@ -36789,9 +37512,9 @@ var init_sso_oidc = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+token-providers@3.1032.0/node_modules/@aws-sdk/token-providers/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+token-providers@3.1039.0/node_modules/@aws-sdk/token-providers/dist-cjs/index.js
 var require_dist_cjs46 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+token-providers@3.1032.0/node_modules/@aws-sdk/token-providers/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+token-providers@3.1039.0/node_modules/@aws-sdk/token-providers/dist-cjs/index.js"(exports2) {
     "use strict";
     var client = (init_client(), __toCommonJS(client_exports));
     var httpAuthSchemes = (init_httpAuthSchemes2(), __toCommonJS(httpAuthSchemes_exports));
@@ -36936,7 +37659,7 @@ var require_dist_cjs46 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthSchemeProvider.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthSchemeProvider.js
 function createAwsAuthSigv4HttpAuthOption2(authParameters) {
   return {
     schemeId: "aws.auth#sigv4",
@@ -36959,7 +37682,7 @@ function createSmithyApiNoAuthHttpAuthOption2(authParameters) {
 }
 var import_util_middleware7, defaultSSOHttpAuthSchemeParametersProvider, defaultSSOHttpAuthSchemeProvider, resolveHttpAuthSchemeConfig2;
 var init_httpAuthSchemeProvider2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthSchemeProvider.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthSchemeProvider.js"() {
     init_httpAuthSchemes2();
     import_util_middleware7 = __toESM(require_dist_cjs6());
     defaultSSOHttpAuthSchemeParametersProvider = async (config, context, input) => {
@@ -36992,10 +37715,10 @@ var init_httpAuthSchemeProvider2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/EndpointParameters.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/EndpointParameters.js
 var resolveClientEndpointParameters2, commonParams2;
 var init_EndpointParameters2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/EndpointParameters.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/EndpointParameters.js"() {
     resolveClientEndpointParameters2 = (options) => {
       return Object.assign(options, {
         useDualstackEndpoint: options.useDualstackEndpoint ?? false,
@@ -37012,163 +37735,124 @@ var init_EndpointParameters2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/ruleset.js
-var u2, v2, w2, x2, a2, b2, c2, d2, e2, f2, g2, h2, i2, j2, k2, l2, m2, n2, o2, p2, q2, r2, s2, t2, _data2, ruleSet2;
-var init_ruleset2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/ruleset.js"() {
-    u2 = "required";
-    v2 = "fn";
-    w2 = "argv";
-    x2 = "ref";
-    a2 = true;
-    b2 = "isSet";
-    c2 = "booleanEquals";
-    d2 = "error";
-    e2 = "endpoint";
-    f2 = "tree";
-    g2 = "PartitionResult";
-    h2 = "getAttr";
-    i2 = { [u2]: false, type: "string" };
-    j2 = { [u2]: true, default: false, type: "boolean" };
-    k2 = { [x2]: "Endpoint" };
-    l2 = { [v2]: c2, [w2]: [{ [x2]: "UseFIPS" }, true] };
-    m2 = { [v2]: c2, [w2]: [{ [x2]: "UseDualStack" }, true] };
-    n2 = {};
-    o2 = { [v2]: h2, [w2]: [{ [x2]: g2 }, "supportsFIPS"] };
-    p2 = { [x2]: g2 };
-    q2 = { [v2]: c2, [w2]: [true, { [v2]: h2, [w2]: [p2, "supportsDualStack"] }] };
-    r2 = [l2];
-    s2 = [m2];
-    t2 = [{ [x2]: "Region" }];
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/bdd.js
+var import_util_endpoints4, k2, a2, b2, c2, d2, e2, f2, g2, h2, i2, j2, _data2, root2, r2, nodes2, bdd2;
+var init_bdd2 = __esm({
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/bdd.js"() {
+    import_util_endpoints4 = __toESM(require_dist_cjs20());
+    k2 = "ref";
+    a2 = -1;
+    b2 = true;
+    c2 = "isSet";
+    d2 = "PartitionResult";
+    e2 = "booleanEquals";
+    f2 = "getAttr";
+    g2 = { [k2]: "Endpoint" };
+    h2 = { [k2]: d2 };
+    i2 = {};
+    j2 = [{ [k2]: "Region" }];
     _data2 = {
-      version: "1.0",
-      parameters: { Region: i2, UseDualStack: j2, UseFIPS: j2, Endpoint: i2 },
-      rules: [
-        {
-          conditions: [{ [v2]: b2, [w2]: [k2] }],
-          rules: [
-            { conditions: r2, error: "Invalid Configuration: FIPS and custom endpoint are not supported", type: d2 },
-            { conditions: s2, error: "Invalid Configuration: Dualstack and custom endpoint are not supported", type: d2 },
-            { endpoint: { url: k2, properties: n2, headers: n2 }, type: e2 }
-          ],
-          type: f2
-        },
-        {
-          conditions: [{ [v2]: b2, [w2]: t2 }],
-          rules: [
-            {
-              conditions: [{ [v2]: "aws.partition", [w2]: t2, assign: g2 }],
-              rules: [
-                {
-                  conditions: [l2, m2],
-                  rules: [
-                    {
-                      conditions: [{ [v2]: c2, [w2]: [a2, o2] }, q2],
-                      rules: [
-                        {
-                          endpoint: {
-                            url: "https://portal.sso-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                            properties: n2,
-                            headers: n2
-                          },
-                          type: e2
-                        }
-                      ],
-                      type: f2
-                    },
-                    { error: "FIPS and DualStack are enabled, but this partition does not support one or both", type: d2 }
-                  ],
-                  type: f2
-                },
-                {
-                  conditions: r2,
-                  rules: [
-                    {
-                      conditions: [{ [v2]: c2, [w2]: [o2, a2] }],
-                      rules: [
-                        {
-                          conditions: [{ [v2]: "stringEquals", [w2]: [{ [v2]: h2, [w2]: [p2, "name"] }, "aws-us-gov"] }],
-                          endpoint: { url: "https://portal.sso.{Region}.amazonaws.com", properties: n2, headers: n2 },
-                          type: e2
-                        },
-                        {
-                          endpoint: {
-                            url: "https://portal.sso-fips.{Region}.{PartitionResult#dnsSuffix}",
-                            properties: n2,
-                            headers: n2
-                          },
-                          type: e2
-                        }
-                      ],
-                      type: f2
-                    },
-                    { error: "FIPS is enabled but this partition does not support FIPS", type: d2 }
-                  ],
-                  type: f2
-                },
-                {
-                  conditions: s2,
-                  rules: [
-                    {
-                      conditions: [q2],
-                      rules: [
-                        {
-                          endpoint: {
-                            url: "https://portal.sso.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                            properties: n2,
-                            headers: n2
-                          },
-                          type: e2
-                        }
-                      ],
-                      type: f2
-                    },
-                    { error: "DualStack is enabled but this partition does not support DualStack", type: d2 }
-                  ],
-                  type: f2
-                },
-                {
-                  endpoint: { url: "https://portal.sso.{Region}.{PartitionResult#dnsSuffix}", properties: n2, headers: n2 },
-                  type: e2
-                }
-              ],
-              type: f2
-            }
-          ],
-          type: f2
-        },
-        { error: "Invalid Configuration: Missing Region", type: d2 }
+      conditions: [
+        [c2, [g2]],
+        [c2, j2],
+        ["aws.partition", j2, d2],
+        [e2, [{ [k2]: "UseFIPS" }, b2]],
+        [e2, [{ [k2]: "UseDualStack" }, b2]],
+        [e2, [{ fn: f2, argv: [h2, "supportsDualStack"] }, b2]],
+        [e2, [{ fn: f2, argv: [h2, "supportsFIPS"] }, b2]],
+        ["stringEquals", [{ fn: f2, argv: [h2, "name"] }, "aws-us-gov"]]
+      ],
+      results: [
+        [a2],
+        [a2, "Invalid Configuration: FIPS and custom endpoint are not supported"],
+        [a2, "Invalid Configuration: Dualstack and custom endpoint are not supported"],
+        [g2, i2],
+        ["https://portal.sso-fips.{Region}.{PartitionResult#dualStackDnsSuffix}", i2],
+        [a2, "FIPS and DualStack are enabled, but this partition does not support one or both"],
+        ["https://portal.sso.{Region}.amazonaws.com", i2],
+        ["https://portal.sso-fips.{Region}.{PartitionResult#dnsSuffix}", i2],
+        [a2, "FIPS is enabled but this partition does not support FIPS"],
+        ["https://portal.sso.{Region}.{PartitionResult#dualStackDnsSuffix}", i2],
+        [a2, "DualStack is enabled but this partition does not support DualStack"],
+        ["https://portal.sso.{Region}.{PartitionResult#dnsSuffix}", i2],
+        [a2, "Invalid Configuration: Missing Region"]
       ]
     };
-    ruleSet2 = _data2;
+    root2 = 2;
+    r2 = 1e8;
+    nodes2 = new Int32Array([
+      -1,
+      1,
+      -1,
+      0,
+      13,
+      3,
+      1,
+      4,
+      r2 + 12,
+      2,
+      5,
+      r2 + 12,
+      3,
+      8,
+      6,
+      4,
+      7,
+      r2 + 11,
+      5,
+      r2 + 9,
+      r2 + 10,
+      4,
+      11,
+      9,
+      6,
+      10,
+      r2 + 8,
+      7,
+      r2 + 6,
+      r2 + 7,
+      5,
+      12,
+      r2 + 5,
+      6,
+      r2 + 4,
+      r2 + 5,
+      3,
+      r2 + 1,
+      14,
+      4,
+      r2 + 2,
+      r2 + 3
+    ]);
+    bdd2 = import_util_endpoints4.BinaryDecisionDiagram.from(nodes2, root2, _data2.conditions, _data2.results);
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/endpointResolver.js
-var import_util_endpoints3, import_util_endpoints4, cache2, defaultEndpointResolver2;
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/endpointResolver.js
+var import_util_endpoints5, import_util_endpoints6, cache2, defaultEndpointResolver2;
 var init_endpointResolver2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/endpointResolver.js"() {
-    import_util_endpoints3 = __toESM(require_dist_cjs21());
-    import_util_endpoints4 = __toESM(require_dist_cjs20());
-    init_ruleset2();
-    cache2 = new import_util_endpoints4.EndpointCache({
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/endpointResolver.js"() {
+    import_util_endpoints5 = __toESM(require_dist_cjs21());
+    import_util_endpoints6 = __toESM(require_dist_cjs20());
+    init_bdd2();
+    cache2 = new import_util_endpoints6.EndpointCache({
       size: 50,
       params: ["Endpoint", "Region", "UseDualStack", "UseFIPS"]
     });
     defaultEndpointResolver2 = (endpointParams, context = {}) => {
-      return cache2.get(endpointParams, () => (0, import_util_endpoints4.resolveEndpoint)(ruleSet2, {
+      return cache2.get(endpointParams, () => (0, import_util_endpoints6.decideEndpoint)(bdd2, {
         endpointParams,
         logger: context.logger
       }));
     };
-    import_util_endpoints4.customEndpointFunctions.aws = import_util_endpoints3.awsEndpointFunctions;
+    import_util_endpoints6.customEndpointFunctions.aws = import_util_endpoints5.awsEndpointFunctions;
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/SSOServiceException.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/SSOServiceException.js
 var import_smithy_client15, SSOServiceException;
 var init_SSOServiceException = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/SSOServiceException.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/SSOServiceException.js"() {
     import_smithy_client15 = __toESM(require_dist_cjs34());
     SSOServiceException = class _SSOServiceException extends import_smithy_client15.ServiceException {
       constructor(options) {
@@ -37179,10 +37863,10 @@ var init_SSOServiceException = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/errors.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/errors.js
 var InvalidRequestException2, ResourceNotFoundException, TooManyRequestsException, UnauthorizedException;
 var init_errors2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/errors.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/errors.js"() {
     init_SSOServiceException();
     InvalidRequestException2 = class _InvalidRequestException extends SSOServiceException {
       name = "InvalidRequestException";
@@ -37235,10 +37919,10 @@ var init_errors2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/schemas/schemas_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/schemas/schemas_0.js
 var _ATT, _GRC, _GRCR, _GRCRe, _IRE2, _RC, _RNFE, _SAKT, _STT, _TMRE, _UE, _aI, _aKI, _aT2, _ai, _c2, _e2, _ex, _h2, _hE2, _hH, _hQ, _m, _rC, _rN, _rn, _s2, _sAK, _sT, _xasbt, n02, _s_registry2, SSOServiceException$, n0_registry2, InvalidRequestException$2, ResourceNotFoundException$, TooManyRequestsException$, UnauthorizedException$, errorTypeRegistries2, AccessTokenType, SecretAccessKeyType, SessionTokenType, GetRoleCredentialsRequest$, GetRoleCredentialsResponse$, RoleCredentials$, GetRoleCredentials$;
 var init_schemas_02 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/schemas/schemas_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/schemas/schemas_0.js"() {
     init_schema();
     init_errors2();
     init_SSOServiceException();
@@ -37329,10 +38013,10 @@ var init_schemas_02 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.shared.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.shared.js
 var import_smithy_client16, import_url_parser3, import_util_base649, import_util_utf89, getRuntimeConfig3;
 var init_runtimeConfig_shared2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.shared.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.shared.js"() {
     init_httpAuthSchemes2();
     init_protocols2();
     init_dist_es();
@@ -37381,10 +38065,10 @@ var init_runtimeConfig_shared2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.js
-var import_util_user_agent_node2, import_config_resolver3, import_hash_node2, import_middleware_retry3, import_node_config_provider2, import_node_http_handler2, import_smithy_client17, import_util_body_length_node2, import_util_defaults_mode_node2, import_util_retry2, getRuntimeConfig4;
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.js
+var import_util_user_agent_node2, import_config_resolver3, import_hash_node2, import_middleware_retry3, import_node_config_provider2, import_node_http_handler2, import_smithy_client17, import_util_body_length_node2, import_util_defaults_mode_node2, import_util_retry3, getRuntimeConfig4;
 var init_runtimeConfig2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.js"() {
     init_package();
     init_client();
     init_httpAuthSchemes2();
@@ -37397,7 +38081,7 @@ var init_runtimeConfig2 = __esm({
     import_smithy_client17 = __toESM(require_dist_cjs34());
     import_util_body_length_node2 = __toESM(require_dist_cjs42());
     import_util_defaults_mode_node2 = __toESM(require_dist_cjs43());
-    import_util_retry2 = __toESM(require_dist_cjs23());
+    import_util_retry3 = __toESM(require_dist_cjs23());
     init_runtimeConfig_shared2();
     getRuntimeConfig4 = (config) => {
       (0, import_smithy_client17.emitWarningIfUnsupportedVersion)(process.version);
@@ -37422,7 +38106,7 @@ var init_runtimeConfig2 = __esm({
         requestHandler: import_node_http_handler2.NodeHttpHandler.create(config?.requestHandler ?? defaultConfigProvider),
         retryMode: config?.retryMode ?? (0, import_node_config_provider2.loadConfig)({
           ...import_middleware_retry3.NODE_RETRY_MODE_CONFIG_OPTIONS,
-          default: async () => (await defaultConfigProvider()).retryMode || import_util_retry2.DEFAULT_RETRY_MODE
+          default: async () => (await defaultConfigProvider()).retryMode || import_util_retry3.DEFAULT_RETRY_MODE
         }, config),
         sha256: config?.sha256 ?? import_hash_node2.Hash.bind(null, "sha256"),
         streamCollector: config?.streamCollector ?? import_node_http_handler2.streamCollector,
@@ -37434,10 +38118,10 @@ var init_runtimeConfig2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthExtensionConfiguration.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthExtensionConfiguration.js
 var getHttpAuthExtensionConfiguration2, resolveHttpAuthRuntimeConfig2;
 var init_httpAuthExtensionConfiguration2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthExtensionConfiguration.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthExtensionConfiguration.js"() {
     getHttpAuthExtensionConfiguration2 = (runtimeConfig) => {
       const _httpAuthSchemes = runtimeConfig.httpAuthSchemes;
       let _httpAuthSchemeProvider = runtimeConfig.httpAuthSchemeProvider;
@@ -37478,10 +38162,10 @@ var init_httpAuthExtensionConfiguration2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeExtensions.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeExtensions.js
 var import_region_config_resolver2, import_protocol_http13, import_smithy_client18, resolveRuntimeExtensions2;
 var init_runtimeExtensions2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeExtensions.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeExtensions.js"() {
     import_region_config_resolver2 = __toESM(require_dist_cjs45());
     import_protocol_http13 = __toESM(require_dist_cjs2());
     import_smithy_client18 = __toESM(require_dist_cjs34());
@@ -37494,10 +38178,10 @@ var init_runtimeExtensions2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSOClient.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSOClient.js
 var import_middleware_host_header2, import_middleware_logger2, import_middleware_recursion_detection2, import_middleware_user_agent2, import_config_resolver4, import_middleware_content_length2, import_middleware_endpoint3, import_middleware_retry4, import_smithy_client19, SSOClient;
 var init_SSOClient = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSOClient.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSOClient.js"() {
     import_middleware_host_header2 = __toESM(require_dist_cjs3());
     import_middleware_logger2 = __toESM(require_dist_cjs4());
     import_middleware_recursion_detection2 = __toESM(require_dist_cjs5());
@@ -37550,25 +38234,25 @@ var init_SSOClient = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/GetRoleCredentialsCommand.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/GetRoleCredentialsCommand.js
 var import_middleware_endpoint4, import_smithy_client20, GetRoleCredentialsCommand;
 var init_GetRoleCredentialsCommand = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/GetRoleCredentialsCommand.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/GetRoleCredentialsCommand.js"() {
     import_middleware_endpoint4 = __toESM(require_dist_cjs32());
     import_smithy_client20 = __toESM(require_dist_cjs34());
     init_EndpointParameters2();
     init_schemas_02();
-    GetRoleCredentialsCommand = class extends import_smithy_client20.Command.classBuilder().ep(commonParams2).m(function(Command2, cs, config, o5) {
+    GetRoleCredentialsCommand = class extends import_smithy_client20.Command.classBuilder().ep(commonParams2).m(function(Command2, cs, config, o2) {
       return [(0, import_middleware_endpoint4.getEndpointPlugin)(config, Command2.getEndpointParameterInstructions())];
     }).s("SWBPortalService", "GetRoleCredentials", {}).n("SSOClient", "GetRoleCredentialsCommand").sc(GetRoleCredentials$).build() {
     };
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSO.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSO.js
 var import_smithy_client21, commands2, SSO;
 var init_SSO = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSO.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSO.js"() {
     import_smithy_client21 = __toESM(require_dist_cjs34());
     init_GetRoleCredentialsCommand();
     init_SSOClient();
@@ -37581,20 +38265,20 @@ var init_SSO = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/index.js
 var init_commands2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/index.js"() {
     init_GetRoleCredentialsCommand();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/models_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/models_0.js
 var init_models_02 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/models_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/models_0.js"() {
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/index.js
 var sso_exports = {};
 __export(sso_exports, {
   $Command: () => import_smithy_client20.Command,
@@ -37619,7 +38303,7 @@ __export(sso_exports, {
   errorTypeRegistries: () => errorTypeRegistries2
 });
 var init_sso = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/index.js"() {
     init_SSOClient();
     init_SSO();
     init_commands2();
@@ -37630,9 +38314,9 @@ var init_sso = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.31/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/loadSso-BKDNrsal.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.37/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/loadSso-BKDNrsal.js
 var require_loadSso_BKDNrsal = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.31/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/loadSso-BKDNrsal.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.37/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/loadSso-BKDNrsal.js"(exports2) {
     "use strict";
     var sso = (init_sso(), __toCommonJS(sso_exports));
     exports2.GetRoleCredentialsCommand = sso.GetRoleCredentialsCommand;
@@ -37640,9 +38324,9 @@ var require_loadSso_BKDNrsal = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.31/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.37/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/index.js
 var require_dist_cjs47 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.31/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.37/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/index.js"(exports2) {
     "use strict";
     var propertyProvider = require_dist_cjs28();
     var sharedIniFileLoader = require_dist_cjs29();
@@ -37820,7 +38504,7 @@ Reference: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.ht
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthSchemeProvider.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthSchemeProvider.js
 function createAwsAuthSigv4HttpAuthOption3(authParameters) {
   return {
     schemeId: "aws.auth#sigv4",
@@ -37843,7 +38527,7 @@ function createSmithyApiNoAuthHttpAuthOption3(authParameters) {
 }
 var import_util_middleware8, defaultSigninHttpAuthSchemeParametersProvider, defaultSigninHttpAuthSchemeProvider, resolveHttpAuthSchemeConfig3;
 var init_httpAuthSchemeProvider3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthSchemeProvider.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthSchemeProvider.js"() {
     init_httpAuthSchemes2();
     import_util_middleware8 = __toESM(require_dist_cjs6());
     defaultSigninHttpAuthSchemeParametersProvider = async (config, context, input) => {
@@ -37876,10 +38560,10 @@ var init_httpAuthSchemeProvider3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/EndpointParameters.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/EndpointParameters.js
 var resolveClientEndpointParameters3, commonParams3;
 var init_EndpointParameters3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/EndpointParameters.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/EndpointParameters.js"() {
     resolveClientEndpointParameters3 = (options) => {
       return Object.assign(options, {
         useDualstackEndpoint: options.useDualstackEndpoint ?? false,
@@ -37896,190 +38580,136 @@ var init_EndpointParameters3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/ruleset.js
-var u3, v3, w3, x3, a3, b3, c3, d3, e3, f3, g3, h3, i3, j3, k3, l3, m3, n3, o3, p3, q3, r3, s3, t3, _data3, ruleSet3;
-var init_ruleset3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/ruleset.js"() {
-    u3 = "required";
-    v3 = "fn";
-    w3 = "argv";
-    x3 = "ref";
-    a3 = true;
-    b3 = "isSet";
-    c3 = "booleanEquals";
-    d3 = "error";
-    e3 = "endpoint";
-    f3 = "tree";
-    g3 = "PartitionResult";
-    h3 = "stringEquals";
-    i3 = { [u3]: true, default: false, type: "boolean" };
-    j3 = { [u3]: false, type: "string" };
-    k3 = { [x3]: "Endpoint" };
-    l3 = { [v3]: c3, [w3]: [{ [x3]: "UseFIPS" }, true] };
-    m3 = { [v3]: c3, [w3]: [{ [x3]: "UseDualStack" }, true] };
-    n3 = {};
-    o3 = { [v3]: "getAttr", [w3]: [{ [x3]: g3 }, "name"] };
-    p3 = { [v3]: c3, [w3]: [{ [x3]: "UseFIPS" }, false] };
-    q3 = { [v3]: c3, [w3]: [{ [x3]: "UseDualStack" }, false] };
-    r3 = { [v3]: "getAttr", [w3]: [{ [x3]: g3 }, "supportsFIPS"] };
-    s3 = { [v3]: c3, [w3]: [true, { [v3]: "getAttr", [w3]: [{ [x3]: g3 }, "supportsDualStack"] }] };
-    t3 = [{ [x3]: "Region" }];
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/bdd.js
+var import_util_endpoints7, m, a3, b3, c3, d3, e3, f3, g3, h3, i3, j3, k3, l, _data3, root3, r3, nodes3, bdd3;
+var init_bdd3 = __esm({
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/bdd.js"() {
+    import_util_endpoints7 = __toESM(require_dist_cjs20());
+    m = "ref";
+    a3 = -1;
+    b3 = true;
+    c3 = "isSet";
+    d3 = "PartitionResult";
+    e3 = "booleanEquals";
+    f3 = "getAttr";
+    g3 = "stringEquals";
+    h3 = { [m]: "Endpoint" };
+    i3 = { [m]: d3 };
+    j3 = { fn: f3, argv: [i3, "name"] };
+    k3 = {};
+    l = [{ [m]: "Region" }];
     _data3 = {
-      version: "1.0",
-      parameters: { UseDualStack: i3, UseFIPS: i3, Endpoint: j3, Region: j3 },
-      rules: [
-        {
-          conditions: [{ [v3]: b3, [w3]: [k3] }],
-          rules: [
-            { conditions: [l3], error: "Invalid Configuration: FIPS and custom endpoint are not supported", type: d3 },
-            {
-              rules: [
-                {
-                  conditions: [m3],
-                  error: "Invalid Configuration: Dualstack and custom endpoint are not supported",
-                  type: d3
-                },
-                { endpoint: { url: k3, properties: n3, headers: n3 }, type: e3 }
-              ],
-              type: f3
-            }
-          ],
-          type: f3
-        },
-        {
-          rules: [
-            {
-              conditions: [{ [v3]: b3, [w3]: t3 }],
-              rules: [
-                {
-                  conditions: [{ [v3]: "aws.partition", [w3]: t3, assign: g3 }],
-                  rules: [
-                    {
-                      conditions: [{ [v3]: h3, [w3]: [o3, "aws"] }, p3, q3],
-                      endpoint: { url: "https://{Region}.signin.aws.amazon.com", properties: n3, headers: n3 },
-                      type: e3
-                    },
-                    {
-                      conditions: [{ [v3]: h3, [w3]: [o3, "aws-cn"] }, p3, q3],
-                      endpoint: { url: "https://{Region}.signin.amazonaws.cn", properties: n3, headers: n3 },
-                      type: e3
-                    },
-                    {
-                      conditions: [{ [v3]: h3, [w3]: [o3, "aws-us-gov"] }, p3, q3],
-                      endpoint: { url: "https://{Region}.signin.amazonaws-us-gov.com", properties: n3, headers: n3 },
-                      type: e3
-                    },
-                    {
-                      conditions: [l3, m3],
-                      rules: [
-                        {
-                          conditions: [{ [v3]: c3, [w3]: [a3, r3] }, s3],
-                          rules: [
-                            {
-                              endpoint: {
-                                url: "https://signin-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                properties: n3,
-                                headers: n3
-                              },
-                              type: e3
-                            }
-                          ],
-                          type: f3
-                        },
-                        {
-                          error: "FIPS and DualStack are enabled, but this partition does not support one or both",
-                          type: d3
-                        }
-                      ],
-                      type: f3
-                    },
-                    {
-                      conditions: [l3, q3],
-                      rules: [
-                        {
-                          conditions: [{ [v3]: c3, [w3]: [r3, a3] }],
-                          rules: [
-                            {
-                              endpoint: {
-                                url: "https://signin-fips.{Region}.{PartitionResult#dnsSuffix}",
-                                properties: n3,
-                                headers: n3
-                              },
-                              type: e3
-                            }
-                          ],
-                          type: f3
-                        },
-                        { error: "FIPS is enabled but this partition does not support FIPS", type: d3 }
-                      ],
-                      type: f3
-                    },
-                    {
-                      conditions: [p3, m3],
-                      rules: [
-                        {
-                          conditions: [s3],
-                          rules: [
-                            {
-                              endpoint: {
-                                url: "https://signin.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                properties: n3,
-                                headers: n3
-                              },
-                              type: e3
-                            }
-                          ],
-                          type: f3
-                        },
-                        { error: "DualStack is enabled but this partition does not support DualStack", type: d3 }
-                      ],
-                      type: f3
-                    },
-                    {
-                      endpoint: { url: "https://signin.{Region}.{PartitionResult#dnsSuffix}", properties: n3, headers: n3 },
-                      type: e3
-                    }
-                  ],
-                  type: f3
-                }
-              ],
-              type: f3
-            },
-            { error: "Invalid Configuration: Missing Region", type: d3 }
-          ],
-          type: f3
-        }
+      conditions: [
+        [c3, [h3]],
+        [c3, l],
+        ["aws.partition", l, d3],
+        [e3, [{ [m]: "UseFIPS" }, b3]],
+        [e3, [{ [m]: "UseDualStack" }, b3]],
+        [e3, [{ fn: f3, argv: [i3, "supportsDualStack"] }, b3]],
+        [e3, [{ fn: f3, argv: [i3, "supportsFIPS"] }, b3]],
+        [g3, [j3, "aws"]],
+        [g3, [j3, "aws-cn"]],
+        [g3, [j3, "aws-us-gov"]]
+      ],
+      results: [
+        [a3],
+        [a3, "Invalid Configuration: FIPS and custom endpoint are not supported"],
+        [a3, "Invalid Configuration: Dualstack and custom endpoint are not supported"],
+        [h3, k3],
+        ["https://{Region}.signin.aws.amazon.com", k3],
+        ["https://{Region}.signin.amazonaws.cn", k3],
+        ["https://{Region}.signin.amazonaws-us-gov.com", k3],
+        ["https://signin-fips.{Region}.{PartitionResult#dualStackDnsSuffix}", k3],
+        [a3, "FIPS and DualStack are enabled, but this partition does not support one or both"],
+        ["https://signin-fips.{Region}.{PartitionResult#dnsSuffix}", k3],
+        [a3, "FIPS is enabled but this partition does not support FIPS"],
+        ["https://signin.{Region}.{PartitionResult#dualStackDnsSuffix}", k3],
+        [a3, "DualStack is enabled but this partition does not support DualStack"],
+        ["https://signin.{Region}.{PartitionResult#dnsSuffix}", k3],
+        [a3, "Invalid Configuration: Missing Region"]
       ]
     };
-    ruleSet3 = _data3;
+    root3 = 2;
+    r3 = 1e8;
+    nodes3 = new Int32Array([
+      -1,
+      1,
+      -1,
+      0,
+      15,
+      3,
+      1,
+      4,
+      r3 + 14,
+      2,
+      5,
+      r3 + 14,
+      3,
+      11,
+      6,
+      4,
+      10,
+      7,
+      7,
+      r3 + 4,
+      8,
+      8,
+      r3 + 5,
+      9,
+      9,
+      r3 + 6,
+      r3 + 13,
+      5,
+      r3 + 11,
+      r3 + 12,
+      4,
+      13,
+      12,
+      6,
+      r3 + 9,
+      r3 + 10,
+      5,
+      14,
+      r3 + 8,
+      6,
+      r3 + 7,
+      r3 + 8,
+      3,
+      r3 + 1,
+      16,
+      4,
+      r3 + 2,
+      r3 + 3
+    ]);
+    bdd3 = import_util_endpoints7.BinaryDecisionDiagram.from(nodes3, root3, _data3.conditions, _data3.results);
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/endpointResolver.js
-var import_util_endpoints5, import_util_endpoints6, cache3, defaultEndpointResolver3;
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/endpointResolver.js
+var import_util_endpoints8, import_util_endpoints9, cache3, defaultEndpointResolver3;
 var init_endpointResolver3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/endpointResolver.js"() {
-    import_util_endpoints5 = __toESM(require_dist_cjs21());
-    import_util_endpoints6 = __toESM(require_dist_cjs20());
-    init_ruleset3();
-    cache3 = new import_util_endpoints6.EndpointCache({
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/endpointResolver.js"() {
+    import_util_endpoints8 = __toESM(require_dist_cjs21());
+    import_util_endpoints9 = __toESM(require_dist_cjs20());
+    init_bdd3();
+    cache3 = new import_util_endpoints9.EndpointCache({
       size: 50,
       params: ["Endpoint", "Region", "UseDualStack", "UseFIPS"]
     });
     defaultEndpointResolver3 = (endpointParams, context = {}) => {
-      return cache3.get(endpointParams, () => (0, import_util_endpoints6.resolveEndpoint)(ruleSet3, {
+      return cache3.get(endpointParams, () => (0, import_util_endpoints9.decideEndpoint)(bdd3, {
         endpointParams,
         logger: context.logger
       }));
     };
-    import_util_endpoints6.customEndpointFunctions.aws = import_util_endpoints5.awsEndpointFunctions;
+    import_util_endpoints9.customEndpointFunctions.aws = import_util_endpoints8.awsEndpointFunctions;
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/SigninServiceException.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/SigninServiceException.js
 var import_smithy_client22, SigninServiceException;
 var init_SigninServiceException = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/SigninServiceException.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/SigninServiceException.js"() {
     import_smithy_client22 = __toESM(require_dist_cjs34());
     SigninServiceException = class _SigninServiceException extends import_smithy_client22.ServiceException {
       constructor(options) {
@@ -38090,10 +38720,10 @@ var init_SigninServiceException = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/errors.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/errors.js
 var AccessDeniedException2, InternalServerException2, TooManyRequestsError, ValidationException;
 var init_errors3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/errors.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/errors.js"() {
     init_SigninServiceException();
     AccessDeniedException2 = class _AccessDeniedException extends SigninServiceException {
       name = "AccessDeniedException";
@@ -38154,10 +38784,10 @@ var init_errors3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/schemas/schemas_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/schemas/schemas_0.js
 var _ADE2, _AT2, _COAT, _COATR, _COATRB, _COATRBr, _COATRr, _ISE2, _RT2, _TMRE2, _VE, _aKI2, _aT3, _c3, _cI2, _cV2, _co2, _e3, _eI2, _gT2, _h3, _hE3, _iT2, _jN, _m2, _rT2, _rU2, _s3, _sAK2, _sT2, _se2, _tI, _tO, _tT2, n03, _s_registry3, SigninServiceException$, n0_registry3, AccessDeniedException$2, InternalServerException$2, TooManyRequestsError$, ValidationException$, errorTypeRegistries3, RefreshToken2, AccessToken$, CreateOAuth2TokenRequest$, CreateOAuth2TokenRequestBody$, CreateOAuth2TokenResponse$, CreateOAuth2TokenResponseBody$, CreateOAuth2Token$;
 var init_schemas_03 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/schemas/schemas_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/schemas/schemas_0.js"() {
     init_schema();
     init_errors3();
     init_SigninServiceException();
@@ -38283,10 +38913,10 @@ var init_schemas_03 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.shared.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.shared.js
 var import_smithy_client23, import_url_parser4, import_util_base6410, import_util_utf810, getRuntimeConfig5;
 var init_runtimeConfig_shared3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.shared.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.shared.js"() {
     init_httpAuthSchemes2();
     init_protocols2();
     init_dist_es();
@@ -38335,10 +38965,10 @@ var init_runtimeConfig_shared3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.js
-var import_util_user_agent_node3, import_config_resolver5, import_hash_node3, import_middleware_retry5, import_node_config_provider3, import_node_http_handler3, import_smithy_client24, import_util_body_length_node3, import_util_defaults_mode_node3, import_util_retry3, getRuntimeConfig6;
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.js
+var import_util_user_agent_node3, import_config_resolver5, import_hash_node3, import_middleware_retry5, import_node_config_provider3, import_node_http_handler3, import_smithy_client24, import_util_body_length_node3, import_util_defaults_mode_node3, import_util_retry4, getRuntimeConfig6;
 var init_runtimeConfig3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.js"() {
     init_package();
     init_client();
     init_httpAuthSchemes2();
@@ -38351,7 +38981,7 @@ var init_runtimeConfig3 = __esm({
     import_smithy_client24 = __toESM(require_dist_cjs34());
     import_util_body_length_node3 = __toESM(require_dist_cjs42());
     import_util_defaults_mode_node3 = __toESM(require_dist_cjs43());
-    import_util_retry3 = __toESM(require_dist_cjs23());
+    import_util_retry4 = __toESM(require_dist_cjs23());
     init_runtimeConfig_shared3();
     getRuntimeConfig6 = (config) => {
       (0, import_smithy_client24.emitWarningIfUnsupportedVersion)(process.version);
@@ -38376,7 +39006,7 @@ var init_runtimeConfig3 = __esm({
         requestHandler: import_node_http_handler3.NodeHttpHandler.create(config?.requestHandler ?? defaultConfigProvider),
         retryMode: config?.retryMode ?? (0, import_node_config_provider3.loadConfig)({
           ...import_middleware_retry5.NODE_RETRY_MODE_CONFIG_OPTIONS,
-          default: async () => (await defaultConfigProvider()).retryMode || import_util_retry3.DEFAULT_RETRY_MODE
+          default: async () => (await defaultConfigProvider()).retryMode || import_util_retry4.DEFAULT_RETRY_MODE
         }, config),
         sha256: config?.sha256 ?? import_hash_node3.Hash.bind(null, "sha256"),
         streamCollector: config?.streamCollector ?? import_node_http_handler3.streamCollector,
@@ -38388,10 +39018,10 @@ var init_runtimeConfig3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthExtensionConfiguration.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthExtensionConfiguration.js
 var getHttpAuthExtensionConfiguration3, resolveHttpAuthRuntimeConfig3;
 var init_httpAuthExtensionConfiguration3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthExtensionConfiguration.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthExtensionConfiguration.js"() {
     getHttpAuthExtensionConfiguration3 = (runtimeConfig) => {
       const _httpAuthSchemes = runtimeConfig.httpAuthSchemes;
       let _httpAuthSchemeProvider = runtimeConfig.httpAuthSchemeProvider;
@@ -38432,10 +39062,10 @@ var init_httpAuthExtensionConfiguration3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeExtensions.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeExtensions.js
 var import_region_config_resolver3, import_protocol_http14, import_smithy_client25, resolveRuntimeExtensions3;
 var init_runtimeExtensions3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeExtensions.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeExtensions.js"() {
     import_region_config_resolver3 = __toESM(require_dist_cjs45());
     import_protocol_http14 = __toESM(require_dist_cjs2());
     import_smithy_client25 = __toESM(require_dist_cjs34());
@@ -38448,10 +39078,10 @@ var init_runtimeExtensions3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/SigninClient.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/SigninClient.js
 var import_middleware_host_header3, import_middleware_logger3, import_middleware_recursion_detection3, import_middleware_user_agent3, import_config_resolver6, import_middleware_content_length3, import_middleware_endpoint5, import_middleware_retry6, import_smithy_client26, SigninClient;
 var init_SigninClient = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/SigninClient.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/SigninClient.js"() {
     import_middleware_host_header3 = __toESM(require_dist_cjs3());
     import_middleware_logger3 = __toESM(require_dist_cjs4());
     import_middleware_recursion_detection3 = __toESM(require_dist_cjs5());
@@ -38504,25 +39134,25 @@ var init_SigninClient = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/CreateOAuth2TokenCommand.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/CreateOAuth2TokenCommand.js
 var import_middleware_endpoint6, import_smithy_client27, CreateOAuth2TokenCommand;
 var init_CreateOAuth2TokenCommand = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/CreateOAuth2TokenCommand.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/CreateOAuth2TokenCommand.js"() {
     import_middleware_endpoint6 = __toESM(require_dist_cjs32());
     import_smithy_client27 = __toESM(require_dist_cjs34());
     init_EndpointParameters3();
     init_schemas_03();
-    CreateOAuth2TokenCommand = class extends import_smithy_client27.Command.classBuilder().ep(commonParams3).m(function(Command2, cs, config, o5) {
+    CreateOAuth2TokenCommand = class extends import_smithy_client27.Command.classBuilder().ep(commonParams3).m(function(Command2, cs, config, o2) {
       return [(0, import_middleware_endpoint6.getEndpointPlugin)(config, Command2.getEndpointParameterInstructions())];
     }).s("Signin", "CreateOAuth2Token", {}).n("SigninClient", "CreateOAuth2TokenCommand").sc(CreateOAuth2Token$).build() {
     };
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/Signin.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/Signin.js
 var import_smithy_client28, commands3, Signin;
 var init_Signin = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/Signin.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/Signin.js"() {
     import_smithy_client28 = __toESM(require_dist_cjs34());
     init_CreateOAuth2TokenCommand();
     init_SigninClient();
@@ -38535,17 +39165,17 @@ var init_Signin = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/index.js
 var init_commands3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/index.js"() {
     init_CreateOAuth2TokenCommand();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/enums.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/enums.js
 var OAuth2ErrorCode;
 var init_enums2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/enums.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/enums.js"() {
     OAuth2ErrorCode = {
       AUTHCODE_EXPIRED: "AUTHCODE_EXPIRED",
       INSUFFICIENT_PERMISSIONS: "INSUFFICIENT_PERMISSIONS",
@@ -38557,13 +39187,13 @@ var init_enums2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/models_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/models_0.js
 var init_models_03 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/models_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/models_0.js"() {
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/index.js
 var signin_exports = {};
 __export(signin_exports, {
   $Command: () => import_smithy_client27.Command,
@@ -38591,7 +39221,7 @@ __export(signin_exports, {
   errorTypeRegistries: () => errorTypeRegistries3
 });
 var init_signin = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/index.js"() {
     init_SigninClient();
     init_Signin();
     init_commands3();
@@ -38603,9 +39233,9 @@ var init_signin = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-login@3.972.31/node_modules/@aws-sdk/credential-provider-login/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-login@3.972.37/node_modules/@aws-sdk/credential-provider-login/dist-cjs/index.js
 var require_dist_cjs48 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-login@3.972.31/node_modules/@aws-sdk/credential-provider-login/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-login@3.972.37/node_modules/@aws-sdk/credential-provider-login/dist-cjs/index.js"(exports2) {
     "use strict";
     var client = (init_client(), __toCommonJS(client_exports));
     var propertyProvider = require_dist_cjs28();
@@ -38789,11 +39419,11 @@ var require_dist_cjs48 = __commonJS({
         }
         offset++;
         const sLength = derSignature[offset++];
-        let s5 = derSignature.subarray(offset, offset + sLength);
+        let s = derSignature.subarray(offset, offset + sLength);
         r5 = r5[0] === 0 ? r5.subarray(1) : r5;
-        s5 = s5[0] === 0 ? s5.subarray(1) : s5;
+        s = s[0] === 0 ? s.subarray(1) : s;
         const rPadded = Buffer.concat([Buffer.alloc(32 - r5.length), r5]);
-        const sPadded = Buffer.concat([Buffer.alloc(32 - s5.length), s5]);
+        const sPadded = Buffer.concat([Buffer.alloc(32 - s.length), s]);
         return Buffer.concat([rPadded, sPadded]);
       }
       createDPoPInterceptor(middlewareStack) {
@@ -38831,16 +39461,16 @@ var require_dist_cjs48 = __commonJS({
               break;
             }
           }
-          const x5 = publicDer.slice(pointStart + 1, pointStart + 33);
-          const y2 = publicDer.slice(pointStart + 33, pointStart + 65);
+          const x = publicDer.slice(pointStart + 1, pointStart + 33);
+          const y = publicDer.slice(pointStart + 33, pointStart + 65);
           const header = {
             alg: "ES256",
             typ: "dpop+jwt",
             jwk: {
               kty: "EC",
               crv: "P-256",
-              x: x5.toString("base64url"),
-              y: y2.toString("base64url")
+              x: x.toString("base64url"),
+              y: y.toString("base64url")
             }
           };
           const payload2 = {
@@ -38882,10 +39512,916 @@ var require_dist_cjs48 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthSchemeProvider.js
+// node_modules/.pnpm/@aws-sdk+middleware-sdk-s3@3.972.36/node_modules/@aws-sdk/middleware-sdk-s3/dist-cjs/toStream.js
+var require_toStream = __commonJS({
+  "node_modules/.pnpm/@aws-sdk+middleware-sdk-s3@3.972.36/node_modules/@aws-sdk/middleware-sdk-s3/dist-cjs/toStream.js"(exports2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", { value: true });
+    exports2.toStream = toStream;
+    var node_stream_1 = require("node:stream");
+    function toStream(bytes) {
+      return node_stream_1.Readable.from(Buffer.from(bytes));
+    }
+  }
+});
+
+// node_modules/.pnpm/@aws-sdk+util-arn-parser@3.972.3/node_modules/@aws-sdk/util-arn-parser/dist-cjs/index.js
+var require_dist_cjs49 = __commonJS({
+  "node_modules/.pnpm/@aws-sdk+util-arn-parser@3.972.3/node_modules/@aws-sdk/util-arn-parser/dist-cjs/index.js"(exports2) {
+    "use strict";
+    var validate = (str) => typeof str === "string" && str.indexOf("arn:") === 0 && str.split(":").length >= 6;
+    var parse2 = (arn) => {
+      const segments = arn.split(":");
+      if (segments.length < 6 || segments[0] !== "arn")
+        throw new Error("Malformed ARN");
+      const [, partition, service, region, accountId, ...resource] = segments;
+      return {
+        partition,
+        service,
+        region,
+        accountId,
+        resource: resource.join(":")
+      };
+    };
+    var build = (arnObject) => {
+      const { partition = "aws", service, region, accountId, resource } = arnObject;
+      if ([service, region, accountId, resource].some((segment) => typeof segment !== "string")) {
+        throw new Error("Input ARN object is invalid");
+      }
+      return `arn:${partition}:${service}:${region}:${accountId}:${resource}`;
+    };
+    exports2.build = build;
+    exports2.parse = parse2;
+    exports2.validate = validate;
+  }
+});
+
+// node_modules/.pnpm/@aws-sdk+middleware-sdk-s3@3.972.36/node_modules/@aws-sdk/middleware-sdk-s3/dist-cjs/index.js
+var require_dist_cjs50 = __commonJS({
+  "node_modules/.pnpm/@aws-sdk+middleware-sdk-s3@3.972.36/node_modules/@aws-sdk/middleware-sdk-s3/dist-cjs/index.js"(exports2) {
+    "use strict";
+    var protocolHttp = require_dist_cjs2();
+    var smithyClient = require_dist_cjs34();
+    var toStream = require_toStream();
+    var utilArnParser = require_dist_cjs49();
+    var protocols = (init_protocols2(), __toCommonJS(protocols_exports2));
+    var schema = (init_schema(), __toCommonJS(schema_exports));
+    var signatureV4 = require_dist_cjs36();
+    var utilConfigProvider = require_dist_cjs25();
+    var client = (init_client(), __toCommonJS(client_exports));
+    var core = (init_dist_es(), __toCommonJS(dist_es_exports));
+    var utilMiddleware = require_dist_cjs6();
+    var CONTENT_LENGTH_HEADER = "content-length";
+    var DECODED_CONTENT_LENGTH_HEADER = "x-amz-decoded-content-length";
+    function checkContentLengthHeader() {
+      return (next, context) => async (args) => {
+        const { request: request2 } = args;
+        if (protocolHttp.HttpRequest.isInstance(request2)) {
+          if (!(CONTENT_LENGTH_HEADER in request2.headers) && !(DECODED_CONTENT_LENGTH_HEADER in request2.headers)) {
+            const message = `Are you using a Stream of unknown length as the Body of a PutObject request? Consider using Upload instead from @aws-sdk/lib-storage.`;
+            if (typeof context?.logger?.warn === "function" && !(context.logger instanceof smithyClient.NoOpLogger)) {
+              context.logger.warn(message);
+            } else {
+              console.warn(message);
+            }
+          }
+        }
+        return next({ ...args });
+      };
+    }
+    var checkContentLengthHeaderMiddlewareOptions = {
+      step: "finalizeRequest",
+      tags: ["CHECK_CONTENT_LENGTH_HEADER"],
+      name: "getCheckContentLengthHeaderPlugin",
+      override: true
+    };
+    var getCheckContentLengthHeaderPlugin = (unused) => ({
+      applyToStack: (clientStack) => {
+        clientStack.add(checkContentLengthHeader(), checkContentLengthHeaderMiddlewareOptions);
+      }
+    });
+    var regionRedirectEndpointMiddleware = (config) => {
+      return (next, context) => async (args) => {
+        const originalRegion = await config.region();
+        const regionProviderRef = config.region;
+        let unlock = () => {
+        };
+        if (context.__s3RegionRedirect) {
+          Object.defineProperty(config, "region", {
+            writable: false,
+            value: async () => {
+              return context.__s3RegionRedirect;
+            }
+          });
+          unlock = () => Object.defineProperty(config, "region", {
+            writable: true,
+            value: regionProviderRef
+          });
+        }
+        try {
+          const result = await next(args);
+          if (context.__s3RegionRedirect) {
+            unlock();
+            const region = await config.region();
+            if (originalRegion !== region) {
+              throw new Error("Region was not restored following S3 region redirect.");
+            }
+          }
+          return result;
+        } catch (e5) {
+          unlock();
+          throw e5;
+        }
+      };
+    };
+    var regionRedirectEndpointMiddlewareOptions = {
+      tags: ["REGION_REDIRECT", "S3"],
+      name: "regionRedirectEndpointMiddleware",
+      override: true,
+      relation: "before",
+      toMiddleware: "endpointV2Middleware"
+    };
+    function regionRedirectMiddleware(clientConfig) {
+      return (next, context) => async (args) => {
+        try {
+          return await next(args);
+        } catch (err) {
+          if (clientConfig.followRegionRedirects) {
+            const statusCode = err?.$metadata?.httpStatusCode;
+            const isHeadBucket = context.commandName === "HeadBucketCommand";
+            const bucketRegionHeader = err?.$response?.headers?.["x-amz-bucket-region"];
+            if (bucketRegionHeader) {
+              if (statusCode === 301 || statusCode === 400 && (err?.name === "IllegalLocationConstraintException" || isHeadBucket)) {
+                try {
+                  const actualRegion = bucketRegionHeader;
+                  context.logger?.debug(`Redirecting from ${await clientConfig.region()} to ${actualRegion}`);
+                  context.__s3RegionRedirect = actualRegion;
+                } catch (e5) {
+                  throw new Error("Region redirect failed: " + e5);
+                }
+                return next(args);
+              }
+            }
+          }
+          throw err;
+        }
+      };
+    }
+    var regionRedirectMiddlewareOptions = {
+      step: "initialize",
+      tags: ["REGION_REDIRECT", "S3"],
+      name: "regionRedirectMiddleware",
+      override: true
+    };
+    var getRegionRedirectMiddlewarePlugin = (clientConfig) => ({
+      applyToStack: (clientStack) => {
+        clientStack.add(regionRedirectMiddleware(clientConfig), regionRedirectMiddlewareOptions);
+        clientStack.addRelativeTo(regionRedirectEndpointMiddleware(clientConfig), regionRedirectEndpointMiddlewareOptions);
+      }
+    });
+    var s3ExpiresMiddleware = (config) => {
+      return (next, context) => async (args) => {
+        const result = await next(args);
+        const { response } = result;
+        if (protocolHttp.HttpResponse.isInstance(response)) {
+          if (response.headers.expires) {
+            response.headers.expiresstring = response.headers.expires;
+            try {
+              smithyClient.parseRfc7231DateTime(response.headers.expires);
+            } catch (e5) {
+              context.logger?.warn(`AWS SDK Warning for ${context.clientName}::${context.commandName} response parsing (${response.headers.expires}): ${e5}`);
+              delete response.headers.expires;
+            }
+          }
+        }
+        return result;
+      };
+    };
+    var s3ExpiresMiddlewareOptions = {
+      tags: ["S3"],
+      name: "s3ExpiresMiddleware",
+      override: true,
+      relation: "after",
+      toMiddleware: "deserializerMiddleware"
+    };
+    var getS3ExpiresMiddlewarePlugin = (clientConfig) => ({
+      applyToStack: (clientStack) => {
+        clientStack.addRelativeTo(s3ExpiresMiddleware(), s3ExpiresMiddlewareOptions);
+      }
+    });
+    var S3ExpressIdentityCache = class _S3ExpressIdentityCache {
+      data;
+      lastPurgeTime = Date.now();
+      static EXPIRED_CREDENTIAL_PURGE_INTERVAL_MS = 3e4;
+      constructor(data2 = {}) {
+        this.data = data2;
+      }
+      get(key) {
+        const entry = this.data[key];
+        if (!entry) {
+          return;
+        }
+        return entry;
+      }
+      set(key, entry) {
+        this.data[key] = entry;
+        return entry;
+      }
+      delete(key) {
+        delete this.data[key];
+      }
+      async purgeExpired() {
+        const now = Date.now();
+        if (this.lastPurgeTime + _S3ExpressIdentityCache.EXPIRED_CREDENTIAL_PURGE_INTERVAL_MS > now) {
+          return;
+        }
+        for (const key in this.data) {
+          const entry = this.data[key];
+          if (!entry.isRefreshing) {
+            const credential = await entry.identity;
+            if (credential.expiration) {
+              if (credential.expiration.getTime() < now) {
+                delete this.data[key];
+              }
+            }
+          }
+        }
+      }
+    };
+    var S3ExpressIdentityCacheEntry = class {
+      _identity;
+      isRefreshing;
+      accessed;
+      constructor(_identity, isRefreshing = false, accessed = Date.now()) {
+        this._identity = _identity;
+        this.isRefreshing = isRefreshing;
+        this.accessed = accessed;
+      }
+      get identity() {
+        this.accessed = Date.now();
+        return this._identity;
+      }
+    };
+    var S3ExpressIdentityProviderImpl = class _S3ExpressIdentityProviderImpl {
+      createSessionFn;
+      cache;
+      static REFRESH_WINDOW_MS = 6e4;
+      constructor(createSessionFn, cache5 = new S3ExpressIdentityCache()) {
+        this.createSessionFn = createSessionFn;
+        this.cache = cache5;
+      }
+      async getS3ExpressIdentity(awsIdentity, identityProperties) {
+        const key = identityProperties.Bucket;
+        const { cache: cache5 } = this;
+        const entry = cache5.get(key);
+        if (entry) {
+          return entry.identity.then((identity) => {
+            const isExpired = (identity.expiration?.getTime() ?? 0) < Date.now();
+            if (isExpired) {
+              return cache5.set(key, new S3ExpressIdentityCacheEntry(this.getIdentity(key))).identity;
+            }
+            const isExpiringSoon = (identity.expiration?.getTime() ?? 0) < Date.now() + _S3ExpressIdentityProviderImpl.REFRESH_WINDOW_MS;
+            if (isExpiringSoon && !entry.isRefreshing) {
+              entry.isRefreshing = true;
+              this.getIdentity(key).then((id) => {
+                cache5.set(key, new S3ExpressIdentityCacheEntry(Promise.resolve(id)));
+              });
+            }
+            return identity;
+          });
+        }
+        return cache5.set(key, new S3ExpressIdentityCacheEntry(this.getIdentity(key))).identity;
+      }
+      async getIdentity(key) {
+        await this.cache.purgeExpired().catch((error3) => {
+          console.warn("Error while clearing expired entries in S3ExpressIdentityCache: \n" + error3);
+        });
+        const session = await this.createSessionFn(key);
+        if (!session.Credentials?.AccessKeyId || !session.Credentials?.SecretAccessKey) {
+          throw new Error("s3#createSession response credential missing AccessKeyId or SecretAccessKey.");
+        }
+        const identity = {
+          accessKeyId: session.Credentials.AccessKeyId,
+          secretAccessKey: session.Credentials.SecretAccessKey,
+          sessionToken: session.Credentials.SessionToken,
+          expiration: session.Credentials.Expiration ? new Date(session.Credentials.Expiration) : void 0
+        };
+        return identity;
+      }
+    };
+    var S3_EXPRESS_BUCKET_TYPE = "Directory";
+    var S3_EXPRESS_BACKEND = "S3Express";
+    var S3_EXPRESS_AUTH_SCHEME = "sigv4-s3express";
+    var SESSION_TOKEN_QUERY_PARAM = "X-Amz-S3session-Token";
+    var SESSION_TOKEN_HEADER = SESSION_TOKEN_QUERY_PARAM.toLowerCase();
+    var NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_ENV_NAME = "AWS_S3_DISABLE_EXPRESS_SESSION_AUTH";
+    var NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_INI_NAME = "s3_disable_express_session_auth";
+    var NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_OPTIONS = {
+      environmentVariableSelector: (env) => utilConfigProvider.booleanSelector(env, NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_ENV_NAME, utilConfigProvider.SelectorType.ENV),
+      configFileSelector: (profile) => utilConfigProvider.booleanSelector(profile, NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_INI_NAME, utilConfigProvider.SelectorType.CONFIG),
+      default: false
+    };
+    var SignatureV4S3Express = class extends signatureV4.SignatureV4 {
+      async signWithCredentials(requestToSign, credentials, options) {
+        const credentialsWithoutSessionToken = getCredentialsWithoutSessionToken(credentials);
+        requestToSign.headers[SESSION_TOKEN_HEADER] = credentials.sessionToken;
+        const privateAccess = this;
+        setSingleOverride(privateAccess, credentialsWithoutSessionToken);
+        return privateAccess.signRequest(requestToSign, options ?? {});
+      }
+      async presignWithCredentials(requestToSign, credentials, options) {
+        const credentialsWithoutSessionToken = getCredentialsWithoutSessionToken(credentials);
+        delete requestToSign.headers[SESSION_TOKEN_HEADER];
+        requestToSign.headers[SESSION_TOKEN_QUERY_PARAM] = credentials.sessionToken;
+        requestToSign.query = requestToSign.query ?? {};
+        requestToSign.query[SESSION_TOKEN_QUERY_PARAM] = credentials.sessionToken;
+        const privateAccess = this;
+        setSingleOverride(privateAccess, credentialsWithoutSessionToken);
+        return this.presign(requestToSign, options);
+      }
+    };
+    function getCredentialsWithoutSessionToken(credentials) {
+      const credentialsWithoutSessionToken = {
+        accessKeyId: credentials.accessKeyId,
+        secretAccessKey: credentials.secretAccessKey,
+        expiration: credentials.expiration
+      };
+      return credentialsWithoutSessionToken;
+    }
+    function setSingleOverride(privateAccess, credentialsWithoutSessionToken) {
+      const id = setTimeout(() => {
+        throw new Error("SignatureV4S3Express credential override was created but not called.");
+      }, 10);
+      const currentCredentialProvider = privateAccess.credentialProvider;
+      const overrideCredentialsProviderOnce = () => {
+        clearTimeout(id);
+        privateAccess.credentialProvider = currentCredentialProvider;
+        return Promise.resolve(credentialsWithoutSessionToken);
+      };
+      privateAccess.credentialProvider = overrideCredentialsProviderOnce;
+    }
+    var s3ExpressMiddleware = (options) => {
+      return (next, context) => async (args) => {
+        if (context.endpointV2) {
+          const endpoint2 = context.endpointV2;
+          const isS3ExpressAuth = endpoint2.properties?.authSchemes?.[0]?.name === S3_EXPRESS_AUTH_SCHEME;
+          const isS3ExpressBucket = endpoint2.properties?.backend === S3_EXPRESS_BACKEND || endpoint2.properties?.bucketType === S3_EXPRESS_BUCKET_TYPE;
+          if (isS3ExpressBucket) {
+            client.setFeature(context, "S3_EXPRESS_BUCKET", "J");
+            context.isS3ExpressBucket = true;
+          }
+          if (isS3ExpressAuth) {
+            const requestBucket = args.input.Bucket;
+            if (requestBucket) {
+              const s3ExpressIdentity = await options.s3ExpressIdentityProvider.getS3ExpressIdentity(await options.credentials(), {
+                Bucket: requestBucket
+              });
+              context.s3ExpressIdentity = s3ExpressIdentity;
+              if (protocolHttp.HttpRequest.isInstance(args.request) && s3ExpressIdentity.sessionToken) {
+                args.request.headers[SESSION_TOKEN_HEADER] = s3ExpressIdentity.sessionToken;
+              }
+            }
+          }
+        }
+        return next(args);
+      };
+    };
+    var s3ExpressMiddlewareOptions = {
+      name: "s3ExpressMiddleware",
+      step: "build",
+      tags: ["S3", "S3_EXPRESS"],
+      override: true
+    };
+    var getS3ExpressPlugin = (options) => ({
+      applyToStack: (clientStack) => {
+        clientStack.add(s3ExpressMiddleware(options), s3ExpressMiddlewareOptions);
+      }
+    });
+    var signS3Express = async (s3ExpressIdentity, signingOptions, request2, sigV4MultiRegionSigner) => {
+      const signedRequest = await sigV4MultiRegionSigner.signWithCredentials(request2, s3ExpressIdentity, {});
+      if (signedRequest.headers["X-Amz-Security-Token"] || signedRequest.headers["x-amz-security-token"]) {
+        throw new Error("X-Amz-Security-Token must not be set for s3-express requests.");
+      }
+      return signedRequest;
+    };
+    var defaultErrorHandler2 = (signingProperties) => (error3) => {
+      throw error3;
+    };
+    var defaultSuccessHandler2 = (httpResponse, signingProperties) => {
+    };
+    var s3ExpressHttpSigningMiddlewareOptions = core.httpSigningMiddlewareOptions;
+    var s3ExpressHttpSigningMiddleware = (config) => (next, context) => async (args) => {
+      if (!protocolHttp.HttpRequest.isInstance(args.request)) {
+        return next(args);
+      }
+      const smithyContext = utilMiddleware.getSmithyContext(context);
+      const scheme = smithyContext.selectedHttpAuthScheme;
+      if (!scheme) {
+        throw new Error(`No HttpAuthScheme was selected: unable to sign request`);
+      }
+      const { httpAuthOption: { signingProperties = {} }, identity, signer } = scheme;
+      let request2;
+      if (context.s3ExpressIdentity) {
+        request2 = await signS3Express(context.s3ExpressIdentity, signingProperties, args.request, await config.signer());
+      } else {
+        request2 = await signer.sign(args.request, identity, signingProperties);
+      }
+      const output = await next({
+        ...args,
+        request: request2
+      }).catch((signer.errorHandler || defaultErrorHandler2)(signingProperties));
+      (signer.successHandler || defaultSuccessHandler2)(output.response, signingProperties);
+      return output;
+    };
+    var getS3ExpressHttpSigningPlugin = (config) => ({
+      applyToStack: (clientStack) => {
+        clientStack.addRelativeTo(s3ExpressHttpSigningMiddleware(config), core.httpSigningMiddlewareOptions);
+      }
+    });
+    var resolveS3Config = (input, { session }) => {
+      const [s3ClientProvider, CreateSessionCommandCtor] = session;
+      const { forcePathStyle, useAccelerateEndpoint, disableMultiregionAccessPoints, followRegionRedirects, s3ExpressIdentityProvider, bucketEndpoint, expectContinueHeader } = input;
+      return Object.assign(input, {
+        forcePathStyle: forcePathStyle ?? false,
+        useAccelerateEndpoint: useAccelerateEndpoint ?? false,
+        disableMultiregionAccessPoints: disableMultiregionAccessPoints ?? false,
+        followRegionRedirects: followRegionRedirects ?? false,
+        s3ExpressIdentityProvider: s3ExpressIdentityProvider ?? new S3ExpressIdentityProviderImpl(async (key) => s3ClientProvider().send(new CreateSessionCommandCtor({
+          Bucket: key
+        }))),
+        bucketEndpoint: bucketEndpoint ?? false,
+        expectContinueHeader: expectContinueHeader ?? 2097152
+      });
+    };
+    var THROW_IF_EMPTY_BODY = {
+      CopyObjectCommand: true,
+      UploadPartCopyCommand: true,
+      CompleteMultipartUploadCommand: true
+    };
+    var throw200ExceptionsMiddleware = (config) => (next, context) => async (args) => {
+      const result = await next(args);
+      const { response } = result;
+      if (!protocolHttp.HttpResponse.isInstance(response)) {
+        return result;
+      }
+      const { statusCode, body } = response;
+      if (statusCode < 200 || statusCode >= 300) {
+        return result;
+      }
+      const bodyBytes = await collectBody3(body, config);
+      response.body = toStream.toStream(bodyBytes);
+      if (bodyBytes.length === 0 && THROW_IF_EMPTY_BODY[context.commandName]) {
+        const err = new Error("S3 aborted request");
+        err.$metadata = {
+          httpStatusCode: 503
+        };
+        err.name = "InternalError";
+        throw err;
+      }
+      const bodyStringTail = config.utf8Encoder(bodyBytes.subarray(bodyBytes.length - 16));
+      if (bodyStringTail && bodyStringTail.endsWith("</Error>")) {
+        response.statusCode = 503;
+      }
+      return result;
+    };
+    var collectBody3 = (streamBody = new Uint8Array(), context) => {
+      if (streamBody instanceof Uint8Array) {
+        return Promise.resolve(streamBody);
+      }
+      return context.streamCollector(streamBody) || Promise.resolve(new Uint8Array());
+    };
+    var throw200ExceptionsMiddlewareOptions = {
+      relation: "after",
+      toMiddleware: "deserializerMiddleware",
+      tags: ["THROW_200_EXCEPTIONS", "S3"],
+      name: "throw200ExceptionsMiddleware",
+      override: true
+    };
+    var getThrow200ExceptionsPlugin = (config) => ({
+      applyToStack: (clientStack) => {
+        clientStack.addRelativeTo(throw200ExceptionsMiddleware(config), throw200ExceptionsMiddlewareOptions);
+      }
+    });
+    function bucketEndpointMiddleware(options) {
+      return (next, context) => async (args) => {
+        if (options.bucketEndpoint) {
+          const endpoint2 = context.endpointV2;
+          if (endpoint2) {
+            const bucket = args.input.Bucket;
+            if (typeof bucket === "string") {
+              try {
+                const bucketEndpointUrl = new URL(bucket);
+                context.endpointV2 = {
+                  ...endpoint2,
+                  url: bucketEndpointUrl
+                };
+              } catch (e5) {
+                const warning2 = `@aws-sdk/middleware-sdk-s3: bucketEndpoint=true was set but Bucket=${bucket} could not be parsed as URL.`;
+                if (context.logger?.constructor?.name === "NoOpLogger") {
+                  console.warn(warning2);
+                } else {
+                  context.logger?.warn?.(warning2);
+                }
+                throw e5;
+              }
+            }
+          }
+        }
+        return next(args);
+      };
+    }
+    var bucketEndpointMiddlewareOptions = {
+      name: "bucketEndpointMiddleware",
+      override: true,
+      relation: "after",
+      toMiddleware: "endpointV2Middleware"
+    };
+    function validateBucketNameMiddleware({ bucketEndpoint }) {
+      return (next) => async (args) => {
+        const { input: { Bucket } } = args;
+        if (!bucketEndpoint && typeof Bucket === "string" && !utilArnParser.validate(Bucket) && Bucket.indexOf("/") >= 0) {
+          const err = new Error(`Bucket name shouldn't contain '/', received '${Bucket}'`);
+          err.name = "InvalidBucketName";
+          throw err;
+        }
+        return next({ ...args });
+      };
+    }
+    var validateBucketNameMiddlewareOptions = {
+      step: "initialize",
+      tags: ["VALIDATE_BUCKET_NAME"],
+      name: "validateBucketNameMiddleware",
+      override: true
+    };
+    var getValidateBucketNamePlugin = (options) => ({
+      applyToStack: (clientStack) => {
+        clientStack.add(validateBucketNameMiddleware(options), validateBucketNameMiddlewareOptions);
+        clientStack.addRelativeTo(bucketEndpointMiddleware(options), bucketEndpointMiddlewareOptions);
+      }
+    });
+    var S3RestXmlProtocol = class extends protocols.AwsRestXmlProtocol {
+      async serializeRequest(operationSchema, input, context) {
+        const request2 = await super.serializeRequest(operationSchema, input, context);
+        const ns = schema.NormalizedSchema.of(operationSchema.input);
+        const staticStructureSchema = ns.getSchema();
+        let bucketMemberIndex = 0;
+        const requiredMemberCount = staticStructureSchema[6] ?? 0;
+        if (input && typeof input === "object") {
+          for (const [memberName, memberNs] of ns.structIterator()) {
+            if (++bucketMemberIndex > requiredMemberCount) {
+              break;
+            }
+            if (memberName === "Bucket") {
+              if (!input.Bucket && memberNs.getMergedTraits().httpLabel) {
+                throw new Error(`No value provided for input HTTP label: Bucket.`);
+              }
+              break;
+            }
+          }
+        }
+        return request2;
+      }
+    };
+    exports2.NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_OPTIONS = NODE_DISABLE_S3_EXPRESS_SESSION_AUTH_OPTIONS;
+    exports2.S3ExpressIdentityCache = S3ExpressIdentityCache;
+    exports2.S3ExpressIdentityCacheEntry = S3ExpressIdentityCacheEntry;
+    exports2.S3ExpressIdentityProviderImpl = S3ExpressIdentityProviderImpl;
+    exports2.S3RestXmlProtocol = S3RestXmlProtocol;
+    exports2.SignatureV4S3Express = SignatureV4S3Express;
+    exports2.checkContentLengthHeader = checkContentLengthHeader;
+    exports2.checkContentLengthHeaderMiddlewareOptions = checkContentLengthHeaderMiddlewareOptions;
+    exports2.getCheckContentLengthHeaderPlugin = getCheckContentLengthHeaderPlugin;
+    exports2.getRegionRedirectMiddlewarePlugin = getRegionRedirectMiddlewarePlugin;
+    exports2.getS3ExpiresMiddlewarePlugin = getS3ExpiresMiddlewarePlugin;
+    exports2.getS3ExpressHttpSigningPlugin = getS3ExpressHttpSigningPlugin;
+    exports2.getS3ExpressPlugin = getS3ExpressPlugin;
+    exports2.getThrow200ExceptionsPlugin = getThrow200ExceptionsPlugin;
+    exports2.getValidateBucketNamePlugin = getValidateBucketNamePlugin;
+    exports2.regionRedirectEndpointMiddleware = regionRedirectEndpointMiddleware;
+    exports2.regionRedirectEndpointMiddlewareOptions = regionRedirectEndpointMiddlewareOptions;
+    exports2.regionRedirectMiddleware = regionRedirectMiddleware;
+    exports2.regionRedirectMiddlewareOptions = regionRedirectMiddlewareOptions;
+    exports2.resolveS3Config = resolveS3Config;
+    exports2.s3ExpiresMiddleware = s3ExpiresMiddleware;
+    exports2.s3ExpiresMiddlewareOptions = s3ExpiresMiddlewareOptions;
+    exports2.s3ExpressHttpSigningMiddleware = s3ExpressHttpSigningMiddleware;
+    exports2.s3ExpressHttpSigningMiddlewareOptions = s3ExpressHttpSigningMiddlewareOptions;
+    exports2.s3ExpressMiddleware = s3ExpressMiddleware;
+    exports2.s3ExpressMiddlewareOptions = s3ExpressMiddlewareOptions;
+    exports2.throw200ExceptionsMiddleware = throw200ExceptionsMiddleware;
+    exports2.throw200ExceptionsMiddlewareOptions = throw200ExceptionsMiddlewareOptions;
+    exports2.validateBucketNameMiddleware = validateBucketNameMiddleware;
+    exports2.validateBucketNameMiddlewareOptions = validateBucketNameMiddlewareOptions;
+  }
+});
+
+// node_modules/.pnpm/@aws-sdk+signature-v4-multi-region@3.996.24/node_modules/@aws-sdk/signature-v4-multi-region/dist-cjs/index.js
+var require_dist_cjs51 = __commonJS({
+  "node_modules/.pnpm/@aws-sdk+signature-v4-multi-region@3.996.24/node_modules/@aws-sdk/signature-v4-multi-region/dist-cjs/index.js"(exports2) {
+    "use strict";
+    var middlewareSdkS3 = require_dist_cjs50();
+    var signatureV4 = require_dist_cjs36();
+    var signatureV4CrtContainer = {
+      CrtSignerV4: null
+    };
+    var SignatureV4MultiRegion3 = class {
+      sigv4aSigner;
+      sigv4Signer;
+      signerOptions;
+      static sigv4aDependency() {
+        if (typeof signatureV4CrtContainer.CrtSignerV4 === "function") {
+          return "crt";
+        } else if (typeof signatureV4.signatureV4aContainer.SignatureV4a === "function") {
+          return "js";
+        }
+        return "none";
+      }
+      constructor(options) {
+        this.sigv4Signer = new middlewareSdkS3.SignatureV4S3Express(options);
+        this.signerOptions = options;
+      }
+      async sign(requestToSign, options = {}) {
+        if (options.signingRegion === "*") {
+          return this.getSigv4aSigner().sign(requestToSign, options);
+        }
+        return this.sigv4Signer.sign(requestToSign, options);
+      }
+      async signWithCredentials(requestToSign, credentials, options = {}) {
+        if (options.signingRegion === "*") {
+          const signer = this.getSigv4aSigner();
+          const CrtSignerV4 = signatureV4CrtContainer.CrtSignerV4;
+          if (CrtSignerV4 && signer instanceof CrtSignerV4) {
+            return signer.signWithCredentials(requestToSign, credentials, options);
+          } else {
+            throw new Error(`signWithCredentials with signingRegion '*' is only supported when using the CRT dependency @aws-sdk/signature-v4-crt. Please check whether you have installed the "@aws-sdk/signature-v4-crt" package explicitly. You must also register the package by calling [require("@aws-sdk/signature-v4-crt");] or an ESM equivalent such as [import "@aws-sdk/signature-v4-crt";]. For more information please go to https://github.com/aws/aws-sdk-js-v3#functionality-requiring-aws-common-runtime-crt`);
+          }
+        }
+        return this.sigv4Signer.signWithCredentials(requestToSign, credentials, options);
+      }
+      async presign(originalRequest, options = {}) {
+        if (options.signingRegion === "*") {
+          const signer = this.getSigv4aSigner();
+          const CrtSignerV4 = signatureV4CrtContainer.CrtSignerV4;
+          if (CrtSignerV4 && signer instanceof CrtSignerV4) {
+            return signer.presign(originalRequest, options);
+          } else {
+            throw new Error(`presign with signingRegion '*' is only supported when using the CRT dependency @aws-sdk/signature-v4-crt. Please check whether you have installed the "@aws-sdk/signature-v4-crt" package explicitly. You must also register the package by calling [require("@aws-sdk/signature-v4-crt");] or an ESM equivalent such as [import "@aws-sdk/signature-v4-crt";]. For more information please go to https://github.com/aws/aws-sdk-js-v3#functionality-requiring-aws-common-runtime-crt`);
+          }
+        }
+        return this.sigv4Signer.presign(originalRequest, options);
+      }
+      async presignWithCredentials(originalRequest, credentials, options = {}) {
+        if (options.signingRegion === "*") {
+          throw new Error("Method presignWithCredentials is not supported for [signingRegion=*].");
+        }
+        return this.sigv4Signer.presignWithCredentials(originalRequest, credentials, options);
+      }
+      getSigv4aSigner() {
+        if (!this.sigv4aSigner) {
+          const CrtSignerV4 = signatureV4CrtContainer.CrtSignerV4;
+          const JsSigV4aSigner = signatureV4.signatureV4aContainer.SignatureV4a;
+          if (this.signerOptions.runtime === "node") {
+            if (!CrtSignerV4 && !JsSigV4aSigner) {
+              throw new Error("Neither CRT nor JS SigV4a implementation is available. Please load either @aws-sdk/signature-v4-crt or @aws-sdk/signature-v4a. For more information please go to https://github.com/aws/aws-sdk-js-v3#functionality-requiring-aws-common-runtime-crt");
+            }
+            if (CrtSignerV4 && typeof CrtSignerV4 === "function") {
+              this.sigv4aSigner = new CrtSignerV4({
+                ...this.signerOptions,
+                signingAlgorithm: 1
+              });
+            } else if (JsSigV4aSigner && typeof JsSigV4aSigner === "function") {
+              this.sigv4aSigner = new JsSigV4aSigner({
+                ...this.signerOptions
+              });
+            } else {
+              throw new Error("Available SigV4a implementation is not a valid constructor. Please ensure you've properly imported @aws-sdk/signature-v4-crt or @aws-sdk/signature-v4a.For more information please go to https://github.com/aws/aws-sdk-js-v3#functionality-requiring-aws-common-runtime-crt");
+            }
+          } else {
+            if (!JsSigV4aSigner || typeof JsSigV4aSigner !== "function") {
+              throw new Error("JS SigV4a implementation is not available or not a valid constructor. Please check whether you have installed the @aws-sdk/signature-v4a package explicitly. The CRT implementation is not available for browsers. You must also register the package by calling [require('@aws-sdk/signature-v4a');] or an ESM equivalent such as [import '@aws-sdk/signature-v4a';]. For more information please go to https://github.com/aws/aws-sdk-js-v3#using-javascript-non-crt-implementation-of-sigv4a");
+            }
+            this.sigv4aSigner = new JsSigV4aSigner({
+              ...this.signerOptions
+            });
+          }
+        }
+        return this.sigv4aSigner;
+      }
+    };
+    exports2.SignatureV4MultiRegion = SignatureV4MultiRegion3;
+    exports2.signatureV4CrtContainer = signatureV4CrtContainer;
+  }
+});
+
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/bdd.js
+var import_util_endpoints10, q, a4, b4, c4, d4, e4, f4, g4, h4, i4, j4, k4, l2, m2, n, o, p, _data4, root4, r4, nodes4, bdd4;
+var init_bdd4 = __esm({
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/bdd.js"() {
+    import_util_endpoints10 = __toESM(require_dist_cjs20());
+    q = "ref";
+    a4 = -1;
+    b4 = true;
+    c4 = "isSet";
+    d4 = "PartitionResult";
+    e4 = "booleanEquals";
+    f4 = "stringEquals";
+    g4 = "getAttr";
+    h4 = "us-east-1";
+    i4 = "sigv4";
+    j4 = "sts";
+    k4 = "https://sts.{Region}.{PartitionResult#dnsSuffix}";
+    l2 = { [q]: "Endpoint" };
+    m2 = { [q]: "Region" };
+    n = { [q]: d4 };
+    o = {};
+    p = [m2];
+    _data4 = {
+      conditions: [
+        [c4, [l2]],
+        [c4, p],
+        ["aws.partition", p, d4],
+        [e4, [{ [q]: "UseFIPS" }, b4]],
+        [e4, [{ [q]: "UseDualStack" }, b4]],
+        [f4, [m2, "aws-global"]],
+        [e4, [{ [q]: "UseGlobalEndpoint" }, b4]],
+        [f4, [m2, "eu-central-1"]],
+        [e4, [{ fn: g4, argv: [n, "supportsDualStack"] }, b4]],
+        [e4, [{ fn: g4, argv: [n, "supportsFIPS"] }, b4]],
+        [f4, [m2, "ap-south-1"]],
+        [f4, [m2, "eu-north-1"]],
+        [f4, [m2, "eu-west-1"]],
+        [f4, [m2, "eu-west-2"]],
+        [f4, [m2, "eu-west-3"]],
+        [f4, [m2, "sa-east-1"]],
+        [f4, [m2, h4]],
+        [f4, [m2, "us-east-2"]],
+        [f4, [m2, "us-west-2"]],
+        [f4, [m2, "us-west-1"]],
+        [f4, [m2, "ca-central-1"]],
+        [f4, [m2, "ap-southeast-1"]],
+        [f4, [m2, "ap-northeast-1"]],
+        [f4, [m2, "ap-southeast-2"]],
+        [f4, [{ fn: g4, argv: [n, "name"] }, "aws-us-gov"]]
+      ],
+      results: [
+        [a4],
+        ["https://sts.amazonaws.com", { authSchemes: [{ name: i4, signingName: j4, signingRegion: h4 }] }],
+        [k4, { authSchemes: [{ name: i4, signingName: j4, signingRegion: "{Region}" }] }],
+        [a4, "Invalid Configuration: FIPS and custom endpoint are not supported"],
+        [a4, "Invalid Configuration: Dualstack and custom endpoint are not supported"],
+        [l2, o],
+        ["https://sts-fips.{Region}.{PartitionResult#dualStackDnsSuffix}", o],
+        [a4, "FIPS and DualStack are enabled, but this partition does not support one or both"],
+        ["https://sts.{Region}.amazonaws.com", o],
+        ["https://sts-fips.{Region}.{PartitionResult#dnsSuffix}", o],
+        [a4, "FIPS is enabled but this partition does not support FIPS"],
+        ["https://sts.{Region}.{PartitionResult#dualStackDnsSuffix}", o],
+        [a4, "DualStack is enabled but this partition does not support DualStack"],
+        [k4, o],
+        [a4, "Invalid Configuration: Missing Region"]
+      ]
+    };
+    root4 = 2;
+    r4 = 1e8;
+    nodes4 = new Int32Array([
+      -1,
+      1,
+      -1,
+      0,
+      30,
+      3,
+      1,
+      4,
+      r4 + 14,
+      2,
+      5,
+      r4 + 14,
+      3,
+      25,
+      6,
+      4,
+      24,
+      7,
+      5,
+      r4 + 1,
+      8,
+      6,
+      9,
+      r4 + 13,
+      7,
+      r4 + 1,
+      10,
+      10,
+      r4 + 1,
+      11,
+      11,
+      r4 + 1,
+      12,
+      12,
+      r4 + 1,
+      13,
+      13,
+      r4 + 1,
+      14,
+      14,
+      r4 + 1,
+      15,
+      15,
+      r4 + 1,
+      16,
+      16,
+      r4 + 1,
+      17,
+      17,
+      r4 + 1,
+      18,
+      18,
+      r4 + 1,
+      19,
+      19,
+      r4 + 1,
+      20,
+      20,
+      r4 + 1,
+      21,
+      21,
+      r4 + 1,
+      22,
+      22,
+      r4 + 1,
+      23,
+      23,
+      r4 + 1,
+      r4 + 2,
+      8,
+      r4 + 11,
+      r4 + 12,
+      4,
+      28,
+      26,
+      9,
+      27,
+      r4 + 10,
+      24,
+      r4 + 8,
+      r4 + 9,
+      8,
+      29,
+      r4 + 7,
+      9,
+      r4 + 6,
+      r4 + 7,
+      3,
+      r4 + 3,
+      31,
+      4,
+      r4 + 4,
+      r4 + 5
+    ]);
+    bdd4 = import_util_endpoints10.BinaryDecisionDiagram.from(nodes4, root4, _data4.conditions, _data4.results);
+  }
+});
+
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/endpointResolver.js
+var import_util_endpoints11, import_util_endpoints12, cache4, defaultEndpointResolver4;
+var init_endpointResolver4 = __esm({
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/endpointResolver.js"() {
+    import_util_endpoints11 = __toESM(require_dist_cjs21());
+    import_util_endpoints12 = __toESM(require_dist_cjs20());
+    init_bdd4();
+    cache4 = new import_util_endpoints12.EndpointCache({
+      size: 50,
+      params: ["Endpoint", "Region", "UseDualStack", "UseFIPS", "UseGlobalEndpoint"]
+    });
+    defaultEndpointResolver4 = (endpointParams, context = {}) => {
+      return cache4.get(endpointParams, () => (0, import_util_endpoints12.decideEndpoint)(bdd4, {
+        endpointParams,
+        logger: context.logger
+      }));
+    };
+    import_util_endpoints12.customEndpointFunctions.aws = import_util_endpoints11.awsEndpointFunctions;
+  }
+});
+
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthSchemeProvider.js
 function createAwsAuthSigv4HttpAuthOption4(authParameters) {
   return {
     schemeId: "aws.auth#sigv4",
+    signingProperties: {
+      name: "sts",
+      region: authParameters.region
+    },
+    propertiesExtractor: (config, context) => ({
+      signingProperties: {
+        config,
+        context
+      }
+    })
+  };
+}
+function createAwsAuthSigv4aHttpAuthOption(authParameters) {
+  return {
+    schemeId: "aws.auth#sigv4a",
     signingProperties: {
       name: "sts",
       region: authParameters.region
@@ -38903,13 +40439,28 @@ function createSmithyApiNoAuthHttpAuthOption4(authParameters) {
     schemeId: "smithy.api#noAuth"
   };
 }
-var import_util_middleware9, defaultSTSHttpAuthSchemeParametersProvider, defaultSTSHttpAuthSchemeProvider, resolveStsAuthConfig, resolveHttpAuthSchemeConfig4;
+var import_signature_v4_multi_region, import_middleware_endpoint7, import_util_middleware9, createEndpointRuleSetHttpAuthSchemeParametersProvider, _defaultSTSHttpAuthSchemeParametersProvider, defaultSTSHttpAuthSchemeParametersProvider, createEndpointRuleSetHttpAuthSchemeProvider, _defaultSTSHttpAuthSchemeProvider, defaultSTSHttpAuthSchemeProvider, resolveStsAuthConfig, resolveHttpAuthSchemeConfig4;
 var init_httpAuthSchemeProvider4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthSchemeProvider.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthSchemeProvider.js"() {
     init_httpAuthSchemes2();
+    import_signature_v4_multi_region = __toESM(require_dist_cjs51());
+    import_middleware_endpoint7 = __toESM(require_dist_cjs32());
     import_util_middleware9 = __toESM(require_dist_cjs6());
+    init_endpointResolver4();
     init_STSClient();
-    defaultSTSHttpAuthSchemeParametersProvider = async (config, context, input) => {
+    createEndpointRuleSetHttpAuthSchemeParametersProvider = (defaultHttpAuthSchemeParametersProvider) => async (config, context, input) => {
+      if (!input) {
+        throw new Error("Could not find `input` for `defaultEndpointRuleSetHttpAuthSchemeParametersProvider`");
+      }
+      const defaultParameters = await defaultHttpAuthSchemeParametersProvider(config, context, input);
+      const instructionsFn = (0, import_util_middleware9.getSmithyContext)(context)?.commandInstance?.constructor?.getEndpointParameterInstructions;
+      if (!instructionsFn) {
+        throw new Error(`getEndpointParameterInstructions() is not defined on '${context.commandName}'`);
+      }
+      const endpointParameters = await (0, import_middleware_endpoint7.resolveParams)(input, { getEndpointParameterInstructions: instructionsFn }, config);
+      return Object.assign(defaultParameters, endpointParameters);
+    };
+    _defaultSTSHttpAuthSchemeParametersProvider = async (config, context, input) => {
       return {
         operation: (0, import_util_middleware9.getSmithyContext)(context).operation,
         region: await (0, import_util_middleware9.normalizeProvider)(config.region)() || (() => {
@@ -38917,36 +40468,87 @@ var init_httpAuthSchemeProvider4 = __esm({
         })()
       };
     };
-    defaultSTSHttpAuthSchemeProvider = (authParameters) => {
+    defaultSTSHttpAuthSchemeParametersProvider = createEndpointRuleSetHttpAuthSchemeParametersProvider(_defaultSTSHttpAuthSchemeParametersProvider);
+    createEndpointRuleSetHttpAuthSchemeProvider = (defaultEndpointResolver5, defaultHttpAuthSchemeResolver, createHttpAuthOptionFunctions) => {
+      const endpointRuleSetHttpAuthSchemeProvider = (authParameters) => {
+        const endpoint2 = defaultEndpointResolver5(authParameters);
+        const authSchemes = endpoint2.properties?.authSchemes;
+        if (!authSchemes) {
+          return defaultHttpAuthSchemeResolver(authParameters);
+        }
+        const options = [];
+        for (const scheme of authSchemes) {
+          const { name: resolvedName, properties = {}, ...rest } = scheme;
+          const name = resolvedName.toLowerCase();
+          if (resolvedName !== name) {
+            console.warn(`HttpAuthScheme has been normalized with lowercasing: '${resolvedName}' to '${name}'`);
+          }
+          let schemeId;
+          if (name === "sigv4a") {
+            schemeId = "aws.auth#sigv4a";
+            const sigv4Present = authSchemes.find((s) => {
+              const name2 = s.name.toLowerCase();
+              return name2 !== "sigv4a" && name2.startsWith("sigv4");
+            });
+            if (import_signature_v4_multi_region.SignatureV4MultiRegion.sigv4aDependency() === "none" && sigv4Present) {
+              continue;
+            }
+          } else if (name.startsWith("sigv4")) {
+            schemeId = "aws.auth#sigv4";
+          } else {
+            throw new Error(`Unknown HttpAuthScheme found in '@smithy.rules#endpointRuleSet': '${name}'`);
+          }
+          const createOption = createHttpAuthOptionFunctions[schemeId];
+          if (!createOption) {
+            throw new Error(`Could not find HttpAuthOption create function for '${schemeId}'`);
+          }
+          const option = createOption(authParameters);
+          option.schemeId = schemeId;
+          option.signingProperties = { ...option.signingProperties || {}, ...rest, ...properties };
+          options.push(option);
+        }
+        return options;
+      };
+      return endpointRuleSetHttpAuthSchemeProvider;
+    };
+    _defaultSTSHttpAuthSchemeProvider = (authParameters) => {
       const options = [];
       switch (authParameters.operation) {
         case "AssumeRoleWithWebIdentity": {
           options.push(createSmithyApiNoAuthHttpAuthOption4(authParameters));
+          options.push(createAwsAuthSigv4aHttpAuthOption(authParameters));
           break;
         }
         default: {
           options.push(createAwsAuthSigv4HttpAuthOption4(authParameters));
+          options.push(createAwsAuthSigv4aHttpAuthOption(authParameters));
         }
       }
       return options;
     };
+    defaultSTSHttpAuthSchemeProvider = createEndpointRuleSetHttpAuthSchemeProvider(defaultEndpointResolver4, _defaultSTSHttpAuthSchemeProvider, {
+      "aws.auth#sigv4": createAwsAuthSigv4HttpAuthOption4,
+      "aws.auth#sigv4a": createAwsAuthSigv4aHttpAuthOption,
+      "smithy.api#noAuth": createSmithyApiNoAuthHttpAuthOption4
+    });
     resolveStsAuthConfig = (input) => Object.assign(input, {
       stsClientCtor: STSClient
     });
     resolveHttpAuthSchemeConfig4 = (config) => {
       const config_0 = resolveStsAuthConfig(config);
       const config_1 = resolveAwsSdkSigV4Config(config_0);
-      return Object.assign(config_1, {
+      const config_2 = resolveAwsSdkSigV4AConfig(config_1);
+      return Object.assign(config_2, {
         authSchemePreference: (0, import_util_middleware9.normalizeProvider)(config.authSchemePreference ?? [])
       });
     };
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/EndpointParameters.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/EndpointParameters.js
 var resolveClientEndpointParameters4, commonParams4;
 var init_EndpointParameters4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/EndpointParameters.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/EndpointParameters.js"() {
     resolveClientEndpointParameters4 = (options) => {
       return Object.assign(options, {
         useDualstackEndpoint: options.useDualstackEndpoint ?? false,
@@ -38965,214 +40567,10 @@ var init_EndpointParameters4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/ruleset.js
-var F, G, H, I, J, a4, b4, c4, d4, e4, f4, g4, h4, i4, j4, k4, l4, m4, n4, o4, p4, q4, r4, s4, t4, u4, v4, w4, x4, y, z, A, B, C, D, E, _data4, ruleSet4;
-var init_ruleset4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/ruleset.js"() {
-    F = "required";
-    G = "type";
-    H = "fn";
-    I = "argv";
-    J = "ref";
-    a4 = false;
-    b4 = true;
-    c4 = "booleanEquals";
-    d4 = "stringEquals";
-    e4 = "sigv4";
-    f4 = "sts";
-    g4 = "us-east-1";
-    h4 = "endpoint";
-    i4 = "https://sts.{Region}.{PartitionResult#dnsSuffix}";
-    j4 = "tree";
-    k4 = "error";
-    l4 = "getAttr";
-    m4 = { [F]: false, [G]: "string" };
-    n4 = { [F]: true, default: false, [G]: "boolean" };
-    o4 = { [J]: "Endpoint" };
-    p4 = { [H]: "isSet", [I]: [{ [J]: "Region" }] };
-    q4 = { [J]: "Region" };
-    r4 = { [H]: "aws.partition", [I]: [q4], assign: "PartitionResult" };
-    s4 = { [J]: "UseFIPS" };
-    t4 = { [J]: "UseDualStack" };
-    u4 = {
-      url: "https://sts.amazonaws.com",
-      properties: { authSchemes: [{ name: e4, signingName: f4, signingRegion: g4 }] },
-      headers: {}
-    };
-    v4 = {};
-    w4 = { conditions: [{ [H]: d4, [I]: [q4, "aws-global"] }], [h4]: u4, [G]: h4 };
-    x4 = { [H]: c4, [I]: [s4, true] };
-    y = { [H]: c4, [I]: [t4, true] };
-    z = { [H]: l4, [I]: [{ [J]: "PartitionResult" }, "supportsFIPS"] };
-    A = { [J]: "PartitionResult" };
-    B = { [H]: c4, [I]: [true, { [H]: l4, [I]: [A, "supportsDualStack"] }] };
-    C = [{ [H]: "isSet", [I]: [o4] }];
-    D = [x4];
-    E = [y];
-    _data4 = {
-      version: "1.0",
-      parameters: { Region: m4, UseDualStack: n4, UseFIPS: n4, Endpoint: m4, UseGlobalEndpoint: n4 },
-      rules: [
-        {
-          conditions: [
-            { [H]: c4, [I]: [{ [J]: "UseGlobalEndpoint" }, b4] },
-            { [H]: "not", [I]: C },
-            p4,
-            r4,
-            { [H]: c4, [I]: [s4, a4] },
-            { [H]: c4, [I]: [t4, a4] }
-          ],
-          rules: [
-            { conditions: [{ [H]: d4, [I]: [q4, "ap-northeast-1"] }], endpoint: u4, [G]: h4 },
-            { conditions: [{ [H]: d4, [I]: [q4, "ap-south-1"] }], endpoint: u4, [G]: h4 },
-            { conditions: [{ [H]: d4, [I]: [q4, "ap-southeast-1"] }], endpoint: u4, [G]: h4 },
-            { conditions: [{ [H]: d4, [I]: [q4, "ap-southeast-2"] }], endpoint: u4, [G]: h4 },
-            w4,
-            { conditions: [{ [H]: d4, [I]: [q4, "ca-central-1"] }], endpoint: u4, [G]: h4 },
-            { conditions: [{ [H]: d4, [I]: [q4, "eu-central-1"] }], endpoint: u4, [G]: h4 },
-            { conditions: [{ [H]: d4, [I]: [q4, "eu-north-1"] }], endpoint: u4, [G]: h4 },
-            { conditions: [{ [H]: d4, [I]: [q4, "eu-west-1"] }], endpoint: u4, [G]: h4 },
-            { conditions: [{ [H]: d4, [I]: [q4, "eu-west-2"] }], endpoint: u4, [G]: h4 },
-            { conditions: [{ [H]: d4, [I]: [q4, "eu-west-3"] }], endpoint: u4, [G]: h4 },
-            { conditions: [{ [H]: d4, [I]: [q4, "sa-east-1"] }], endpoint: u4, [G]: h4 },
-            { conditions: [{ [H]: d4, [I]: [q4, g4] }], endpoint: u4, [G]: h4 },
-            { conditions: [{ [H]: d4, [I]: [q4, "us-east-2"] }], endpoint: u4, [G]: h4 },
-            { conditions: [{ [H]: d4, [I]: [q4, "us-west-1"] }], endpoint: u4, [G]: h4 },
-            { conditions: [{ [H]: d4, [I]: [q4, "us-west-2"] }], endpoint: u4, [G]: h4 },
-            {
-              endpoint: {
-                url: i4,
-                properties: { authSchemes: [{ name: e4, signingName: f4, signingRegion: "{Region}" }] },
-                headers: v4
-              },
-              [G]: h4
-            }
-          ],
-          [G]: j4
-        },
-        {
-          conditions: C,
-          rules: [
-            { conditions: D, error: "Invalid Configuration: FIPS and custom endpoint are not supported", [G]: k4 },
-            { conditions: E, error: "Invalid Configuration: Dualstack and custom endpoint are not supported", [G]: k4 },
-            { endpoint: { url: o4, properties: v4, headers: v4 }, [G]: h4 }
-          ],
-          [G]: j4
-        },
-        {
-          conditions: [p4],
-          rules: [
-            {
-              conditions: [r4],
-              rules: [
-                {
-                  conditions: [x4, y],
-                  rules: [
-                    {
-                      conditions: [{ [H]: c4, [I]: [b4, z] }, B],
-                      rules: [
-                        {
-                          endpoint: {
-                            url: "https://sts-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                            properties: v4,
-                            headers: v4
-                          },
-                          [G]: h4
-                        }
-                      ],
-                      [G]: j4
-                    },
-                    { error: "FIPS and DualStack are enabled, but this partition does not support one or both", [G]: k4 }
-                  ],
-                  [G]: j4
-                },
-                {
-                  conditions: D,
-                  rules: [
-                    {
-                      conditions: [{ [H]: c4, [I]: [z, b4] }],
-                      rules: [
-                        {
-                          conditions: [{ [H]: d4, [I]: [{ [H]: l4, [I]: [A, "name"] }, "aws-us-gov"] }],
-                          endpoint: { url: "https://sts.{Region}.amazonaws.com", properties: v4, headers: v4 },
-                          [G]: h4
-                        },
-                        {
-                          endpoint: {
-                            url: "https://sts-fips.{Region}.{PartitionResult#dnsSuffix}",
-                            properties: v4,
-                            headers: v4
-                          },
-                          [G]: h4
-                        }
-                      ],
-                      [G]: j4
-                    },
-                    { error: "FIPS is enabled but this partition does not support FIPS", [G]: k4 }
-                  ],
-                  [G]: j4
-                },
-                {
-                  conditions: E,
-                  rules: [
-                    {
-                      conditions: [B],
-                      rules: [
-                        {
-                          endpoint: {
-                            url: "https://sts.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                            properties: v4,
-                            headers: v4
-                          },
-                          [G]: h4
-                        }
-                      ],
-                      [G]: j4
-                    },
-                    { error: "DualStack is enabled but this partition does not support DualStack", [G]: k4 }
-                  ],
-                  [G]: j4
-                },
-                w4,
-                { endpoint: { url: i4, properties: v4, headers: v4 }, [G]: h4 }
-              ],
-              [G]: j4
-            }
-          ],
-          [G]: j4
-        },
-        { error: "Invalid Configuration: Missing Region", [G]: k4 }
-      ]
-    };
-    ruleSet4 = _data4;
-  }
-});
-
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/endpointResolver.js
-var import_util_endpoints7, import_util_endpoints8, cache4, defaultEndpointResolver4;
-var init_endpointResolver4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/endpointResolver.js"() {
-    import_util_endpoints7 = __toESM(require_dist_cjs21());
-    import_util_endpoints8 = __toESM(require_dist_cjs20());
-    init_ruleset4();
-    cache4 = new import_util_endpoints8.EndpointCache({
-      size: 50,
-      params: ["Endpoint", "Region", "UseDualStack", "UseFIPS", "UseGlobalEndpoint"]
-    });
-    defaultEndpointResolver4 = (endpointParams, context = {}) => {
-      return cache4.get(endpointParams, () => (0, import_util_endpoints8.resolveEndpoint)(ruleSet4, {
-        endpointParams,
-        logger: context.logger
-      }));
-    };
-    import_util_endpoints8.customEndpointFunctions.aws = import_util_endpoints7.awsEndpointFunctions;
-  }
-});
-
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/STSServiceException.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/STSServiceException.js
 var import_smithy_client29, STSServiceException;
 var init_STSServiceException = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/STSServiceException.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/STSServiceException.js"() {
     import_smithy_client29 = __toESM(require_dist_cjs34());
     STSServiceException = class _STSServiceException extends import_smithy_client29.ServiceException {
       constructor(options) {
@@ -39183,10 +40581,10 @@ var init_STSServiceException = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/errors.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/errors.js
 var ExpiredTokenException2, MalformedPolicyDocumentException, PackedPolicyTooLargeException, RegionDisabledException, IDPRejectedClaimException, InvalidIdentityTokenException, IDPCommunicationErrorException;
 var init_errors4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/errors.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/errors.js"() {
     init_STSServiceException();
     ExpiredTokenException2 = class _ExpiredTokenException extends STSServiceException {
       name = "ExpiredTokenException";
@@ -39263,6 +40661,7 @@ var init_errors4 = __esm({
     IDPCommunicationErrorException = class _IDPCommunicationErrorException extends STSServiceException {
       name = "IDPCommunicationErrorException";
       $fault = "client";
+      $retryable = {};
       constructor(opts) {
         super({
           name: "IDPCommunicationErrorException",
@@ -39275,10 +40674,10 @@ var init_errors4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/schemas/schemas_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/schemas/schemas_0.js
 var _A, _AKI, _AR, _ARI, _ARR, _ARRs, _ARU, _ARWWI, _ARWWIR, _ARWWIRs, _Au, _C, _CA, _DS, _E, _EI, _ETE2, _IDPCEE, _IDPRCE, _IITE, _K, _MPDE, _P, _PA, _PAr, _PC, _PCLT, _PCr, _PDT, _PI, _PPS, _PPTLE, _Pr, _RA, _RDE, _RSN, _SAK, _SFWIT, _SI, _SN, _ST, _T, _TC, _TTK, _Ta, _V, _WIT, _a, _aKST, _aQE, _c4, _cTT, _e4, _hE4, _m3, _pDLT, _s4, _tLT, n04, _s_registry4, STSServiceException$, n0_registry4, ExpiredTokenException$2, IDPCommunicationErrorException$, IDPRejectedClaimException$, InvalidIdentityTokenException$, MalformedPolicyDocumentException$, PackedPolicyTooLargeException$, RegionDisabledException$, errorTypeRegistries4, accessKeySecretType, clientTokenType, AssumedRoleUser$, AssumeRoleRequest$, AssumeRoleResponse$, AssumeRoleWithWebIdentityRequest$, AssumeRoleWithWebIdentityResponse$, Credentials$, PolicyDescriptorType$, ProvidedContext$, Tag$, policyDescriptorListType, ProvidedContextsListType, tagKeyListType, tagListType, AssumeRole$, AssumeRoleWithWebIdentity$;
 var init_schemas_04 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/schemas/schemas_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/schemas/schemas_0.js"() {
     init_schema();
     init_errors4();
     init_STSServiceException();
@@ -39474,12 +40873,13 @@ var init_schemas_04 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.shared.js
-var import_smithy_client30, import_url_parser5, import_util_base6411, import_util_utf811, getRuntimeConfig7;
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.shared.js
+var import_signature_v4_multi_region2, import_smithy_client30, import_url_parser5, import_util_base6411, import_util_utf811, getRuntimeConfig7;
 var init_runtimeConfig_shared4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.shared.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.shared.js"() {
     init_httpAuthSchemes2();
     init_protocols2();
+    import_signature_v4_multi_region2 = __toESM(require_dist_cjs51());
     init_dist_es();
     import_smithy_client30 = __toESM(require_dist_cjs34());
     import_url_parser5 = __toESM(require_dist_cjs18());
@@ -39504,6 +40904,11 @@ var init_runtimeConfig_shared4 = __esm({
             signer: new AwsSdkSigV4Signer()
           },
           {
+            schemeId: "aws.auth#sigv4a",
+            identityProvider: (ipc) => ipc.getIdentityProvider("aws.auth#sigv4a"),
+            signer: new AwsSdkSigV4ASigner()
+          },
+          {
             schemeId: "smithy.api#noAuth",
             identityProvider: (ipc) => ipc.getIdentityProvider("smithy.api#noAuth") || (async () => ({})),
             signer: new NoAuthSigner()
@@ -39519,6 +40924,7 @@ var init_runtimeConfig_shared4 = __esm({
           serviceTarget: "AWSSecurityTokenServiceV20110615"
         },
         serviceId: config?.serviceId ?? "STS",
+        signerConstructor: config?.signerConstructor ?? import_signature_v4_multi_region2.SignatureV4MultiRegion,
         urlParser: config?.urlParser ?? import_url_parser5.parseUrl,
         utf8Decoder: config?.utf8Decoder ?? import_util_utf811.fromUtf8,
         utf8Encoder: config?.utf8Encoder ?? import_util_utf811.toUtf8
@@ -39527,10 +40933,10 @@ var init_runtimeConfig_shared4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.js
-var import_util_user_agent_node4, import_config_resolver7, import_hash_node4, import_middleware_retry7, import_node_config_provider4, import_node_http_handler4, import_smithy_client31, import_util_body_length_node4, import_util_defaults_mode_node4, import_util_retry4, getRuntimeConfig8;
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.js
+var import_util_user_agent_node4, import_config_resolver7, import_hash_node4, import_middleware_retry7, import_node_config_provider4, import_node_http_handler4, import_smithy_client31, import_util_body_length_node4, import_util_defaults_mode_node4, import_util_retry5, getRuntimeConfig8;
 var init_runtimeConfig4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.js"() {
     init_package();
     init_client();
     init_httpAuthSchemes2();
@@ -39544,7 +40950,7 @@ var init_runtimeConfig4 = __esm({
     import_smithy_client31 = __toESM(require_dist_cjs34());
     import_util_body_length_node4 = __toESM(require_dist_cjs42());
     import_util_defaults_mode_node4 = __toESM(require_dist_cjs43());
-    import_util_retry4 = __toESM(require_dist_cjs23());
+    import_util_retry5 = __toESM(require_dist_cjs23());
     init_runtimeConfig_shared4();
     getRuntimeConfig8 = (config) => {
       (0, import_smithy_client31.emitWarningIfUnsupportedVersion)(process.version);
@@ -39571,6 +40977,11 @@ var init_runtimeConfig4 = __esm({
             signer: new AwsSdkSigV4Signer()
           },
           {
+            schemeId: "aws.auth#sigv4a",
+            identityProvider: (ipc) => ipc.getIdentityProvider("aws.auth#sigv4a"),
+            signer: new AwsSdkSigV4ASigner()
+          },
+          {
             schemeId: "smithy.api#noAuth",
             identityProvider: (ipc) => ipc.getIdentityProvider("smithy.api#noAuth") || (async () => ({})),
             signer: new NoAuthSigner()
@@ -39581,9 +40992,10 @@ var init_runtimeConfig4 = __esm({
         requestHandler: import_node_http_handler4.NodeHttpHandler.create(config?.requestHandler ?? defaultConfigProvider),
         retryMode: config?.retryMode ?? (0, import_node_config_provider4.loadConfig)({
           ...import_middleware_retry7.NODE_RETRY_MODE_CONFIG_OPTIONS,
-          default: async () => (await defaultConfigProvider()).retryMode || import_util_retry4.DEFAULT_RETRY_MODE
+          default: async () => (await defaultConfigProvider()).retryMode || import_util_retry5.DEFAULT_RETRY_MODE
         }, config),
         sha256: config?.sha256 ?? import_hash_node4.Hash.bind(null, "sha256"),
+        sigv4aSigningRegionSet: config?.sigv4aSigningRegionSet ?? (0, import_node_config_provider4.loadConfig)(NODE_SIGV4A_CONFIG_OPTIONS, loaderConfig),
         streamCollector: config?.streamCollector ?? import_node_http_handler4.streamCollector,
         useDualstackEndpoint: config?.useDualstackEndpoint ?? (0, import_node_config_provider4.loadConfig)(import_config_resolver7.NODE_USE_DUALSTACK_ENDPOINT_CONFIG_OPTIONS, loaderConfig),
         useFipsEndpoint: config?.useFipsEndpoint ?? (0, import_node_config_provider4.loadConfig)(import_config_resolver7.NODE_USE_FIPS_ENDPOINT_CONFIG_OPTIONS, loaderConfig),
@@ -39593,10 +41005,10 @@ var init_runtimeConfig4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthExtensionConfiguration.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthExtensionConfiguration.js
 var getHttpAuthExtensionConfiguration4, resolveHttpAuthRuntimeConfig4;
 var init_httpAuthExtensionConfiguration4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthExtensionConfiguration.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthExtensionConfiguration.js"() {
     getHttpAuthExtensionConfiguration4 = (runtimeConfig) => {
       const _httpAuthSchemes = runtimeConfig.httpAuthSchemes;
       let _httpAuthSchemeProvider = runtimeConfig.httpAuthSchemeProvider;
@@ -39637,10 +41049,10 @@ var init_httpAuthExtensionConfiguration4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeExtensions.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeExtensions.js
 var import_region_config_resolver4, import_protocol_http15, import_smithy_client32, resolveRuntimeExtensions4;
 var init_runtimeExtensions4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeExtensions.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeExtensions.js"() {
     import_region_config_resolver4 = __toESM(require_dist_cjs45());
     import_protocol_http15 = __toESM(require_dist_cjs2());
     import_smithy_client32 = __toESM(require_dist_cjs34());
@@ -39653,10 +41065,10 @@ var init_runtimeExtensions4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STSClient.js
-var import_middleware_host_header4, import_middleware_logger4, import_middleware_recursion_detection4, import_middleware_user_agent4, import_config_resolver8, import_middleware_content_length4, import_middleware_endpoint7, import_middleware_retry8, import_smithy_client33, STSClient;
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STSClient.js
+var import_middleware_host_header4, import_middleware_logger4, import_middleware_recursion_detection4, import_middleware_user_agent4, import_config_resolver8, import_middleware_content_length4, import_middleware_endpoint8, import_middleware_retry8, import_smithy_client33, STSClient;
 var init_STSClient = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STSClient.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STSClient.js"() {
     import_middleware_host_header4 = __toESM(require_dist_cjs3());
     import_middleware_logger4 = __toESM(require_dist_cjs4());
     import_middleware_recursion_detection4 = __toESM(require_dist_cjs5());
@@ -39665,7 +41077,7 @@ var init_STSClient = __esm({
     init_dist_es();
     init_schema();
     import_middleware_content_length4 = __toESM(require_dist_cjs27());
-    import_middleware_endpoint7 = __toESM(require_dist_cjs32());
+    import_middleware_endpoint8 = __toESM(require_dist_cjs32());
     import_middleware_retry8 = __toESM(require_dist_cjs35());
     import_smithy_client33 = __toESM(require_dist_cjs34());
     init_httpAuthSchemeProvider4();
@@ -39683,7 +41095,7 @@ var init_STSClient = __esm({
         const _config_3 = (0, import_middleware_retry8.resolveRetryConfig)(_config_2);
         const _config_4 = (0, import_config_resolver8.resolveRegionConfig)(_config_3);
         const _config_5 = (0, import_middleware_host_header4.resolveHostHeaderConfig)(_config_4);
-        const _config_6 = (0, import_middleware_endpoint7.resolveEndpointConfig)(_config_5);
+        const _config_6 = (0, import_middleware_endpoint8.resolveEndpointConfig)(_config_5);
         const _config_7 = resolveHttpAuthSchemeConfig4(_config_6);
         const _config_8 = resolveRuntimeExtensions4(_config_7, configuration?.extensions || []);
         this.config = _config_8;
@@ -39697,7 +41109,8 @@ var init_STSClient = __esm({
         this.middlewareStack.use(getHttpAuthSchemeEndpointRuleSetPlugin(this.config, {
           httpAuthSchemeParametersProvider: defaultSTSHttpAuthSchemeParametersProvider,
           identityProviderConfigProvider: async (config) => new DefaultIdentityProviderConfig({
-            "aws.auth#sigv4": config.credentials
+            "aws.auth#sigv4": config.credentials,
+            "aws.auth#sigv4a": config.credentials
           })
         }));
         this.middlewareStack.use(getHttpSigningPlugin(this.config));
@@ -39709,40 +41122,40 @@ var init_STSClient = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleCommand.js
-var import_middleware_endpoint8, import_smithy_client34, AssumeRoleCommand;
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleCommand.js
+var import_middleware_endpoint9, import_smithy_client34, AssumeRoleCommand;
 var init_AssumeRoleCommand = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleCommand.js"() {
-    import_middleware_endpoint8 = __toESM(require_dist_cjs32());
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleCommand.js"() {
+    import_middleware_endpoint9 = __toESM(require_dist_cjs32());
     import_smithy_client34 = __toESM(require_dist_cjs34());
     init_EndpointParameters4();
     init_schemas_04();
-    AssumeRoleCommand = class extends import_smithy_client34.Command.classBuilder().ep(commonParams4).m(function(Command2, cs, config, o5) {
-      return [(0, import_middleware_endpoint8.getEndpointPlugin)(config, Command2.getEndpointParameterInstructions())];
+    AssumeRoleCommand = class extends import_smithy_client34.Command.classBuilder().ep(commonParams4).m(function(Command2, cs, config, o2) {
+      return [(0, import_middleware_endpoint9.getEndpointPlugin)(config, Command2.getEndpointParameterInstructions())];
     }).s("AWSSecurityTokenServiceV20110615", "AssumeRole", {}).n("STSClient", "AssumeRoleCommand").sc(AssumeRole$).build() {
     };
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleWithWebIdentityCommand.js
-var import_middleware_endpoint9, import_smithy_client35, AssumeRoleWithWebIdentityCommand;
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleWithWebIdentityCommand.js
+var import_middleware_endpoint10, import_smithy_client35, AssumeRoleWithWebIdentityCommand;
 var init_AssumeRoleWithWebIdentityCommand = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleWithWebIdentityCommand.js"() {
-    import_middleware_endpoint9 = __toESM(require_dist_cjs32());
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleWithWebIdentityCommand.js"() {
+    import_middleware_endpoint10 = __toESM(require_dist_cjs32());
     import_smithy_client35 = __toESM(require_dist_cjs34());
     init_EndpointParameters4();
     init_schemas_04();
-    AssumeRoleWithWebIdentityCommand = class extends import_smithy_client35.Command.classBuilder().ep(commonParams4).m(function(Command2, cs, config, o5) {
-      return [(0, import_middleware_endpoint9.getEndpointPlugin)(config, Command2.getEndpointParameterInstructions())];
+    AssumeRoleWithWebIdentityCommand = class extends import_smithy_client35.Command.classBuilder().ep(commonParams4).m(function(Command2, cs, config, o2) {
+      return [(0, import_middleware_endpoint10.getEndpointPlugin)(config, Command2.getEndpointParameterInstructions())];
     }).s("AWSSecurityTokenServiceV20110615", "AssumeRoleWithWebIdentity", {}).n("STSClient", "AssumeRoleWithWebIdentityCommand").sc(AssumeRoleWithWebIdentity$).build() {
     };
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STS.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STS.js
 var import_smithy_client36, commands4, STS;
 var init_STS = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STS.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STS.js"() {
     import_smithy_client36 = __toESM(require_dist_cjs34());
     init_AssumeRoleCommand();
     init_AssumeRoleWithWebIdentityCommand();
@@ -39757,24 +41170,24 @@ var init_STS = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/index.js
 var init_commands4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/index.js"() {
     init_AssumeRoleCommand();
     init_AssumeRoleWithWebIdentityCommand();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/models_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/models_0.js
 var init_models_04 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/models_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/models_0.js"() {
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultStsRoleAssumers.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultStsRoleAssumers.js
 var import_region_config_resolver5, getAccountIdFromAssumedRoleUser, resolveRegion, getDefaultRoleAssumer, getDefaultRoleAssumerWithWebIdentity, isH2;
 var init_defaultStsRoleAssumers = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultStsRoleAssumers.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultStsRoleAssumers.js"() {
     init_client();
     import_region_config_resolver5 = __toESM(require_dist_cjs45());
     init_AssumeRoleCommand();
@@ -39880,10 +41293,10 @@ var init_defaultStsRoleAssumers = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultRoleAssumers.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultRoleAssumers.js
 var getCustomizableStsClientCtor, getDefaultRoleAssumer2, getDefaultRoleAssumerWithWebIdentity2, decorateDefaultCredentialProvider;
 var init_defaultRoleAssumers = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultRoleAssumers.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultRoleAssumers.js"() {
     init_defaultStsRoleAssumers();
     init_STSClient();
     getCustomizableStsClientCtor = (baseCtor, customizations) => {
@@ -39909,7 +41322,7 @@ var init_defaultRoleAssumers = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/index.js
 var sts_exports = {};
 __export(sts_exports, {
   AssumeRole$: () => AssumeRole$,
@@ -39950,7 +41363,7 @@ __export(sts_exports, {
   getDefaultRoleAssumerWithWebIdentity: () => getDefaultRoleAssumerWithWebIdentity2
 });
 var init_sts = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.996.21/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/index.js"() {
     init_STSClient();
     init_STS();
     init_commands4();
@@ -39962,9 +41375,9 @@ var init_sts = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-process@3.972.27/node_modules/@aws-sdk/credential-provider-process/dist-cjs/index.js
-var require_dist_cjs49 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-process@3.972.27/node_modules/@aws-sdk/credential-provider-process/dist-cjs/index.js"(exports2) {
+// node_modules/.pnpm/@aws-sdk+credential-provider-process@3.972.33/node_modules/@aws-sdk/credential-provider-process/dist-cjs/index.js
+var require_dist_cjs52 = __commonJS({
+  "node_modules/.pnpm/@aws-sdk+credential-provider-process@3.972.33/node_modules/@aws-sdk/credential-provider-process/dist-cjs/index.js"(exports2) {
     "use strict";
     var sharedIniFileLoader = require_dist_cjs29();
     var propertyProvider = require_dist_cjs28();
@@ -40038,36 +41451,36 @@ var require_dist_cjs49 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.31/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromWebToken.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.37/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromWebToken.js
 var require_fromWebToken = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.31/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromWebToken.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.37/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromWebToken.js"(exports2) {
     "use strict";
-    var __createBinding2 = exports2 && exports2.__createBinding || (Object.create ? (function(o5, m5, k5, k22) {
+    var __createBinding2 = exports2 && exports2.__createBinding || (Object.create ? (function(o2, m3, k5, k22) {
       if (k22 === void 0) k22 = k5;
-      var desc = Object.getOwnPropertyDescriptor(m5, k5);
-      if (!desc || ("get" in desc ? !m5.__esModule : desc.writable || desc.configurable)) {
+      var desc = Object.getOwnPropertyDescriptor(m3, k5);
+      if (!desc || ("get" in desc ? !m3.__esModule : desc.writable || desc.configurable)) {
         desc = { enumerable: true, get: function() {
-          return m5[k5];
+          return m3[k5];
         } };
       }
-      Object.defineProperty(o5, k22, desc);
-    }) : (function(o5, m5, k5, k22) {
+      Object.defineProperty(o2, k22, desc);
+    }) : (function(o2, m3, k5, k22) {
       if (k22 === void 0) k22 = k5;
-      o5[k22] = m5[k5];
+      o2[k22] = m3[k5];
     }));
-    var __setModuleDefault2 = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o5, v5) {
-      Object.defineProperty(o5, "default", { enumerable: true, value: v5 });
-    }) : function(o5, v5) {
-      o5["default"] = v5;
+    var __setModuleDefault2 = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o2, v) {
+      Object.defineProperty(o2, "default", { enumerable: true, value: v });
+    }) : function(o2, v) {
+      o2["default"] = v;
     });
     var __importStar2 = exports2 && exports2.__importStar || /* @__PURE__ */ (function() {
-      var ownKeys2 = function(o5) {
-        ownKeys2 = Object.getOwnPropertyNames || function(o6) {
+      var ownKeys2 = function(o2) {
+        ownKeys2 = Object.getOwnPropertyNames || function(o3) {
           var ar = [];
-          for (var k5 in o6) if (Object.prototype.hasOwnProperty.call(o6, k5)) ar[ar.length] = k5;
+          for (var k5 in o3) if (Object.prototype.hasOwnProperty.call(o3, k5)) ar[ar.length] = k5;
           return ar;
         };
-        return ownKeys2(o5);
+        return ownKeys2(o2);
       };
       return function(mod) {
         if (mod && mod.__esModule) return mod;
@@ -40110,9 +41523,9 @@ var require_fromWebToken = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.31/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromTokenFile.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.37/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromTokenFile.js
 var require_fromTokenFile = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.31/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromTokenFile.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.37/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromTokenFile.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.fromTokenFile = void 0;
@@ -40149,9 +41562,9 @@ var require_fromTokenFile = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.31/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/index.js
-var require_dist_cjs50 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.31/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/index.js"(exports2) {
+// node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.37/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/index.js
+var require_dist_cjs53 = __commonJS({
+  "node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.37/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/index.js"(exports2) {
     "use strict";
     var fromTokenFile = require_fromTokenFile();
     var fromWebToken = require_fromWebToken();
@@ -40172,9 +41585,9 @@ var require_dist_cjs50 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-ini@3.972.31/node_modules/@aws-sdk/credential-provider-ini/dist-cjs/index.js
-var require_dist_cjs51 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-ini@3.972.31/node_modules/@aws-sdk/credential-provider-ini/dist-cjs/index.js"(exports2) {
+// node_modules/.pnpm/@aws-sdk+credential-provider-ini@3.972.37/node_modules/@aws-sdk/credential-provider-ini/dist-cjs/index.js
+var require_dist_cjs54 = __commonJS({
+  "node_modules/.pnpm/@aws-sdk+credential-provider-ini@3.972.37/node_modules/@aws-sdk/credential-provider-ini/dist-cjs/index.js"(exports2) {
     "use strict";
     var sharedIniFileLoader = require_dist_cjs29();
     var propertyProvider = require_dist_cjs28();
@@ -40282,7 +41695,7 @@ var require_dist_cjs51 = __commonJS({
       return client.setCredentialFeature(credentials, "CREDENTIALS_PROFILE_LOGIN", "AC");
     };
     var isProcessProfile = (arg) => Boolean(arg) && typeof arg === "object" && typeof arg.credential_process === "string";
-    var resolveProcessCredentials = async (options, profile) => Promise.resolve().then(() => __toESM(require_dist_cjs49())).then(({ fromProcess }) => fromProcess({
+    var resolveProcessCredentials = async (options, profile) => Promise.resolve().then(() => __toESM(require_dist_cjs52())).then(({ fromProcess }) => fromProcess({
       ...options,
       profile
     })().then((creds) => client.setCredentialFeature(creds, "CREDENTIALS_PROFILE_PROCESS", "v")));
@@ -40317,7 +41730,7 @@ var require_dist_cjs51 = __commonJS({
       return client.setCredentialFeature(credentials, "CREDENTIALS_PROFILE", "n");
     };
     var isWebIdentityProfile = (arg) => Boolean(arg) && typeof arg === "object" && typeof arg.web_identity_token_file === "string" && typeof arg.role_arn === "string" && ["undefined", "string"].indexOf(typeof arg.role_session_name) > -1;
-    var resolveWebIdentityCredentials = async (profile, options, callerClientConfig) => Promise.resolve().then(() => __toESM(require_dist_cjs50())).then(({ fromTokenFile }) => fromTokenFile({
+    var resolveWebIdentityCredentials = async (profile, options, callerClientConfig) => Promise.resolve().then(() => __toESM(require_dist_cjs53())).then(({ fromTokenFile }) => fromTokenFile({
       webIdentityTokenFile: profile.web_identity_token_file,
       roleArn: profile.role_arn,
       roleSessionName: profile.role_session_name,
@@ -40363,9 +41776,9 @@ var require_dist_cjs51 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-node@3.972.32/node_modules/@aws-sdk/credential-provider-node/dist-cjs/index.js
-var require_dist_cjs52 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-node@3.972.32/node_modules/@aws-sdk/credential-provider-node/dist-cjs/index.js"(exports2) {
+// node_modules/.pnpm/@aws-sdk+credential-provider-node@3.972.38/node_modules/@aws-sdk/credential-provider-node/dist-cjs/index.js
+var require_dist_cjs55 = __commonJS({
+  "node_modules/.pnpm/@aws-sdk+credential-provider-node@3.972.38/node_modules/@aws-sdk/credential-provider-node/dist-cjs/index.js"(exports2) {
     "use strict";
     var credentialProviderEnv = require_dist_cjs37();
     var propertyProvider = require_dist_cjs28();
@@ -40479,17 +41892,17 @@ var require_dist_cjs52 = __commonJS({
       },
       async (awsIdentityProperties) => {
         init.logger?.debug("@aws-sdk/credential-provider-node - defaultProvider::fromIni");
-        const { fromIni } = await Promise.resolve().then(() => __toESM(require_dist_cjs51()));
+        const { fromIni } = await Promise.resolve().then(() => __toESM(require_dist_cjs54()));
         return fromIni(init)(awsIdentityProperties);
       },
       async (awsIdentityProperties) => {
         init.logger?.debug("@aws-sdk/credential-provider-node - defaultProvider::fromProcess");
-        const { fromProcess } = await Promise.resolve().then(() => __toESM(require_dist_cjs49()));
+        const { fromProcess } = await Promise.resolve().then(() => __toESM(require_dist_cjs52()));
         return fromProcess(init)(awsIdentityProperties);
       },
       async (awsIdentityProperties) => {
         init.logger?.debug("@aws-sdk/credential-provider-node - defaultProvider::fromTokenFile");
-        const { fromTokenFile } = await Promise.resolve().then(() => __toESM(require_dist_cjs50()));
+        const { fromTokenFile } = await Promise.resolve().then(() => __toESM(require_dist_cjs53()));
         return fromTokenFile(init)(awsIdentityProperties);
       },
       async () => {
@@ -40511,54 +41924,111 @@ var require_dist_cjs52 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/ruleset.js
-var require_ruleset = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/ruleset.js"(exports2) {
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/bdd.js
+var require_bdd = __commonJS({
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/bdd.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.ruleSet = void 0;
-    var s5 = "required";
-    var t5 = "fn";
-    var u5 = "argv";
-    var v5 = "ref";
-    var a5 = true;
-    var b5 = "isSet";
-    var c5 = "booleanEquals";
-    var d5 = "error";
-    var e5 = "endpoint";
-    var f5 = "tree";
-    var g5 = "PartitionResult";
-    var h5 = { [s5]: false, "type": "string" };
-    var i5 = { [s5]: true, "default": false, "type": "boolean" };
-    var j5 = { [v5]: "Endpoint" };
-    var k5 = { [t5]: c5, [u5]: [{ [v5]: "UseFIPS" }, true] };
-    var l5 = { [t5]: c5, [u5]: [{ [v5]: "UseDualStack" }, true] };
-    var m5 = {};
-    var n5 = { [t5]: "getAttr", [u5]: [{ [v5]: g5 }, "supportsFIPS"] };
-    var o5 = { [t5]: c5, [u5]: [true, { [t5]: "getAttr", [u5]: [{ [v5]: g5 }, "supportsDualStack"] }] };
-    var p5 = [k5];
-    var q5 = [l5];
-    var r5 = [{ [v5]: "Region" }];
-    var _data5 = { version: "1.0", parameters: { Region: h5, UseDualStack: i5, UseFIPS: i5, Endpoint: h5 }, rules: [{ conditions: [{ [t5]: b5, [u5]: [j5] }], rules: [{ conditions: p5, error: "Invalid Configuration: FIPS and custom endpoint are not supported", type: d5 }, { conditions: q5, error: "Invalid Configuration: Dualstack and custom endpoint are not supported", type: d5 }, { endpoint: { url: j5, properties: m5, headers: m5 }, type: e5 }], type: f5 }, { conditions: [{ [t5]: b5, [u5]: r5 }], rules: [{ conditions: [{ [t5]: "aws.partition", [u5]: r5, assign: g5 }], rules: [{ conditions: [k5, l5], rules: [{ conditions: [{ [t5]: c5, [u5]: [a5, n5] }, o5], rules: [{ endpoint: { url: "https://kms-fips.{Region}.{PartitionResult#dualStackDnsSuffix}", properties: m5, headers: m5 }, type: e5 }], type: f5 }, { error: "FIPS and DualStack are enabled, but this partition does not support one or both", type: d5 }], type: f5 }, { conditions: p5, rules: [{ conditions: [{ [t5]: c5, [u5]: [n5, a5] }], rules: [{ endpoint: { url: "https://kms-fips.{Region}.{PartitionResult#dnsSuffix}", properties: m5, headers: m5 }, type: e5 }], type: f5 }, { error: "FIPS is enabled but this partition does not support FIPS", type: d5 }], type: f5 }, { conditions: q5, rules: [{ conditions: [o5], rules: [{ endpoint: { url: "https://kms.{Region}.{PartitionResult#dualStackDnsSuffix}", properties: m5, headers: m5 }, type: e5 }], type: f5 }, { error: "DualStack is enabled but this partition does not support DualStack", type: d5 }], type: f5 }, { endpoint: { url: "https://kms.{Region}.{PartitionResult#dnsSuffix}", properties: m5, headers: m5 }, type: e5 }], type: f5 }], type: f5 }, { error: "Invalid Configuration: Missing Region", type: d5 }] };
-    exports2.ruleSet = _data5;
+    exports2.bdd = void 0;
+    var util_endpoints_1 = require_dist_cjs20();
+    var k5 = "ref";
+    var a5 = -1;
+    var b5 = true;
+    var c5 = "isSet";
+    var d5 = "PartitionResult";
+    var e5 = "booleanEquals";
+    var f5 = "getAttr";
+    var g5 = { [k5]: "Endpoint" };
+    var h5 = { [k5]: d5 };
+    var i5 = {};
+    var j5 = [{ [k5]: "Region" }];
+    var _data5 = {
+      conditions: [
+        [c5, [g5]],
+        [c5, j5],
+        ["aws.partition", j5, d5],
+        [e5, [{ [k5]: "UseFIPS" }, b5]],
+        [e5, [{ [k5]: "UseDualStack" }, b5]],
+        [e5, [{ fn: f5, argv: [h5, "supportsDualStack"] }, b5]],
+        [e5, [{ fn: f5, argv: [h5, "supportsFIPS"] }, b5]]
+      ],
+      results: [
+        [a5],
+        [a5, "Invalid Configuration: FIPS and custom endpoint are not supported"],
+        [a5, "Invalid Configuration: Dualstack and custom endpoint are not supported"],
+        [g5, i5],
+        ["https://kms-fips.{Region}.{PartitionResult#dualStackDnsSuffix}", i5],
+        [a5, "FIPS and DualStack are enabled, but this partition does not support one or both"],
+        ["https://kms-fips.{Region}.{PartitionResult#dnsSuffix}", i5],
+        [a5, "FIPS is enabled but this partition does not support FIPS"],
+        ["https://kms.{Region}.{PartitionResult#dualStackDnsSuffix}", i5],
+        [a5, "DualStack is enabled but this partition does not support DualStack"],
+        ["https://kms.{Region}.{PartitionResult#dnsSuffix}", i5],
+        [a5, "Invalid Configuration: Missing Region"]
+      ]
+    };
+    var root5 = 2;
+    var r5 = 1e8;
+    var nodes5 = new Int32Array([
+      -1,
+      1,
+      -1,
+      0,
+      12,
+      3,
+      1,
+      4,
+      r5 + 11,
+      2,
+      5,
+      r5 + 11,
+      3,
+      8,
+      6,
+      4,
+      7,
+      r5 + 10,
+      5,
+      r5 + 8,
+      r5 + 9,
+      4,
+      10,
+      9,
+      6,
+      r5 + 6,
+      r5 + 7,
+      5,
+      11,
+      r5 + 5,
+      6,
+      r5 + 4,
+      r5 + 5,
+      3,
+      r5 + 1,
+      13,
+      4,
+      r5 + 2,
+      r5 + 3
+    ]);
+    exports2.bdd = util_endpoints_1.BinaryDecisionDiagram.from(nodes5, root5, _data5.conditions, _data5.results);
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/endpointResolver.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/endpointResolver.js
 var require_endpointResolver = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/endpointResolver.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/endpointResolver.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.defaultEndpointResolver = void 0;
     var util_endpoints_1 = require_dist_cjs21();
     var util_endpoints_2 = require_dist_cjs20();
-    var ruleset_1 = require_ruleset();
+    var bdd_1 = require_bdd();
     var cache5 = new util_endpoints_2.EndpointCache({
       size: 50,
       params: ["Endpoint", "Region", "UseDualStack", "UseFIPS"]
     });
     var defaultEndpointResolver5 = (endpointParams, context = {}) => {
-      return cache5.get(endpointParams, () => (0, util_endpoints_2.resolveEndpoint)(ruleset_1.ruleSet, {
+      return cache5.get(endpointParams, () => (0, util_endpoints_2.decideEndpoint)(bdd_1.bdd, {
         endpointParams,
         logger: context.logger
       }));
@@ -40568,9 +42038,9 @@ var require_endpointResolver = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/KMSServiceException.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/KMSServiceException.js
 var require_KMSServiceException = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/KMSServiceException.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/KMSServiceException.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.KMSServiceException = exports2.__ServiceException = void 0;
@@ -40588,9 +42058,9 @@ var require_KMSServiceException = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/errors.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/errors.js
 var require_errors2 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/errors.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/errors.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.KMSInvalidSignatureException = exports2.KMSInvalidMacException = exports2.InvalidGrantIdException = exports2.InvalidImportTokenException = exports2.IncorrectKeyMaterialException = exports2.ExpiredImportTokenException = exports2.InvalidMarkerException = exports2.KeyUnavailableException = exports2.InvalidKeyUsageException = exports2.InvalidCiphertextException = exports2.IncorrectKeyException = exports2.CustomKeyStoreHasCMKsException = exports2.XksKeyNotFoundException = exports2.XksKeyInvalidConfigurationException = exports2.XksKeyAlreadyInUseException = exports2.UnsupportedOperationException = exports2.TagException = exports2.MalformedPolicyDocumentException = exports2.InvalidGrantTokenException = exports2.DryRunOperationException = exports2.DisabledException = exports2.XksProxyVpcEndpointServiceNotFoundException = exports2.XksProxyVpcEndpointServiceInvalidConfigurationException = exports2.XksProxyVpcEndpointServiceInUseException = exports2.XksProxyUriUnreachableException = exports2.XksProxyUriInUseException = exports2.XksProxyUriEndpointInUseException = exports2.XksProxyInvalidResponseException = exports2.XksProxyInvalidConfigurationException = exports2.XksProxyIncorrectAuthenticationCredentialException = exports2.IncorrectTrustAnchorException = exports2.CustomKeyStoreNameInUseException = exports2.LimitExceededException = exports2.InvalidAliasNameException = exports2.CustomKeyStoreNotFoundException = exports2.CustomKeyStoreInvalidStateException = exports2.ConflictException = exports2.CloudHsmClusterNotRelatedException = exports2.CloudHsmClusterNotFoundException = exports2.CloudHsmClusterNotActiveException = exports2.CloudHsmClusterInvalidConfigurationException = exports2.CloudHsmClusterInUseException = exports2.NotFoundException = exports2.KMSInvalidStateException = exports2.KMSInternalException = exports2.InvalidArnException = exports2.DependencyTimeoutException = exports2.AlreadyExistsException = void 0;
@@ -41222,16 +42692,16 @@ var require_errors2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/schemas/schemas_0.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/schemas/schemas_0.js
 var require_schemas_0 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/schemas/schemas_0.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/schemas/schemas_0.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.errorTypeRegistries = exports2.XksProxyVpcEndpointServiceNotFoundException$ = exports2.XksProxyVpcEndpointServiceInvalidConfigurationException$ = exports2.XksProxyVpcEndpointServiceInUseException$ = exports2.XksProxyUriUnreachableException$ = exports2.XksProxyUriInUseException$ = exports2.XksProxyUriEndpointInUseException$ = exports2.XksProxyInvalidResponseException$ = exports2.XksProxyInvalidConfigurationException$ = exports2.XksProxyIncorrectAuthenticationCredentialException$ = exports2.XksKeyNotFoundException$ = exports2.XksKeyInvalidConfigurationException$ = exports2.XksKeyAlreadyInUseException$ = exports2.UnsupportedOperationException$ = exports2.TagException$ = exports2.NotFoundException$ = exports2.MalformedPolicyDocumentException$ = exports2.LimitExceededException$ = exports2.KMSInvalidStateException$ = exports2.KMSInvalidSignatureException$ = exports2.KMSInvalidMacException$ = exports2.KMSInternalException$ = exports2.KeyUnavailableException$ = exports2.InvalidMarkerException$ = exports2.InvalidKeyUsageException$ = exports2.InvalidImportTokenException$ = exports2.InvalidGrantTokenException$ = exports2.InvalidGrantIdException$ = exports2.InvalidCiphertextException$ = exports2.InvalidArnException$ = exports2.InvalidAliasNameException$ = exports2.IncorrectTrustAnchorException$ = exports2.IncorrectKeyMaterialException$ = exports2.IncorrectKeyException$ = exports2.ExpiredImportTokenException$ = exports2.DryRunOperationException$ = exports2.DisabledException$ = exports2.DependencyTimeoutException$ = exports2.CustomKeyStoreNotFoundException$ = exports2.CustomKeyStoreNameInUseException$ = exports2.CustomKeyStoreInvalidStateException$ = exports2.CustomKeyStoreHasCMKsException$ = exports2.ConflictException$ = exports2.CloudHsmClusterNotRelatedException$ = exports2.CloudHsmClusterNotFoundException$ = exports2.CloudHsmClusterNotActiveException$ = exports2.CloudHsmClusterInvalidConfigurationException$ = exports2.CloudHsmClusterInUseException$ = exports2.AlreadyExistsException$ = exports2.KMSServiceException$ = void 0;
-    exports2.GetKeyRotationStatusResponse$ = exports2.GetKeyRotationStatusRequest$ = exports2.GetKeyPolicyResponse$ = exports2.GetKeyPolicyRequest$ = exports2.GenerateRandomResponse$ = exports2.GenerateRandomRequest$ = exports2.GenerateMacResponse$ = exports2.GenerateMacRequest$ = exports2.GenerateDataKeyWithoutPlaintextResponse$ = exports2.GenerateDataKeyWithoutPlaintextRequest$ = exports2.GenerateDataKeyResponse$ = exports2.GenerateDataKeyRequest$ = exports2.GenerateDataKeyPairWithoutPlaintextResponse$ = exports2.GenerateDataKeyPairWithoutPlaintextRequest$ = exports2.GenerateDataKeyPairResponse$ = exports2.GenerateDataKeyPairRequest$ = exports2.EncryptResponse$ = exports2.EncryptRequest$ = exports2.EnableKeyRotationRequest$ = exports2.EnableKeyRequest$ = exports2.DisconnectCustomKeyStoreResponse$ = exports2.DisconnectCustomKeyStoreRequest$ = exports2.DisableKeyRotationRequest$ = exports2.DisableKeyRequest$ = exports2.DescribeKeyResponse$ = exports2.DescribeKeyRequest$ = exports2.DescribeCustomKeyStoresResponse$ = exports2.DescribeCustomKeyStoresRequest$ = exports2.DeriveSharedSecretResponse$ = exports2.DeriveSharedSecretRequest$ = exports2.DeleteImportedKeyMaterialResponse$ = exports2.DeleteImportedKeyMaterialRequest$ = exports2.DeleteCustomKeyStoreResponse$ = exports2.DeleteCustomKeyStoreRequest$ = exports2.DeleteAliasRequest$ = exports2.DecryptResponse$ = exports2.DecryptRequest$ = exports2.CustomKeyStoresListEntry$ = exports2.CreateKeyResponse$ = exports2.CreateKeyRequest$ = exports2.CreateGrantResponse$ = exports2.CreateGrantRequest$ = exports2.CreateCustomKeyStoreResponse$ = exports2.CreateCustomKeyStoreRequest$ = exports2.CreateAliasRequest$ = exports2.ConnectCustomKeyStoreResponse$ = exports2.ConnectCustomKeyStoreRequest$ = exports2.CancelKeyDeletionResponse$ = exports2.CancelKeyDeletionRequest$ = exports2.AliasListEntry$ = void 0;
-    exports2.VerifyMacResponse$ = exports2.VerifyMacRequest$ = exports2.UpdatePrimaryRegionRequest$ = exports2.UpdateKeyDescriptionRequest$ = exports2.UpdateCustomKeyStoreResponse$ = exports2.UpdateCustomKeyStoreRequest$ = exports2.UpdateAliasRequest$ = exports2.UntagResourceRequest$ = exports2.TagResourceRequest$ = exports2.Tag$ = exports2.SignResponse$ = exports2.SignRequest$ = exports2.ScheduleKeyDeletionResponse$ = exports2.ScheduleKeyDeletionRequest$ = exports2.RotationsListEntry$ = exports2.RotateKeyOnDemandResponse$ = exports2.RotateKeyOnDemandRequest$ = exports2.RevokeGrantRequest$ = exports2.RetireGrantRequest$ = exports2.ReplicateKeyResponse$ = exports2.ReplicateKeyRequest$ = exports2.ReEncryptResponse$ = exports2.ReEncryptRequest$ = exports2.RecipientInfo$ = exports2.PutKeyPolicyRequest$ = exports2.MultiRegionKey$ = exports2.MultiRegionConfiguration$ = exports2.ListRetirableGrantsRequest$ = exports2.ListResourceTagsResponse$ = exports2.ListResourceTagsRequest$ = exports2.ListKeysResponse$ = exports2.ListKeysRequest$ = exports2.ListKeyRotationsResponse$ = exports2.ListKeyRotationsRequest$ = exports2.ListKeyPoliciesResponse$ = exports2.ListKeyPoliciesRequest$ = exports2.ListGrantsResponse$ = exports2.ListGrantsRequest$ = exports2.ListAliasesResponse$ = exports2.ListAliasesRequest$ = exports2.KeyMetadata$ = exports2.KeyListEntry$ = exports2.ImportKeyMaterialResponse$ = exports2.ImportKeyMaterialRequest$ = exports2.GrantListEntry$ = exports2.GrantConstraints$ = exports2.GetPublicKeyResponse$ = exports2.GetPublicKeyRequest$ = exports2.GetParametersForImportResponse$ = exports2.GetParametersForImportRequest$ = void 0;
-    exports2.Sign$ = exports2.ScheduleKeyDeletion$ = exports2.RotateKeyOnDemand$ = exports2.RevokeGrant$ = exports2.RetireGrant$ = exports2.ReplicateKey$ = exports2.ReEncrypt$ = exports2.PutKeyPolicy$ = exports2.ListRetirableGrants$ = exports2.ListResourceTags$ = exports2.ListKeys$ = exports2.ListKeyRotations$ = exports2.ListKeyPolicies$ = exports2.ListGrants$ = exports2.ListAliases$ = exports2.ImportKeyMaterial$ = exports2.GetPublicKey$ = exports2.GetParametersForImport$ = exports2.GetKeyRotationStatus$ = exports2.GetKeyPolicy$ = exports2.GenerateRandom$ = exports2.GenerateMac$ = exports2.GenerateDataKeyWithoutPlaintext$ = exports2.GenerateDataKeyPairWithoutPlaintext$ = exports2.GenerateDataKeyPair$ = exports2.GenerateDataKey$ = exports2.Encrypt$ = exports2.EnableKeyRotation$ = exports2.EnableKey$ = exports2.DisconnectCustomKeyStore$ = exports2.DisableKeyRotation$ = exports2.DisableKey$ = exports2.DescribeKey$ = exports2.DescribeCustomKeyStores$ = exports2.DeriveSharedSecret$ = exports2.DeleteImportedKeyMaterial$ = exports2.DeleteCustomKeyStore$ = exports2.DeleteAlias$ = exports2.Decrypt$ = exports2.CreateKey$ = exports2.CreateGrant$ = exports2.CreateCustomKeyStore$ = exports2.CreateAlias$ = exports2.ConnectCustomKeyStore$ = exports2.CancelKeyDeletion$ = exports2.XksProxyConfigurationType$ = exports2.XksProxyAuthenticationCredentialType$ = exports2.XksKeyConfigurationType$ = exports2.VerifyResponse$ = exports2.VerifyRequest$ = void 0;
-    exports2.VerifyMac$ = exports2.Verify$ = exports2.UpdatePrimaryRegion$ = exports2.UpdateKeyDescription$ = exports2.UpdateCustomKeyStore$ = exports2.UpdateAlias$ = exports2.UntagResource$ = exports2.TagResource$ = void 0;
+    exports2.GetKeyPolicyResponse$ = exports2.GetKeyPolicyRequest$ = exports2.GetKeyLastUsageResponse$ = exports2.GetKeyLastUsageRequest$ = exports2.GenerateRandomResponse$ = exports2.GenerateRandomRequest$ = exports2.GenerateMacResponse$ = exports2.GenerateMacRequest$ = exports2.GenerateDataKeyWithoutPlaintextResponse$ = exports2.GenerateDataKeyWithoutPlaintextRequest$ = exports2.GenerateDataKeyResponse$ = exports2.GenerateDataKeyRequest$ = exports2.GenerateDataKeyPairWithoutPlaintextResponse$ = exports2.GenerateDataKeyPairWithoutPlaintextRequest$ = exports2.GenerateDataKeyPairResponse$ = exports2.GenerateDataKeyPairRequest$ = exports2.EncryptResponse$ = exports2.EncryptRequest$ = exports2.EnableKeyRotationRequest$ = exports2.EnableKeyRequest$ = exports2.DisconnectCustomKeyStoreResponse$ = exports2.DisconnectCustomKeyStoreRequest$ = exports2.DisableKeyRotationRequest$ = exports2.DisableKeyRequest$ = exports2.DescribeKeyResponse$ = exports2.DescribeKeyRequest$ = exports2.DescribeCustomKeyStoresResponse$ = exports2.DescribeCustomKeyStoresRequest$ = exports2.DeriveSharedSecretResponse$ = exports2.DeriveSharedSecretRequest$ = exports2.DeleteImportedKeyMaterialResponse$ = exports2.DeleteImportedKeyMaterialRequest$ = exports2.DeleteCustomKeyStoreResponse$ = exports2.DeleteCustomKeyStoreRequest$ = exports2.DeleteAliasRequest$ = exports2.DecryptResponse$ = exports2.DecryptRequest$ = exports2.CustomKeyStoresListEntry$ = exports2.CreateKeyResponse$ = exports2.CreateKeyRequest$ = exports2.CreateGrantResponse$ = exports2.CreateGrantRequest$ = exports2.CreateCustomKeyStoreResponse$ = exports2.CreateCustomKeyStoreRequest$ = exports2.CreateAliasRequest$ = exports2.ConnectCustomKeyStoreResponse$ = exports2.ConnectCustomKeyStoreRequest$ = exports2.CancelKeyDeletionResponse$ = exports2.CancelKeyDeletionRequest$ = exports2.AliasListEntry$ = void 0;
+    exports2.UpdateKeyDescriptionRequest$ = exports2.UpdateCustomKeyStoreResponse$ = exports2.UpdateCustomKeyStoreRequest$ = exports2.UpdateAliasRequest$ = exports2.UntagResourceRequest$ = exports2.TagResourceRequest$ = exports2.Tag$ = exports2.SignResponse$ = exports2.SignRequest$ = exports2.ScheduleKeyDeletionResponse$ = exports2.ScheduleKeyDeletionRequest$ = exports2.RotationsListEntry$ = exports2.RotateKeyOnDemandResponse$ = exports2.RotateKeyOnDemandRequest$ = exports2.RevokeGrantRequest$ = exports2.RetireGrantRequest$ = exports2.ReplicateKeyResponse$ = exports2.ReplicateKeyRequest$ = exports2.ReEncryptResponse$ = exports2.ReEncryptRequest$ = exports2.RecipientInfo$ = exports2.PutKeyPolicyRequest$ = exports2.MultiRegionKey$ = exports2.MultiRegionConfiguration$ = exports2.ListRetirableGrantsRequest$ = exports2.ListResourceTagsResponse$ = exports2.ListResourceTagsRequest$ = exports2.ListKeysResponse$ = exports2.ListKeysRequest$ = exports2.ListKeyRotationsResponse$ = exports2.ListKeyRotationsRequest$ = exports2.ListKeyPoliciesResponse$ = exports2.ListKeyPoliciesRequest$ = exports2.ListGrantsResponse$ = exports2.ListGrantsRequest$ = exports2.ListAliasesResponse$ = exports2.ListAliasesRequest$ = exports2.KeyMetadata$ = exports2.KeyListEntry$ = exports2.KeyLastUsageData$ = exports2.ImportKeyMaterialResponse$ = exports2.ImportKeyMaterialRequest$ = exports2.GrantListEntry$ = exports2.GrantConstraints$ = exports2.GetPublicKeyResponse$ = exports2.GetPublicKeyRequest$ = exports2.GetParametersForImportResponse$ = exports2.GetParametersForImportRequest$ = exports2.GetKeyRotationStatusResponse$ = exports2.GetKeyRotationStatusRequest$ = void 0;
+    exports2.RetireGrant$ = exports2.ReplicateKey$ = exports2.ReEncrypt$ = exports2.PutKeyPolicy$ = exports2.ListRetirableGrants$ = exports2.ListResourceTags$ = exports2.ListKeys$ = exports2.ListKeyRotations$ = exports2.ListKeyPolicies$ = exports2.ListGrants$ = exports2.ListAliases$ = exports2.ImportKeyMaterial$ = exports2.GetPublicKey$ = exports2.GetParametersForImport$ = exports2.GetKeyRotationStatus$ = exports2.GetKeyPolicy$ = exports2.GetKeyLastUsage$ = exports2.GenerateRandom$ = exports2.GenerateMac$ = exports2.GenerateDataKeyWithoutPlaintext$ = exports2.GenerateDataKeyPairWithoutPlaintext$ = exports2.GenerateDataKeyPair$ = exports2.GenerateDataKey$ = exports2.Encrypt$ = exports2.EnableKeyRotation$ = exports2.EnableKey$ = exports2.DisconnectCustomKeyStore$ = exports2.DisableKeyRotation$ = exports2.DisableKey$ = exports2.DescribeKey$ = exports2.DescribeCustomKeyStores$ = exports2.DeriveSharedSecret$ = exports2.DeleteImportedKeyMaterial$ = exports2.DeleteCustomKeyStore$ = exports2.DeleteAlias$ = exports2.Decrypt$ = exports2.CreateKey$ = exports2.CreateGrant$ = exports2.CreateCustomKeyStore$ = exports2.CreateAlias$ = exports2.ConnectCustomKeyStore$ = exports2.CancelKeyDeletion$ = exports2.XksProxyConfigurationType$ = exports2.XksProxyAuthenticationCredentialType$ = exports2.XksKeyConfigurationType$ = exports2.VerifyResponse$ = exports2.VerifyRequest$ = exports2.VerifyMacResponse$ = exports2.VerifyMacRequest$ = exports2.UpdatePrimaryRegionRequest$ = void 0;
+    exports2.VerifyMac$ = exports2.Verify$ = exports2.UpdatePrimaryRegion$ = exports2.UpdateKeyDescription$ = exports2.UpdateCustomKeyStore$ = exports2.UpdateAlias$ = exports2.UntagResource$ = exports2.TagResource$ = exports2.Sign$ = exports2.ScheduleKeyDeletion$ = exports2.RotateKeyOnDemand$ = exports2.RevokeGrant$ = void 0;
     var _A2 = "Arn";
     var _AA = "AliasArn";
     var _AD = "AttestationDocument";
@@ -41285,6 +42755,7 @@ var require_schemas_0 = __commonJS({
     var _CKST = "CustomKeyStoreType";
     var _CMKS = "CustomerMasterKeySpec";
     var _CS2 = "ConnectionState";
+    var _CTEI = "CloudTrailEventId";
     var _Co = "Connectivity";
     var _D = "Description";
     var _DA = "DeleteAlias";
@@ -41355,6 +42826,9 @@ var require_schemas_0 = __commonJS({
     var _GDKWPR = "GenerateDataKeyWithoutPlaintextRequest";
     var _GDKWPRe = "GenerateDataKeyWithoutPlaintextResponse";
     var _GI = "GrantId";
+    var _GKLU = "GetKeyLastUsage";
+    var _GKLUR = "GetKeyLastUsageRequest";
+    var _GKLURe = "GetKeyLastUsageResponse";
     var _GKP = "GetKeyPolicy";
     var _GKPR = "GetKeyPolicyRequest";
     var _GKPRe = "GetKeyPolicyResponse";
@@ -41402,10 +42876,13 @@ var require_schemas_0 = __commonJS({
     var _KA = "KeyArn";
     var _KAA = "KeyAgreementAlgorithm";
     var _KAAe = "KeyAgreementAlgorithms";
+    var _KCD = "KeyCreationDate";
     var _KEA = "KeyEncryptionAlgorithm";
     var _KI = "KeyId";
     var _KL = "KeyList";
     var _KLE = "KeyListEntry";
+    var _KLU = "KeyLastUsage";
+    var _KLUD = "KeyLastUsageData";
     var _KM = "KeyMetadata";
     var _KMD = "KeyMaterialDescription";
     var _KMI = "KeyMaterialId";
@@ -41418,6 +42895,7 @@ var require_schemas_0 = __commonJS({
     var _KO = "KeyOrigin";
     var _KPS = "KeyPairSpec";
     var _KRE = "KeyRotationEnabled";
+    var _KRI = "KmsRequestId";
     var _KS = "KeySpec";
     var _KSP = "KeyStorePassword";
     var _KSPT = "KeyStorePasswordType";
@@ -41468,6 +42946,7 @@ var require_schemas_0 = __commonJS({
     var _NRD = "NextRotationDate";
     var _O = "Operations";
     var _ODRSD = "OnDemandRotationStartDate";
+    var _Op = "Operation";
     var _Or = "Origin";
     var _P2 = "Policy";
     var _PDWID = "PendingDeletionWindowInDays";
@@ -41537,8 +43016,10 @@ var require_schemas_0 = __commonJS({
     var _TL = "TagList";
     var _TR = "TagResource";
     var _TRR = "TagResourceRequest";
+    var _TSD = "TrackingStartDate";
     var _TV = "TagValue";
     var _Ta2 = "Tag";
+    var _Ti = "Timestamp";
     var _Tr = "Truncated";
     var _UA = "UpdateAlias";
     var _UAR = "UpdateAliasRequest";
@@ -42435,6 +43916,23 @@ var require_schemas_0 = __commonJS({
       [_Pl, _CFR],
       [[() => PlaintextType, 0], 21]
     ];
+    exports2.GetKeyLastUsageRequest$ = [
+      3,
+      n05,
+      _GKLUR,
+      0,
+      [_KI],
+      [0],
+      1
+    ];
+    exports2.GetKeyLastUsageResponse$ = [
+      3,
+      n05,
+      _GKLURe,
+      0,
+      [_KI, _KLU, _TSD, _KCD],
+      [0, () => exports2.KeyLastUsageData$, 4, 4]
+    ];
     exports2.GetKeyPolicyRequest$ = [
       3,
       n05,
@@ -42535,6 +44033,14 @@ var require_schemas_0 = __commonJS({
       0,
       [_KI, _KMI],
       [0, 0]
+    ];
+    exports2.KeyLastUsageData$ = [
+      3,
+      n05,
+      _KLUD,
+      0,
+      [_Op, _Ti, _CTEI, _KRI],
+      [0, 4, 0, 0]
     ];
     exports2.KeyListEntry$ = [
       3,
@@ -43198,6 +44704,14 @@ var require_schemas_0 = __commonJS({
       () => exports2.GenerateRandomRequest$,
       () => exports2.GenerateRandomResponse$
     ];
+    exports2.GetKeyLastUsage$ = [
+      9,
+      n05,
+      _GKLU,
+      0,
+      () => exports2.GetKeyLastUsageRequest$,
+      () => exports2.GetKeyLastUsageResponse$
+    ];
     exports2.GetKeyPolicy$ = [
       9,
       n05,
@@ -43425,9 +44939,9 @@ var require_schemas_0 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.shared.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.shared.js
 var require_runtimeConfig_shared = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.shared.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.shared.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getRuntimeConfig = void 0;
@@ -43475,9 +44989,9 @@ var require_runtimeConfig_shared = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.js
 var require_runtimeConfig = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getRuntimeConfig = void 0;
@@ -43485,7 +44999,7 @@ var require_runtimeConfig = __commonJS({
     var package_json_1 = tslib_1.__importDefault(require_package());
     var client_1 = (init_client(), __toCommonJS(client_exports));
     var httpAuthSchemes_1 = (init_httpAuthSchemes2(), __toCommonJS(httpAuthSchemes_exports));
-    var credential_provider_node_1 = require_dist_cjs52();
+    var credential_provider_node_1 = require_dist_cjs55();
     var util_user_agent_node_1 = require_dist_cjs40();
     var config_resolver_1 = require_dist_cjs26();
     var hash_node_1 = require_dist_cjs41();
@@ -43534,9 +45048,9 @@ var require_runtimeConfig = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/index.js
-var require_dist_cjs53 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1032.0/node_modules/@aws-sdk/client-kms/dist-cjs/index.js"(exports2) {
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/index.js
+var require_dist_cjs56 = __commonJS({
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/index.js"(exports2) {
     "use strict";
     var middlewareHostHeader = require_dist_cjs3();
     var middlewareLogger = require_dist_cjs4();
@@ -43645,215 +45159,219 @@ var require_dist_cjs53 = __commonJS({
         super.destroy();
       }
     };
-    var CancelKeyDeletionCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var CancelKeyDeletionCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "CancelKeyDeletion", {}).n("KMSClient", "CancelKeyDeletionCommand").sc(schemas_0.CancelKeyDeletion$).build() {
     };
-    var ConnectCustomKeyStoreCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var ConnectCustomKeyStoreCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "ConnectCustomKeyStore", {}).n("KMSClient", "ConnectCustomKeyStoreCommand").sc(schemas_0.ConnectCustomKeyStore$).build() {
     };
-    var CreateAliasCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var CreateAliasCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "CreateAlias", {}).n("KMSClient", "CreateAliasCommand").sc(schemas_0.CreateAlias$).build() {
     };
-    var CreateCustomKeyStoreCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var CreateCustomKeyStoreCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "CreateCustomKeyStore", {}).n("KMSClient", "CreateCustomKeyStoreCommand").sc(schemas_0.CreateCustomKeyStore$).build() {
     };
-    var CreateGrantCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var CreateGrantCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "CreateGrant", {}).n("KMSClient", "CreateGrantCommand").sc(schemas_0.CreateGrant$).build() {
     };
-    var CreateKeyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var CreateKeyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "CreateKey", {}).n("KMSClient", "CreateKeyCommand").sc(schemas_0.CreateKey$).build() {
     };
-    var DecryptCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var DecryptCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "Decrypt", {}).n("KMSClient", "DecryptCommand").sc(schemas_0.Decrypt$).build() {
     };
-    var DeleteAliasCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var DeleteAliasCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "DeleteAlias", {}).n("KMSClient", "DeleteAliasCommand").sc(schemas_0.DeleteAlias$).build() {
     };
-    var DeleteCustomKeyStoreCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var DeleteCustomKeyStoreCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "DeleteCustomKeyStore", {}).n("KMSClient", "DeleteCustomKeyStoreCommand").sc(schemas_0.DeleteCustomKeyStore$).build() {
     };
-    var DeleteImportedKeyMaterialCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var DeleteImportedKeyMaterialCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "DeleteImportedKeyMaterial", {}).n("KMSClient", "DeleteImportedKeyMaterialCommand").sc(schemas_0.DeleteImportedKeyMaterial$).build() {
     };
-    var DeriveSharedSecretCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var DeriveSharedSecretCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "DeriveSharedSecret", {}).n("KMSClient", "DeriveSharedSecretCommand").sc(schemas_0.DeriveSharedSecret$).build() {
     };
-    var DescribeCustomKeyStoresCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var DescribeCustomKeyStoresCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "DescribeCustomKeyStores", {}).n("KMSClient", "DescribeCustomKeyStoresCommand").sc(schemas_0.DescribeCustomKeyStores$).build() {
     };
-    var DescribeKeyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var DescribeKeyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "DescribeKey", {}).n("KMSClient", "DescribeKeyCommand").sc(schemas_0.DescribeKey$).build() {
     };
-    var DisableKeyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var DisableKeyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "DisableKey", {}).n("KMSClient", "DisableKeyCommand").sc(schemas_0.DisableKey$).build() {
     };
-    var DisableKeyRotationCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var DisableKeyRotationCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "DisableKeyRotation", {}).n("KMSClient", "DisableKeyRotationCommand").sc(schemas_0.DisableKeyRotation$).build() {
     };
-    var DisconnectCustomKeyStoreCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var DisconnectCustomKeyStoreCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "DisconnectCustomKeyStore", {}).n("KMSClient", "DisconnectCustomKeyStoreCommand").sc(schemas_0.DisconnectCustomKeyStore$).build() {
     };
-    var EnableKeyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var EnableKeyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "EnableKey", {}).n("KMSClient", "EnableKeyCommand").sc(schemas_0.EnableKey$).build() {
     };
-    var EnableKeyRotationCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var EnableKeyRotationCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "EnableKeyRotation", {}).n("KMSClient", "EnableKeyRotationCommand").sc(schemas_0.EnableKeyRotation$).build() {
     };
-    var EncryptCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var EncryptCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "Encrypt", {}).n("KMSClient", "EncryptCommand").sc(schemas_0.Encrypt$).build() {
     };
-    var GenerateDataKeyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var GenerateDataKeyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "GenerateDataKey", {}).n("KMSClient", "GenerateDataKeyCommand").sc(schemas_0.GenerateDataKey$).build() {
     };
-    var GenerateDataKeyPairCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var GenerateDataKeyPairCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "GenerateDataKeyPair", {}).n("KMSClient", "GenerateDataKeyPairCommand").sc(schemas_0.GenerateDataKeyPair$).build() {
     };
-    var GenerateDataKeyPairWithoutPlaintextCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var GenerateDataKeyPairWithoutPlaintextCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "GenerateDataKeyPairWithoutPlaintext", {}).n("KMSClient", "GenerateDataKeyPairWithoutPlaintextCommand").sc(schemas_0.GenerateDataKeyPairWithoutPlaintext$).build() {
     };
-    var GenerateDataKeyWithoutPlaintextCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var GenerateDataKeyWithoutPlaintextCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "GenerateDataKeyWithoutPlaintext", {}).n("KMSClient", "GenerateDataKeyWithoutPlaintextCommand").sc(schemas_0.GenerateDataKeyWithoutPlaintext$).build() {
     };
-    var GenerateMacCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var GenerateMacCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "GenerateMac", {}).n("KMSClient", "GenerateMacCommand").sc(schemas_0.GenerateMac$).build() {
     };
-    var GenerateRandomCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var GenerateRandomCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "GenerateRandom", {}).n("KMSClient", "GenerateRandomCommand").sc(schemas_0.GenerateRandom$).build() {
     };
-    var GetKeyPolicyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var GetKeyLastUsageCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
+      return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
+    }).s("TrentService", "GetKeyLastUsage", {}).n("KMSClient", "GetKeyLastUsageCommand").sc(schemas_0.GetKeyLastUsage$).build() {
+    };
+    var GetKeyPolicyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "GetKeyPolicy", {}).n("KMSClient", "GetKeyPolicyCommand").sc(schemas_0.GetKeyPolicy$).build() {
     };
-    var GetKeyRotationStatusCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var GetKeyRotationStatusCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "GetKeyRotationStatus", {}).n("KMSClient", "GetKeyRotationStatusCommand").sc(schemas_0.GetKeyRotationStatus$).build() {
     };
-    var GetParametersForImportCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var GetParametersForImportCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "GetParametersForImport", {}).n("KMSClient", "GetParametersForImportCommand").sc(schemas_0.GetParametersForImport$).build() {
     };
-    var GetPublicKeyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var GetPublicKeyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "GetPublicKey", {}).n("KMSClient", "GetPublicKeyCommand").sc(schemas_0.GetPublicKey$).build() {
     };
-    var ImportKeyMaterialCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var ImportKeyMaterialCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "ImportKeyMaterial", {}).n("KMSClient", "ImportKeyMaterialCommand").sc(schemas_0.ImportKeyMaterial$).build() {
     };
-    var ListAliasesCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var ListAliasesCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "ListAliases", {}).n("KMSClient", "ListAliasesCommand").sc(schemas_0.ListAliases$).build() {
     };
-    var ListGrantsCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var ListGrantsCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "ListGrants", {}).n("KMSClient", "ListGrantsCommand").sc(schemas_0.ListGrants$).build() {
     };
-    var ListKeyPoliciesCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var ListKeyPoliciesCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "ListKeyPolicies", {}).n("KMSClient", "ListKeyPoliciesCommand").sc(schemas_0.ListKeyPolicies$).build() {
     };
-    var ListKeyRotationsCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var ListKeyRotationsCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "ListKeyRotations", {}).n("KMSClient", "ListKeyRotationsCommand").sc(schemas_0.ListKeyRotations$).build() {
     };
-    var ListKeysCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var ListKeysCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "ListKeys", {}).n("KMSClient", "ListKeysCommand").sc(schemas_0.ListKeys$).build() {
     };
-    var ListResourceTagsCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var ListResourceTagsCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "ListResourceTags", {}).n("KMSClient", "ListResourceTagsCommand").sc(schemas_0.ListResourceTags$).build() {
     };
-    var ListRetirableGrantsCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var ListRetirableGrantsCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "ListRetirableGrants", {}).n("KMSClient", "ListRetirableGrantsCommand").sc(schemas_0.ListRetirableGrants$).build() {
     };
-    var PutKeyPolicyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var PutKeyPolicyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "PutKeyPolicy", {}).n("KMSClient", "PutKeyPolicyCommand").sc(schemas_0.PutKeyPolicy$).build() {
     };
-    var ReEncryptCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var ReEncryptCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "ReEncrypt", {}).n("KMSClient", "ReEncryptCommand").sc(schemas_0.ReEncrypt$).build() {
     };
-    var ReplicateKeyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var ReplicateKeyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "ReplicateKey", {}).n("KMSClient", "ReplicateKeyCommand").sc(schemas_0.ReplicateKey$).build() {
     };
-    var RetireGrantCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var RetireGrantCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "RetireGrant", {}).n("KMSClient", "RetireGrantCommand").sc(schemas_0.RetireGrant$).build() {
     };
-    var RevokeGrantCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var RevokeGrantCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "RevokeGrant", {}).n("KMSClient", "RevokeGrantCommand").sc(schemas_0.RevokeGrant$).build() {
     };
-    var RotateKeyOnDemandCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var RotateKeyOnDemandCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "RotateKeyOnDemand", {}).n("KMSClient", "RotateKeyOnDemandCommand").sc(schemas_0.RotateKeyOnDemand$).build() {
     };
-    var ScheduleKeyDeletionCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var ScheduleKeyDeletionCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "ScheduleKeyDeletion", {}).n("KMSClient", "ScheduleKeyDeletionCommand").sc(schemas_0.ScheduleKeyDeletion$).build() {
     };
-    var SignCommand2 = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var SignCommand2 = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "Sign", {}).n("KMSClient", "SignCommand").sc(schemas_0.Sign$).build() {
     };
-    var TagResourceCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var TagResourceCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "TagResource", {}).n("KMSClient", "TagResourceCommand").sc(schemas_0.TagResource$).build() {
     };
-    var UntagResourceCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var UntagResourceCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "UntagResource", {}).n("KMSClient", "UntagResourceCommand").sc(schemas_0.UntagResource$).build() {
     };
-    var UpdateAliasCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var UpdateAliasCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "UpdateAlias", {}).n("KMSClient", "UpdateAliasCommand").sc(schemas_0.UpdateAlias$).build() {
     };
-    var UpdateCustomKeyStoreCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var UpdateCustomKeyStoreCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "UpdateCustomKeyStore", {}).n("KMSClient", "UpdateCustomKeyStoreCommand").sc(schemas_0.UpdateCustomKeyStore$).build() {
     };
-    var UpdateKeyDescriptionCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var UpdateKeyDescriptionCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "UpdateKeyDescription", {}).n("KMSClient", "UpdateKeyDescriptionCommand").sc(schemas_0.UpdateKeyDescription$).build() {
     };
-    var UpdatePrimaryRegionCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var UpdatePrimaryRegionCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "UpdatePrimaryRegion", {}).n("KMSClient", "UpdatePrimaryRegionCommand").sc(schemas_0.UpdatePrimaryRegion$).build() {
     };
-    var VerifyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var VerifyCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "Verify", {}).n("KMSClient", "VerifyCommand").sc(schemas_0.Verify$).build() {
     };
-    var VerifyMacCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o5) {
+    var VerifyMacCommand = class extends smithyClient.Command.classBuilder().ep(commonParams5).m(function(Command2, cs, config, o2) {
       return [middlewareEndpoint.getEndpointPlugin(config, Command2.getEndpointParameterInstructions())];
     }).s("TrentService", "VerifyMac", {}).n("KMSClient", "VerifyMacCommand").sc(schemas_0.VerifyMac$).build() {
     };
@@ -43891,6 +45409,7 @@ var require_dist_cjs53 = __commonJS({
       GenerateDataKeyWithoutPlaintextCommand,
       GenerateMacCommand,
       GenerateRandomCommand,
+      GetKeyLastUsageCommand,
       GetKeyPolicyCommand,
       GetKeyRotationStatusCommand,
       GetParametersForImportCommand,
@@ -44114,6 +45633,20 @@ var require_dist_cjs53 = __commonJS({
     var KeyEncryptionMechanism = {
       RSAES_OAEP_SHA_256: "RSAES_OAEP_SHA_256"
     };
+    var KeyLastUsageTrackingOperation = {
+      Decrypt: "Decrypt",
+      DeriveSharedSecret: "DeriveSharedSecret",
+      Encrypt: "Encrypt",
+      GenerateDataKey: "GenerateDataKey",
+      GenerateDataKeyPair: "GenerateDataKeyPair",
+      GenerateDataKeyPairWithoutPlaintext: "GenerateDataKeyPairWithoutPlaintext",
+      GenerateDataKeyWithoutPlaintext: "GenerateDataKeyWithoutPlaintext",
+      GenerateMac: "GenerateMac",
+      ReEncrypt: "ReEncrypt",
+      Sign: "Sign",
+      Verify: "Verify",
+      VerifyMac: "VerifyMac"
+    };
     var WrappingKeySpec = {
       RSA_2048: "RSA_2048",
       RSA_3072: "RSA_3072",
@@ -44185,6 +45718,7 @@ var require_dist_cjs53 = __commonJS({
     exports2.GenerateDataKeyWithoutPlaintextCommand = GenerateDataKeyWithoutPlaintextCommand;
     exports2.GenerateMacCommand = GenerateMacCommand;
     exports2.GenerateRandomCommand = GenerateRandomCommand;
+    exports2.GetKeyLastUsageCommand = GetKeyLastUsageCommand;
     exports2.GetKeyPolicyCommand = GetKeyPolicyCommand;
     exports2.GetKeyRotationStatusCommand = GetKeyRotationStatusCommand;
     exports2.GetParametersForImportCommand = GetParametersForImportCommand;
@@ -44198,6 +45732,7 @@ var require_dist_cjs53 = __commonJS({
     exports2.KMSClient = KMSClient2;
     exports2.KeyAgreementAlgorithmSpec = KeyAgreementAlgorithmSpec;
     exports2.KeyEncryptionMechanism = KeyEncryptionMechanism;
+    exports2.KeyLastUsageTrackingOperation = KeyLastUsageTrackingOperation;
     exports2.KeyManagerType = KeyManagerType;
     exports2.KeyMaterialState = KeyMaterialState;
     exports2.KeySpec = KeySpec;
@@ -44330,11 +45865,11 @@ var Command = class {
     return cmdStr;
   }
 };
-function escapeData(s5) {
-  return toCommandValue(s5).replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A");
+function escapeData(s) {
+  return toCommandValue(s).replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A");
 }
-function escapeProperty(s5) {
-  return toCommandValue(s5).replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A").replace(/:/g, "%3A").replace(/,/g, "%2C");
+function escapeProperty(s) {
+  return toCommandValue(s).replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A").replace(/:/g, "%3A").replace(/,/g, "%2C");
 }
 
 // node_modules/.pnpm/@actions+core@3.0.1/node_modules/@actions/core/lib/file-command.js
@@ -45400,7 +46935,7 @@ function toErrorMessage(data2) {
   }
   if ("message" in data2) {
     const suffix = "documentation_url" in data2 ? ` - ${data2.documentation_url}` : "";
-    return Array.isArray(data2.errors) ? `${data2.message}: ${data2.errors.map((v5) => JSON.stringify(v5)).join(", ")}${suffix}` : `${data2.message}${suffix}`;
+    return Array.isArray(data2.errors) ? `${data2.message}: ${data2.errors.map((v) => JSON.stringify(v)).join(", ")}${suffix}` : `${data2.message}${suffix}`;
   }
   return `Unknown error: ${JSON.stringify(data2)}`;
 }
@@ -46602,7 +48137,7 @@ var PATHS = [
 ];
 function routeMatcher(paths) {
   const regexes = paths.map(
-    (p5) => p5.split("/").map((c5) => c5.startsWith("{") ? "(?:.+?)" : c5).join("/")
+    (p2) => p2.split("/").map((c5) => c5.startsWith("{") ? "(?:.+?)" : c5).join("/")
   );
   const regex = `^(?:${regexes.map((r5) => `(?:${r5})`).join("|")})$`;
   return new RegExp(regex, "i");
@@ -49848,7 +51383,7 @@ function parseInputs() {
     if (!owner) {
       throw new Error("owner is required (or must be running in a GitHub Actions environment)");
     }
-    repositories = repositoriesRaw ? repositoriesRaw.split(/[\n,]+/).map((s5) => s5.trim()).filter((x5) => x5 !== "") : [];
+    repositories = repositoriesRaw ? repositoriesRaw.split(/[\n,]+/).map((s) => s.trim()).filter((x) => x !== "") : [];
     if (repositories.length === 0) {
       warning(
         "No repositories specified. The token will have access to all repositories the GitHub App can access."
@@ -49880,7 +51415,7 @@ function parseInputs() {
 }
 
 // src/kms-signer.ts
-var import_client_kms = __toESM(require_dist_cjs53(), 1);
+var import_client_kms = __toESM(require_dist_cjs56(), 1);
 var KmsSigner = class {
   #client;
   #keyId;
