@@ -26200,32 +26200,41 @@ var require_dist_cjs21 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/emitWarningIfUnsupportedVersion.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/client/emitWarningIfUnsupportedVersion.js
 var state, emitWarningIfUnsupportedVersion;
 var init_emitWarningIfUnsupportedVersion = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/emitWarningIfUnsupportedVersion.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/client/emitWarningIfUnsupportedVersion.js"() {
     state = {
       warningEmitted: false
     };
     emitWarningIfUnsupportedVersion = (version) => {
-      if (version && !state.warningEmitted && parseInt(version.substring(1, version.indexOf("."))) < 20) {
-        state.warningEmitted = true;
-        process.emitWarning(`NodeDeprecationWarning: The AWS SDK for JavaScript (v3) will
-no longer support Node.js ${version} in January 2026.
+      if (version && !state.warningEmitted) {
+        if (process.env.AWS_SDK_JS_NODE_VERSION_SUPPORT_WARNING_DISABLED === "true") {
+          state.warningEmitted = true;
+          return;
+        }
+        const userMajorVersion = parseInt(version.substring(1, version.indexOf(".")));
+        const vv = 22;
+        if (userMajorVersion < vv) {
+          state.warningEmitted = true;
+          process.emitWarning(`NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=${vv}. You are running node ${version}.
 
-To continue receiving updates to AWS services, bug fixes, and security
-updates please upgrade to a supported Node.js LTS version.
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=${vv}.
 
 More information can be found at: https://a.co/c895JFp`);
+        }
       }
     };
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/longPollMiddleware.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/client/longPollMiddleware.js
 var longPollMiddleware, longPollMiddlewareOptions, getLongPollPlugin;
 var init_longPollMiddleware = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/longPollMiddleware.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/client/longPollMiddleware.js"() {
     longPollMiddleware = () => (next, context) => async (args) => {
       context.__retryLongPoll = true;
       return next(args);
@@ -26244,7 +26253,7 @@ var init_longPollMiddleware = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/setCredentialFeature.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/client/setCredentialFeature.js
 function setCredentialFeature(credentials, feature, value) {
   if (!credentials.$source) {
     credentials.$source = {};
@@ -26253,7 +26262,7 @@ function setCredentialFeature(credentials, feature, value) {
   return credentials;
 }
 var init_setCredentialFeature = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/setCredentialFeature.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/client/setCredentialFeature.js"() {
   }
 });
 
@@ -26332,9 +26341,9 @@ var require_dist_cjs22 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@smithy+util-retry@4.3.6/node_modules/@smithy/util-retry/dist-cjs/index.js
+// node_modules/.pnpm/@smithy+util-retry@4.3.8/node_modules/@smithy/util-retry/dist-cjs/index.js
 var require_dist_cjs23 = __commonJS({
-  "node_modules/.pnpm/@smithy+util-retry@4.3.6/node_modules/@smithy/util-retry/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@smithy+util-retry@4.3.8/node_modules/@smithy/util-retry/dist-cjs/index.js"(exports2) {
     "use strict";
     var serviceErrorClassification = require_dist_cjs22();
     exports2.RETRY_MODES = void 0;
@@ -26613,13 +26622,13 @@ var require_dist_cjs23 = __commonJS({
         }) : new StandardRetryStrategy(maxAttemptsProvider);
       }
       async acquireInitialRetryToken(retryTokenScope) {
-        const token = this.standardRetryStrategy.acquireInitialRetryToken(retryTokenScope);
+        const token = await this.standardRetryStrategy.acquireInitialRetryToken(retryTokenScope);
         await this.rateLimiter.getSendToken();
         return token;
       }
       async refreshRetryTokenForRetry(tokenToRenew, errorInfo) {
         this.rateLimiter.updateClientSendingRate(errorInfo);
-        const token = this.standardRetryStrategy.refreshRetryTokenForRetry(tokenToRenew, errorInfo);
+        const token = await this.standardRetryStrategy.refreshRetryTokenForRetry(tokenToRenew, errorInfo);
         await this.rateLimiter.getSendToken();
         return token;
       }
@@ -26666,7 +26675,7 @@ var require_dist_cjs23 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/setFeature.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/client/setFeature.js
 function setFeature2(context, feature, value) {
   if (!context.__aws_sdk_context) {
     context.__aws_sdk_context = {
@@ -26679,13 +26688,13 @@ function setFeature2(context, feature, value) {
 }
 var import_util_retry;
 var init_setFeature2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/setFeature.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/client/setFeature.js"() {
     import_util_retry = __toESM(require_dist_cjs23());
     import_util_retry.Retry.v2026 ||= typeof process === "object" && process.env?.AWS_NEW_RETRIES_2026 === "true";
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/setTokenFeature.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/client/setTokenFeature.js
 function setTokenFeature(token, feature, value) {
   if (!token.$source) {
     token.$source = {};
@@ -26694,11 +26703,11 @@ function setTokenFeature(token, feature, value) {
   return token;
 }
 var init_setTokenFeature = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/setTokenFeature.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/client/setTokenFeature.js"() {
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/index.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/client/index.js
 var client_exports = {};
 __export(client_exports, {
   emitWarningIfUnsupportedVersion: () => emitWarningIfUnsupportedVersion,
@@ -26709,7 +26718,7 @@ __export(client_exports, {
   state: () => state
 });
 var init_client = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/client/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/client/index.js"() {
     init_emitWarningIfUnsupportedVersion();
     init_longPollMiddleware();
     init_setCredentialFeature();
@@ -26718,9 +26727,9 @@ var init_client = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+middleware-user-agent@3.972.37/node_modules/@aws-sdk/middleware-user-agent/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+middleware-user-agent@3.972.38/node_modules/@aws-sdk/middleware-user-agent/dist-cjs/index.js
 var require_dist_cjs24 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+middleware-user-agent@3.972.37/node_modules/@aws-sdk/middleware-user-agent/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+middleware-user-agent@3.972.38/node_modules/@aws-sdk/middleware-user-agent/dist-cjs/index.js"(exports2) {
     "use strict";
     var core = (init_dist_es(), __toCommonJS(dist_es_exports));
     var utilEndpoints = require_dist_cjs21();
@@ -29251,36 +29260,36 @@ var require_dist_cjs35 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getDateHeader.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getDateHeader.js
 var import_protocol_http9, getDateHeader;
 var init_getDateHeader = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getDateHeader.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getDateHeader.js"() {
     import_protocol_http9 = __toESM(require_dist_cjs2());
     getDateHeader = (response) => import_protocol_http9.HttpResponse.isInstance(response) ? response.headers?.date ?? response.headers?.Date : void 0;
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getSkewCorrectedDate.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getSkewCorrectedDate.js
 var getSkewCorrectedDate;
 var init_getSkewCorrectedDate = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getSkewCorrectedDate.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getSkewCorrectedDate.js"() {
     getSkewCorrectedDate = (systemClockOffset) => new Date(Date.now() + systemClockOffset);
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/isClockSkewed.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/isClockSkewed.js
 var isClockSkewed;
 var init_isClockSkewed = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/isClockSkewed.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/isClockSkewed.js"() {
     init_getSkewCorrectedDate();
     isClockSkewed = (clockTime, systemClockOffset) => Math.abs(getSkewCorrectedDate(systemClockOffset).getTime() - clockTime) >= 3e5;
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getUpdatedSystemClockOffset.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getUpdatedSystemClockOffset.js
 var getUpdatedSystemClockOffset;
 var init_getUpdatedSystemClockOffset = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getUpdatedSystemClockOffset.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getUpdatedSystemClockOffset.js"() {
     init_isClockSkewed();
     getUpdatedSystemClockOffset = (clockTime, currentSystemClockOffset) => {
       const clockTimeInMs = Date.parse(clockTime);
@@ -29292,19 +29301,19 @@ var init_getUpdatedSystemClockOffset = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/index.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/index.js
 var init_utils = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/index.js"() {
     init_getDateHeader();
     init_getSkewCorrectedDate();
     init_getUpdatedSystemClockOffset();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4Signer.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4Signer.js
 var import_protocol_http10, throwSigningPropertyError, validateSigningProperties, AwsSdkSigV4Signer, AWSSDKSigV4Signer;
 var init_AwsSdkSigV4Signer = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4Signer.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4Signer.js"() {
     import_protocol_http10 = __toESM(require_dist_cjs2());
     init_utils();
     throwSigningPropertyError = (name, property) => {
@@ -29380,10 +29389,10 @@ var init_AwsSdkSigV4Signer = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4ASigner.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4ASigner.js
 var import_protocol_http11, AwsSdkSigV4ASigner;
 var init_AwsSdkSigV4ASigner = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4ASigner.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/AwsSdkSigV4ASigner.js"() {
     import_protocol_http11 = __toESM(require_dist_cjs2());
     init_utils();
     init_AwsSdkSigV4Signer();
@@ -29406,26 +29415,26 @@ var init_AwsSdkSigV4ASigner = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getArrayForCommaSeparatedString.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getArrayForCommaSeparatedString.js
 var getArrayForCommaSeparatedString;
 var init_getArrayForCommaSeparatedString = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getArrayForCommaSeparatedString.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getArrayForCommaSeparatedString.js"() {
     getArrayForCommaSeparatedString = (str) => typeof str === "string" && str.length > 0 ? str.split(",").map((item) => item.trim()) : [];
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getBearerTokenEnvKey.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getBearerTokenEnvKey.js
 var getBearerTokenEnvKey;
 var init_getBearerTokenEnvKey = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getBearerTokenEnvKey.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/utils/getBearerTokenEnvKey.js"() {
     getBearerTokenEnvKey = (signingName) => `AWS_BEARER_TOKEN_${signingName.replace(/[\s-]/g, "_").toUpperCase()}`;
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/NODE_AUTH_SCHEME_PREFERENCE_OPTIONS.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/NODE_AUTH_SCHEME_PREFERENCE_OPTIONS.js
 var NODE_AUTH_SCHEME_PREFERENCE_ENV_KEY, NODE_AUTH_SCHEME_PREFERENCE_CONFIG_KEY, NODE_AUTH_SCHEME_PREFERENCE_OPTIONS;
 var init_NODE_AUTH_SCHEME_PREFERENCE_OPTIONS = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/NODE_AUTH_SCHEME_PREFERENCE_OPTIONS.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/NODE_AUTH_SCHEME_PREFERENCE_OPTIONS.js"() {
     init_getArrayForCommaSeparatedString();
     init_getBearerTokenEnvKey();
     NODE_AUTH_SCHEME_PREFERENCE_ENV_KEY = "AWS_AUTH_SCHEME_PREFERENCE";
@@ -29451,10 +29460,10 @@ var init_NODE_AUTH_SCHEME_PREFERENCE_OPTIONS = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4AConfig.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4AConfig.js
 var import_property_provider, resolveAwsSdkSigV4AConfig, NODE_SIGV4A_CONFIG_OPTIONS;
 var init_resolveAwsSdkSigV4AConfig = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4AConfig.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4AConfig.js"() {
     init_dist_es();
     import_property_provider = __toESM(require_dist_cjs28());
     resolveAwsSdkSigV4AConfig = (config) => {
@@ -30023,7 +30032,7 @@ ${utilHexEncoding.toHex(hashedRequest)}`;
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4Config.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4Config.js
 function normalizeCredentialProvider(config, { credentials, credentialDefaultProvider }) {
   let credentialsProvider;
   if (credentials) {
@@ -30057,7 +30066,7 @@ function bindCallerConfig(config, credentialsProvider) {
 }
 var import_signature_v4, resolveAwsSdkSigV4Config, resolveAWSSDKSigV4Config;
 var init_resolveAwsSdkSigV4Config = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4Config.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/resolveAwsSdkSigV4Config.js"() {
     init_client();
     init_dist_es();
     import_signature_v4 = __toESM(require_dist_cjs36());
@@ -30161,9 +30170,9 @@ var init_resolveAwsSdkSigV4Config = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/index.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/index.js
 var init_aws_sdk = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/aws_sdk/index.js"() {
     init_AwsSdkSigV4Signer();
     init_AwsSdkSigV4ASigner();
     init_NODE_AUTH_SCHEME_PREFERENCE_OPTIONS();
@@ -30172,7 +30181,7 @@ var init_aws_sdk = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/index.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/index.js
 var httpAuthSchemes_exports = {};
 __export(httpAuthSchemes_exports, {
   AWSSDKSigV4Signer: () => AWSSDKSigV4Signer,
@@ -30187,15 +30196,15 @@ __export(httpAuthSchemes_exports, {
   validateSigningProperties: () => validateSigningProperties
 });
 var init_httpAuthSchemes2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/httpAuthSchemes/index.js"() {
     init_aws_sdk();
     init_getBearerTokenEnvKey();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/auth/httpAuthSchemeProvider.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/auth/httpAuthSchemeProvider.js
 var require_httpAuthSchemeProvider = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/auth/httpAuthSchemeProvider.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/auth/httpAuthSchemeProvider.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.resolveHttpAuthSchemeConfig = exports2.defaultKMSHttpAuthSchemeProvider = exports2.defaultKMSHttpAuthSchemeParametersProvider = void 0;
@@ -30245,13 +30254,13 @@ var require_httpAuthSchemeProvider = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/package.json
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/package.json
 var require_package = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/package.json"(exports2, module2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/package.json"(exports2, module2) {
     module2.exports = {
       name: "@aws-sdk/client-kms",
       description: "AWS SDK for JavaScript Kms Client for Node.js, Browser and React Native",
-      version: "3.1038.0",
+      version: "3.1043.0",
       scripts: {
         build: "concurrently 'yarn:build:types' 'yarn:build:es' && yarn build:cjs",
         "build:cjs": "node ../../scripts/compilation/inline client-kms",
@@ -30273,17 +30282,17 @@ var require_package = __commonJS({
       dependencies: {
         "@aws-crypto/sha256-browser": "5.2.0",
         "@aws-crypto/sha256-js": "5.2.0",
-        "@aws-sdk/core": "^3.974.6",
-        "@aws-sdk/credential-provider-node": "^3.972.37",
+        "@aws-sdk/core": "^3.974.8",
+        "@aws-sdk/credential-provider-node": "^3.972.39",
         "@aws-sdk/middleware-host-header": "^3.972.10",
         "@aws-sdk/middleware-logger": "^3.972.10",
         "@aws-sdk/middleware-recursion-detection": "^3.972.11",
-        "@aws-sdk/middleware-user-agent": "^3.972.36",
+        "@aws-sdk/middleware-user-agent": "^3.972.38",
         "@aws-sdk/region-config-resolver": "^3.972.13",
         "@aws-sdk/types": "^3.973.8",
         "@aws-sdk/util-endpoints": "^3.996.8",
         "@aws-sdk/util-user-agent-browser": "^3.972.10",
-        "@aws-sdk/util-user-agent-node": "^3.973.22",
+        "@aws-sdk/util-user-agent-node": "^3.973.24",
         "@smithy/config-resolver": "^4.4.17",
         "@smithy/core": "^3.23.17",
         "@smithy/fetch-http-handler": "^5.3.17",
@@ -30291,7 +30300,7 @@ var require_package = __commonJS({
         "@smithy/invalid-dependency": "^4.2.14",
         "@smithy/middleware-content-length": "^4.2.14",
         "@smithy/middleware-endpoint": "^4.4.32",
-        "@smithy/middleware-retry": "^4.5.6",
+        "@smithy/middleware-retry": "^4.5.7",
         "@smithy/middleware-serde": "^4.2.20",
         "@smithy/middleware-stack": "^4.2.14",
         "@smithy/node-config-provider": "^4.3.14",
@@ -30307,7 +30316,7 @@ var require_package = __commonJS({
         "@smithy/util-defaults-mode-node": "^4.2.54",
         "@smithy/util-endpoints": "^3.4.2",
         "@smithy/util-middleware": "^4.2.14",
-        "@smithy/util-retry": "^4.3.5",
+        "@smithy/util-retry": "^4.3.6",
         "@smithy/util-utf8": "^4.2.2",
         tslib: "^2.6.2"
       },
@@ -30353,9 +30362,9 @@ var require_package = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-env@3.972.33/node_modules/@aws-sdk/credential-provider-env/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-env@3.972.34/node_modules/@aws-sdk/credential-provider-env/dist-cjs/index.js
 var require_dist_cjs37 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-env@3.972.33/node_modules/@aws-sdk/credential-provider-env/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-env@3.972.34/node_modules/@aws-sdk/credential-provider-env/dist-cjs/index.js"(exports2) {
     "use strict";
     var client = (init_client(), __toCommonJS(client_exports));
     var propertyProvider = require_dist_cjs28();
@@ -30743,9 +30752,9 @@ For more information, please visit: ` + STATIC_STABILITY_DOC_URL);
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/checkUrl.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.36/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/checkUrl.js
 var require_checkUrl = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/checkUrl.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.36/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/checkUrl.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.checkUrl = void 0;
@@ -30786,9 +30795,9 @@ var require_checkUrl = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/requestHelpers.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.36/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/requestHelpers.js
 var require_requestHelpers = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/requestHelpers.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.36/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/requestHelpers.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createGetRequest = createGetRequest;
@@ -30841,9 +30850,9 @@ var require_requestHelpers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/retry-wrapper.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.36/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/retry-wrapper.js
 var require_retry_wrapper = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/retry-wrapper.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.36/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/retry-wrapper.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.retryWrapper = void 0;
@@ -30863,9 +30872,9 @@ var require_retry_wrapper = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/fromHttp.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.36/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/fromHttp.js
 var require_fromHttp = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/fromHttp.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.36/node_modules/@aws-sdk/credential-provider-http/dist-cjs/fromHttp/fromHttp.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.fromHttp = void 0;
@@ -30931,9 +30940,9 @@ Set AWS_CONTAINER_CREDENTIALS_FULL_URI or AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.36/node_modules/@aws-sdk/credential-provider-http/dist-cjs/index.js
 var require_dist_cjs39 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.35/node_modules/@aws-sdk/credential-provider-http/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-http@3.972.36/node_modules/@aws-sdk/credential-provider-http/dist-cjs/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.fromHttp = void 0;
@@ -30944,7 +30953,7 @@ var require_dist_cjs39 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthSchemeProvider.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthSchemeProvider.js
 function createAwsAuthSigv4HttpAuthOption(authParameters) {
   return {
     schemeId: "aws.auth#sigv4",
@@ -30967,7 +30976,7 @@ function createSmithyApiNoAuthHttpAuthOption(authParameters) {
 }
 var import_util_middleware5, defaultSSOOIDCHttpAuthSchemeParametersProvider, defaultSSOOIDCHttpAuthSchemeProvider, resolveHttpAuthSchemeConfig;
 var init_httpAuthSchemeProvider = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthSchemeProvider.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthSchemeProvider.js"() {
     init_httpAuthSchemes2();
     import_util_middleware5 = __toESM(require_dist_cjs6());
     defaultSSOOIDCHttpAuthSchemeParametersProvider = async (config, context, input) => {
@@ -31000,10 +31009,10 @@ var init_httpAuthSchemeProvider = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/EndpointParameters.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/EndpointParameters.js
 var resolveClientEndpointParameters, commonParams;
 var init_EndpointParameters = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/EndpointParameters.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/EndpointParameters.js"() {
     resolveClientEndpointParameters = (options) => {
       return Object.assign(options, {
         useDualstackEndpoint: options.useDualstackEndpoint ?? false,
@@ -31020,13 +31029,13 @@ var init_EndpointParameters = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/package.json
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/package.json
 var package_default;
 var init_package = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/package.json"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/package.json"() {
     package_default = {
       name: "@aws-sdk/nested-clients",
-      version: "3.997.5",
+      version: "3.997.6",
       description: "Nested clients for AWS SDK packages.",
       main: "./dist-cjs/index.js",
       module: "./dist-es/index.js",
@@ -31055,17 +31064,17 @@ var init_package = __esm({
       dependencies: {
         "@aws-crypto/sha256-browser": "5.2.0",
         "@aws-crypto/sha256-js": "5.2.0",
-        "@aws-sdk/core": "^3.974.7",
+        "@aws-sdk/core": "^3.974.8",
         "@aws-sdk/middleware-host-header": "^3.972.10",
         "@aws-sdk/middleware-logger": "^3.972.10",
         "@aws-sdk/middleware-recursion-detection": "^3.972.11",
-        "@aws-sdk/middleware-user-agent": "^3.972.37",
+        "@aws-sdk/middleware-user-agent": "^3.972.38",
         "@aws-sdk/region-config-resolver": "^3.972.13",
-        "@aws-sdk/signature-v4-multi-region": "^3.996.24",
+        "@aws-sdk/signature-v4-multi-region": "^3.996.25",
         "@aws-sdk/types": "^3.973.8",
         "@aws-sdk/util-endpoints": "^3.996.8",
         "@aws-sdk/util-user-agent-browser": "^3.972.10",
-        "@aws-sdk/util-user-agent-node": "^3.973.23",
+        "@aws-sdk/util-user-agent-node": "^3.973.24",
         "@smithy/config-resolver": "^4.4.17",
         "@smithy/core": "^3.23.17",
         "@smithy/fetch-http-handler": "^5.3.17",
@@ -31175,9 +31184,9 @@ var init_package = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+util-user-agent-node@3.973.23/node_modules/@aws-sdk/util-user-agent-node/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+util-user-agent-node@3.973.24/node_modules/@aws-sdk/util-user-agent-node/dist-cjs/index.js
 var require_dist_cjs40 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+util-user-agent-node@3.973.23/node_modules/@aws-sdk/util-user-agent-node/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+util-user-agent-node@3.973.24/node_modules/@aws-sdk/util-user-agent-node/dist-cjs/index.js"(exports2) {
     "use strict";
     var node_os = require("node:os");
     var node_process = require("node:process");
@@ -32538,10 +32547,10 @@ var init_cbor2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ProtocolLib.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ProtocolLib.js
 var import_smithy_client, ProtocolLib;
 var init_ProtocolLib = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ProtocolLib.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ProtocolLib.js"() {
     init_schema();
     import_smithy_client = __toESM(require_dist_cjs34());
     ProtocolLib = class {
@@ -32679,10 +32688,10 @@ var init_ProtocolLib = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/cbor/AwsSmithyRpcV2CborProtocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/cbor/AwsSmithyRpcV2CborProtocol.js
 var AwsSmithyRpcV2CborProtocol;
 var init_AwsSmithyRpcV2CborProtocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/cbor/AwsSmithyRpcV2CborProtocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/cbor/AwsSmithyRpcV2CborProtocol.js"() {
     init_cbor2();
     init_schema();
     init_ProtocolLib();
@@ -32736,10 +32745,10 @@ var init_AwsSmithyRpcV2CborProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/coercing-serializers.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/coercing-serializers.js
 var _toStr, _toBool, _toNum;
 var init_coercing_serializers = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/coercing-serializers.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/coercing-serializers.js"() {
     _toStr = (val) => {
       if (val == null) {
         return val;
@@ -32796,10 +32805,10 @@ var init_coercing_serializers = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ConfigurableSerdeContext.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ConfigurableSerdeContext.js
 var SerdeContextConfig;
 var init_ConfigurableSerdeContext = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ConfigurableSerdeContext.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/ConfigurableSerdeContext.js"() {
     SerdeContextConfig = class {
       serdeContext;
       setSerdeContext(serdeContext) {
@@ -32809,10 +32818,10 @@ var init_ConfigurableSerdeContext = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/UnionSerde.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/UnionSerde.js
 var UnionSerde;
 var init_UnionSerde = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/UnionSerde.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/UnionSerde.js"() {
     UnionSerde = class {
       from;
       to;
@@ -32842,7 +32851,7 @@ var init_UnionSerde = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReviver.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReviver.js
 function jsonReviver(key, value, context) {
   if (context?.source) {
     const numericString = context.source;
@@ -32860,25 +32869,25 @@ function jsonReviver(key, value, context) {
   return value;
 }
 var init_jsonReviver = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReviver.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReviver.js"() {
     init_serde();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/common.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/common.js
 var import_smithy_client2, import_util_utf86, collectBodyString;
 var init_common = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/common.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/common.js"() {
     import_smithy_client2 = __toESM(require_dist_cjs34());
     import_util_utf86 = __toESM(require_dist_cjs9());
     collectBodyString = (streamBody, context) => (0, import_smithy_client2.collectBody)(streamBody, context).then((body) => (context?.utf8Encoder ?? import_util_utf86.toUtf8)(body));
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/parseJsonBody.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/parseJsonBody.js
 var parseJsonBody, parseJsonErrorBody, findKey, sanitizeErrorCode, loadRestJsonErrorCode;
 var init_parseJsonBody = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/parseJsonBody.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/parseJsonBody.js"() {
     init_common();
     parseJsonBody = (streamBody, context) => collectBodyString(streamBody, context).then((encoded) => {
       if (encoded.length) {
@@ -32935,10 +32944,10 @@ var init_parseJsonBody = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeDeserializer.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeDeserializer.js
 var import_util_base644, JsonShapeDeserializer;
 var init_JsonShapeDeserializer = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeDeserializer.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeDeserializer.js"() {
     init_protocols();
     init_schema();
     init_serde();
@@ -33090,10 +33099,10 @@ var init_JsonShapeDeserializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReplacer.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReplacer.js
 var NUMERIC_CONTROL_CHAR, JsonReplacer;
 var init_jsonReplacer = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReplacer.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/jsonReplacer.js"() {
     init_serde();
     NUMERIC_CONTROL_CHAR = String.fromCharCode(925);
     JsonReplacer = class {
@@ -33143,10 +33152,10 @@ var init_jsonReplacer = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeSerializer.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeSerializer.js
 var import_util_base645, JsonShapeSerializer;
 var init_JsonShapeSerializer = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeSerializer.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonShapeSerializer.js"() {
     init_protocols();
     init_schema();
     init_serde();
@@ -33328,10 +33337,10 @@ var init_JsonShapeSerializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonCodec.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonCodec.js
 var JsonCodec;
 var init_JsonCodec = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonCodec.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/JsonCodec.js"() {
     init_ConfigurableSerdeContext();
     init_JsonShapeDeserializer();
     init_JsonShapeSerializer();
@@ -33355,10 +33364,10 @@ var init_JsonCodec = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJsonRpcProtocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJsonRpcProtocol.js
 var AwsJsonRpcProtocol;
 var init_AwsJsonRpcProtocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJsonRpcProtocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJsonRpcProtocol.js"() {
     init_protocols();
     init_schema();
     init_ProtocolLib();
@@ -33437,10 +33446,10 @@ var init_AwsJsonRpcProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_0Protocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_0Protocol.js
 var AwsJson1_0Protocol;
 var init_AwsJson1_0Protocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_0Protocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_0Protocol.js"() {
     init_AwsJsonRpcProtocol();
     AwsJson1_0Protocol = class extends AwsJsonRpcProtocol {
       constructor({ defaultNamespace, errorTypeRegistries: errorTypeRegistries5, serviceTarget, awsQueryCompatible, jsonCodec }) {
@@ -33465,10 +33474,10 @@ var init_AwsJson1_0Protocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_1Protocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_1Protocol.js
 var AwsJson1_1Protocol;
 var init_AwsJson1_1Protocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_1Protocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsJson1_1Protocol.js"() {
     init_AwsJsonRpcProtocol();
     AwsJson1_1Protocol = class extends AwsJsonRpcProtocol {
       constructor({ defaultNamespace, errorTypeRegistries: errorTypeRegistries5, serviceTarget, awsQueryCompatible, jsonCodec }) {
@@ -33493,10 +33502,10 @@ var init_AwsJson1_1Protocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsRestJsonProtocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsRestJsonProtocol.js
 var AwsRestJsonProtocol;
 var init_AwsRestJsonProtocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsRestJsonProtocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/AwsRestJsonProtocol.js"() {
     init_protocols();
     init_schema();
     init_ProtocolLib();
@@ -33585,10 +33594,10 @@ var init_AwsRestJsonProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/awsExpectUnion.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/awsExpectUnion.js
 var import_smithy_client3, awsExpectUnion;
 var init_awsExpectUnion = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/awsExpectUnion.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/json/awsExpectUnion.js"() {
     import_smithy_client3 = __toESM(require_dist_cjs34());
     awsExpectUnion = (value) => {
       if (value == null) {
@@ -35636,10 +35645,10 @@ var require_dist_cjs44 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeDeserializer.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeDeserializer.js
 var import_xml_builder, import_smithy_client4, import_util_utf87, XmlShapeDeserializer;
 var init_XmlShapeDeserializer = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeDeserializer.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeDeserializer.js"() {
     import_xml_builder = __toESM(require_dist_cjs44());
     init_protocols();
     init_schema();
@@ -35789,10 +35798,10 @@ var init_XmlShapeDeserializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QueryShapeSerializer.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QueryShapeSerializer.js
 var import_smithy_client5, import_util_base646, QueryShapeSerializer;
 var init_QueryShapeSerializer = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QueryShapeSerializer.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QueryShapeSerializer.js"() {
     init_protocols();
     init_schema();
     init_serde();
@@ -35970,10 +35979,10 @@ var init_QueryShapeSerializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsQueryProtocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsQueryProtocol.js
 var AwsQueryProtocol;
 var init_AwsQueryProtocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsQueryProtocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsQueryProtocol.js"() {
     init_protocols();
     init_schema();
     init_ProtocolLib();
@@ -36110,10 +36119,10 @@ var init_AwsQueryProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsEc2QueryProtocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsEc2QueryProtocol.js
 var AwsEc2QueryProtocol;
 var init_AwsEc2QueryProtocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsEc2QueryProtocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/AwsEc2QueryProtocol.js"() {
     init_AwsQueryProtocol();
     AwsEc2QueryProtocol = class extends AwsQueryProtocol {
       options;
@@ -36138,16 +36147,16 @@ var init_AwsEc2QueryProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QuerySerializerSettings.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QuerySerializerSettings.js
 var init_QuerySerializerSettings = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QuerySerializerSettings.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/query/QuerySerializerSettings.js"() {
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/parseXmlBody.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/parseXmlBody.js
 var import_xml_builder2, import_smithy_client6, parseXmlBody, parseXmlErrorBody, loadRestXmlErrorCode;
 var init_parseXmlBody = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/parseXmlBody.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/parseXmlBody.js"() {
     import_xml_builder2 = __toESM(require_dist_cjs44());
     import_smithy_client6 = __toESM(require_dist_cjs34());
     init_common();
@@ -36196,10 +36205,10 @@ var init_parseXmlBody = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeSerializer.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeSerializer.js
 var import_xml_builder3, import_smithy_client7, import_util_base647, XmlShapeSerializer;
 var init_XmlShapeSerializer = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeSerializer.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlShapeSerializer.js"() {
     import_xml_builder3 = __toESM(require_dist_cjs44());
     init_protocols();
     init_schema();
@@ -36475,10 +36484,10 @@ var init_XmlShapeSerializer = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlCodec.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlCodec.js
 var XmlCodec;
 var init_XmlCodec = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlCodec.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/XmlCodec.js"() {
     init_ConfigurableSerdeContext();
     init_XmlShapeDeserializer();
     init_XmlShapeSerializer();
@@ -36502,10 +36511,10 @@ var init_XmlCodec = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/AwsRestXmlProtocol.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/AwsRestXmlProtocol.js
 var AwsRestXmlProtocol;
 var init_AwsRestXmlProtocol = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/AwsRestXmlProtocol.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/xml/AwsRestXmlProtocol.js"() {
     init_protocols();
     init_schema();
     init_ProtocolLib();
@@ -36601,7 +36610,7 @@ var init_AwsRestXmlProtocol = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/index.js
+// node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/index.js
 var protocols_exports2 = {};
 __export(protocols_exports2, {
   AwsEc2QueryProtocol: () => AwsEc2QueryProtocol,
@@ -36631,7 +36640,7 @@ __export(protocols_exports2, {
   parseXmlErrorBody: () => parseXmlErrorBody
 });
 var init_protocols2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+core@3.974.7/node_modules/@aws-sdk/core/dist-es/submodules/protocols/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+core@3.974.8/node_modules/@aws-sdk/core/dist-es/submodules/protocols/index.js"() {
     init_AwsSmithyRpcV2CborProtocol();
     init_coercing_serializers();
     init_AwsJson1_0Protocol();
@@ -36655,10 +36664,10 @@ var init_protocols2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/bdd.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/bdd.js
 var import_util_endpoints, k, a, b, c, d, e, f, g, h, i, j, _data, root, r, nodes, bdd;
 var init_bdd = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/bdd.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/bdd.js"() {
     import_util_endpoints = __toESM(require_dist_cjs20());
     k = "ref";
     a = -1;
@@ -36748,10 +36757,10 @@ var init_bdd = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/endpointResolver.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/endpointResolver.js
 var import_util_endpoints2, import_util_endpoints3, cache, defaultEndpointResolver;
 var init_endpointResolver = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/endpointResolver.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/endpointResolver.js"() {
     import_util_endpoints2 = __toESM(require_dist_cjs21());
     import_util_endpoints3 = __toESM(require_dist_cjs20());
     init_bdd();
@@ -36769,10 +36778,10 @@ var init_endpointResolver = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/SSOOIDCServiceException.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/SSOOIDCServiceException.js
 var import_smithy_client8, SSOOIDCServiceException;
 var init_SSOOIDCServiceException = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/SSOOIDCServiceException.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/SSOOIDCServiceException.js"() {
     import_smithy_client8 = __toESM(require_dist_cjs34());
     SSOOIDCServiceException = class _SSOOIDCServiceException extends import_smithy_client8.ServiceException {
       constructor(options) {
@@ -36783,10 +36792,10 @@ var init_SSOOIDCServiceException = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/errors.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/errors.js
 var AccessDeniedException, AuthorizationPendingException, ExpiredTokenException, InternalServerException, InvalidClientException, InvalidGrantException, InvalidRequestException, InvalidScopeException, SlowDownException, UnauthorizedClientException, UnsupportedGrantTypeException;
 var init_errors = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/errors.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/errors.js"() {
     init_SSOOIDCServiceException();
     AccessDeniedException = class _AccessDeniedException extends SSOOIDCServiceException {
       name = "AccessDeniedException";
@@ -36971,10 +36980,10 @@ var init_errors = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/schemas/schemas_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/schemas/schemas_0.js
 var _ADE, _APE, _AT, _CS, _CT, _CTR, _CTRr, _CV, _ETE, _ICE, _IGE, _IRE, _ISE, _ISEn, _IT, _RT, _SDE, _UCE, _UGTE, _aT, _c, _cI, _cS, _cV, _co, _dC, _e, _eI, _ed, _gT, _h, _hE, _iT, _r, _rT, _rU, _s, _sc, _se, _tT, n0, _s_registry, SSOOIDCServiceException$, n0_registry, AccessDeniedException$, AuthorizationPendingException$, ExpiredTokenException$, InternalServerException$, InvalidClientException$, InvalidGrantException$, InvalidRequestException$, InvalidScopeException$, SlowDownException$, UnauthorizedClientException$, UnsupportedGrantTypeException$, errorTypeRegistries, AccessToken, ClientSecret, CodeVerifier, IdToken, RefreshToken, CreateTokenRequest$, CreateTokenResponse$, Scopes, CreateToken$;
 var init_schemas_0 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/schemas/schemas_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/schemas/schemas_0.js"() {
     init_schema();
     init_errors();
     init_SSOOIDCServiceException();
@@ -37115,10 +37124,10 @@ var init_schemas_0 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.shared.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.shared.js
 var import_smithy_client9, import_url_parser2, import_util_base648, import_util_utf88, getRuntimeConfig;
 var init_runtimeConfig_shared = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.shared.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.shared.js"() {
     init_httpAuthSchemes2();
     init_protocols2();
     init_dist_es();
@@ -37167,10 +37176,10 @@ var init_runtimeConfig_shared = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.js
 var import_util_user_agent_node, import_config_resolver, import_hash_node, import_middleware_retry, import_node_config_provider, import_node_http_handler, import_smithy_client10, import_util_body_length_node, import_util_defaults_mode_node, import_util_retry2, getRuntimeConfig2;
 var init_runtimeConfig = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.js"() {
     init_package();
     init_client();
     init_httpAuthSchemes2();
@@ -37284,10 +37293,10 @@ var require_dist_cjs45 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthExtensionConfiguration.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthExtensionConfiguration.js
 var getHttpAuthExtensionConfiguration, resolveHttpAuthRuntimeConfig;
 var init_httpAuthExtensionConfiguration = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthExtensionConfiguration.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthExtensionConfiguration.js"() {
     getHttpAuthExtensionConfiguration = (runtimeConfig) => {
       const _httpAuthSchemes = runtimeConfig.httpAuthSchemes;
       let _httpAuthSchemeProvider = runtimeConfig.httpAuthSchemeProvider;
@@ -37328,10 +37337,10 @@ var init_httpAuthExtensionConfiguration = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeExtensions.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeExtensions.js
 var import_region_config_resolver, import_protocol_http12, import_smithy_client11, resolveRuntimeExtensions;
 var init_runtimeExtensions = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeExtensions.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeExtensions.js"() {
     import_region_config_resolver = __toESM(require_dist_cjs45());
     import_protocol_http12 = __toESM(require_dist_cjs2());
     import_smithy_client11 = __toESM(require_dist_cjs34());
@@ -37344,10 +37353,10 @@ var init_runtimeExtensions = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDCClient.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDCClient.js
 var import_middleware_host_header, import_middleware_logger, import_middleware_recursion_detection, import_middleware_user_agent, import_config_resolver2, import_middleware_content_length, import_middleware_endpoint, import_middleware_retry2, import_smithy_client12, SSOOIDCClient;
 var init_SSOOIDCClient = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDCClient.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDCClient.js"() {
     import_middleware_host_header = __toESM(require_dist_cjs3());
     import_middleware_logger = __toESM(require_dist_cjs4());
     import_middleware_recursion_detection = __toESM(require_dist_cjs5());
@@ -37400,10 +37409,10 @@ var init_SSOOIDCClient = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/CreateTokenCommand.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/CreateTokenCommand.js
 var import_middleware_endpoint2, import_smithy_client13, CreateTokenCommand;
 var init_CreateTokenCommand = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/CreateTokenCommand.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/CreateTokenCommand.js"() {
     import_middleware_endpoint2 = __toESM(require_dist_cjs32());
     import_smithy_client13 = __toESM(require_dist_cjs34());
     init_EndpointParameters();
@@ -37415,10 +37424,10 @@ var init_CreateTokenCommand = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDC.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDC.js
 var import_smithy_client14, commands, SSOOIDC;
 var init_SSOOIDC = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDC.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDC.js"() {
     import_smithy_client14 = __toESM(require_dist_cjs34());
     init_CreateTokenCommand();
     init_SSOOIDCClient();
@@ -37431,17 +37440,17 @@ var init_SSOOIDC = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/index.js
 var init_commands = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/index.js"() {
     init_CreateTokenCommand();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/enums.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/enums.js
 var AccessDeniedExceptionReason, InvalidRequestExceptionReason;
 var init_enums = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/enums.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/enums.js"() {
     AccessDeniedExceptionReason = {
       KMS_ACCESS_DENIED: "KMS_AccessDeniedException"
     };
@@ -37454,13 +37463,13 @@ var init_enums = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/models_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/models_0.js
 var init_models_0 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/models_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/models_0.js"() {
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/index.js
 var sso_oidc_exports = {};
 __export(sso_oidc_exports, {
   $Command: () => import_smithy_client13.Command,
@@ -37500,7 +37509,7 @@ __export(sso_oidc_exports, {
   errorTypeRegistries: () => errorTypeRegistries
 });
 var init_sso_oidc = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/index.js"() {
     init_SSOOIDCClient();
     init_SSOOIDC();
     init_commands();
@@ -37512,9 +37521,9 @@ var init_sso_oidc = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+token-providers@3.1039.0/node_modules/@aws-sdk/token-providers/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+token-providers@3.1041.0/node_modules/@aws-sdk/token-providers/dist-cjs/index.js
 var require_dist_cjs46 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+token-providers@3.1039.0/node_modules/@aws-sdk/token-providers/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+token-providers@3.1041.0/node_modules/@aws-sdk/token-providers/dist-cjs/index.js"(exports2) {
     "use strict";
     var client = (init_client(), __toCommonJS(client_exports));
     var httpAuthSchemes = (init_httpAuthSchemes2(), __toCommonJS(httpAuthSchemes_exports));
@@ -37659,7 +37668,7 @@ var require_dist_cjs46 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthSchemeProvider.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthSchemeProvider.js
 function createAwsAuthSigv4HttpAuthOption2(authParameters) {
   return {
     schemeId: "aws.auth#sigv4",
@@ -37682,7 +37691,7 @@ function createSmithyApiNoAuthHttpAuthOption2(authParameters) {
 }
 var import_util_middleware7, defaultSSOHttpAuthSchemeParametersProvider, defaultSSOHttpAuthSchemeProvider, resolveHttpAuthSchemeConfig2;
 var init_httpAuthSchemeProvider2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthSchemeProvider.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthSchemeProvider.js"() {
     init_httpAuthSchemes2();
     import_util_middleware7 = __toESM(require_dist_cjs6());
     defaultSSOHttpAuthSchemeParametersProvider = async (config, context, input) => {
@@ -37715,10 +37724,10 @@ var init_httpAuthSchemeProvider2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/EndpointParameters.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/EndpointParameters.js
 var resolveClientEndpointParameters2, commonParams2;
 var init_EndpointParameters2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/EndpointParameters.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/EndpointParameters.js"() {
     resolveClientEndpointParameters2 = (options) => {
       return Object.assign(options, {
         useDualstackEndpoint: options.useDualstackEndpoint ?? false,
@@ -37735,10 +37744,10 @@ var init_EndpointParameters2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/bdd.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/bdd.js
 var import_util_endpoints4, k2, a2, b2, c2, d2, e2, f2, g2, h2, i2, j2, _data2, root2, r2, nodes2, bdd2;
 var init_bdd2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/bdd.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/bdd.js"() {
     import_util_endpoints4 = __toESM(require_dist_cjs20());
     k2 = "ref";
     a2 = -1;
@@ -37828,10 +37837,10 @@ var init_bdd2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/endpointResolver.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/endpointResolver.js
 var import_util_endpoints5, import_util_endpoints6, cache2, defaultEndpointResolver2;
 var init_endpointResolver2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/endpointResolver.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/endpointResolver.js"() {
     import_util_endpoints5 = __toESM(require_dist_cjs21());
     import_util_endpoints6 = __toESM(require_dist_cjs20());
     init_bdd2();
@@ -37849,10 +37858,10 @@ var init_endpointResolver2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/SSOServiceException.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/SSOServiceException.js
 var import_smithy_client15, SSOServiceException;
 var init_SSOServiceException = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/SSOServiceException.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/SSOServiceException.js"() {
     import_smithy_client15 = __toESM(require_dist_cjs34());
     SSOServiceException = class _SSOServiceException extends import_smithy_client15.ServiceException {
       constructor(options) {
@@ -37863,10 +37872,10 @@ var init_SSOServiceException = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/errors.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/errors.js
 var InvalidRequestException2, ResourceNotFoundException, TooManyRequestsException, UnauthorizedException;
 var init_errors2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/errors.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/errors.js"() {
     init_SSOServiceException();
     InvalidRequestException2 = class _InvalidRequestException extends SSOServiceException {
       name = "InvalidRequestException";
@@ -37919,10 +37928,10 @@ var init_errors2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/schemas/schemas_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/schemas/schemas_0.js
 var _ATT, _GRC, _GRCR, _GRCRe, _IRE2, _RC, _RNFE, _SAKT, _STT, _TMRE, _UE, _aI, _aKI, _aT2, _ai, _c2, _e2, _ex, _h2, _hE2, _hH, _hQ, _m, _rC, _rN, _rn, _s2, _sAK, _sT, _xasbt, n02, _s_registry2, SSOServiceException$, n0_registry2, InvalidRequestException$2, ResourceNotFoundException$, TooManyRequestsException$, UnauthorizedException$, errorTypeRegistries2, AccessTokenType, SecretAccessKeyType, SessionTokenType, GetRoleCredentialsRequest$, GetRoleCredentialsResponse$, RoleCredentials$, GetRoleCredentials$;
 var init_schemas_02 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/schemas/schemas_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/schemas/schemas_0.js"() {
     init_schema();
     init_errors2();
     init_SSOServiceException();
@@ -38013,10 +38022,10 @@ var init_schemas_02 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.shared.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.shared.js
 var import_smithy_client16, import_url_parser3, import_util_base649, import_util_utf89, getRuntimeConfig3;
 var init_runtimeConfig_shared2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.shared.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.shared.js"() {
     init_httpAuthSchemes2();
     init_protocols2();
     init_dist_es();
@@ -38065,10 +38074,10 @@ var init_runtimeConfig_shared2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.js
 var import_util_user_agent_node2, import_config_resolver3, import_hash_node2, import_middleware_retry3, import_node_config_provider2, import_node_http_handler2, import_smithy_client17, import_util_body_length_node2, import_util_defaults_mode_node2, import_util_retry3, getRuntimeConfig4;
 var init_runtimeConfig2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.js"() {
     init_package();
     init_client();
     init_httpAuthSchemes2();
@@ -38118,10 +38127,10 @@ var init_runtimeConfig2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthExtensionConfiguration.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthExtensionConfiguration.js
 var getHttpAuthExtensionConfiguration2, resolveHttpAuthRuntimeConfig2;
 var init_httpAuthExtensionConfiguration2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthExtensionConfiguration.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthExtensionConfiguration.js"() {
     getHttpAuthExtensionConfiguration2 = (runtimeConfig) => {
       const _httpAuthSchemes = runtimeConfig.httpAuthSchemes;
       let _httpAuthSchemeProvider = runtimeConfig.httpAuthSchemeProvider;
@@ -38162,10 +38171,10 @@ var init_httpAuthExtensionConfiguration2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeExtensions.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeExtensions.js
 var import_region_config_resolver2, import_protocol_http13, import_smithy_client18, resolveRuntimeExtensions2;
 var init_runtimeExtensions2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeExtensions.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeExtensions.js"() {
     import_region_config_resolver2 = __toESM(require_dist_cjs45());
     import_protocol_http13 = __toESM(require_dist_cjs2());
     import_smithy_client18 = __toESM(require_dist_cjs34());
@@ -38178,10 +38187,10 @@ var init_runtimeExtensions2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSOClient.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSOClient.js
 var import_middleware_host_header2, import_middleware_logger2, import_middleware_recursion_detection2, import_middleware_user_agent2, import_config_resolver4, import_middleware_content_length2, import_middleware_endpoint3, import_middleware_retry4, import_smithy_client19, SSOClient;
 var init_SSOClient = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSOClient.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSOClient.js"() {
     import_middleware_host_header2 = __toESM(require_dist_cjs3());
     import_middleware_logger2 = __toESM(require_dist_cjs4());
     import_middleware_recursion_detection2 = __toESM(require_dist_cjs5());
@@ -38234,10 +38243,10 @@ var init_SSOClient = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/GetRoleCredentialsCommand.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/GetRoleCredentialsCommand.js
 var import_middleware_endpoint4, import_smithy_client20, GetRoleCredentialsCommand;
 var init_GetRoleCredentialsCommand = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/GetRoleCredentialsCommand.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/GetRoleCredentialsCommand.js"() {
     import_middleware_endpoint4 = __toESM(require_dist_cjs32());
     import_smithy_client20 = __toESM(require_dist_cjs34());
     init_EndpointParameters2();
@@ -38249,10 +38258,10 @@ var init_GetRoleCredentialsCommand = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSO.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSO.js
 var import_smithy_client21, commands2, SSO;
 var init_SSO = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSO.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSO.js"() {
     import_smithy_client21 = __toESM(require_dist_cjs34());
     init_GetRoleCredentialsCommand();
     init_SSOClient();
@@ -38265,20 +38274,20 @@ var init_SSO = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/index.js
 var init_commands2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/index.js"() {
     init_GetRoleCredentialsCommand();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/models_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/models_0.js
 var init_models_02 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/models_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/models_0.js"() {
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/index.js
 var sso_exports = {};
 __export(sso_exports, {
   $Command: () => import_smithy_client20.Command,
@@ -38303,7 +38312,7 @@ __export(sso_exports, {
   errorTypeRegistries: () => errorTypeRegistries2
 });
 var init_sso = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/index.js"() {
     init_SSOClient();
     init_SSO();
     init_commands2();
@@ -38314,9 +38323,9 @@ var init_sso = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.37/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/loadSso-BKDNrsal.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.38/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/loadSso-BKDNrsal.js
 var require_loadSso_BKDNrsal = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.37/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/loadSso-BKDNrsal.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.38/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/loadSso-BKDNrsal.js"(exports2) {
     "use strict";
     var sso = (init_sso(), __toCommonJS(sso_exports));
     exports2.GetRoleCredentialsCommand = sso.GetRoleCredentialsCommand;
@@ -38324,9 +38333,9 @@ var require_loadSso_BKDNrsal = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.37/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.38/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/index.js
 var require_dist_cjs47 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.37/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-sso@3.972.38/node_modules/@aws-sdk/credential-provider-sso/dist-cjs/index.js"(exports2) {
     "use strict";
     var propertyProvider = require_dist_cjs28();
     var sharedIniFileLoader = require_dist_cjs29();
@@ -38504,7 +38513,7 @@ Reference: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.ht
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthSchemeProvider.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthSchemeProvider.js
 function createAwsAuthSigv4HttpAuthOption3(authParameters) {
   return {
     schemeId: "aws.auth#sigv4",
@@ -38527,7 +38536,7 @@ function createSmithyApiNoAuthHttpAuthOption3(authParameters) {
 }
 var import_util_middleware8, defaultSigninHttpAuthSchemeParametersProvider, defaultSigninHttpAuthSchemeProvider, resolveHttpAuthSchemeConfig3;
 var init_httpAuthSchemeProvider3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthSchemeProvider.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthSchemeProvider.js"() {
     init_httpAuthSchemes2();
     import_util_middleware8 = __toESM(require_dist_cjs6());
     defaultSigninHttpAuthSchemeParametersProvider = async (config, context, input) => {
@@ -38560,10 +38569,10 @@ var init_httpAuthSchemeProvider3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/EndpointParameters.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/EndpointParameters.js
 var resolveClientEndpointParameters3, commonParams3;
 var init_EndpointParameters3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/EndpointParameters.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/EndpointParameters.js"() {
     resolveClientEndpointParameters3 = (options) => {
       return Object.assign(options, {
         useDualstackEndpoint: options.useDualstackEndpoint ?? false,
@@ -38580,10 +38589,10 @@ var init_EndpointParameters3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/bdd.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/bdd.js
 var import_util_endpoints7, m, a3, b3, c3, d3, e3, f3, g3, h3, i3, j3, k3, l, _data3, root3, r3, nodes3, bdd3;
 var init_bdd3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/bdd.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/bdd.js"() {
     import_util_endpoints7 = __toESM(require_dist_cjs20());
     m = "ref";
     a3 = -1;
@@ -38685,10 +38694,10 @@ var init_bdd3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/endpointResolver.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/endpointResolver.js
 var import_util_endpoints8, import_util_endpoints9, cache3, defaultEndpointResolver3;
 var init_endpointResolver3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/endpointResolver.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/endpointResolver.js"() {
     import_util_endpoints8 = __toESM(require_dist_cjs21());
     import_util_endpoints9 = __toESM(require_dist_cjs20());
     init_bdd3();
@@ -38706,10 +38715,10 @@ var init_endpointResolver3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/SigninServiceException.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/SigninServiceException.js
 var import_smithy_client22, SigninServiceException;
 var init_SigninServiceException = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/SigninServiceException.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/SigninServiceException.js"() {
     import_smithy_client22 = __toESM(require_dist_cjs34());
     SigninServiceException = class _SigninServiceException extends import_smithy_client22.ServiceException {
       constructor(options) {
@@ -38720,10 +38729,10 @@ var init_SigninServiceException = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/errors.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/errors.js
 var AccessDeniedException2, InternalServerException2, TooManyRequestsError, ValidationException;
 var init_errors3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/errors.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/errors.js"() {
     init_SigninServiceException();
     AccessDeniedException2 = class _AccessDeniedException extends SigninServiceException {
       name = "AccessDeniedException";
@@ -38784,10 +38793,10 @@ var init_errors3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/schemas/schemas_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/schemas/schemas_0.js
 var _ADE2, _AT2, _COAT, _COATR, _COATRB, _COATRBr, _COATRr, _ISE2, _RT2, _TMRE2, _VE, _aKI2, _aT3, _c3, _cI2, _cV2, _co2, _e3, _eI2, _gT2, _h3, _hE3, _iT2, _jN, _m2, _rT2, _rU2, _s3, _sAK2, _sT2, _se2, _tI, _tO, _tT2, n03, _s_registry3, SigninServiceException$, n0_registry3, AccessDeniedException$2, InternalServerException$2, TooManyRequestsError$, ValidationException$, errorTypeRegistries3, RefreshToken2, AccessToken$, CreateOAuth2TokenRequest$, CreateOAuth2TokenRequestBody$, CreateOAuth2TokenResponse$, CreateOAuth2TokenResponseBody$, CreateOAuth2Token$;
 var init_schemas_03 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/schemas/schemas_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/schemas/schemas_0.js"() {
     init_schema();
     init_errors3();
     init_SigninServiceException();
@@ -38913,10 +38922,10 @@ var init_schemas_03 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.shared.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.shared.js
 var import_smithy_client23, import_url_parser4, import_util_base6410, import_util_utf810, getRuntimeConfig5;
 var init_runtimeConfig_shared3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.shared.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.shared.js"() {
     init_httpAuthSchemes2();
     init_protocols2();
     init_dist_es();
@@ -38965,10 +38974,10 @@ var init_runtimeConfig_shared3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.js
 var import_util_user_agent_node3, import_config_resolver5, import_hash_node3, import_middleware_retry5, import_node_config_provider3, import_node_http_handler3, import_smithy_client24, import_util_body_length_node3, import_util_defaults_mode_node3, import_util_retry4, getRuntimeConfig6;
 var init_runtimeConfig3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.js"() {
     init_package();
     init_client();
     init_httpAuthSchemes2();
@@ -39018,10 +39027,10 @@ var init_runtimeConfig3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthExtensionConfiguration.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthExtensionConfiguration.js
 var getHttpAuthExtensionConfiguration3, resolveHttpAuthRuntimeConfig3;
 var init_httpAuthExtensionConfiguration3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthExtensionConfiguration.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthExtensionConfiguration.js"() {
     getHttpAuthExtensionConfiguration3 = (runtimeConfig) => {
       const _httpAuthSchemes = runtimeConfig.httpAuthSchemes;
       let _httpAuthSchemeProvider = runtimeConfig.httpAuthSchemeProvider;
@@ -39062,10 +39071,10 @@ var init_httpAuthExtensionConfiguration3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeExtensions.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeExtensions.js
 var import_region_config_resolver3, import_protocol_http14, import_smithy_client25, resolveRuntimeExtensions3;
 var init_runtimeExtensions3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeExtensions.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeExtensions.js"() {
     import_region_config_resolver3 = __toESM(require_dist_cjs45());
     import_protocol_http14 = __toESM(require_dist_cjs2());
     import_smithy_client25 = __toESM(require_dist_cjs34());
@@ -39078,10 +39087,10 @@ var init_runtimeExtensions3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/SigninClient.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/SigninClient.js
 var import_middleware_host_header3, import_middleware_logger3, import_middleware_recursion_detection3, import_middleware_user_agent3, import_config_resolver6, import_middleware_content_length3, import_middleware_endpoint5, import_middleware_retry6, import_smithy_client26, SigninClient;
 var init_SigninClient = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/SigninClient.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/SigninClient.js"() {
     import_middleware_host_header3 = __toESM(require_dist_cjs3());
     import_middleware_logger3 = __toESM(require_dist_cjs4());
     import_middleware_recursion_detection3 = __toESM(require_dist_cjs5());
@@ -39134,10 +39143,10 @@ var init_SigninClient = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/CreateOAuth2TokenCommand.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/CreateOAuth2TokenCommand.js
 var import_middleware_endpoint6, import_smithy_client27, CreateOAuth2TokenCommand;
 var init_CreateOAuth2TokenCommand = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/CreateOAuth2TokenCommand.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/CreateOAuth2TokenCommand.js"() {
     import_middleware_endpoint6 = __toESM(require_dist_cjs32());
     import_smithy_client27 = __toESM(require_dist_cjs34());
     init_EndpointParameters3();
@@ -39149,10 +39158,10 @@ var init_CreateOAuth2TokenCommand = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/Signin.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/Signin.js
 var import_smithy_client28, commands3, Signin;
 var init_Signin = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/Signin.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/Signin.js"() {
     import_smithy_client28 = __toESM(require_dist_cjs34());
     init_CreateOAuth2TokenCommand();
     init_SigninClient();
@@ -39165,17 +39174,17 @@ var init_Signin = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/index.js
 var init_commands3 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/index.js"() {
     init_CreateOAuth2TokenCommand();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/enums.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/enums.js
 var OAuth2ErrorCode;
 var init_enums2 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/enums.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/enums.js"() {
     OAuth2ErrorCode = {
       AUTHCODE_EXPIRED: "AUTHCODE_EXPIRED",
       INSUFFICIENT_PERMISSIONS: "INSUFFICIENT_PERMISSIONS",
@@ -39187,13 +39196,13 @@ var init_enums2 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/models_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/models_0.js
 var init_models_03 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/models_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/models_0.js"() {
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/index.js
 var signin_exports = {};
 __export(signin_exports, {
   $Command: () => import_smithy_client27.Command,
@@ -39221,7 +39230,7 @@ __export(signin_exports, {
   errorTypeRegistries: () => errorTypeRegistries3
 });
 var init_signin = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/index.js"() {
     init_SigninClient();
     init_Signin();
     init_commands3();
@@ -39233,9 +39242,9 @@ var init_signin = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-login@3.972.37/node_modules/@aws-sdk/credential-provider-login/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-login@3.972.38/node_modules/@aws-sdk/credential-provider-login/dist-cjs/index.js
 var require_dist_cjs48 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-login@3.972.37/node_modules/@aws-sdk/credential-provider-login/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-login@3.972.38/node_modules/@aws-sdk/credential-provider-login/dist-cjs/index.js"(exports2) {
     "use strict";
     var client = (init_client(), __toCommonJS(client_exports));
     var propertyProvider = require_dist_cjs28();
@@ -39512,9 +39521,9 @@ var require_dist_cjs48 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+middleware-sdk-s3@3.972.36/node_modules/@aws-sdk/middleware-sdk-s3/dist-cjs/toStream.js
+// node_modules/.pnpm/@aws-sdk+middleware-sdk-s3@3.972.37/node_modules/@aws-sdk/middleware-sdk-s3/dist-cjs/toStream.js
 var require_toStream = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+middleware-sdk-s3@3.972.36/node_modules/@aws-sdk/middleware-sdk-s3/dist-cjs/toStream.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+middleware-sdk-s3@3.972.37/node_modules/@aws-sdk/middleware-sdk-s3/dist-cjs/toStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.toStream = toStream;
@@ -39556,9 +39565,9 @@ var require_dist_cjs49 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+middleware-sdk-s3@3.972.36/node_modules/@aws-sdk/middleware-sdk-s3/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+middleware-sdk-s3@3.972.37/node_modules/@aws-sdk/middleware-sdk-s3/dist-cjs/index.js
 var require_dist_cjs50 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+middleware-sdk-s3@3.972.36/node_modules/@aws-sdk/middleware-sdk-s3/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+middleware-sdk-s3@3.972.37/node_modules/@aws-sdk/middleware-sdk-s3/dist-cjs/index.js"(exports2) {
     "use strict";
     var protocolHttp = require_dist_cjs2();
     var smithyClient = require_dist_cjs34();
@@ -40115,9 +40124,9 @@ var require_dist_cjs50 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+signature-v4-multi-region@3.996.24/node_modules/@aws-sdk/signature-v4-multi-region/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+signature-v4-multi-region@3.996.25/node_modules/@aws-sdk/signature-v4-multi-region/dist-cjs/index.js
 var require_dist_cjs51 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+signature-v4-multi-region@3.996.24/node_modules/@aws-sdk/signature-v4-multi-region/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+signature-v4-multi-region@3.996.25/node_modules/@aws-sdk/signature-v4-multi-region/dist-cjs/index.js"(exports2) {
     "use strict";
     var middlewareSdkS3 = require_dist_cjs50();
     var signatureV4 = require_dist_cjs36();
@@ -40213,10 +40222,10 @@ var require_dist_cjs51 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/bdd.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/bdd.js
 var import_util_endpoints10, q, a4, b4, c4, d4, e4, f4, g4, h4, i4, j4, k4, l2, m2, n, o, p, _data4, root4, r4, nodes4, bdd4;
 var init_bdd4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/bdd.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/bdd.js"() {
     import_util_endpoints10 = __toESM(require_dist_cjs20());
     q = "ref";
     a4 = -1;
@@ -40382,10 +40391,10 @@ var init_bdd4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/endpointResolver.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/endpointResolver.js
 var import_util_endpoints11, import_util_endpoints12, cache4, defaultEndpointResolver4;
 var init_endpointResolver4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/endpointResolver.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/endpointResolver.js"() {
     import_util_endpoints11 = __toESM(require_dist_cjs21());
     import_util_endpoints12 = __toESM(require_dist_cjs20());
     init_bdd4();
@@ -40403,7 +40412,7 @@ var init_endpointResolver4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthSchemeProvider.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthSchemeProvider.js
 function createAwsAuthSigv4HttpAuthOption4(authParameters) {
   return {
     schemeId: "aws.auth#sigv4",
@@ -40441,7 +40450,7 @@ function createSmithyApiNoAuthHttpAuthOption4(authParameters) {
 }
 var import_signature_v4_multi_region, import_middleware_endpoint7, import_util_middleware9, createEndpointRuleSetHttpAuthSchemeParametersProvider, _defaultSTSHttpAuthSchemeParametersProvider, defaultSTSHttpAuthSchemeParametersProvider, createEndpointRuleSetHttpAuthSchemeProvider, _defaultSTSHttpAuthSchemeProvider, defaultSTSHttpAuthSchemeProvider, resolveStsAuthConfig, resolveHttpAuthSchemeConfig4;
 var init_httpAuthSchemeProvider4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthSchemeProvider.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthSchemeProvider.js"() {
     init_httpAuthSchemes2();
     import_signature_v4_multi_region = __toESM(require_dist_cjs51());
     import_middleware_endpoint7 = __toESM(require_dist_cjs32());
@@ -40545,10 +40554,10 @@ var init_httpAuthSchemeProvider4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/EndpointParameters.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/EndpointParameters.js
 var resolveClientEndpointParameters4, commonParams4;
 var init_EndpointParameters4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/EndpointParameters.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/EndpointParameters.js"() {
     resolveClientEndpointParameters4 = (options) => {
       return Object.assign(options, {
         useDualstackEndpoint: options.useDualstackEndpoint ?? false,
@@ -40567,10 +40576,10 @@ var init_EndpointParameters4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/STSServiceException.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/STSServiceException.js
 var import_smithy_client29, STSServiceException;
 var init_STSServiceException = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/STSServiceException.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/STSServiceException.js"() {
     import_smithy_client29 = __toESM(require_dist_cjs34());
     STSServiceException = class _STSServiceException extends import_smithy_client29.ServiceException {
       constructor(options) {
@@ -40581,10 +40590,10 @@ var init_STSServiceException = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/errors.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/errors.js
 var ExpiredTokenException2, MalformedPolicyDocumentException, PackedPolicyTooLargeException, RegionDisabledException, IDPRejectedClaimException, InvalidIdentityTokenException, IDPCommunicationErrorException;
 var init_errors4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/errors.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/errors.js"() {
     init_STSServiceException();
     ExpiredTokenException2 = class _ExpiredTokenException extends STSServiceException {
       name = "ExpiredTokenException";
@@ -40674,10 +40683,10 @@ var init_errors4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/schemas/schemas_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/schemas/schemas_0.js
 var _A, _AKI, _AR, _ARI, _ARR, _ARRs, _ARU, _ARWWI, _ARWWIR, _ARWWIRs, _Au, _C, _CA, _DS, _E, _EI, _ETE2, _IDPCEE, _IDPRCE, _IITE, _K, _MPDE, _P, _PA, _PAr, _PC, _PCLT, _PCr, _PDT, _PI, _PPS, _PPTLE, _Pr, _RA, _RDE, _RSN, _SAK, _SFWIT, _SI, _SN, _ST, _T, _TC, _TTK, _Ta, _V, _WIT, _a, _aKST, _aQE, _c4, _cTT, _e4, _hE4, _m3, _pDLT, _s4, _tLT, n04, _s_registry4, STSServiceException$, n0_registry4, ExpiredTokenException$2, IDPCommunicationErrorException$, IDPRejectedClaimException$, InvalidIdentityTokenException$, MalformedPolicyDocumentException$, PackedPolicyTooLargeException$, RegionDisabledException$, errorTypeRegistries4, accessKeySecretType, clientTokenType, AssumedRoleUser$, AssumeRoleRequest$, AssumeRoleResponse$, AssumeRoleWithWebIdentityRequest$, AssumeRoleWithWebIdentityResponse$, Credentials$, PolicyDescriptorType$, ProvidedContext$, Tag$, policyDescriptorListType, ProvidedContextsListType, tagKeyListType, tagListType, AssumeRole$, AssumeRoleWithWebIdentity$;
 var init_schemas_04 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/schemas/schemas_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/schemas/schemas_0.js"() {
     init_schema();
     init_errors4();
     init_STSServiceException();
@@ -40873,10 +40882,10 @@ var init_schemas_04 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.shared.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.shared.js
 var import_signature_v4_multi_region2, import_smithy_client30, import_url_parser5, import_util_base6411, import_util_utf811, getRuntimeConfig7;
 var init_runtimeConfig_shared4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.shared.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.shared.js"() {
     init_httpAuthSchemes2();
     init_protocols2();
     import_signature_v4_multi_region2 = __toESM(require_dist_cjs51());
@@ -40933,10 +40942,10 @@ var init_runtimeConfig_shared4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.js
 var import_util_user_agent_node4, import_config_resolver7, import_hash_node4, import_middleware_retry7, import_node_config_provider4, import_node_http_handler4, import_smithy_client31, import_util_body_length_node4, import_util_defaults_mode_node4, import_util_retry5, getRuntimeConfig8;
 var init_runtimeConfig4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.js"() {
     init_package();
     init_client();
     init_httpAuthSchemes2();
@@ -41005,10 +41014,10 @@ var init_runtimeConfig4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthExtensionConfiguration.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthExtensionConfiguration.js
 var getHttpAuthExtensionConfiguration4, resolveHttpAuthRuntimeConfig4;
 var init_httpAuthExtensionConfiguration4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthExtensionConfiguration.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthExtensionConfiguration.js"() {
     getHttpAuthExtensionConfiguration4 = (runtimeConfig) => {
       const _httpAuthSchemes = runtimeConfig.httpAuthSchemes;
       let _httpAuthSchemeProvider = runtimeConfig.httpAuthSchemeProvider;
@@ -41049,10 +41058,10 @@ var init_httpAuthExtensionConfiguration4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeExtensions.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeExtensions.js
 var import_region_config_resolver4, import_protocol_http15, import_smithy_client32, resolveRuntimeExtensions4;
 var init_runtimeExtensions4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeExtensions.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeExtensions.js"() {
     import_region_config_resolver4 = __toESM(require_dist_cjs45());
     import_protocol_http15 = __toESM(require_dist_cjs2());
     import_smithy_client32 = __toESM(require_dist_cjs34());
@@ -41065,10 +41074,10 @@ var init_runtimeExtensions4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STSClient.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STSClient.js
 var import_middleware_host_header4, import_middleware_logger4, import_middleware_recursion_detection4, import_middleware_user_agent4, import_config_resolver8, import_middleware_content_length4, import_middleware_endpoint8, import_middleware_retry8, import_smithy_client33, STSClient;
 var init_STSClient = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STSClient.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STSClient.js"() {
     import_middleware_host_header4 = __toESM(require_dist_cjs3());
     import_middleware_logger4 = __toESM(require_dist_cjs4());
     import_middleware_recursion_detection4 = __toESM(require_dist_cjs5());
@@ -41122,10 +41131,10 @@ var init_STSClient = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleCommand.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleCommand.js
 var import_middleware_endpoint9, import_smithy_client34, AssumeRoleCommand;
 var init_AssumeRoleCommand = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleCommand.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleCommand.js"() {
     import_middleware_endpoint9 = __toESM(require_dist_cjs32());
     import_smithy_client34 = __toESM(require_dist_cjs34());
     init_EndpointParameters4();
@@ -41137,10 +41146,10 @@ var init_AssumeRoleCommand = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleWithWebIdentityCommand.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleWithWebIdentityCommand.js
 var import_middleware_endpoint10, import_smithy_client35, AssumeRoleWithWebIdentityCommand;
 var init_AssumeRoleWithWebIdentityCommand = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleWithWebIdentityCommand.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleWithWebIdentityCommand.js"() {
     import_middleware_endpoint10 = __toESM(require_dist_cjs32());
     import_smithy_client35 = __toESM(require_dist_cjs34());
     init_EndpointParameters4();
@@ -41152,10 +41161,10 @@ var init_AssumeRoleWithWebIdentityCommand = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STS.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STS.js
 var import_smithy_client36, commands4, STS;
 var init_STS = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STS.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STS.js"() {
     import_smithy_client36 = __toESM(require_dist_cjs34());
     init_AssumeRoleCommand();
     init_AssumeRoleWithWebIdentityCommand();
@@ -41170,24 +41179,24 @@ var init_STS = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/index.js
 var init_commands4 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/index.js"() {
     init_AssumeRoleCommand();
     init_AssumeRoleWithWebIdentityCommand();
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/models_0.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/models_0.js
 var init_models_04 = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/models_0.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/models_0.js"() {
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultStsRoleAssumers.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultStsRoleAssumers.js
 var import_region_config_resolver5, getAccountIdFromAssumedRoleUser, resolveRegion, getDefaultRoleAssumer, getDefaultRoleAssumerWithWebIdentity, isH2;
 var init_defaultStsRoleAssumers = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultStsRoleAssumers.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultStsRoleAssumers.js"() {
     init_client();
     import_region_config_resolver5 = __toESM(require_dist_cjs45());
     init_AssumeRoleCommand();
@@ -41293,10 +41302,10 @@ var init_defaultStsRoleAssumers = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultRoleAssumers.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultRoleAssumers.js
 var getCustomizableStsClientCtor, getDefaultRoleAssumer2, getDefaultRoleAssumerWithWebIdentity2, decorateDefaultCredentialProvider;
 var init_defaultRoleAssumers = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultRoleAssumers.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultRoleAssumers.js"() {
     init_defaultStsRoleAssumers();
     init_STSClient();
     getCustomizableStsClientCtor = (baseCtor, customizations) => {
@@ -41322,7 +41331,7 @@ var init_defaultRoleAssumers = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/index.js
+// node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/index.js
 var sts_exports = {};
 __export(sts_exports, {
   AssumeRole$: () => AssumeRole$,
@@ -41363,7 +41372,7 @@ __export(sts_exports, {
   getDefaultRoleAssumerWithWebIdentity: () => getDefaultRoleAssumerWithWebIdentity2
 });
 var init_sts = __esm({
-  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.5/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/index.js"() {
+  "node_modules/.pnpm/@aws-sdk+nested-clients@3.997.6/node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/index.js"() {
     init_STSClient();
     init_STS();
     init_commands4();
@@ -41375,9 +41384,9 @@ var init_sts = __esm({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-process@3.972.33/node_modules/@aws-sdk/credential-provider-process/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-process@3.972.34/node_modules/@aws-sdk/credential-provider-process/dist-cjs/index.js
 var require_dist_cjs52 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-process@3.972.33/node_modules/@aws-sdk/credential-provider-process/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-process@3.972.34/node_modules/@aws-sdk/credential-provider-process/dist-cjs/index.js"(exports2) {
     "use strict";
     var sharedIniFileLoader = require_dist_cjs29();
     var propertyProvider = require_dist_cjs28();
@@ -41451,9 +41460,9 @@ var require_dist_cjs52 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.37/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromWebToken.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.38/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromWebToken.js
 var require_fromWebToken = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.37/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromWebToken.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.38/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromWebToken.js"(exports2) {
     "use strict";
     var __createBinding2 = exports2 && exports2.__createBinding || (Object.create ? (function(o2, m3, k5, k22) {
       if (k22 === void 0) k22 = k5;
@@ -41523,9 +41532,9 @@ var require_fromWebToken = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.37/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromTokenFile.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.38/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromTokenFile.js
 var require_fromTokenFile = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.37/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromTokenFile.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.38/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/fromTokenFile.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.fromTokenFile = void 0;
@@ -41562,9 +41571,9 @@ var require_fromTokenFile = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.37/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.38/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/index.js
 var require_dist_cjs53 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.37/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-web-identity@3.972.38/node_modules/@aws-sdk/credential-provider-web-identity/dist-cjs/index.js"(exports2) {
     "use strict";
     var fromTokenFile = require_fromTokenFile();
     var fromWebToken = require_fromWebToken();
@@ -41585,9 +41594,9 @@ var require_dist_cjs53 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-ini@3.972.37/node_modules/@aws-sdk/credential-provider-ini/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-ini@3.972.38/node_modules/@aws-sdk/credential-provider-ini/dist-cjs/index.js
 var require_dist_cjs54 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-ini@3.972.37/node_modules/@aws-sdk/credential-provider-ini/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-ini@3.972.38/node_modules/@aws-sdk/credential-provider-ini/dist-cjs/index.js"(exports2) {
     "use strict";
     var sharedIniFileLoader = require_dist_cjs29();
     var propertyProvider = require_dist_cjs28();
@@ -41776,9 +41785,9 @@ var require_dist_cjs54 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+credential-provider-node@3.972.38/node_modules/@aws-sdk/credential-provider-node/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+credential-provider-node@3.972.39/node_modules/@aws-sdk/credential-provider-node/dist-cjs/index.js
 var require_dist_cjs55 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+credential-provider-node@3.972.38/node_modules/@aws-sdk/credential-provider-node/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+credential-provider-node@3.972.39/node_modules/@aws-sdk/credential-provider-node/dist-cjs/index.js"(exports2) {
     "use strict";
     var credentialProviderEnv = require_dist_cjs37();
     var propertyProvider = require_dist_cjs28();
@@ -41924,9 +41933,9 @@ var require_dist_cjs55 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/bdd.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/bdd.js
 var require_bdd = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/bdd.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/bdd.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.bdd = void 0;
@@ -42014,9 +42023,9 @@ var require_bdd = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/endpointResolver.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/endpointResolver.js
 var require_endpointResolver = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/endpointResolver.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/endpoint/endpointResolver.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.defaultEndpointResolver = void 0;
@@ -42038,9 +42047,9 @@ var require_endpointResolver = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/KMSServiceException.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/KMSServiceException.js
 var require_KMSServiceException = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/KMSServiceException.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/KMSServiceException.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.KMSServiceException = exports2.__ServiceException = void 0;
@@ -42058,9 +42067,9 @@ var require_KMSServiceException = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/errors.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/errors.js
 var require_errors2 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/errors.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/models/errors.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.KMSInvalidSignatureException = exports2.KMSInvalidMacException = exports2.InvalidGrantIdException = exports2.InvalidImportTokenException = exports2.IncorrectKeyMaterialException = exports2.ExpiredImportTokenException = exports2.InvalidMarkerException = exports2.KeyUnavailableException = exports2.InvalidKeyUsageException = exports2.InvalidCiphertextException = exports2.IncorrectKeyException = exports2.CustomKeyStoreHasCMKsException = exports2.XksKeyNotFoundException = exports2.XksKeyInvalidConfigurationException = exports2.XksKeyAlreadyInUseException = exports2.UnsupportedOperationException = exports2.TagException = exports2.MalformedPolicyDocumentException = exports2.InvalidGrantTokenException = exports2.DryRunOperationException = exports2.DisabledException = exports2.XksProxyVpcEndpointServiceNotFoundException = exports2.XksProxyVpcEndpointServiceInvalidConfigurationException = exports2.XksProxyVpcEndpointServiceInUseException = exports2.XksProxyUriUnreachableException = exports2.XksProxyUriInUseException = exports2.XksProxyUriEndpointInUseException = exports2.XksProxyInvalidResponseException = exports2.XksProxyInvalidConfigurationException = exports2.XksProxyIncorrectAuthenticationCredentialException = exports2.IncorrectTrustAnchorException = exports2.CustomKeyStoreNameInUseException = exports2.LimitExceededException = exports2.InvalidAliasNameException = exports2.CustomKeyStoreNotFoundException = exports2.CustomKeyStoreInvalidStateException = exports2.ConflictException = exports2.CloudHsmClusterNotRelatedException = exports2.CloudHsmClusterNotFoundException = exports2.CloudHsmClusterNotActiveException = exports2.CloudHsmClusterInvalidConfigurationException = exports2.CloudHsmClusterInUseException = exports2.NotFoundException = exports2.KMSInvalidStateException = exports2.KMSInternalException = exports2.InvalidArnException = exports2.DependencyTimeoutException = exports2.AlreadyExistsException = void 0;
@@ -42692,9 +42701,9 @@ var require_errors2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/schemas/schemas_0.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/schemas/schemas_0.js
 var require_schemas_0 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/schemas/schemas_0.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/schemas/schemas_0.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.errorTypeRegistries = exports2.XksProxyVpcEndpointServiceNotFoundException$ = exports2.XksProxyVpcEndpointServiceInvalidConfigurationException$ = exports2.XksProxyVpcEndpointServiceInUseException$ = exports2.XksProxyUriUnreachableException$ = exports2.XksProxyUriInUseException$ = exports2.XksProxyUriEndpointInUseException$ = exports2.XksProxyInvalidResponseException$ = exports2.XksProxyInvalidConfigurationException$ = exports2.XksProxyIncorrectAuthenticationCredentialException$ = exports2.XksKeyNotFoundException$ = exports2.XksKeyInvalidConfigurationException$ = exports2.XksKeyAlreadyInUseException$ = exports2.UnsupportedOperationException$ = exports2.TagException$ = exports2.NotFoundException$ = exports2.MalformedPolicyDocumentException$ = exports2.LimitExceededException$ = exports2.KMSInvalidStateException$ = exports2.KMSInvalidSignatureException$ = exports2.KMSInvalidMacException$ = exports2.KMSInternalException$ = exports2.KeyUnavailableException$ = exports2.InvalidMarkerException$ = exports2.InvalidKeyUsageException$ = exports2.InvalidImportTokenException$ = exports2.InvalidGrantTokenException$ = exports2.InvalidGrantIdException$ = exports2.InvalidCiphertextException$ = exports2.InvalidArnException$ = exports2.InvalidAliasNameException$ = exports2.IncorrectTrustAnchorException$ = exports2.IncorrectKeyMaterialException$ = exports2.IncorrectKeyException$ = exports2.ExpiredImportTokenException$ = exports2.DryRunOperationException$ = exports2.DisabledException$ = exports2.DependencyTimeoutException$ = exports2.CustomKeyStoreNotFoundException$ = exports2.CustomKeyStoreNameInUseException$ = exports2.CustomKeyStoreInvalidStateException$ = exports2.CustomKeyStoreHasCMKsException$ = exports2.ConflictException$ = exports2.CloudHsmClusterNotRelatedException$ = exports2.CloudHsmClusterNotFoundException$ = exports2.CloudHsmClusterNotActiveException$ = exports2.CloudHsmClusterInvalidConfigurationException$ = exports2.CloudHsmClusterInUseException$ = exports2.AlreadyExistsException$ = exports2.KMSServiceException$ = void 0;
@@ -44939,9 +44948,9 @@ var require_schemas_0 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.shared.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.shared.js
 var require_runtimeConfig_shared = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.shared.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.shared.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getRuntimeConfig = void 0;
@@ -44989,9 +44998,9 @@ var require_runtimeConfig_shared = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.js
 var require_runtimeConfig = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/runtimeConfig.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getRuntimeConfig = void 0;
@@ -45048,9 +45057,9 @@ var require_runtimeConfig = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/index.js
+// node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/index.js
 var require_dist_cjs56 = __commonJS({
-  "node_modules/.pnpm/@aws-sdk+client-kms@3.1038.0/node_modules/@aws-sdk/client-kms/dist-cjs/index.js"(exports2) {
+  "node_modules/.pnpm/@aws-sdk+client-kms@3.1043.0/node_modules/@aws-sdk/client-kms/dist-cjs/index.js"(exports2) {
     "use strict";
     var middlewareHostHeader = require_dist_cjs3();
     var middlewareLogger = require_dist_cjs4();
