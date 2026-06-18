@@ -27,12 +27,12 @@
     "@octokit/rest": "22.0.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.16",
-    "@types/node": "24.13.1",
-    "@vitest/coverage-v8": "4.1.8",
+    "@biomejs/biome": "2.5.0",
+    "@types/node": "24.13.2",
+    "@vitest/coverage-v8": "4.1.9",
     "aws-sdk-client-mock": "4.1.0",
     "esbuild": "0.28.1",
     "typescript": "6.0.3",
-    "vitest": "4.1.8"
+    "vitest": "4.1.9"
   }
 }
