@@ -29,10 +29,10 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
     "@types/node": "24.19.0",
-    "@vitest/coverage-v8": "4.1.10",
+    "@vitest/coverage-v8": "4.1.11",
     "aws-sdk-client-mock": "4.1.0",
     "esbuild": "0.28.2",
     "typescript": "7.0.2",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   }
 }
