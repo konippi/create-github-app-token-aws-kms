@@ -96,7 +96,7 @@ steps:
 | `app-id` | Yes | GitHub App ID |
 | `kms-key-id` | Yes | AWS KMS key ID, key ARN, alias name (`alias/...`), or alias ARN |
 | `owner` | No | GitHub App installation owner. Defaults to current repository owner |
-| `repositories` | No | Comma or newline-separated list of repositories. Defaults to current repository |
+| `repositories` | No | Comma or newline-separated list of repositories. Defaults to current repository, or all repositories if `owner` is set |
 | `permission-*` | **At least one** | Permission scoping (e.g., `permission-contents: read`). See [Permissions](#permissions) |
 | `skip-token-revoke` | No | If `true`, the token will not be revoked when the job completes. Default: `false` |
 | `github-api-url` | No | GitHub REST API URL. Default: `${{ github.api_url }}` |
@@ -107,7 +107,7 @@ At least one `permission-<name>` input must be set. Available permissions:
 
 `permission-actions`, `permission-administration`, `permission-checks`, `permission-contents`, `permission-deployments`, `permission-environments`, `permission-issues`, `permission-members`, `permission-metadata`, `permission-packages`, `permission-pages`, `permission-pull-requests`, `permission-repository-hooks`, `permission-secret-scanning-alerts`, `permission-secrets`, `permission-security-events`, `permission-statuses`, `permission-vulnerability-alerts`, `permission-workflows`
 
-Values: `read`, `write`, or `admin` (where applicable).
+Values: `read` or `write`.
 
 ## Outputs
 
